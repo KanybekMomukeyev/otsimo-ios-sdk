@@ -7,12 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0D333A681C158D3200968DDA /* AccountSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 0D333A671C158D3200968DDA /* AccountSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0D333A6F1C158D3200968DDA /* AccountSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D333A641C158D3200968DDA /* AccountSDK.framework */; };
-		0D333A741C158D3200968DDA /* AccountSDKTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D333A731C158D3200968DDA /* AccountSDKTests.swift */; };
-		0D54BB8B1C158F65006A9382 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D54BB8A1C158F65006A9382 /* Alamofire.framework */; };
-		0D54BB8D1C158F66006A9382 /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D54BB8C1C158F66006A9382 /* SwiftyJSON.framework */; };
+		0D333A681C158D3200968DDA /* OtsimoSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 0D333A671C158D3200968DDA /* OtsimoSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0D333A6F1C158D3200968DDA /* OtsimoSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D333A641C158D3200968DDA /* OtsimoSDK.framework */; };
+		0D333A741C158D3200968DDA /* OtsimoSDKTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D333A731C158D3200968DDA /* OtsimoSDKTests.swift */; };
 		0D54BB901C158FAA006A9382 /* Otsimo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D54BB8F1C158FAA006A9382 /* Otsimo.swift */; };
+		0DE680B21C16E8C200FA8CF6 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE680B11C16E8C200FA8CF6 /* Profile.swift */; };
+		0DE680CF1C16F1BF00FA8CF6 /* LoginResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE680CE1C16F1BF00FA8CF6 /* LoginResult.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -21,20 +21,30 @@
 			containerPortal = 0D333A5B1C158D3200968DDA /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 0D333A631C158D3200968DDA;
-			remoteInfo = AccountSDK;
+			remoteInfo = OtsimoSDK;
+		};
+		0D36E29D1C15C8F000B4B549 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0D36E2991C15C8EF00B4B549 /* account-example.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0D36E2841C15C8EF00B4B549;
+			remoteInfo = "account-example";
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0D333A641C158D3200968DDA /* AccountSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AccountSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		0D333A671C158D3200968DDA /* AccountSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AccountSDK.h; sourceTree = "<group>"; };
-		0D333A691C158D3200968DDA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		0D333A6E1C158D3200968DDA /* AccountSDKTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AccountSDKTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		0D333A731C158D3200968DDA /* AccountSDKTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSDKTests.swift; sourceTree = "<group>"; };
+		0D333A641C158D3200968DDA /* OtsimoSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OtsimoSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0D333A671C158D3200968DDA /* OtsimoSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = OtsimoSDK.h; path = Sources/OtsimoSDK.h; sourceTree = "<group>"; };
+		0D333A691C158D3200968DDA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = Sources/Info.plist; sourceTree = "<group>"; };
+		0D333A6E1C158D3200968DDA /* OtsimoSDKTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OtsimoSDKTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		0D333A731C158D3200968DDA /* OtsimoSDKTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtsimoSDKTests.swift; sourceTree = "<group>"; };
 		0D333A751C158D3200968DDA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0D36E2991C15C8EF00B4B549 /* account-example.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "account-example.xcodeproj"; path = "Example/account-example.xcodeproj"; sourceTree = "<group>"; };
 		0D54BB8A1C158F65006A9382 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		0D54BB8C1C158F66006A9382 /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = Carthage/Build/iOS/SwiftyJSON.framework; sourceTree = "<group>"; };
-		0D54BB8F1C158FAA006A9382 /* Otsimo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Otsimo.swift; sourceTree = "<group>"; };
+		0D54BB8F1C158FAA006A9382 /* Otsimo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Otsimo.swift; path = Sources/Otsimo.swift; sourceTree = "<group>"; };
+		0DE680B11C16E8C200FA8CF6 /* Profile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Profile.swift; path = Sources/Profile.swift; sourceTree = "<group>"; };
+		0DE680CE1C16F1BF00FA8CF6 /* LoginResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginResult.swift; path = Sources/LoginResult.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -42,8 +52,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0D54BB8B1C158F65006A9382 /* Alamofire.framework in Frameworks */,
-				0D54BB8D1C158F66006A9382 /* SwiftyJSON.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -51,7 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0D333A6F1C158D3200968DDA /* AccountSDK.framework in Frameworks */,
+				0D333A6F1C158D3200968DDA /* OtsimoSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -61,7 +69,8 @@
 		0D333A5A1C158D3200968DDA = {
 			isa = PBXGroup;
 			children = (
-				0D333A661C158D3200968DDA /* Source */,
+				0DE680D11C1728CF00FA8CF6 /* Sources */,
+				0D36E27A1C15C8A100B4B549 /* Example */,
 				0D333A721C158D3200968DDA /* Tests */,
 				0D333A651C158D3200968DDA /* Products */,
 				0D54BB8E1C158F8B006A9382 /* Frameworks */,
@@ -71,29 +80,35 @@
 		0D333A651C158D3200968DDA /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				0D333A641C158D3200968DDA /* AccountSDK.framework */,
-				0D333A6E1C158D3200968DDA /* AccountSDKTests.xctest */,
+				0D333A641C158D3200968DDA /* OtsimoSDK.framework */,
+				0D333A6E1C158D3200968DDA /* OtsimoSDKTests.xctest */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		0D333A661C158D3200968DDA /* Source */ = {
-			isa = PBXGroup;
-			children = (
-				0D333A671C158D3200968DDA /* AccountSDK.h */,
-				0D333A691C158D3200968DDA /* Info.plist */,
-				0D54BB8F1C158FAA006A9382 /* Otsimo.swift */,
-			);
-			path = Source;
 			sourceTree = "<group>";
 		};
 		0D333A721C158D3200968DDA /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				0D333A731C158D3200968DDA /* AccountSDKTests.swift */,
+				0D333A731C158D3200968DDA /* OtsimoSDKTests.swift */,
 				0D333A751C158D3200968DDA /* Info.plist */,
 			);
 			path = Tests;
+			sourceTree = "<group>";
+		};
+		0D36E27A1C15C8A100B4B549 /* Example */ = {
+			isa = PBXGroup;
+			children = (
+				0D36E2991C15C8EF00B4B549 /* account-example.xcodeproj */,
+			);
+			name = Example;
+			sourceTree = "<group>";
+		};
+		0D36E29A1C15C8EF00B4B549 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0D36E29E1C15C8F000B4B549 /* account-example.app */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		0D54BB8E1C158F8B006A9382 /* Frameworks */ = {
@@ -105,6 +120,18 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		0DE680D11C1728CF00FA8CF6 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				0D333A671C158D3200968DDA /* OtsimoSDK.h */,
+				0D333A691C158D3200968DDA /* Info.plist */,
+				0D54BB8F1C158FAA006A9382 /* Otsimo.swift */,
+				0DE680B11C16E8C200FA8CF6 /* Profile.swift */,
+				0DE680CE1C16F1BF00FA8CF6 /* LoginResult.swift */,
+			);
+			name = Sources;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -112,16 +139,16 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0D333A681C158D3200968DDA /* AccountSDK.h in Headers */,
+				0D333A681C158D3200968DDA /* OtsimoSDK.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		0D333A631C158D3200968DDA /* AccountSDK */ = {
+		0D333A631C158D3200968DDA /* OtsimoSDK */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 0D333A781C158D3200968DDA /* Build configuration list for PBXNativeTarget "AccountSDK" */;
+			buildConfigurationList = 0D333A781C158D3200968DDA /* Build configuration list for PBXNativeTarget "OtsimoSDK" */;
 			buildPhases = (
 				0D333A5F1C158D3200968DDA /* Sources */,
 				0D333A601C158D3200968DDA /* Frameworks */,
@@ -132,14 +159,14 @@
 			);
 			dependencies = (
 			);
-			name = AccountSDK;
-			productName = AccountSDK;
-			productReference = 0D333A641C158D3200968DDA /* AccountSDK.framework */;
+			name = OtsimoSDK;
+			productName = OtsimoSDK;
+			productReference = 0D333A641C158D3200968DDA /* OtsimoSDK.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		0D333A6D1C158D3200968DDA /* AccountSDKTests */ = {
+		0D333A6D1C158D3200968DDA /* OtsimoSDKTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 0D333A7B1C158D3200968DDA /* Build configuration list for PBXNativeTarget "AccountSDKTests" */;
+			buildConfigurationList = 0D333A7B1C158D3200968DDA /* Build configuration list for PBXNativeTarget "OtsimoSDKTests" */;
 			buildPhases = (
 				0D333A6A1C158D3200968DDA /* Sources */,
 				0D333A6B1C158D3200968DDA /* Frameworks */,
@@ -150,9 +177,9 @@
 			dependencies = (
 				0D333A711C158D3200968DDA /* PBXTargetDependency */,
 			);
-			name = AccountSDKTests;
-			productName = AccountSDKTests;
-			productReference = 0D333A6E1C158D3200968DDA /* AccountSDKTests.xctest */;
+			name = OtsimoSDKTests;
+			productName = OtsimoSDKTests;
+			productReference = 0D333A6E1C158D3200968DDA /* OtsimoSDKTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -173,7 +200,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 0D333A5E1C158D3200968DDA /* Build configuration list for PBXProject "AccountSDK" */;
+			buildConfigurationList = 0D333A5E1C158D3200968DDA /* Build configuration list for PBXProject "OtsimoSDK" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -183,13 +210,29 @@
 			mainGroup = 0D333A5A1C158D3200968DDA;
 			productRefGroup = 0D333A651C158D3200968DDA /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 0D36E29A1C15C8EF00B4B549 /* Products */;
+					ProjectRef = 0D36E2991C15C8EF00B4B549 /* account-example.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
-				0D333A631C158D3200968DDA /* AccountSDK */,
-				0D333A6D1C158D3200968DDA /* AccountSDKTests */,
+				0D333A631C158D3200968DDA /* OtsimoSDK */,
+				0D333A6D1C158D3200968DDA /* OtsimoSDKTests */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		0D36E29E1C15C8F000B4B549 /* account-example.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = "account-example.app";
+			remoteRef = 0D36E29D1C15C8F000B4B549 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		0D333A621C158D3200968DDA /* Resources */ = {
@@ -213,7 +256,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0DE680CF1C16F1BF00FA8CF6 /* LoginResult.swift in Sources */,
 				0D54BB901C158FAA006A9382 /* Otsimo.swift in Sources */,
+				0DE680B21C16E8C200FA8CF6 /* Profile.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -221,7 +266,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0D333A741C158D3200968DDA /* AccountSDKTests.swift in Sources */,
+				0D333A741C158D3200968DDA /* OtsimoSDKTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -230,7 +275,7 @@
 /* Begin PBXTargetDependency section */
 		0D333A711C158D3200968DDA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 0D333A631C158D3200968DDA /* AccountSDK */;
+			target = 0D333A631C158D3200968DDA /* OtsimoSDK */;
 			targetProxy = 0D333A701C158D3200968DDA /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -340,7 +385,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Source/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.otsimo.account-sdk";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.otsimo.otsimo-sdk";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -362,7 +407,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Source/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.otsimo.account-sdk";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.otsimo.otsimo-sdk";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -371,9 +416,13 @@
 		0D333A7C1C158D3200968DDA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = AccountSDKTests/Info.plist;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
+				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.otsimo.AccountSDKTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.otsimo.OtsimoSDKTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -381,9 +430,13 @@
 		0D333A7D1C158D3200968DDA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = AccountSDKTests/Info.plist;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
+				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.otsimo.AccountSDKTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.otsimo.OtsimoSDKTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -391,7 +444,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		0D333A5E1C158D3200968DDA /* Build configuration list for PBXProject "AccountSDK" */ = {
+		0D333A5E1C158D3200968DDA /* Build configuration list for PBXProject "OtsimoSDK" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0D333A761C158D3200968DDA /* Debug */,
@@ -400,7 +453,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		0D333A781C158D3200968DDA /* Build configuration list for PBXNativeTarget "AccountSDK" */ = {
+		0D333A781C158D3200968DDA /* Build configuration list for PBXNativeTarget "OtsimoSDK" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0D333A791C158D3200968DDA /* Debug */,
@@ -409,7 +462,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		0D333A7B1C158D3200968DDA /* Build configuration list for PBXNativeTarget "AccountSDKTests" */ = {
+		0D333A7B1C158D3200968DDA /* Build configuration list for PBXNativeTarget "OtsimoSDKTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0D333A7C1C158D3200968DDA /* Debug */,
