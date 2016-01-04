@@ -6,6 +6,6 @@
 //  Copyright © 2015 Otsimo. All rights reserved.
 //
 
-public struct LoginResult{
-    
+public struct LoginResult {
+
 }

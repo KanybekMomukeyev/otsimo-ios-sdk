@@ -11,6 +11,7 @@
 		0D333A6F1C158D3200968DDA /* OtsimoSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D333A641C158D3200968DDA /* OtsimoSDK.framework */; };
 		0D333A741C158D3200968DDA /* OtsimoSDKTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D333A731C158D3200968DDA /* OtsimoSDKTests.swift */; };
 		0D54BB901C158FAA006A9382 /* Otsimo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D54BB8F1C158FAA006A9382 /* Otsimo.swift */; };
+		0D8214A11C38755100DC246F /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D8214A01C38755100DC246F /* Session.swift */; };
 		0DE680B21C16E8C200FA8CF6 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE680B11C16E8C200FA8CF6 /* Profile.swift */; };
 		0DE680CF1C16F1BF00FA8CF6 /* LoginResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE680CE1C16F1BF00FA8CF6 /* LoginResult.swift */; };
 /* End PBXBuildFile section */
@@ -23,12 +24,12 @@
 			remoteGlobalIDString = 0D333A631C158D3200968DDA;
 			remoteInfo = OtsimoSDK;
 		};
-		0D36E29D1C15C8F000B4B549 /* PBXContainerItemProxy */ = {
+		0D52FFB31C38A6420052C750 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 0D36E2991C15C8EF00B4B549 /* account-example.xcodeproj */;
+			containerPortal = 0D36E2991C15C8EF00B4B549 /* OtsimoSDK_Example.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 0D36E2841C15C8EF00B4B549;
-			remoteInfo = "account-example";
+			remoteInfo = OtsimoSDK_Example;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -39,10 +40,9 @@
 		0D333A6E1C158D3200968DDA /* OtsimoSDKTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OtsimoSDKTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0D333A731C158D3200968DDA /* OtsimoSDKTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtsimoSDKTests.swift; sourceTree = "<group>"; };
 		0D333A751C158D3200968DDA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		0D36E2991C15C8EF00B4B549 /* account-example.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "account-example.xcodeproj"; path = "Example/account-example.xcodeproj"; sourceTree = "<group>"; };
-		0D54BB8A1C158F65006A9382 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
-		0D54BB8C1C158F66006A9382 /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = Carthage/Build/iOS/SwiftyJSON.framework; sourceTree = "<group>"; };
+		0D36E2991C15C8EF00B4B549 /* OtsimoSDK_Example.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OtsimoSDK_Example.xcodeproj; path = Example/OtsimoSDK_Example.xcodeproj; sourceTree = "<group>"; };
 		0D54BB8F1C158FAA006A9382 /* Otsimo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Otsimo.swift; path = Sources/Otsimo.swift; sourceTree = "<group>"; };
+		0D8214A01C38755100DC246F /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Session.swift; path = Sources/Session.swift; sourceTree = "<group>"; };
 		0DE680B11C16E8C200FA8CF6 /* Profile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Profile.swift; path = Sources/Profile.swift; sourceTree = "<group>"; };
 		0DE680CE1C16F1BF00FA8CF6 /* LoginResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginResult.swift; path = Sources/LoginResult.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -98,15 +98,15 @@
 		0D36E27A1C15C8A100B4B549 /* Example */ = {
 			isa = PBXGroup;
 			children = (
-				0D36E2991C15C8EF00B4B549 /* account-example.xcodeproj */,
+				0D36E2991C15C8EF00B4B549 /* OtsimoSDK_Example.xcodeproj */,
 			);
 			name = Example;
 			sourceTree = "<group>";
 		};
-		0D36E29A1C15C8EF00B4B549 /* Products */ = {
+		0D52FFB01C38A6400052C750 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				0D36E29E1C15C8F000B4B549 /* account-example.app */,
+				0D52FFB41C38A6420052C750 /* OtsimoSDK_Example.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -114,8 +114,6 @@
 		0D54BB8E1C158F8B006A9382 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				0D54BB8C1C158F66006A9382 /* SwiftyJSON.framework */,
-				0D54BB8A1C158F65006A9382 /* Alamofire.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -128,6 +126,7 @@
 				0D54BB8F1C158FAA006A9382 /* Otsimo.swift */,
 				0DE680B11C16E8C200FA8CF6 /* Profile.swift */,
 				0DE680CE1C16F1BF00FA8CF6 /* LoginResult.swift */,
+				0D8214A01C38755100DC246F /* Session.swift */,
 			);
 			name = Sources;
 			sourceTree = "<group>";
@@ -188,12 +187,13 @@
 		0D333A5B1C158D3200968DDA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0710;
+				LastSwiftUpdateCheck = 0720;
 				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = Otsimo;
 				TargetAttributes = {
 					0D333A631C158D3200968DDA = {
 						CreatedOnToolsVersion = 7.1.1;
+						DevelopmentTeam = DFUP975GRN;
 					};
 					0D333A6D1C158D3200968DDA = {
 						CreatedOnToolsVersion = 7.1.1;
@@ -212,8 +212,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 0D36E29A1C15C8EF00B4B549 /* Products */;
-					ProjectRef = 0D36E2991C15C8EF00B4B549 /* account-example.xcodeproj */;
+					ProductGroup = 0D52FFB01C38A6400052C750 /* Products */;
+					ProjectRef = 0D36E2991C15C8EF00B4B549 /* OtsimoSDK_Example.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -225,11 +225,11 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		0D36E29E1C15C8F000B4B549 /* account-example.app */ = {
+		0D52FFB41C38A6420052C750 /* OtsimoSDK_Example.app */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.application;
-			path = "account-example.app";
-			remoteRef = 0D36E29D1C15C8F000B4B549 /* PBXContainerItemProxy */;
+			path = OtsimoSDK_Example.app;
+			remoteRef = 0D52FFB31C38A6420052C750 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -256,6 +256,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0D8214A11C38755100DC246F /* Session.swift in Sources */,
 				0DE680CF1C16F1BF00FA8CF6 /* LoginResult.swift in Sources */,
 				0D54BB901C158FAA006A9382 /* Otsimo.swift in Sources */,
 				0DE680B21C16E8C200FA8CF6 /* Profile.swift in Sources */,
@@ -304,6 +305,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/Carthage/Build/iOS\"";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -318,10 +320,12 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				HEADER_SEARCH_PATHS = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -352,6 +356,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/Carthage/Build/iOS\"";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -360,9 +365,11 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				HEADER_SEARCH_PATHS = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_INCLUDE_PATHS = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -373,16 +380,26 @@
 		0D333A791C158D3200968DDA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
-				INFOPLIST_FILE = "$(SRCROOT)/Source/Info.plist";
+				GCC_PREFIX_HEADER = "";
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/Carthage/Build/iOS/Protobuf.framework/Headers\"",
+					"\"$(SRCROOT)/Carthage/Build/iOS/BoringSSL.framework/Headers\"",
+					"\"$(SRCROOT)/Carthage/Build/iOS/gRPC.framework/Headers\"",
+					"\"$(SRCROOT)/Carthage/Build/iOS/OtsimoApiGrpc.framework/Headers\"",
+				);
+				INFOPLIST_FILE = "$(SRCROOT)/Sources/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.otsimo.otsimo-sdk";
@@ -395,16 +412,26 @@
 		0D333A7A1C158D3200968DDA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
-				INFOPLIST_FILE = "$(SRCROOT)/Source/Info.plist";
+				GCC_PREFIX_HEADER = "";
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/Carthage/Build/iOS/Protobuf.framework/Headers\"",
+					"\"$(SRCROOT)/Carthage/Build/iOS/BoringSSL.framework/Headers\"",
+					"\"$(SRCROOT)/Carthage/Build/iOS/gRPC.framework/Headers\"",
+					"\"$(SRCROOT)/Carthage/Build/iOS/OtsimoApiGrpc.framework/Headers\"",
+				);
+				INFOPLIST_FILE = "$(SRCROOT)/Sources/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.otsimo.otsimo-sdk";

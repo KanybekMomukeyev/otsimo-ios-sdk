@@ -7,9 +7,8 @@
 //
 
 import XCTest
-@testable import AccountSDK
 
-class AccountSDKTests: XCTestCase {
+class OtsimoSDKTests: XCTestCase {
     
     override func setUp() {
         super.setUp()

@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import AccountSDK
+import OtsimoSDK
 
 class ViewController: UIViewController {
 
@@ -26,7 +26,7 @@ class ViewController: UIViewController {
     
     @IBAction func loginTouched(sender: UIButton) {
         print(emailText.text!,passwordText.text!)
-        let result=otsimo.login(emailText.text!, password: passwordText.text!)
+        otsimo.login(emailText.text!, password: passwordText.text!)
     }
 }
 

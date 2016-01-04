@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "78E0929D8BDBFE11720E0D63F8E968F2EB2BD6E7",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "78E0929D8BDBFE11720E0D63F8E968F2EB2BD6E7" : 0,
+    "05E9A17A5DF517851D56B74E50C6846340C89A43" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "11B76A87-2993-46E5-AECC-420C9933024F",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "78E0929D8BDBFE11720E0D63F8E968F2EB2BD6E7" : "OtsimoSDK\/",
+    "05E9A17A5DF517851D56B74E50C6846340C89A43" : "OtsimoGrpc\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "OtsimoSDK",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "OtsimoSDK.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:otsimo\/otsimo-ios-grpc.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "05E9A17A5DF517851D56B74E50C6846340C89A43"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:otsimo\/otsimo-account-ios-sdk.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "78E0929D8BDBFE11720E0D63F8E968F2EB2BD6E7"
+    }
+  ]
+}

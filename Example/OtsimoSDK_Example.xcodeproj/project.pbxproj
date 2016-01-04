@@ -7,21 +7,35 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0D137F9A1C39F66A0006BB8E /* OtsimoSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D137F921C39F4BE0006BB8E /* OtsimoSDK.framework */; };
+		0D137F9B1C39F66A0006BB8E /* OtsimoSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0D137F921C39F4BE0006BB8E /* OtsimoSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		0D137F9C1C39F66A0006BB8E /* Protobuf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D137F901C39F4B80006BB8E /* Protobuf.framework */; };
+		0D137F9D1C39F66A0006BB8E /* Protobuf.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0D137F901C39F4B80006BB8E /* Protobuf.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		0D137F9E1C39F66A0006BB8E /* OtsimoApiGrpc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D137F8E1C39F4B60006BB8E /* OtsimoApiGrpc.framework */; };
+		0D137F9F1C39F66A0006BB8E /* OtsimoApiGrpc.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0D137F8E1C39F4B60006BB8E /* OtsimoApiGrpc.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		0D137FA01C39F66A0006BB8E /* gRPC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D137F8C1C39F4B40006BB8E /* gRPC.framework */; };
+		0D137FA11C39F66A0006BB8E /* gRPC.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0D137F8C1C39F4B40006BB8E /* gRPC.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		0D137FA21C39F66A0006BB8E /* BoringSSL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D137F8A1C39F4B20006BB8E /* BoringSSL.framework */; };
+		0D137FA31C39F66A0006BB8E /* BoringSSL.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0D137F8A1C39F4B20006BB8E /* BoringSSL.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0D36E2881C15C8EF00B4B549 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D36E2871C15C8EF00B4B549 /* AppDelegate.swift */; };
 		0D36E28A1C15C8EF00B4B549 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D36E2891C15C8EF00B4B549 /* ViewController.swift */; };
 		0D36E28D1C15C8EF00B4B549 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0D36E28B1C15C8EF00B4B549 /* Main.storyboard */; };
 		0D36E28F1C15C8EF00B4B549 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0D36E28E1C15C8EF00B4B549 /* Assets.xcassets */; };
 		0D36E2921C15C8EF00B4B549 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0D36E2901C15C8EF00B4B549 /* LaunchScreen.storyboard */; };
-		0DE680CD1C16EDB100FA8CF6 /* OtsimoSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DE680CC1C16EDB100FA8CF6 /* OtsimoSDK.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		0DE680BD1C16ED4C00FA8CF6 /* Embed Frameworks */ = {
+		0D137FA41C39F66A0006BB8E /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				0D137F9B1C39F66A0006BB8E /* OtsimoSDK.framework in Embed Frameworks */,
+				0D137F9D1C39F66A0006BB8E /* Protobuf.framework in Embed Frameworks */,
+				0D137FA11C39F66A0006BB8E /* gRPC.framework in Embed Frameworks */,
+				0D137FA31C39F66A0006BB8E /* BoringSSL.framework in Embed Frameworks */,
+				0D137F9F1C39F66A0006BB8E /* OtsimoApiGrpc.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -29,13 +43,19 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		0D36E2841C15C8EF00B4B549 /* account-example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "account-example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		0D137F8A1C39F4B20006BB8E /* BoringSSL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BoringSSL.framework; path = ../Carthage/Build/iOS/BoringSSL.framework; sourceTree = "<group>"; };
+		0D137F8C1C39F4B40006BB8E /* gRPC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = gRPC.framework; path = ../Carthage/Build/iOS/gRPC.framework; sourceTree = "<group>"; };
+		0D137F8E1C39F4B60006BB8E /* OtsimoApiGrpc.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OtsimoApiGrpc.framework; path = ../Carthage/Build/iOS/OtsimoApiGrpc.framework; sourceTree = "<group>"; };
+		0D137F901C39F4B80006BB8E /* Protobuf.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Protobuf.framework; path = ../Carthage/Build/iOS/Protobuf.framework; sourceTree = "<group>"; };
+		0D137F921C39F4BE0006BB8E /* OtsimoSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OtsimoSDK.framework; path = "../../../../Library/Developer/Xcode/DerivedData/OtsimoSDK-exietrbmafntdpfboftcudyweopo/Build/Products/Debug-iphoneos/OtsimoSDK.framework"; sourceTree = "<group>"; };
+		0D36E2841C15C8EF00B4B549 /* OtsimoSDK_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OtsimoSDK_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0D36E2871C15C8EF00B4B549 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0D36E2891C15C8EF00B4B549 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		0D36E28C1C15C8EF00B4B549 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		0D36E28E1C15C8EF00B4B549 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0D36E2911C15C8EF00B4B549 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0D36E2931C15C8EF00B4B549 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0DB65F1B1C38AAD700C5B1AD /* Bridigin-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridigin-Header.h"; sourceTree = "<group>"; };
 		0DE680CC1C16EDB100FA8CF6 /* OtsimoSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OtsimoSDK.framework; path = "../build/Debug-iphoneos/OtsimoSDK.framework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -44,7 +64,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0DE680CD1C16EDB100FA8CF6 /* OtsimoSDK.framework in Frameworks */,
+				0D137F9A1C39F66A0006BB8E /* OtsimoSDK.framework in Frameworks */,
+				0D137F9C1C39F66A0006BB8E /* Protobuf.framework in Frameworks */,
+				0D137FA01C39F66A0006BB8E /* gRPC.framework in Frameworks */,
+				0D137FA21C39F66A0006BB8E /* BoringSSL.framework in Frameworks */,
+				0D137F9E1C39F66A0006BB8E /* OtsimoApiGrpc.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -57,13 +81,14 @@
 				0DE680CC1C16EDB100FA8CF6 /* OtsimoSDK.framework */,
 				0D36E2861C15C8EF00B4B549 /* account-example */,
 				0D36E2851C15C8EF00B4B549 /* Products */,
+				C1E4904BBA118E6E10B7BDD5 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
 		0D36E2851C15C8EF00B4B549 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				0D36E2841C15C8EF00B4B549 /* account-example.app */,
+				0D36E2841C15C8EF00B4B549 /* OtsimoSDK_Example.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -77,29 +102,42 @@
 				0D36E28E1C15C8EF00B4B549 /* Assets.xcassets */,
 				0D36E2901C15C8EF00B4B549 /* LaunchScreen.storyboard */,
 				0D36E2931C15C8EF00B4B549 /* Info.plist */,
+				0DB65F1B1C38AAD700C5B1AD /* Bridigin-Header.h */,
 			);
 			path = "account-example";
+			sourceTree = "<group>";
+		};
+		C1E4904BBA118E6E10B7BDD5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0D137F921C39F4BE0006BB8E /* OtsimoSDK.framework */,
+				0D137F901C39F4B80006BB8E /* Protobuf.framework */,
+				0D137F8E1C39F4B60006BB8E /* OtsimoApiGrpc.framework */,
+				0D137F8C1C39F4B40006BB8E /* gRPC.framework */,
+				0D137F8A1C39F4B20006BB8E /* BoringSSL.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		0D36E2831C15C8EF00B4B549 /* account-example */ = {
+		0D36E2831C15C8EF00B4B549 /* OtsimoSDK_Example */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 0D36E2961C15C8EF00B4B549 /* Build configuration list for PBXNativeTarget "account-example" */;
+			buildConfigurationList = 0D36E2961C15C8EF00B4B549 /* Build configuration list for PBXNativeTarget "OtsimoSDK_Example" */;
 			buildPhases = (
 				0D36E2801C15C8EF00B4B549 /* Sources */,
 				0D36E2811C15C8EF00B4B549 /* Frameworks */,
 				0D36E2821C15C8EF00B4B549 /* Resources */,
-				0DE680BD1C16ED4C00FA8CF6 /* Embed Frameworks */,
+				0D137FA41C39F66A0006BB8E /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = "account-example";
+			name = OtsimoSDK_Example;
 			productName = "account-example";
-			productReference = 0D36E2841C15C8EF00B4B549 /* account-example.app */;
+			productReference = 0D36E2841C15C8EF00B4B549 /* OtsimoSDK_Example.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -114,10 +152,11 @@
 				TargetAttributes = {
 					0D36E2831C15C8EF00B4B549 = {
 						CreatedOnToolsVersion = 7.1.1;
+						DevelopmentTeam = DFUP975GRN;
 					};
 				};
 			};
-			buildConfigurationList = 0D36E27F1C15C8EF00B4B549 /* Build configuration list for PBXProject "account-example" */;
+			buildConfigurationList = 0D36E27F1C15C8EF00B4B549 /* Build configuration list for PBXProject "OtsimoSDK_Example" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -130,7 +169,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				0D36E2831C15C8EF00B4B549 /* account-example */,
+				0D36E2831C15C8EF00B4B549 /* OtsimoSDK_Example */,
 			);
 		};
 /* End PBXProject section */
@@ -184,6 +223,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -229,6 +269,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -267,10 +308,23 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Carthage/Build/iOS\"";
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../Carthage/Build/iOS/BoringSSL.framework/Headers\"",
+					"\"$(SRCROOT)/../Carthage/Build/iOS/Protobuf.framework/Headers\"",
+					"\"$(SRCROOT)/../Carthage/Build/iOS/gRPC.framework/Headers\"",
+					"\"$(SRCROOT)/../Carthage/Build/iOS/OtsimoApiGrpc.framework/Headers\"",
+				);
 				INFOPLIST_FILE = "account-example/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.otsimo.account-example";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.otsimo.sdk-example";
+				PRODUCT_NAME = OtsimoSDK_Example;
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/sercand/Developer/Otsimo/OtsimoSDK/Example/account-example/Bridigin-Header.h";
+				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Debug;
 		};
@@ -278,17 +332,30 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Carthage/Build/iOS\"";
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../Carthage/Build/iOS/BoringSSL.framework/Headers\"",
+					"\"$(SRCROOT)/../Carthage/Build/iOS/Protobuf.framework/Headers\"",
+					"\"$(SRCROOT)/../Carthage/Build/iOS/gRPC.framework/Headers\"",
+					"\"$(SRCROOT)/../Carthage/Build/iOS/OtsimoApiGrpc.framework/Headers\"",
+				);
 				INFOPLIST_FILE = "account-example/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.otsimo.account-example";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.otsimo.sdk-example";
+				PRODUCT_NAME = OtsimoSDK_Example;
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/sercand/Developer/Otsimo/OtsimoSDK/Example/account-example/Bridigin-Header.h";
+				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		0D36E27F1C15C8EF00B4B549 /* Build configuration list for PBXProject "account-example" */ = {
+		0D36E27F1C15C8EF00B4B549 /* Build configuration list for PBXProject "OtsimoSDK_Example" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0D36E2941C15C8EF00B4B549 /* Debug */,
@@ -297,7 +364,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		0D36E2961C15C8EF00B4B549 /* Build configuration list for PBXNativeTarget "account-example" */ = {
+		0D36E2961C15C8EF00B4B549 /* Build configuration list for PBXNativeTarget "OtsimoSDK_Example" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0D36E2971C15C8EF00B4B549 /* Debug */,
