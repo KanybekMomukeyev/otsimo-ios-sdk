@@ -11,37 +11,49 @@ import OtsimoApiGrpc
 import gRPC
 
 public class Otsimo {
-
     public var session: Session?
-
-    public init() {
-
+    internal let connection: Connection
+    
+    public init(config: ClientConfig) {
+        connection = Connection(config: config)
+        recoverOldSessionIfExist()
     }
-
-    //TODO don't do something like this
-    public func login(email: String, password: String) -> LoginResult {
-        let remoteHost = "192.168.1.103:18854"
-        GRPCCall.useInsecureConnectionsForHost(remoteHost)
-        
-        let service = OTSApiService(host: remoteHost)
-        
-        let request = OTSGetProfileRequest()
-        request.id_p = email
-
-        service.getProfileWithRequest(request){ response, error in
-            if let response = response {
-                NSLog("1. Finished successfully with response:\n\(response)")
-            } else {
-                NSLog("1. Finished with error: \(error!)")
+    
+    public func login(email: String, password: String, handler: (res: LoginResult) -> Void) {
+        connection.login(email, plainPassword: password) {res, ses in
+            switch (res) {
+            case .Success:
+                self.session = ses
+            default:
+                print("login failed error:\(res)")
             }
+            handler(res: res)
         }
-
-        return LoginResult()
     }
-
+    
+    public func logout() {
+        if let ses = session {
+            ses.logout()
+        }
+    }
+    
     public static func handleOpenURL(url: NSURL) {
         print("handleURL: ", url)
+    }
+    
+    public func getProfile(handler: (OTSProfile?, OtsimoError) -> Void) {
+        if let ses = session {
+            if ses.profile != nil {
+                // returns cached profile info
+                handler(ses.profile, OtsimoError.None)
+            } else {
+                connection.getProfile(ses, handler: handler)
+            }
+        } else {
+            handler(nil, .NotLoggedIn(message: "not logged in, session is nil"))
+        }
+    }
+    private func recoverOldSessionIfExist() {
         
-       
     }
 }

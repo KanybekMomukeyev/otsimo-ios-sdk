@@ -7,13 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0D137FA91C3A7C280006BB8E /* ClientConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D137FA81C3A7C280006BB8E /* ClientConfig.swift */; };
+		0D3053741C3AAAB0000FE8B1 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3053731C3AAAB0000FE8B1 /* Errors.swift */; };
 		0D333A681C158D3200968DDA /* OtsimoSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 0D333A671C158D3200968DDA /* OtsimoSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0D333A6F1C158D3200968DDA /* OtsimoSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D333A641C158D3200968DDA /* OtsimoSDK.framework */; };
 		0D333A741C158D3200968DDA /* OtsimoSDKTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D333A731C158D3200968DDA /* OtsimoSDKTests.swift */; };
+		0D3D0FF91C3AA3F00049A72F /* Connection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3D0FF81C3AA3F00049A72F /* Connection.swift */; };
 		0D54BB901C158FAA006A9382 /* Otsimo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D54BB8F1C158FAA006A9382 /* Otsimo.swift */; };
 		0D8214A11C38755100DC246F /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D8214A01C38755100DC246F /* Session.swift */; };
-		0DE680B21C16E8C200FA8CF6 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE680B11C16E8C200FA8CF6 /* Profile.swift */; };
-		0DE680CF1C16F1BF00FA8CF6 /* LoginResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE680CE1C16F1BF00FA8CF6 /* LoginResult.swift */; };
+		0D9044021C3AD68B00F51C8D /* JWT.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9044011C3AD68B00F51C8D /* JWT.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +36,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0D137FA81C3A7C280006BB8E /* ClientConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ClientConfig.swift; path = Sources/ClientConfig.swift; sourceTree = "<group>"; };
+		0D3053731C3AAAB0000FE8B1 /* Errors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Errors.swift; path = Sources/Errors.swift; sourceTree = "<group>"; };
 		0D333A641C158D3200968DDA /* OtsimoSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OtsimoSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0D333A671C158D3200968DDA /* OtsimoSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = OtsimoSDK.h; path = Sources/OtsimoSDK.h; sourceTree = "<group>"; };
 		0D333A691C158D3200968DDA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = Sources/Info.plist; sourceTree = "<group>"; };
@@ -41,10 +45,10 @@
 		0D333A731C158D3200968DDA /* OtsimoSDKTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtsimoSDKTests.swift; sourceTree = "<group>"; };
 		0D333A751C158D3200968DDA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0D36E2991C15C8EF00B4B549 /* OtsimoSDK_Example.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OtsimoSDK_Example.xcodeproj; path = Example/OtsimoSDK_Example.xcodeproj; sourceTree = "<group>"; };
+		0D3D0FF81C3AA3F00049A72F /* Connection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Connection.swift; path = Sources/Connection.swift; sourceTree = "<group>"; };
 		0D54BB8F1C158FAA006A9382 /* Otsimo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Otsimo.swift; path = Sources/Otsimo.swift; sourceTree = "<group>"; };
 		0D8214A01C38755100DC246F /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Session.swift; path = Sources/Session.swift; sourceTree = "<group>"; };
-		0DE680B11C16E8C200FA8CF6 /* Profile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Profile.swift; path = Sources/Profile.swift; sourceTree = "<group>"; };
-		0DE680CE1C16F1BF00FA8CF6 /* LoginResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginResult.swift; path = Sources/LoginResult.swift; sourceTree = "<group>"; };
+		0D9044011C3AD68B00F51C8D /* JWT.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JWT.swift; path = Sources/JWT.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,9 +128,11 @@
 				0D333A671C158D3200968DDA /* OtsimoSDK.h */,
 				0D333A691C158D3200968DDA /* Info.plist */,
 				0D54BB8F1C158FAA006A9382 /* Otsimo.swift */,
-				0DE680B11C16E8C200FA8CF6 /* Profile.swift */,
-				0DE680CE1C16F1BF00FA8CF6 /* LoginResult.swift */,
 				0D8214A01C38755100DC246F /* Session.swift */,
+				0D137FA81C3A7C280006BB8E /* ClientConfig.swift */,
+				0D3D0FF81C3AA3F00049A72F /* Connection.swift */,
+				0D3053731C3AAAB0000FE8B1 /* Errors.swift */,
+				0D9044011C3AD68B00F51C8D /* JWT.swift */,
 			);
 			name = Sources;
 			sourceTree = "<group>";
@@ -257,9 +263,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				0D8214A11C38755100DC246F /* Session.swift in Sources */,
-				0DE680CF1C16F1BF00FA8CF6 /* LoginResult.swift in Sources */,
+				0D3D0FF91C3AA3F00049A72F /* Connection.swift in Sources */,
+				0D137FA91C3A7C280006BB8E /* ClientConfig.swift in Sources */,
+				0D9044021C3AD68B00F51C8D /* JWT.swift in Sources */,
+				0D3053741C3AAAB0000FE8B1 /* Errors.swift in Sources */,
 				0D54BB901C158FAA006A9382 /* Otsimo.swift in Sources */,
-				0DE680B21C16E8C200FA8CF6 /* Profile.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
