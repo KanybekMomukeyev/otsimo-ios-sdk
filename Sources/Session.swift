@@ -25,7 +25,7 @@ public class Session {
     
     internal var profile: OTSProfile? = nil
     
-    var isAuthenticated: Bool {
+    public var isAuthenticated: Bool {
         get {
             return accessToken != ""
         }

@@ -33,10 +33,8 @@ internal class Connection {
                 handler(response, OtsimoError.None)
             } else {
                 handler(nil, OtsimoError.ServiceError(message: "\(error)"))
-                NSLog("2. Finished with error: \(error!)")
+                NSLog("getProfile: Finished with error: \(error!)")
             }
-            // NSLog("2. Response headers: \(RPC.responseHeaders)")
-            // NSLog("2. Response trailers: \(RPC.responseTrailers)")
         }
         if session.isAuthenticated {
             RPC.requestHeaders["Authorization"] = "\(session.tokenType) \(session.accessToken)"
@@ -46,17 +44,51 @@ internal class Connection {
         }
     }
     
-    func login(email: String, plainPassword: String, handler: (res: LoginResult, session: Session?) -> Void) {
+    func addChild(session: Session, child: OTSChild, handler: (OtsimoError) -> Void) {
+        child.parentId = session.profileID
+        
+        var RPC : ProtoRPC!
+        RPC = apiService.RPCToAddChildWithRequest(child) {response, error in
+            if let response = response {
+                if response.type == 0 {
+                    handler(OtsimoError.None)
+                } else {
+                    handler(OtsimoError.ServiceError(message: "code:\(response.type),message:\(response.message!)"))
+                }
+            } else {
+                handler(OtsimoError.ServiceError(message: "\(error)"))
+                NSLog("addChild, Finished with error: \(error!)")
+            }
+        }
+        if session.isAuthenticated {
+            RPC.requestHeaders["Authorization"] = "\(session.tokenType) \(session.accessToken)"
+            RPC.start()
+        } else {
+            handler(OtsimoError.NotLoggedIn(message: "is not authenticated"))
+        }
+    }
+    
+    
+    func login(email: String, plainPassword: String, handler: (res: TokenResult, session: Session?) -> Void) {
         let grant_type = "password"
         let urlPath: String = "\(config.accountsServiceUrl)/login"
         let emailTrimmed = email.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
         let postString = "username=\(emailTrimmed)&password=\(plainPassword)&grant_type=\(grant_type)"
-        
+        httpRequestWithTokenResult(urlPath, postString: postString, handler: handler)
+    }
+    
+    func register(data: RegistrationData, handler: (res: TokenResult, session: Session?) -> Void) {
+        let urlPath: String = "\(config.accountsServiceUrl)/register"
+        let postString = "username=\(data.email)&password=\(data.password)&first_name=\(data.firstName)&last_name=\(data.lastName)&language=\(data.language)"
+        httpRequestWithTokenResult(urlPath, postString: postString, handler: handler)
+    }
+    
+    func httpRequestWithTokenResult(urlPath: String, postString: String, handler: (res: TokenResult, session: Session?) -> Void) {
         let request = NSMutableURLRequest(URL: NSURL(string: urlPath)!)
         request.HTTPMethod = "POST"
         request.setValue("application/x-www-form-urlencoded; charset=utf-8", forHTTPHeaderField: "Content-Type")
         request.HTTPBody = postString.dataUsingEncoding(NSUTF8StringEncoding)
-        request.timeoutInterval = 10
+        request.timeoutInterval = 20
         let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {data, response, error in
             guard error == nil && data != nil else {// check for fundamental networking error
                 handler(res: .Error(error: .NetworkError(message: "\(error)")), session: nil)
@@ -108,9 +140,9 @@ internal class Connection {
                 } else {
                     let e = JSONDictionary["error"]
                     if e != nil {
-                        handler(res: .Error(error: .InvalidResponse(message: "login failed: error= \(e)")), session: nil)
+                        handler(res: .Error(error: .InvalidResponse(message: "request failed: error= \(e)")), session: nil)
                     } else {
-                        handler(res: .Error(error: .InvalidResponse(message: "login failed: \(data)")), session: nil)
+                        handler(res: .Error(error: .InvalidResponse(message: "request failed: \(data)")), session: nil)
                     }
                 }
             }

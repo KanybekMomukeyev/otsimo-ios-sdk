@@ -45,13 +45,43 @@ class TestHomeController: UITableViewController {
         let test = testEntries[indexPath.row]
         cell.textLabel?.text = test.title
         if test.requiresAuth {
-            
+            if let auth = otsimo.session?.isAuthenticated {
+                if auth {
+                    cell.accessoryType = .DisclosureIndicator
+                    cell.textLabel?.textColor = UIColor.blackColor()
+                } else {
+                    cell.accessoryType = .None
+                    cell.textLabel?.textColor = UIColor.grayColor()
+                }
+            } else {
+                cell.accessoryType = .None
+                cell.textLabel?.textColor = UIColor.grayColor()
+            }
         }
         return cell
     }
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let test = testEntries[indexPath.row]
-        performSegueWithIdentifier(test.segmentName, sender: tableView)
+        if test.requiresAuth {
+            if let auth = otsimo.session?.isAuthenticated {
+                if !auth {
+                    return
+                }
+            } else {
+                return
+            }
+        }
+        if let h = test.handle {
+            h()
+            tableView.reloadData()
+        } else {
+            performSegueWithIdentifier(test.segmentName, sender: tableView)
+        }
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
     }
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation

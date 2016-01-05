@@ -10,6 +10,21 @@ import Foundation
 import OtsimoApiGrpc
 import gRPC
 
+public struct RegistrationData {
+    let email: String
+    let password: String
+    let firstName: String
+    let lastName: String
+    let language: String
+    public init(email: String, password: String, firstName: String, lastName: String, language: String) {
+        self.email = email
+        self.password = password
+        self.firstName = firstName
+        self.lastName = lastName
+        self.language = language
+    }
+}
+
 public class Otsimo {
     public var session: Session?
     internal let connection: Connection
@@ -19,7 +34,7 @@ public class Otsimo {
         recoverOldSessionIfExist()
     }
     
-    public func login(email: String, password: String, handler: (res: LoginResult) -> Void) {
+    public func login(email: String, password: String, handler: (res: TokenResult) -> Void) {
         connection.login(email, plainPassword: password) {res, ses in
             switch (res) {
             case .Success:
@@ -30,6 +45,19 @@ public class Otsimo {
             handler(res: res)
         }
     }
+    
+    public func register(data: RegistrationData, handler: (res: TokenResult) -> Void) {
+        connection.register(data) {res, ses in
+            switch (res) {
+            case .Success:
+                self.session = ses
+            default:
+                print("register failed error:\(res)")
+            }
+            handler(res: res)
+        }
+    }
+    
     
     public func logout() {
         if let ses = session {
@@ -53,6 +81,15 @@ public class Otsimo {
             handler(nil, .NotLoggedIn(message: "not logged in, session is nil"))
         }
     }
+    
+    public func addChild(child: OTSChild, handler: (res: OtsimoError) -> Void) {
+        if let ses = session {
+            connection.addChild(ses, child: child, handler: handler)
+        } else {
+            handler(res: .NotLoggedIn(message: "not logged in, session is nil"))
+        }
+    }
+    
     private func recoverOldSessionIfExist() {
         
     }

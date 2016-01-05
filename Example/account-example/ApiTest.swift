@@ -13,27 +13,34 @@ class ApiTest {
     var segmentName : String
     var requiresAuth: Bool
     var providesAuth: Bool
-    init(title: String, segmentName: String, requires: Bool, provides: Bool) {
+    var handle: (() -> Void)?
+    init(title: String, segmentName: String, requires: Bool, provides: Bool, handle: (() -> Void)?) {
         self.title = title
         self.segmentName = segmentName
         self.requiresAuth = requires
         self.providesAuth = provides
+        self.handle = handle
+    }
+    convenience init(title: String, segmentName: String, requires: Bool, provides: Bool) {
+        self.init(title: title, segmentName: segmentName, requires: requires, provides: provides, handle: nil)
     }
 }
-
 
 let apiTestScenes = [
     ApiTest(title: "Login", segmentName: "logintest", requires: false, provides: true),
     ApiTest(title: "Register", segmentName: "registertest", requires: false, provides: true),
-    ApiTest(title: "Logout", segmentName: "logouttest", requires: true, provides: false),
+    ApiTest(title: "Logout", segmentName: "", requires: true, provides: false, handle: otsimo.logout),
     ApiTest(title: "Profile Info", segmentName: "profileinfotest", requires: true, provides: false),
-    ApiTest(title: "Wiki", segmentName: "wikitest", requires: true, provides: false),
+    ApiTest(title: "Profile Update", segmentName: "profileinfotest", requires: true, provides: false),
+    ApiTest(title: "Update Password", segmentName: "profileinfotest", requires: true, provides: false),
     ApiTest(title: "Add Child", segmentName: "addchildtest", requires: true, provides: false),
     ApiTest(title: "Get Child List", segmentName: "getchildlisttest", requires: true, provides: false),
     ApiTest(title: "Get Child", segmentName: "getchildtest", requires: true, provides: false),
     ApiTest(title: "Get Game", segmentName: "getgametest", requires: true, provides: false),
     ApiTest(title: "Game Settings", segmentName: "gamesettingstest", requires: true, provides: false),
+    ApiTest(title: "Wiki", segmentName: "wikitest", requires: true, provides: false),
     ApiTest(title: "Market", segmentName: "markettest", requires: true, provides: false),
     ApiTest(title: "Statistics of a Single Game", segmentName: "stattest", requires: true, provides: false),
     ApiTest(title: "Dashboard", segmentName: "dashboardtest", requires: true, provides: false),
 ]
+

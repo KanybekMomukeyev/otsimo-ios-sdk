@@ -21,7 +21,7 @@ public class ClientConfig {
     internal var useKeychain = false
     
     public static func development(clientID: String, host: String?) -> ClientConfig {
-        var ip = "192.168.5.151"
+        var ip = "192.168.1.103"
         if host != nil {
             ip = host!
         }

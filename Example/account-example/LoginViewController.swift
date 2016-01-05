@@ -9,8 +9,8 @@
 import UIKit
 import OtsimoSDK
 
-class ViewController: UIViewController {
-    var otsimo: Otsimo = Otsimo(config: ClientConfig.development("OdvHPcsgTcTnmYnvxJMVRDA4ifTy6a2zPTN6cnTUQ8g=@com.otsimo.sdk-example", host: nil))
+class LoginViewController: UIViewController {
+    
     @IBOutlet weak var emailText: UITextField!
     @IBOutlet weak var passwordText: UITextField!
     @IBOutlet weak var footerText: UILabel!
@@ -25,33 +25,26 @@ class ViewController: UIViewController {
     
     @IBAction func loginTouched(sender: UIButton) {
         print(emailText.text!, passwordText.text!)
+        SwiftSpinner.show("logging in...", animated: true)
         otsimo.login(emailText.text!, password: passwordText.text!) {repo in
             print("login finished")
+            delay(seconds: 2.0, completion: {
+                    SwiftSpinner.hide()
+                })
             dispatch_async(dispatch_get_main_queue(), {
                     switch (repo) {
                     case .Success:
                         print("successfully logged in")
-                        self.footerText.text = "ID: \(self.otsimo.session!.profileID)"
+                        SwiftSpinner.show("successful", animated: false)
+                        self.footerText.text = "ID: \(otsimo.session!.profileID)"
                     case .Error(let error):
                         print("login error: \(error)")
+                        SwiftSpinner.show("failed", animated: false)
                         self.footerText.text = "ERROR: \(error)"
                     }
                 })
         }
     }
     
-    @IBAction func getProfileTouch(sender: UIButton) {
-        otsimo.getProfile() {profile, error in
-            dispatch_async(dispatch_get_main_queue(), {
-                    switch (error) {
-                    case OtsimoError.None:
-                        self.footerText.text = "Profile: \(profile)"
-                        print("successfully get profile \(profile)")
-                    default:
-                        self.footerText.text = "ERROR: \(error)"
-                    }
-                })
-        }
-    }
 }
 

@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum LoginResult {
+public enum TokenResult {
     case Success
     case Error(error: OtsimoError)
 }

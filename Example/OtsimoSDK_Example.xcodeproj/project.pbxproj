@@ -18,12 +18,19 @@
 		0D137FA21C39F66A0006BB8E /* BoringSSL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D137F8A1C39F4B20006BB8E /* BoringSSL.framework */; };
 		0D137FA31C39F66A0006BB8E /* BoringSSL.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0D137F8A1C39F4B20006BB8E /* BoringSSL.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0D36E2881C15C8EF00B4B549 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D36E2871C15C8EF00B4B549 /* AppDelegate.swift */; };
-		0D36E28A1C15C8EF00B4B549 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D36E2891C15C8EF00B4B549 /* ViewController.swift */; };
+		0D36E28A1C15C8EF00B4B549 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D36E2891C15C8EF00B4B549 /* LoginViewController.swift */; };
 		0D36E28D1C15C8EF00B4B549 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0D36E28B1C15C8EF00B4B549 /* Main.storyboard */; };
 		0D36E28F1C15C8EF00B4B549 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0D36E28E1C15C8EF00B4B549 /* Assets.xcassets */; };
 		0D36E2921C15C8EF00B4B549 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0D36E2901C15C8EF00B4B549 /* LaunchScreen.storyboard */; };
 		0D9044071C3B339C00F51C8D /* ApiTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9044061C3B339C00F51C8D /* ApiTest.swift */; };
 		0D90440B1C3B36CA00F51C8D /* TestHomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D90440A1C3B36CA00F51C8D /* TestHomeController.swift */; };
+		0D90441B1C3BF85000F51C8D /* Root.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D90441A1C3BF85000F51C8D /* Root.swift */; };
+		0D90441F1C3C014800F51C8D /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D90441E1C3C014800F51C8D /* RegisterViewController.swift */; };
+		0D9044211C3C169B00F51C8D /* SwiftSpinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9044201C3C169B00F51C8D /* SwiftSpinner.swift */; };
+		0D9044231C3C3DD600F51C8D /* ProfileInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9044221C3C3DD600F51C8D /* ProfileInfoViewController.swift */; };
+		0D9044271C3C42B000F51C8D /* AddChildTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9044261C3C42B000F51C8D /* AddChildTableViewController.swift */; };
+		0D9044291C3C862600F51C8D /* Locksmith.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D9044281C3C862600F51C8D /* Locksmith.framework */; };
+		0D90442A1C3C862600F51C8D /* Locksmith.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0D9044281C3C862600F51C8D /* Locksmith.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -36,6 +43,7 @@
 				0D137F9B1C39F66A0006BB8E /* OtsimoSDK.framework in Embed Frameworks */,
 				0D137F9D1C39F66A0006BB8E /* Protobuf.framework in Embed Frameworks */,
 				0D137FA11C39F66A0006BB8E /* gRPC.framework in Embed Frameworks */,
+				0D90442A1C3C862600F51C8D /* Locksmith.framework in Embed Frameworks */,
 				0D137FA31C39F66A0006BB8E /* BoringSSL.framework in Embed Frameworks */,
 				0D137F9F1C39F66A0006BB8E /* OtsimoApiGrpc.framework in Embed Frameworks */,
 			);
@@ -52,13 +60,19 @@
 		0D137F921C39F4BE0006BB8E /* OtsimoSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OtsimoSDK.framework; path = "../../../../Library/Developer/Xcode/DerivedData/OtsimoSDK-exietrbmafntdpfboftcudyweopo/Build/Products/Debug-iphoneos/OtsimoSDK.framework"; sourceTree = "<group>"; };
 		0D36E2841C15C8EF00B4B549 /* OtsimoSDK_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OtsimoSDK_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0D36E2871C15C8EF00B4B549 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		0D36E2891C15C8EF00B4B549 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		0D36E2891C15C8EF00B4B549 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		0D36E28C1C15C8EF00B4B549 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		0D36E28E1C15C8EF00B4B549 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0D36E2911C15C8EF00B4B549 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0D36E2931C15C8EF00B4B549 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0D9044061C3B339C00F51C8D /* ApiTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiTest.swift; sourceTree = "<group>"; };
 		0D90440A1C3B36CA00F51C8D /* TestHomeController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestHomeController.swift; sourceTree = "<group>"; };
+		0D90441A1C3BF85000F51C8D /* Root.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Root.swift; sourceTree = "<group>"; };
+		0D90441E1C3C014800F51C8D /* RegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		0D9044201C3C169B00F51C8D /* SwiftSpinner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftSpinner.swift; sourceTree = "<group>"; };
+		0D9044221C3C3DD600F51C8D /* ProfileInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileInfoViewController.swift; sourceTree = "<group>"; };
+		0D9044261C3C42B000F51C8D /* AddChildTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddChildTableViewController.swift; sourceTree = "<group>"; };
+		0D9044281C3C862600F51C8D /* Locksmith.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Locksmith.framework; path = ../Carthage/Build/iOS/Locksmith.framework; sourceTree = "<group>"; };
 		0DB65F1B1C38AAD700C5B1AD /* Bridigin-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridigin-Header.h"; sourceTree = "<group>"; };
 		0DE680CC1C16EDB100FA8CF6 /* OtsimoSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OtsimoSDK.framework; path = "../build/Debug-iphoneos/OtsimoSDK.framework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -71,6 +85,7 @@
 				0D137F9A1C39F66A0006BB8E /* OtsimoSDK.framework in Frameworks */,
 				0D137F9C1C39F66A0006BB8E /* Protobuf.framework in Frameworks */,
 				0D137FA01C39F66A0006BB8E /* gRPC.framework in Frameworks */,
+				0D9044291C3C862600F51C8D /* Locksmith.framework in Frameworks */,
 				0D137FA21C39F66A0006BB8E /* BoringSSL.framework in Frameworks */,
 				0D137F9E1C39F66A0006BB8E /* OtsimoApiGrpc.framework in Frameworks */,
 			);
@@ -100,22 +115,44 @@
 		0D36E2861C15C8EF00B4B549 /* account-example */ = {
 			isa = PBXGroup;
 			children = (
+				0D90441D1C3C012300F51C8D /* Utility */,
+				0D90441C1C3C011400F51C8D /* ViewControllers */,
 				0D36E2871C15C8EF00B4B549 /* AppDelegate.swift */,
-				0D36E2891C15C8EF00B4B549 /* ViewController.swift */,
 				0D36E28B1C15C8EF00B4B549 /* Main.storyboard */,
-				0D90440A1C3B36CA00F51C8D /* TestHomeController.swift */,
 				0D36E28E1C15C8EF00B4B549 /* Assets.xcassets */,
 				0D36E2901C15C8EF00B4B549 /* LaunchScreen.storyboard */,
 				0D36E2931C15C8EF00B4B549 /* Info.plist */,
 				0DB65F1B1C38AAD700C5B1AD /* Bridigin-Header.h */,
-				0D9044061C3B339C00F51C8D /* ApiTest.swift */,
 			);
 			path = "account-example";
+			sourceTree = "<group>";
+		};
+		0D90441C1C3C011400F51C8D /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				0D90440A1C3B36CA00F51C8D /* TestHomeController.swift */,
+				0D36E2891C15C8EF00B4B549 /* LoginViewController.swift */,
+				0D90441E1C3C014800F51C8D /* RegisterViewController.swift */,
+				0D9044221C3C3DD600F51C8D /* ProfileInfoViewController.swift */,
+				0D9044261C3C42B000F51C8D /* AddChildTableViewController.swift */,
+			);
+			name = ViewControllers;
+			sourceTree = "<group>";
+		};
+		0D90441D1C3C012300F51C8D /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				0D9044061C3B339C00F51C8D /* ApiTest.swift */,
+				0D90441A1C3BF85000F51C8D /* Root.swift */,
+				0D9044201C3C169B00F51C8D /* SwiftSpinner.swift */,
+			);
+			name = Utility;
 			sourceTree = "<group>";
 		};
 		C1E4904BBA118E6E10B7BDD5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0D9044281C3C862600F51C8D /* Locksmith.framework */,
 				0D137F921C39F4BE0006BB8E /* OtsimoSDK.framework */,
 				0D137F901C39F4B80006BB8E /* Protobuf.framework */,
 				0D137F8E1C39F4B60006BB8E /* OtsimoApiGrpc.framework */,
@@ -199,9 +236,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				0D90440B1C3B36CA00F51C8D /* TestHomeController.swift in Sources */,
-				0D36E28A1C15C8EF00B4B549 /* ViewController.swift in Sources */,
+				0D36E28A1C15C8EF00B4B549 /* LoginViewController.swift in Sources */,
 				0D9044071C3B339C00F51C8D /* ApiTest.swift in Sources */,
+				0D9044211C3C169B00F51C8D /* SwiftSpinner.swift in Sources */,
+				0D90441F1C3C014800F51C8D /* RegisterViewController.swift in Sources */,
 				0D36E2881C15C8EF00B4B549 /* AppDelegate.swift in Sources */,
+				0D9044231C3C3DD600F51C8D /* ProfileInfoViewController.swift in Sources */,
+				0D9044271C3C42B000F51C8D /* AddChildTableViewController.swift in Sources */,
+				0D90441B1C3BF85000F51C8D /* Root.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

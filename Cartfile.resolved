@@ -1,1 +1,2 @@
-github "otsimo/otsimo-ios-grpc" "0.2.0"
+github "matthewpalmer/Locksmith" "2.0.3"
+github "otsimo/otsimo-ios-grpc" "0.3.1"
