@@ -22,6 +22,8 @@
 		0D36E28D1C15C8EF00B4B549 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0D36E28B1C15C8EF00B4B549 /* Main.storyboard */; };
 		0D36E28F1C15C8EF00B4B549 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0D36E28E1C15C8EF00B4B549 /* Assets.xcassets */; };
 		0D36E2921C15C8EF00B4B549 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0D36E2901C15C8EF00B4B549 /* LaunchScreen.storyboard */; };
+		0D9044071C3B339C00F51C8D /* ApiTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9044061C3B339C00F51C8D /* ApiTest.swift */; };
+		0D90440B1C3B36CA00F51C8D /* TestHomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D90440A1C3B36CA00F51C8D /* TestHomeController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -55,6 +57,8 @@
 		0D36E28E1C15C8EF00B4B549 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0D36E2911C15C8EF00B4B549 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0D36E2931C15C8EF00B4B549 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0D9044061C3B339C00F51C8D /* ApiTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiTest.swift; sourceTree = "<group>"; };
+		0D90440A1C3B36CA00F51C8D /* TestHomeController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestHomeController.swift; sourceTree = "<group>"; };
 		0DB65F1B1C38AAD700C5B1AD /* Bridigin-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridigin-Header.h"; sourceTree = "<group>"; };
 		0DE680CC1C16EDB100FA8CF6 /* OtsimoSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OtsimoSDK.framework; path = "../build/Debug-iphoneos/OtsimoSDK.framework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -99,10 +103,12 @@
 				0D36E2871C15C8EF00B4B549 /* AppDelegate.swift */,
 				0D36E2891C15C8EF00B4B549 /* ViewController.swift */,
 				0D36E28B1C15C8EF00B4B549 /* Main.storyboard */,
+				0D90440A1C3B36CA00F51C8D /* TestHomeController.swift */,
 				0D36E28E1C15C8EF00B4B549 /* Assets.xcassets */,
 				0D36E2901C15C8EF00B4B549 /* LaunchScreen.storyboard */,
 				0D36E2931C15C8EF00B4B549 /* Info.plist */,
 				0DB65F1B1C38AAD700C5B1AD /* Bridigin-Header.h */,
+				0D9044061C3B339C00F51C8D /* ApiTest.swift */,
 			);
 			path = "account-example";
 			sourceTree = "<group>";
@@ -192,7 +198,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0D90440B1C3B36CA00F51C8D /* TestHomeController.swift in Sources */,
 				0D36E28A1C15C8EF00B4B549 /* ViewController.swift in Sources */,
+				0D9044071C3B339C00F51C8D /* ApiTest.swift in Sources */,
 				0D36E2881C15C8EF00B4B549 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

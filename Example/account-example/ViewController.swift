@@ -27,26 +27,30 @@ class ViewController: UIViewController {
         print(emailText.text!, passwordText.text!)
         otsimo.login(emailText.text!, password: passwordText.text!) {repo in
             print("login finished")
-            switch (repo) {
-            case .Success:
-                print("successfully logged in")
-                self.footerText.text = "ID: \(self.otsimo.session!.profileID)"
-            case .Error(let error):
-                print("login error: \(error)")
-                self.footerText.text = "ERROR: \(error)"
-            }
+            dispatch_async(dispatch_get_main_queue(), {
+                    switch (repo) {
+                    case .Success:
+                        print("successfully logged in")
+                        self.footerText.text = "ID: \(self.otsimo.session!.profileID)"
+                    case .Error(let error):
+                        print("login error: \(error)")
+                        self.footerText.text = "ERROR: \(error)"
+                    }
+                })
         }
     }
     
     @IBAction func getProfileTouch(sender: UIButton) {
         otsimo.getProfile() {profile, error in
-            switch (error) {
-            case OtsimoError.None:
-                self.footerText.text = "Profile: \(profile)"
-                print("successfully get profile \(profile)")
-            default:
-                self.footerText.text = "ERROR: \(error)"
-            }
+            dispatch_async(dispatch_get_main_queue(), {
+                    switch (error) {
+                    case OtsimoError.None:
+                        self.footerText.text = "Profile: \(profile)"
+                        print("successfully get profile \(profile)")
+                    default:
+                        self.footerText.text = "ERROR: \(error)"
+                    }
+                })
         }
     }
 }
