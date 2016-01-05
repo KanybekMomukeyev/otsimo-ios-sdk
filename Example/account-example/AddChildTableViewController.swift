@@ -88,10 +88,13 @@ class AddChildTableViewController: UITableViewController {
         
         SwiftSpinner.show("adding...", animated: true)
         
-        otsimo.addChild(child) {err in
+        otsimo.addChild(firstNameText.text!, lastName: lastNameText.text!,
+            gender: gender, birthDay: birthDate!, language: language) {err in
+            
             delay(seconds: 1.5, completion: {
                     SwiftSpinner.hide()
                 })
+            
             dispatch_async(dispatch_get_main_queue(), {
                     switch (err) {
                     case .None:
