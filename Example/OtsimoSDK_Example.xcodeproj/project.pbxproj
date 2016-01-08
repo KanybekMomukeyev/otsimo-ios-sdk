@@ -31,6 +31,10 @@
 		0D9044271C3C42B000F51C8D /* AddChildTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9044261C3C42B000F51C8D /* AddChildTableViewController.swift */; };
 		0D9044291C3C862600F51C8D /* Locksmith.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D9044281C3C862600F51C8D /* Locksmith.framework */; };
 		0D90442A1C3C862600F51C8D /* Locksmith.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0D9044281C3C862600F51C8D /* Locksmith.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		0D90442E1C3E184700F51C8D /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D90442D1C3E184700F51C8D /* ChangePasswordViewController.swift */; };
+		0D9044301C3E185D00F51C8D /* UpdateProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D90442F1C3E185D00F51C8D /* UpdateProfileViewController.swift */; };
+		0D9044321C3E188800F51C8D /* ChildListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9044311C3E188800F51C8D /* ChildListViewController.swift */; };
+		0D9044341C3E18A500F51C8D /* ChildInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9044331C3E18A500F51C8D /* ChildInfoViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -73,6 +77,10 @@
 		0D9044221C3C3DD600F51C8D /* ProfileInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileInfoViewController.swift; sourceTree = "<group>"; };
 		0D9044261C3C42B000F51C8D /* AddChildTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddChildTableViewController.swift; sourceTree = "<group>"; };
 		0D9044281C3C862600F51C8D /* Locksmith.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Locksmith.framework; path = ../Carthage/Build/iOS/Locksmith.framework; sourceTree = "<group>"; };
+		0D90442D1C3E184700F51C8D /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
+		0D90442F1C3E185D00F51C8D /* UpdateProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateProfileViewController.swift; sourceTree = "<group>"; };
+		0D9044311C3E188800F51C8D /* ChildListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChildListViewController.swift; sourceTree = "<group>"; };
+		0D9044331C3E18A500F51C8D /* ChildInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChildInfoViewController.swift; sourceTree = "<group>"; };
 		0DB65F1B1C38AAD700C5B1AD /* Bridigin-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridigin-Header.h"; sourceTree = "<group>"; };
 		0DE680CC1C16EDB100FA8CF6 /* OtsimoSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OtsimoSDK.framework; path = "../build/Debug-iphoneos/OtsimoSDK.framework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -135,6 +143,10 @@
 				0D90441E1C3C014800F51C8D /* RegisterViewController.swift */,
 				0D9044221C3C3DD600F51C8D /* ProfileInfoViewController.swift */,
 				0D9044261C3C42B000F51C8D /* AddChildTableViewController.swift */,
+				0D90442D1C3E184700F51C8D /* ChangePasswordViewController.swift */,
+				0D90442F1C3E185D00F51C8D /* UpdateProfileViewController.swift */,
+				0D9044311C3E188800F51C8D /* ChildListViewController.swift */,
+				0D9044331C3E18A500F51C8D /* ChildInfoViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -238,12 +250,16 @@
 				0D90440B1C3B36CA00F51C8D /* TestHomeController.swift in Sources */,
 				0D36E28A1C15C8EF00B4B549 /* LoginViewController.swift in Sources */,
 				0D9044071C3B339C00F51C8D /* ApiTest.swift in Sources */,
+				0D9044301C3E185D00F51C8D /* UpdateProfileViewController.swift in Sources */,
+				0D90442E1C3E184700F51C8D /* ChangePasswordViewController.swift in Sources */,
 				0D9044211C3C169B00F51C8D /* SwiftSpinner.swift in Sources */,
+				0D9044341C3E18A500F51C8D /* ChildInfoViewController.swift in Sources */,
 				0D90441F1C3C014800F51C8D /* RegisterViewController.swift in Sources */,
 				0D36E2881C15C8EF00B4B549 /* AppDelegate.swift in Sources */,
 				0D9044231C3C3DD600F51C8D /* ProfileInfoViewController.swift in Sources */,
 				0D9044271C3C42B000F51C8D /* AddChildTableViewController.swift in Sources */,
 				0D90441B1C3BF85000F51C8D /* Root.swift in Sources */,
+				0D9044321C3E188800F51C8D /* ChildListViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

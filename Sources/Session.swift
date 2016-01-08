@@ -31,6 +31,17 @@ public class Session {
         }
     }
     
+    public var isTokenExpired: Bool {
+        get {
+            let exp = NSDate(timeIntervalSince1970: Double(expiresAt))
+            if exp.compare(NSDate()) == NSComparisonResult.OrderedDescending
+            {
+                return false
+            }
+            return true
+        }
+    }
+    
     internal init(config: ClientConfig) {
         self.config = config
     }
@@ -59,6 +70,7 @@ public class Session {
             return res
         }
     }
+    
     internal func loadPayload(payload: Payload) -> PayloadLoadResult {
         if let sub = payload["sub"] as? String {
             profileID = sub

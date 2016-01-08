@@ -32,8 +32,8 @@ internal class Connection {
                 session.profile = response // cache return value
                 handler(response, OtsimoError.None)
             } else {
-                handler(nil, OtsimoError.ServiceError(message: "\(error)"))
                 NSLog("getProfile: Finished with error: \(error!)")
+                handler(nil, OtsimoError.ServiceError(message: "\(error)"))
             }
         }
         if session.isAuthenticated {
@@ -56,8 +56,8 @@ internal class Connection {
                     handler(OtsimoError.ServiceError(message: "code:\(response.type),message:\(response.message!)"))
                 }
             } else {
-                handler(OtsimoError.ServiceError(message: "\(error)"))
                 NSLog("addChild, Finished with error: \(error!)")
+                handler(OtsimoError.ServiceError(message: "\(error)"))
             }
         }
         if session.isAuthenticated {
@@ -68,6 +68,106 @@ internal class Connection {
         }
     }
     
+    func getChild(session: Session, childId: String, handler: (res: OTSChild?, err: OtsimoError) -> Void) {
+        let req = OTSGetChildRequest()
+        req.childId = childId
+        
+        var RPC : ProtoRPC!
+        
+        RPC = apiService.RPCToGetChildWithRequest(req) {response, error in
+            if let response = response {
+                handler(res: response, err: .None)
+            } else {
+                NSLog("getChild, Finished with error: \(error!)")
+                handler(res: nil, err: OtsimoError.ServiceError(message: "\(error)"))
+            }
+        }
+        
+        if session.isAuthenticated {
+            RPC.requestHeaders["Authorization"] = "\(session.tokenType) \(session.accessToken)"
+            RPC.start()
+        } else {
+            handler(res: nil, err: OtsimoError.NotLoggedIn(message: "is not authenticated"))
+        }
+    }
+    
+    func getChildren(session: Session, handler: (res: [OTSChild], err: OtsimoError) -> Void) {
+        let req = OTSGetChildrenFromProfileRequest()
+        req.profileId = session.profileID
+        
+        var RPC : ProtoRPC!
+        
+        RPC = apiService.RPCToGetChildrenWithRequest(req) {response, error in
+            if let response = response {
+                var r: [OTSChild] = []
+                for i in 0..<Int(response.childrenArray_Count) {
+                    let child = response.childrenArray[i] as? OTSChild
+                    if let child = child {
+                        r.append(child)
+                    }
+                }
+                handler(res: r, err: .None)
+            } else {
+                handler(res: [], err: OtsimoError.ServiceError(message: "\(error)"))
+                NSLog("getChildren, Finished with error: \(error!)")
+            }
+        }
+        
+        if session.isAuthenticated {
+            RPC.requestHeaders["Authorization"] = "\(session.tokenType) \(session.accessToken)"
+            RPC.start()
+        } else {
+            handler(res: [], err: OtsimoError.NotLoggedIn(message: "is not authenticated"))
+        }
+    }
+    
+    func updateGameEntry(session: Session, req: OTSGameEntryRequest, handler: (OtsimoError) -> Void) {
+        var RPC : ProtoRPC!
+        RPC = apiService.RPCToUpdateGameEntryWithRequest(req) {response, error in
+            if let response = response {
+                if response.type == 0 {
+                    handler(OtsimoError.None)
+                } else {
+                    handler(OtsimoError.ServiceError(message: "code:\(response.type),message:\(response.message!)"))
+                }
+            } else {
+                NSLog("updateGameEntry, Finished with error: \(error!)")
+                handler(OtsimoError.ServiceError(message: "\(error)"))
+            }
+        }
+        
+        if session.isAuthenticated {
+            RPC.requestHeaders["Authorization"] = "\(session.tokenType) \(session.accessToken)"
+            RPC.start()
+        } else {
+            handler(OtsimoError.NotLoggedIn(message: "is not authenticated"))
+        }
+    }
+    
+    func updateProfile(session: Session, profile: OTSProfile, handler: (OtsimoError) -> Void) {
+        profile.id_p = session.profileID
+        
+        var RPC : ProtoRPC!
+        RPC = apiService.RPCToUpdateProfileWithRequest(profile) {response, error in
+            if let response = response {
+                if response.type == 0 {
+                    handler(OtsimoError.None)
+                } else {
+                    handler(OtsimoError.ServiceError(message: "code:\(response.type),message:\(response.message!)"))
+                }
+            } else {
+                NSLog("updateProfile, Finished with error: \(error!)")
+                handler(OtsimoError.ServiceError(message: "\(error)"))
+            }
+        }
+        
+        if session.isAuthenticated {
+            RPC.requestHeaders["Authorization"] = "\(session.tokenType) \(session.accessToken)"
+            RPC.start()
+        } else {
+            handler(OtsimoError.NotLoggedIn(message: "is not authenticated"))
+        }
+    }
     
     func login(email: String, plainPassword: String, handler: (res: TokenResult, session: Session?) -> Void) {
         let grant_type = "password"

@@ -33,7 +33,13 @@ public class Otsimo {
         connection = Connection(config: config)
         recoverOldSessionIfExist()
     }
-    
+    public func handleOpenURL(url: NSURL) {
+        print("handleURL: ", url)
+    }
+    private func recoverOldSessionIfExist() {
+        
+    }
+    // Account
     public func login(email: String, password: String, handler: (res: TokenResult) -> Void) {
         connection.login(email, plainPassword: password) {res, ses in
             switch (res) {
@@ -58,17 +64,25 @@ public class Otsimo {
         }
     }
     
-    
     public func logout() {
         if let ses = session {
             ses.logout()
         }
     }
     
-    public static func handleOpenURL(url: NSURL) {
-        print("handleURL: ", url)
+    public func updateProfile(profile: OTSProfile, handler: (error: OtsimoError) -> Void) {
+        if let ses = session {
+            connection.updateProfile(ses, profile: profile, handler: handler)
+        } else {
+            handler(error: .NotLoggedIn(message: "not logged in, session is nil"))
+        }
     }
     
+    public func updatePassword(old: String, newPassword: String, handler: (error: OtsimoError) -> Void) {
+        handler(error: OtsimoError.ServiceError(message: "not implemented"))
+    }
+    
+    // Profile
     public func getProfile(handler: (OTSProfile?, OtsimoError) -> Void) {
         if let ses = session {
             if ses.profile != nil {
@@ -82,6 +96,7 @@ public class Otsimo {
         }
     }
     
+    // Child
     public func addChild(firstName: String, lastName: String, gender: OTSGender, birthDay: NSDate, language: String, handler: (res: OtsimoError) -> Void) {
         let child: OTSChild = OTSChild()
         child.fistName = firstName
@@ -97,7 +112,88 @@ public class Otsimo {
         }
     }
     
-    private func recoverOldSessionIfExist() {
-        
+    public func getChild(id: String, handler: (res: OTSChild?, err: OtsimoError) -> Void) {
+        if let ses = session {
+            connection.getChild(ses, childId: id, handler: handler)
+        } else {
+            handler(res: nil, err: .NotLoggedIn(message: "not logged in, session is nil"))
+        }
+    }
+    
+    public func getChildren(handler: (res: [OTSChild], err: OtsimoError) -> Void) {
+        if let ses = session {
+            connection.getChildren(ses, handler: handler)
+        } else {
+            handler(res: [], err: .NotLoggedIn(message: "not logged in, session is nil"))
+        }
+    }
+    
+    public func addGameToChild(gameID: String, childID: String, index: Int32, settings: NSData, handler: (error: OtsimoError) -> Void) {
+        let req = OTSGameEntryRequest()
+        req.gameId = gameID
+        req.childId = childID
+        req.index = index
+        req.settings = settings
+        req.type = OTSGameEntryRequest_RequestType.Add
+        if let ses = session {
+            connection.updateGameEntry(ses, req: req, handler: handler)
+        } else {
+            handler(error: .NotLoggedIn(message: "not logged in, session is nil"))
+        }
+    }
+    
+    public func updateActivationGame(gameID: String, childID: String, activate: Bool, handler: (error: OtsimoError) -> Void) {
+        let req = OTSGameEntryRequest()
+        req.gameId = gameID
+        req.childId = childID
+        if activate {
+            req.type = OTSGameEntryRequest_RequestType.Activate
+        } else {
+            req.type = OTSGameEntryRequest_RequestType.Deactivate
+        }
+        if let ses = session {
+            connection.updateGameEntry(ses, req: req, handler: handler)
+        } else {
+            handler(error: .NotLoggedIn(message: "not logged in, session is nil"))
+        }
+    }
+    
+    public func updateSettings(gameID: String, childID: String, settings: NSData, handler: (error: OtsimoError) -> Void) {
+        let req = OTSGameEntryRequest()
+        req.gameId = gameID
+        req.childId = childID
+        req.settings = settings
+        req.type = OTSGameEntryRequest_RequestType.Settings
+        if let ses = session {
+            connection.updateGameEntry(ses, req: req, handler: handler)
+        } else {
+            handler(error: .NotLoggedIn(message: "not logged in, session is nil"))
+        }
+    }
+    
+    public func updateDashboardIndex(gameID: String, childID: String, index: Int32, handler: (error: OtsimoError) -> Void) {
+        let req = OTSGameEntryRequest()
+        req.gameId = gameID
+        req.childId = childID
+        req.index = index
+        req.type = OTSGameEntryRequest_RequestType.Index
+        if let ses = session {
+            connection.updateGameEntry(ses, req: req, handler: handler)
+        } else {
+            handler(error: .NotLoggedIn(message: "not logged in, session is nil"))
+        }
+    }
+    // Game
+    public func getGame(id: String, handler: (res: OTSGameRelease?, err: OtsimoError) -> Void) {
+        handler(res: nil, err: OtsimoError.ServiceError(message: "not implemented"))
+    }
+    
+    public func getGameFromName(name: String, handler: (res: OTSGameRelease?, err: OtsimoError) -> Void) {
+        handler(res: nil, err: OtsimoError.ServiceError(message: "not implemented"))
+    }
+    
+    // Search
+    public func searchGame(query: String, handler: (res: OTSSearchResponse?, err: OtsimoError) -> Void) {
+        handler(res: nil, err: OtsimoError.ServiceError(message: "not implemented"))
     }
 }

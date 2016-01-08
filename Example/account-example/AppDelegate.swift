@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         sourceApplication: String?,
         annotation: AnyObject) -> Bool {
         if (url.scheme == "comotsimosdk_example") {
-            Otsimo.handleOpenURL(url)
+            otsimo.handleOpenURL(url)
         }
         return true
     }
