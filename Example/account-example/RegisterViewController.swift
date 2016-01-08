@@ -8,6 +8,7 @@
 
 import UIKit
 import OtsimoSDK
+import OtsimoApiGrpc
 
 enum RegisterFormValidation {
     case Success
@@ -28,6 +29,7 @@ class RegisterViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         // Do any additional setup after loading the view, typically from a nib.
     }
     

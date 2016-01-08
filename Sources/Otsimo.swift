@@ -78,8 +78,20 @@ public class Otsimo {
         }
     }
     
-    public func updatePassword(old: String, newPassword: String, handler: (error: OtsimoError) -> Void) {
-        handler(error: OtsimoError.ServiceError(message: "not implemented"))
+    public func changeEmail(newEmail: String, handler: (OtsimoError) -> Void) {
+        if let ses = session {
+            connection.changeEmail(ses, old: ses.email, new: newEmail, handler: handler)
+        } else {
+            handler(.NotLoggedIn(message: "not logged in, session is nil"))
+        }
+    }
+    
+    public func changePassword(old: String, newPassword: String, handler: (OtsimoError) -> Void) {
+        if let ses = session {
+            connection.changePassword(ses, old: old, new: newPassword, handler: handler)
+        } else {
+            handler(.NotLoggedIn(message: "not logged in, session is nil"))
+        }
     }
     
     // Profile

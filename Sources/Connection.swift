@@ -183,6 +183,18 @@ internal class Connection {
         httpRequestWithTokenResult(urlPath, postString: postString, handler: handler)
     }
     
+    func changePassword(session: Session, old: String, new: String, handler: (OtsimoError) -> Void) {
+        let urlPath: String = "\(config.accountsServiceUrl)/changepassword"
+        let postString = "user_id:\(session.profileID)&old_password=\(old)&new_password=\(new)"
+        httpPostRequestWithToken(urlPath, postString: postString, authorization: "\(session.tokenType) \(session.accessToken)", handler: handler)
+    }
+    
+    func changeEmail(session: Session, old: String, new: String, handler: (OtsimoError) -> Void) {
+        let urlPath: String = "\(config.accountsServiceUrl)/changeemail"
+        let postString = "old_email=\(old)&new_email=\(new)"
+        httpPostRequestWithToken(urlPath, postString: postString, authorization: "\(session.tokenType) \(session.accessToken)", handler: handler)
+    }
+    
     func httpRequestWithTokenResult(urlPath: String, postString: String, handler: (res: TokenResult, session: Session?) -> Void) {
         let request = NSMutableURLRequest(URL: NSURL(string: urlPath)!)
         request.HTTPMethod = "POST"
@@ -248,6 +260,48 @@ internal class Connection {
             }
             catch let JSONError as NSError {
                 handler(res: .Error(error: .InvalidResponse(message: "invalid response: \(JSONError)")), session: nil)
+            }
+        }
+        task.resume()
+    }
+    
+    func httpPostRequestWithToken(urlPath: String, postString: String, authorization: String, handler: (error: OtsimoError) -> Void) {
+        let request = NSMutableURLRequest(URL: NSURL(string: urlPath)!)
+        request.HTTPMethod = "POST"
+        request.setValue(authorization, forHTTPHeaderField: "Authorization")
+        request.setValue("application/x-www-form-urlencoded; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        request.HTTPBody = postString.dataUsingEncoding(NSUTF8StringEncoding)
+        request.timeoutInterval = 20
+        let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {data, response, error in
+            guard error == nil && data != nil else {// check for fundamental networking error
+                handler(error: .NetworkError(message: "\(error)"))
+                return
+            }
+            var isOK = true
+            if let httpStatus = response as? NSHTTPURLResponse where httpStatus.statusCode != 200 {// check for http errors
+                isOK = false
+            }
+            
+            do {
+                let JSON = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions(rawValue: 0))
+                guard let JSONDictionary : NSDictionary = JSON as? NSDictionary else {
+                    handler(error: .InvalidResponse(message: "invalid response:not a dictionary"))
+                    return
+                }
+                if isOK && JSONDictionary["error"] == nil {
+                    // todo
+                    handler(error: OtsimoError.None)
+                } else {
+                    let e = JSONDictionary["error"]
+                    if e != nil {
+                        handler(error: .InvalidResponse(message: "request failed: error= \(e)"))
+                    } else {
+                        handler(error: .InvalidResponse(message: "request failed: \(data)"))
+                    }
+                }
+            }
+            catch let JSONError as NSError {
+                handler(error: .InvalidResponse(message: "invalid response: \(JSONError)"))
             }
         }
         task.resume()
