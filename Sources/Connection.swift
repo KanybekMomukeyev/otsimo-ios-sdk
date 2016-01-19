@@ -30,10 +30,10 @@ internal class Connection {
         RPC = apiService.RPCToGetProfileWithRequest(request) {response, error in
             if let response = response {
                 session.profile = response // cache return value
-                handler(response, OtsimoError.None)
+                onMainThread {handler(response, OtsimoError.None)}
             } else {
-                NSLog("getProfile: Finished with error: \(error!)")
-                handler(nil, OtsimoError.ServiceError(message: "\(error)"))
+                print("getProfile: Finished with error: \(error!)")
+                onMainThread {handler(nil, OtsimoError.ServiceError(message: "\(error)"))}
             }
         }
         if session.isAuthenticated {
@@ -51,13 +51,13 @@ internal class Connection {
         RPC = apiService.RPCToAddChildWithRequest(child) {response, error in
             if let response = response {
                 if response.type == 0 {
-                    handler(OtsimoError.None)
+                    onMainThread {handler(OtsimoError.None)}
                 } else {
-                    handler(OtsimoError.ServiceError(message: "code:\(response.type),message:\(response.message!)"))
+                    onMainThread {handler(OtsimoError.ServiceError(message: "code:\(response.type),message:\(response.message!)"))}
                 }
             } else {
-                NSLog("addChild, Finished with error: \(error!)")
-                handler(OtsimoError.ServiceError(message: "\(error)"))
+                print("addChild, Finished with error: \(error!)")
+                onMainThread {handler(OtsimoError.ServiceError(message: "\(error)"))}
             }
         }
         if session.isAuthenticated {
@@ -76,10 +76,10 @@ internal class Connection {
         
         RPC = apiService.RPCToGetChildWithRequest(req) {response, error in
             if let response = response {
-                handler(res: response, err: .None)
+                onMainThread {handler(res: response, err: .None)}
             } else {
-                NSLog("getChild, Finished with error: \(error!)")
-                handler(res: nil, err: OtsimoError.ServiceError(message: "\(error)"))
+                print("getChild, Finished with error: \(error!)")
+                onMainThread {handler(res: nil, err: OtsimoError.ServiceError(message: "\(error)"))}
             }
         }
         
@@ -106,10 +106,10 @@ internal class Connection {
                         r.append(child)
                     }
                 }
-                handler(res: r, err: .None)
+                onMainThread {handler(res: r, err: .None)}
             } else {
-                handler(res: [], err: OtsimoError.ServiceError(message: "\(error)"))
-                NSLog("getChildren, Finished with error: \(error!)")
+                onMainThread {handler(res: [], err: OtsimoError.ServiceError(message: "\(error)"))}
+                print("getChildren, Finished with error: \(error!)")
             }
         }
         
@@ -126,13 +126,13 @@ internal class Connection {
         RPC = apiService.RPCToUpdateGameEntryWithRequest(req) {response, error in
             if let response = response {
                 if response.type == 0 {
-                    handler(OtsimoError.None)
+                    onMainThread {handler(OtsimoError.None)}
                 } else {
-                    handler(OtsimoError.ServiceError(message: "code:\(response.type),message:\(response.message!)"))
+                    onMainThread {handler(OtsimoError.ServiceError(message: "code:\(response.type),message:\(response.message!)"))}
                 }
             } else {
-                NSLog("updateGameEntry, Finished with error: \(error!)")
-                handler(OtsimoError.ServiceError(message: "\(error)"))
+                print("updateGameEntry, Finished with error: \(error!)")
+                onMainThread {handler(OtsimoError.ServiceError(message: "\(error)"))}
             }
         }
         
@@ -151,13 +151,13 @@ internal class Connection {
         RPC = apiService.RPCToUpdateProfileWithRequest(profile) {response, error in
             if let response = response {
                 if response.type == 0 {
-                    handler(OtsimoError.None)
+                    onMainThread {handler(OtsimoError.None)}
                 } else {
-                    handler(OtsimoError.ServiceError(message: "code:\(response.type),message:\(response.message!)"))
+                    onMainThread {handler(OtsimoError.ServiceError(message: "code:\(response.type),message:\(response.message!)"))}
                 }
             } else {
                 NSLog("updateProfile, Finished with error: \(error!)")
-                handler(OtsimoError.ServiceError(message: "\(error)"))
+                onMainThread {handler(OtsimoError.ServiceError(message: "\(error)"))}
             }
         }
         
@@ -184,16 +184,18 @@ internal class Connection {
     }
     
     func changePassword(session: Session, old: String, new: String, handler: (OtsimoError) -> Void) {
-        let urlPath: String = "\(config.accountsServiceUrl)/changepassword"
-        let postString = "user_id:\(session.profileID)&old_password=\(old)&new_password=\(new)"
+        let urlPath: String = "\(config.accountsServiceUrl)/update/password"
+        let postString = "user_id=\(session.profileID)&old_password=\(old)&new_password=\(new)"
         httpPostRequestWithToken(urlPath, postString: postString, authorization: "\(session.tokenType) \(session.accessToken)", handler: handler)
     }
     
     func changeEmail(session: Session, old: String, new: String, handler: (OtsimoError) -> Void) {
-        let urlPath: String = "\(config.accountsServiceUrl)/changeemail"
+        let urlPath: String = "\(config.accountsServiceUrl)/update/email"
         let postString = "old_email=\(old)&new_email=\(new)"
         httpPostRequestWithToken(urlPath, postString: postString, authorization: "\(session.tokenType) \(session.accessToken)", handler: handler)
     }
+    
+    
     
     func httpRequestWithTokenResult(urlPath: String, postString: String, handler: (res: TokenResult, session: Session?) -> Void) {
         let request = NSMutableURLRequest(URL: NSURL(string: urlPath)!)
@@ -201,9 +203,11 @@ internal class Connection {
         request.setValue("application/x-www-form-urlencoded; charset=utf-8", forHTTPHeaderField: "Content-Type")
         request.HTTPBody = postString.dataUsingEncoding(NSUTF8StringEncoding)
         request.timeoutInterval = 20
+        request.cachePolicy = .ReloadIgnoringLocalAndRemoteCacheData
+        
         let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {data, response, error in
             guard error == nil && data != nil else {// check for fundamental networking error
-                handler(res: .Error(error: .NetworkError(message: "\(error)")), session: nil)
+                onMainThread {handler(res: .Error(error: .NetworkError(message: "\(error)")), session: nil)}
                 return
             }
             var isOK = true
@@ -214,7 +218,7 @@ internal class Connection {
             do {
                 let JSON = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions(rawValue: 0))
                 guard let JSONDictionary : NSDictionary = JSON as? NSDictionary else {
-                    handler(res: .Error(error: .InvalidResponse(message: "invalid response:not a dictionary")), session: nil)
+                    onMainThread {handler(res: .Error(error: .InvalidResponse(message: "invalid response:not a dictionary")), session: nil)}
                     return
                 }
                 if isOK && JSONDictionary["error"] == nil {
@@ -226,14 +230,14 @@ internal class Connection {
                     if let at = accessToken {
                         s.accessToken = at
                     } else {
-                        handler(res: .Error(error: .InvalidResponse(message: "invalid response: access_token is missing")), session: nil)
+                        onMainThread {handler(res: .Error(error: .InvalidResponse(message: "invalid response: access_token is missing")), session: nil)}
                         return
                     }
                     
                     if let rt = refreshToken {
                         s.refreshToken = rt
                     } else {
-                        handler(res: .Error(error: .InvalidResponse(message: "invalid response: refresh_token is missing")), session: nil)
+                        onMainThread {handler(res: .Error(error: .InvalidResponse(message: "invalid response: refresh_token is missing")), session: nil)}
                         return
                     }
                     
@@ -245,21 +249,21 @@ internal class Connection {
                     let lr = s.loadToken()
                     switch (lr) {
                     case .Success(_, _, _, _):
-                        handler(res: .Success, session: s)
+                        onMainThread {handler(res: .Success, session: s)}
                     case .Failure(let it):
-                        handler(res: .Error(error: OtsimoError.InvalidTokenError(error: it)), session: nil)
+                        onMainThread {handler(res: .Error(error: OtsimoError.InvalidTokenError(error: it)), session: nil)}
                     }
                 } else {
                     let e = JSONDictionary["error"]
                     if e != nil {
-                        handler(res: .Error(error: .InvalidResponse(message: "request failed: error= \(e)")), session: nil)
+                        onMainThread {handler(res: .Error(error: .InvalidResponse(message: "request failed: error= \(e)")), session: nil)}
                     } else {
-                        handler(res: .Error(error: .InvalidResponse(message: "request failed: \(data)")), session: nil)
+                        onMainThread {handler(res: .Error(error: .InvalidResponse(message: "request failed: \(data)")), session: nil)}
                     }
                 }
             }
             catch let JSONError as NSError {
-                handler(res: .Error(error: .InvalidResponse(message: "invalid response: \(JSONError)")), session: nil)
+                onMainThread {handler(res: .Error(error: .InvalidResponse(message: "invalid response: \(JSONError)")), session: nil)}
             }
         }
         task.resume()
@@ -272,9 +276,11 @@ internal class Connection {
         request.setValue("application/x-www-form-urlencoded; charset=utf-8", forHTTPHeaderField: "Content-Type")
         request.HTTPBody = postString.dataUsingEncoding(NSUTF8StringEncoding)
         request.timeoutInterval = 20
+        request.cachePolicy = .ReloadIgnoringLocalAndRemoteCacheData
+        print("sending data to", urlPath, " data:", postString)
         let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {data, response, error in
             guard error == nil && data != nil else {// check for fundamental networking error
-                handler(error: .NetworkError(message: "\(error)"))
+                onMainThread {handler(error: .NetworkError(message: "\(error)"))}
                 return
             }
             var isOK = true
@@ -285,23 +291,23 @@ internal class Connection {
             do {
                 let JSON = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions(rawValue: 0))
                 guard let JSONDictionary : NSDictionary = JSON as? NSDictionary else {
-                    handler(error: .InvalidResponse(message: "invalid response:not a dictionary"))
+                    onMainThread {handler(error: .InvalidResponse(message: "invalid response:not a dictionary"))}
                     return
                 }
                 if isOK && JSONDictionary["error"] == nil {
                     // todo
-                    handler(error: OtsimoError.None)
+                    onMainThread {handler(error: OtsimoError.None)}
                 } else {
                     let e = JSONDictionary["error"]
                     if e != nil {
-                        handler(error: .InvalidResponse(message: "request failed: error= \(e)"))
+                        onMainThread {handler(error: .InvalidResponse(message: "request failed: error= \(e)"))}
                     } else {
-                        handler(error: .InvalidResponse(message: "request failed: \(data)"))
+                        onMainThread {handler(error: .InvalidResponse(message: "request failed: \(data)"))}
                     }
                 }
             }
             catch let JSONError as NSError {
-                handler(error: .InvalidResponse(message: "invalid response: \(JSONError)"))
+                onMainThread {handler(error: .InvalidResponse(message: "invalid response: \(JSONError)"))}
             }
         }
         task.resume()

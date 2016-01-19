@@ -98,20 +98,17 @@ class RegisterViewController: UITableViewController {
                 lastName: lastNameText.text!,
                 language: language)) {repo in
             print("register finished")
-            delay(seconds: 2.0, completion: {
-                    SwiftSpinner.hide()
-                })
-            dispatch_async(dispatch_get_main_queue(), {
-                    switch (repo) {
-                    case .Success:
-                        SwiftSpinner.show("registered", animated: false)
-                        self.infoLabel.text = "registered \(otsimo.session?.profileID)"
-                        print("successfully registered")
-                    case .Error(let error):
-                        SwiftSpinner.show("failed to\nregister", animated: false)
-                        self.infoLabel.text = "failed \(error)"
-                        print("register error: \(error)")
-                    }})
+            delay(seconds: 1.0) {SwiftSpinner.hide()}
+            switch (repo) {
+            case .Success:
+                SwiftSpinner.show("registered", animated: false)
+                self.infoLabel.text = "registered \(otsimo.session?.profileID)"
+                print("successfully registered")
+            case .Error(let error):
+                SwiftSpinner.show("failed to\nregister", animated: false)
+                self.infoLabel.text = "failed \(error)"
+                print("register error: \(error)")
+            }
         }
     }
     

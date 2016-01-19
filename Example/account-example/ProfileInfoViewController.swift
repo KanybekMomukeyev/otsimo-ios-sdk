@@ -15,15 +15,14 @@ class ProfileInfoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         otsimo.getProfile() {profile, error in
-            dispatch_async(dispatch_get_main_queue(), {
-                    switch (error) {
-                    case OtsimoError.None:
-                        self.outputLabel.text = "Profile: \(profile!)"
-                        print("successfully get profile \(profile!)")
-                    default:
-                        self.outputLabel.text = "ERROR: \(error)"
-                    }
-                })
+            switch (error) {
+            case OtsimoError.None:
+                self.outputLabel.text = "Profile: \(profile!)"
+                print("successfully get profile \(profile!)")
+            default:
+                self.outputLabel.text = "ERROR: \(error)"
+            }
+            
         }
     }
 }

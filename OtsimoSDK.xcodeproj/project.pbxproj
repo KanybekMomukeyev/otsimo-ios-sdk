@@ -16,6 +16,7 @@
 		0D54BB901C158FAA006A9382 /* Otsimo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D54BB8F1C158FAA006A9382 /* Otsimo.swift */; };
 		0D8214A11C38755100DC246F /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D8214A01C38755100DC246F /* Session.swift */; };
 		0D9044021C3AD68B00F51C8D /* JWT.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9044011C3AD68B00F51C8D /* JWT.swift */; };
+		0DC2841E1C4EE8B30075FE63 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DC2841D1C4EE8B30075FE63 /* Utils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		0D54BB8F1C158FAA006A9382 /* Otsimo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Otsimo.swift; path = Sources/Otsimo.swift; sourceTree = "<group>"; };
 		0D8214A01C38755100DC246F /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Session.swift; path = Sources/Session.swift; sourceTree = "<group>"; };
 		0D9044011C3AD68B00F51C8D /* JWT.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JWT.swift; path = Sources/JWT.swift; sourceTree = "<group>"; };
+		0DC2841D1C4EE8B30075FE63 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Utils.swift; path = Sources/Utils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,6 +135,7 @@
 				0D3D0FF81C3AA3F00049A72F /* Connection.swift */,
 				0D3053731C3AAAB0000FE8B1 /* Errors.swift */,
 				0D9044011C3AD68B00F51C8D /* JWT.swift */,
+				0DC2841D1C4EE8B30075FE63 /* Utils.swift */,
 			);
 			name = Sources;
 			sourceTree = "<group>";
@@ -265,6 +268,7 @@
 				0D8214A11C38755100DC246F /* Session.swift in Sources */,
 				0D3D0FF91C3AA3F00049A72F /* Connection.swift in Sources */,
 				0D137FA91C3A7C280006BB8E /* ClientConfig.swift in Sources */,
+				0DC2841E1C4EE8B30075FE63 /* Utils.swift in Sources */,
 				0D9044021C3AD68B00F51C8D /* JWT.swift in Sources */,
 				0D3053741C3AAAB0000FE8B1 /* Errors.swift in Sources */,
 				0D54BB901C158FAA006A9382 /* Otsimo.swift in Sources */,

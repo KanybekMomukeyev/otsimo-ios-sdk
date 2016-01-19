@@ -18,15 +18,13 @@ class ChildInfoViewController: UIViewController {
         print("fetching '\(childIdWillFetch)'")
         
         otsimo.getChild(childIdWillFetch) {child, err in
-            dispatch_async(dispatch_get_main_queue(), {
-                    switch (err) {
-                    case .None:
-                        self.outputText!.text = "\(child!)"
-                        self.navigationItem.title = child?.id_p
-                    default:
-                        self.outputText!.text = "ERROR: \(err)"
-                    }
-                })
+            switch (err) {
+            case .None:
+                self.outputText!.text = "\(child!)"
+                self.navigationItem.title = child?.id_p
+            default:
+                self.outputText!.text = "ERROR: \(err)"
+            }
         }
     }
     

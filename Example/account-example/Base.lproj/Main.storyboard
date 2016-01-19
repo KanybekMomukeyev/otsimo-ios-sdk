@@ -1119,7 +1119,7 @@
         <!--Change Password-->
         <scene sceneID="T0u-G0-5ll">
             <objects>
-                <tableViewController id="GIO-8r-0MH" userLabel="Change Password" customClass="RegisterViewController" customModule="OtsimoSDK_Example" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="GIO-8r-0MH" userLabel="Change Password" customClass="ChangePasswordViewController" customModule="OtsimoSDK_Example" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="F6d-nM-zEX">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1222,7 +1222,7 @@
                                                     <rect key="frame" x="238.5" y="7" width="123" height="30"/>
                                                     <state key="normal" title="Change Password"/>
                                                     <connections>
-                                                        <action selector="registerTouched:" destination="GIO-8r-0MH" eventType="touchUpInside" id="xaO-XA-4qK"/>
+                                                        <action selector="changePasswordTouched:" destination="GIO-8r-0MH" eventType="touchUpInside" id="syZ-hj-Uhb"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -1264,9 +1264,10 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Change Password Test" id="JV1-LA-Phc"/>
                     <connections>
-                        <outlet property="infoLabel" destination="j4L-gH-iaQ" id="QaB-hS-ZXr"/>
-                        <outlet property="passwordReenterText" destination="wQf-i6-CXh" id="gKA-IT-jYe"/>
-                        <outlet property="passwordText" destination="aPJ-Sf-Se5" id="OcF-q4-hSL"/>
+                        <outlet property="infoLabel" destination="j4L-gH-iaQ" id="Ld5-Xz-TWh"/>
+                        <outlet property="newPasswordRetypeText" destination="wQf-i6-CXh" id="hzz-si-5Rp"/>
+                        <outlet property="newPasswordText" destination="aPJ-Sf-Se5" id="Crn-t1-MoX"/>
+                        <outlet property="oldPasswordText" destination="JdA-KW-s47" id="Bem-Oi-rrz"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="I7t-0n-YBt" userLabel="First Responder" sceneMemberID="firstResponder"/>

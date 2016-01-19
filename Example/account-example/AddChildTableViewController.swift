@@ -21,11 +21,8 @@ class AddChildTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         otsimo.getProfile {(profile, error) -> Void in
-            dispatch_async(dispatch_get_main_queue(), {
-                    self.lastNameText.text = profile?.lastName
-                })
+            self.lastNameText.text = profile?.lastName
         }
-        
     }
     
     func showError(message : String) {
@@ -90,23 +87,17 @@ class AddChildTableViewController: UITableViewController {
         
         otsimo.addChild(firstNameText.text!, lastName: lastNameText.text!,
             gender: gender, birthDay: birthDate!, language: language) {err in
-            
-            delay(seconds: 1.5, completion: {
-                    SwiftSpinner.hide()
-                })
-            
-            dispatch_async(dispatch_get_main_queue(), {
-                    switch (err) {
-                    case .None:
-                        SwiftSpinner.show("added", animated: false)
-                        self.infoLabel.text = "added \(err)"
-                        print(err)
-                    default:
-                        SwiftSpinner.show("failed to\nadd", animated: false)
-                        self.infoLabel.text = "failed \(err)"
-                        print(err)
-                    }
-                })
+            delay(seconds: 1.5) {SwiftSpinner.hide()}
+            switch (err) {
+            case .None:
+                SwiftSpinner.show("added", animated: false)
+                self.infoLabel.text = "added \(err)"
+                print(err)
+            default:
+                SwiftSpinner.show("failed to\nadd", animated: false)
+                self.infoLabel.text = "failed \(err)"
+                print(err)
+            }
         }
     }
 }

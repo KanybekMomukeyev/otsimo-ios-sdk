@@ -39,7 +39,8 @@ public class Otsimo {
     private func recoverOldSessionIfExist() {
         
     }
-    // Account
+    // Account API
+    // login with given email and password. handler wil call on main queue
     public func login(email: String, password: String, handler: (res: TokenResult) -> Void) {
         connection.login(email, plainPassword: password) {res, ses in
             switch (res) {

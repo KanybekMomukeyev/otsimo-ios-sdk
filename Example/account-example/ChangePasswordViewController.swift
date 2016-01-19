@@ -8,88 +8,76 @@
 
 import UIKit
 
-class ChangePasswordViewController: UITableViewController {
+enum ChangePasswordValidation {
+    case Success
+    case Mismatch
+    case Short
+    case InvalidOld
+    case SamePassword
+}
 
+class ChangePasswordViewController: UITableViewController {
+    
+    @IBOutlet weak var infoLabel: UILabel!
+    @IBOutlet weak var newPasswordRetypeText: UITextField!
+    @IBOutlet weak var newPasswordText: UITextField!
+    @IBOutlet weak var oldPasswordText: UITextField!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
-
+        
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    func validateNewPassword() -> ChangePasswordValidation {
+        if newPasswordText.text! != newPasswordRetypeText.text! {
+            return .Mismatch
+        }
+        if let count = newPasswordText.text?.characters.count {
+            if count < 6 {
+                return .Short
+            }
+        } else {
+            return .Short
+        }
+        if let count = oldPasswordText.text?.characters.count {
+            if count == 0 {
+                return .InvalidOld
+            }
+        } else {
+            return .InvalidOld
+        }
+        
+        if newPasswordText.text == oldPasswordText.text! {
+            return .SamePassword
+        }
+        return .Success
     }
-
-    // MARK: - Table view data source
-
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+    
+    @IBAction func changePasswordTouched(sender: UIButton) {
+        SwiftSpinner.show("changing...", animated: true)
+        let res = validateNewPassword()
+        switch (res) {
+        case .Success:
+            otsimo.changePassword(oldPasswordText.text!, newPassword: newPasswordText.text!) {resp in
+                switch (resp) {
+                case .None:
+                    print("change password sucess")
+                    self.infoLabel.text = "success"
+                    SwiftSpinner.show("success", animated: false)
+                default:
+                    print("change password failed: \(resp)")
+                    SwiftSpinner.show("failed\n\(resp)", animated: false)
+                }}
+            delay(seconds: 0.8) {SwiftSpinner.hide()}
+        default:
+            print("change password validation failed: \(res)")
+            SwiftSpinner.show("failed\n\(res)", animated: false)
+            delay(seconds: 0.8) {SwiftSpinner.hide()}
+        }
     }
-
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
-    }
-
-    /*
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath)
-
-        // Configure the cell...
-
-        return cell
-    }
-    */
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            // Delete the row from the data source
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        } else if editingStyle == .Insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

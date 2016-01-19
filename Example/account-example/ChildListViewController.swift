@@ -20,14 +20,12 @@ class ChildListViewController: UITableViewController {
         otsimo.getChildren() {res, err in
             switch (err) {
             case .None:
-                dispatch_async(dispatch_get_main_queue(), {
-                        self.childList.removeAll()
-                        self.childList.appendContentsOf(res)
-                        self.tableView.reloadData()
-                        for i in 0..<self.childList.count {
-                            print("child[\(i)] is \(self.childList[i]) and parentID: \(self.childList[i].parentId)")
-                        }
-                    })
+                self.childList.removeAll()
+                self.childList.appendContentsOf(res)
+                self.tableView.reloadData()
+                for i in 0..<self.childList.count {
+                    print("child[\(i)] is \(self.childList[i]) and parentID: \(self.childList[i].parentId)")
+                }
             default:
                 print("getting child list error \(err)")
             }

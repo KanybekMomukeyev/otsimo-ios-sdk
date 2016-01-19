@@ -28,21 +28,18 @@ class LoginViewController: UIViewController {
         SwiftSpinner.show("logging in...", animated: true)
         otsimo.login(emailText.text!, password: passwordText.text!) {repo in
             print("login finished")
-            delay(seconds: 2.0, completion: {
-                    SwiftSpinner.hide()
-                })
-            dispatch_async(dispatch_get_main_queue(), {
-                    switch (repo) {
-                    case .Success:
-                        print("successfully logged in")
-                        SwiftSpinner.show("successful", animated: false)
-                        self.footerText.text = "ID: \(otsimo.session!.profileID)"
-                    case .Error(let error):
-                        print("login error: \(error)")
-                        SwiftSpinner.show("failed", animated: false)
-                        self.footerText.text = "ERROR: \(error)"
-                    }
-                })
+            delay(seconds: 1.0) {SwiftSpinner.hide()}
+            switch (repo) {
+            case .Success:
+                print("successfully logged in")
+                SwiftSpinner.show("successful", animated: false)
+                self.footerText.text = "ID: \(otsimo.session!.profileID)"
+            case .Error(let error):
+                print("login error: \(error)")
+                SwiftSpinner.show("failed", animated: false)
+                self.footerText.text = "ERROR: \(error)"
+            }
+            
         }
     }
     
