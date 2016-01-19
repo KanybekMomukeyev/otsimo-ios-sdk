@@ -14,11 +14,15 @@ class UpdateProfileViewController: UITableViewController {
     @IBOutlet weak var emailText: UITextField!
     @IBOutlet weak var firstNameText: UITextField!
     @IBOutlet weak var lastNameText: UITextField!
+    @IBOutlet weak var languageText: UITextField!
+    @IBOutlet weak var phoneText: UITextField!
+    @IBOutlet weak var streetText: UITextField!
+    @IBOutlet weak var cityText: UITextField!
+    @IBOutlet weak var stateText: UITextField!
+    @IBOutlet weak var postalCodeText: UITextField!
+    @IBOutlet weak var countryText: UITextField!
     
-    var emailInitial: String = ""
-    var fistNameInitial: String = ""
-    var lastNameInitial: String = ""
-    var profileFetched: Bool = false
+    var initialProfile: OTSProfile?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,13 +33,19 @@ class UpdateProfileViewController: UITableViewController {
                 print("successfully get profile \(profile!)")
                 if let pro = profile {
                     SwiftSpinner.hide()
-                    self.profileFetched = true
-                    self.emailInitial = pro.email
-                    self.fistNameInitial = pro.firstName
-                    self.lastNameInitial = pro.lastName
-                    self.emailText!.text = pro.email
-                    self.firstNameText!.text = pro.firstName
-                    self.lastNameText!.text = pro.lastName
+                    self.initialProfile = pro
+                    self.emailText.text = pro.email
+                    self.firstNameText.text = pro.firstName
+                    self.lastNameText.text = pro.lastName
+                    self.phoneText.text = pro.mobilePhone
+                    self.languageText.text = pro.language
+                    if let a = pro.address {
+                        self.cityText.text = a.city
+                        self.streetText.text = a.streetAddress
+                        self.stateText.text = a.state
+                        self.postalCodeText.text = a.zipCode
+                        self.countryText.text = a.countryCode
+                    }
                 } else {
                     SwiftSpinner.show("error", animated: false)
                     delay(seconds: 0.7) {
@@ -62,68 +72,96 @@ class UpdateProfileViewController: UITableViewController {
         self.presentViewController(alert, animated: true, completion: nil)
     }
     
+    @IBAction func changeEmailTouched(sender: UIButton) {
+        if emailText.text != initialProfile?.email {
+            if let t = emailText.text {if t.characters.count == 0 {
+                    showError("enter a valid email")
+                    return
+                }
+            }
+        } else {
+            showError("enter a valid email")
+            return
+        }
+        SwiftSpinner.show("updating...", animated: true)
+        otsimo.changeEmail(emailText.text!) {err in
+            switch (err) {
+            case .None:
+                self.initialProfile?.email = self.emailText.text
+                SwiftSpinner.show("success", animated: false)
+                delay(seconds: 0.8) {SwiftSpinner.hide()}
+            default:
+                SwiftSpinner.show("failed", animated: false)
+                delay(seconds: 0.8) {SwiftSpinner.hide()}
+            }
+        }
+    }
+    
+    func checkChanges(tField: UITextField, initial: String?, min: Int) -> Bool {
+        if tField.text != initial {
+            if let t = tField.text {
+                if t.characters.count > min {
+                    return true
+                }
+            }
+        }
+        return false
+    }
+    
     @IBAction func updateTouched(sender: UIButton) {
-        if !profileFetched {
+        if initialProfile == nil {
             return
         }
         let p = OTSProfile()
-        var emailUpdating = false
-        var firstNameUpdating = false
-        var lastNameUpdating = false
-        if emailText.text != emailInitial {
-            if let t = emailText.text {
-                if t.characters.count > 0 {
-                    emailUpdating = true
-                    p.email = t
-                }
-            }
+        var changesAreMade = false
+        
+        if checkChanges(firstNameText, initial: initialProfile!.firstName, min: 0) {
+            changesAreMade = true
+            p.firstName = firstNameText.text!
+        }
+        if checkChanges(lastNameText, initial: initialProfile!.lastName, min: 0) {
+            changesAreMade = true
+            p.lastName = lastNameText.text!
+        }
+        if checkChanges(phoneText, initial: initialProfile!.mobilePhone, min: 7) {
+            changesAreMade = true
+            p.mobilePhone = phoneText.text!
+        }
+        if checkChanges(languageText, initial: initialProfile!.language, min: 2) {
+            changesAreMade = true
+            p.language = languageText.text!
         }
         
-        if firstNameText.text != fistNameInitial {
-            if let t = firstNameText.text {
-                if t.characters.count > 0 {
-                    firstNameUpdating = true
-                    p.firstName = t
-                }
-            }
-        }
-        
-        if lastNameText.text != lastNameInitial {
-            if let t = lastNameText.text {
-                if t.characters.count > 0 {
-                    lastNameUpdating = true
-                    p.lastName = t
-                }
-            }
-        }
-        
-        if emailUpdating || firstNameUpdating || lastNameUpdating {
+        if changesAreMade {
             SwiftSpinner.show("updating...", animated: true)
             otsimo.updateProfile(p) {err in
                 switch (err) {
                 case .None:
+                    self.syncProfiles(p)
                     SwiftSpinner.show("success", animated: false)
-                    delay(seconds: 0.8) {
-                        SwiftSpinner.hide()
-                    }
-                    if emailUpdating {
-                        self.emailInitial = p.email!
-                    }
-                    if firstNameUpdating {
-                        self.fistNameInitial = p.firstName!
-                    }
-                    if lastNameUpdating {
-                        self.lastNameInitial = p.lastName!
-                    }
+                    delay(seconds: 0.8) {SwiftSpinner.hide()}
                 default:
                     SwiftSpinner.show("failed", animated: false)
-                    delay(seconds: 0.8) {
-                        SwiftSpinner.hide()
-                    }
+                    delay(seconds: 0.8) {SwiftSpinner.hide()}
                 }
             }
         } else {
             showError("nothings changed")
+        }
+    }
+    
+    func syncProfiles(newPro: OTSProfile) {
+        if let fn = newPro.firstName {
+            initialProfile?.firstName = fn
+        }
+        if let ln = newPro.lastName {
+            initialProfile?.lastName = ln
+        }
+        if let fn = newPro.language {
+            initialProfile?.language = fn
+        }
+        if let ln = newPro.mobilePhone {
+            initialProfile?.mobilePhone = ln
         }
     }
 }
