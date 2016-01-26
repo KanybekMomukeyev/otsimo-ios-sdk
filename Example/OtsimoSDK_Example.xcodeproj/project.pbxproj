@@ -22,6 +22,11 @@
 		0D36E28D1C15C8EF00B4B549 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0D36E28B1C15C8EF00B4B549 /* Main.storyboard */; };
 		0D36E28F1C15C8EF00B4B549 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0D36E28E1C15C8EF00B4B549 /* Assets.xcassets */; };
 		0D36E2921C15C8EF00B4B549 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0D36E2901C15C8EF00B4B549 /* LaunchScreen.storyboard */; };
+		0D4D7CD21C57B6B3000BFEC5 /* Haneke.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D4D7CD11C57B6B3000BFEC5 /* Haneke.framework */; };
+		0D4D7CD31C57B6B3000BFEC5 /* Haneke.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0D4D7CD11C57B6B3000BFEC5 /* Haneke.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		0D60A9071C55921500115500 /* CatalogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D60A9061C55921500115500 /* CatalogViewController.swift */; };
+		0D60A9091C55931A00115500 /* AllGamesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D60A9081C55931A00115500 /* AllGamesViewController.swift */; };
+		0D60A90B1C563FFA00115500 /* GameTableCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D60A90A1C563FFA00115500 /* GameTableCellView.swift */; };
 		0D9044071C3B339C00F51C8D /* ApiTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9044061C3B339C00F51C8D /* ApiTest.swift */; };
 		0D90440B1C3B36CA00F51C8D /* TestHomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D90440A1C3B36CA00F51C8D /* TestHomeController.swift */; };
 		0D90441B1C3BF85000F51C8D /* Root.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D90441A1C3BF85000F51C8D /* Root.swift */; };
@@ -45,6 +50,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				0D4D7CD31C57B6B3000BFEC5 /* Haneke.framework in Embed Frameworks */,
 				0D137F9B1C39F66A0006BB8E /* OtsimoSDK.framework in Embed Frameworks */,
 				0D137F9D1C39F66A0006BB8E /* Protobuf.framework in Embed Frameworks */,
 				0D137FA11C39F66A0006BB8E /* gRPC.framework in Embed Frameworks */,
@@ -70,6 +76,12 @@
 		0D36E28E1C15C8EF00B4B549 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0D36E2911C15C8EF00B4B549 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0D36E2931C15C8EF00B4B549 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0D4D7CD11C57B6B3000BFEC5 /* Haneke.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Haneke.framework; path = ../Carthage/Build/iOS/Haneke.framework; sourceTree = "<group>"; };
+		0D60A9061C55921500115500 /* CatalogViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CatalogViewController.swift; sourceTree = "<group>"; };
+		0D60A9081C55931A00115500 /* AllGamesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AllGamesViewController.swift; sourceTree = "<group>"; };
+		0D60A90A1C563FFA00115500 /* GameTableCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameTableCellView.swift; sourceTree = "<group>"; };
+		0D60A9201C57AB0100115500 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/Main.strings; sourceTree = "<group>"; };
+		0D60A9211C57AB0100115500 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		0D9044061C3B339C00F51C8D /* ApiTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiTest.swift; sourceTree = "<group>"; };
 		0D90440A1C3B36CA00F51C8D /* TestHomeController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestHomeController.swift; sourceTree = "<group>"; };
 		0D90441A1C3BF85000F51C8D /* Root.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Root.swift; sourceTree = "<group>"; };
@@ -92,6 +104,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0D4D7CD21C57B6B3000BFEC5 /* Haneke.framework in Frameworks */,
 				0D137F9A1C39F66A0006BB8E /* OtsimoSDK.framework in Frameworks */,
 				0D137F9C1C39F66A0006BB8E /* Protobuf.framework in Frameworks */,
 				0D137FA01C39F66A0006BB8E /* gRPC.framework in Frameworks */,
@@ -107,6 +120,7 @@
 		0D36E27B1C15C8EF00B4B549 = {
 			isa = PBXGroup;
 			children = (
+				0D4D7CD11C57B6B3000BFEC5 /* Haneke.framework */,
 				0DE680CC1C16EDB100FA8CF6 /* OtsimoSDK.framework */,
 				0D36E2861C15C8EF00B4B549 /* account-example */,
 				0D36E2851C15C8EF00B4B549 /* Products */,
@@ -149,6 +163,9 @@
 				0D90442F1C3E185D00F51C8D /* UpdateProfileViewController.swift */,
 				0D9044311C3E188800F51C8D /* ChildListViewController.swift */,
 				0D9044331C3E18A500F51C8D /* ChildInfoViewController.swift */,
+				0D60A9061C55921500115500 /* CatalogViewController.swift */,
+				0D60A9081C55931A00115500 /* AllGamesViewController.swift */,
+				0D60A90A1C563FFA00115500 /* GameTableCellView.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -250,6 +267,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0D60A9071C55921500115500 /* CatalogViewController.swift in Sources */,
 				0D90440B1C3B36CA00F51C8D /* TestHomeController.swift in Sources */,
 				0D36E28A1C15C8EF00B4B549 /* LoginViewController.swift in Sources */,
 				0D9044071C3B339C00F51C8D /* ApiTest.swift in Sources */,
@@ -260,7 +278,9 @@
 				0D9044341C3E18A500F51C8D /* ChildInfoViewController.swift in Sources */,
 				0D90441F1C3C014800F51C8D /* RegisterViewController.swift in Sources */,
 				0D36E2881C15C8EF00B4B549 /* AppDelegate.swift in Sources */,
+				0D60A90B1C563FFA00115500 /* GameTableCellView.swift in Sources */,
 				0D9044231C3C3DD600F51C8D /* ProfileInfoViewController.swift in Sources */,
+				0D60A9091C55931A00115500 /* AllGamesViewController.swift in Sources */,
 				0D9044271C3C42B000F51C8D /* AddChildTableViewController.swift in Sources */,
 				0D90441B1C3BF85000F51C8D /* Root.swift in Sources */,
 				0D9044321C3E188800F51C8D /* ChildListViewController.swift in Sources */,
@@ -274,6 +294,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				0D36E28C1C15C8EF00B4B549 /* Base */,
+				0D60A9201C57AB0100115500 /* tr */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -282,6 +303,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				0D36E2911C15C8EF00B4B549 /* Base */,
+				0D60A9211C57AB0100115500 /* tr */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";

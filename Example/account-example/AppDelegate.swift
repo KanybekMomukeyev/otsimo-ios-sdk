@@ -14,10 +14,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
     
+    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
+        #if DEBUG
+        Otsimo.config(ClientConfig.development(clientID, host: devHost))
+        #else
+        Otsimo.config(ClientConfig.development(clientID, host: devHost))
+        #endif
+        return true
+    }
+    
     func application(application: UIApplication,
         openURL url: NSURL,
         sourceApplication: String?,
         annotation: AnyObject) -> Bool {
+        
         if (url.scheme == "comotsimosdk_example") {
             otsimo.handleOpenURL(url)
         }

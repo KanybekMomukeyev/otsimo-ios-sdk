@@ -14,6 +14,14 @@
 		0D333A741C158D3200968DDA /* OtsimoSDKTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D333A731C158D3200968DDA /* OtsimoSDKTests.swift */; };
 		0D3D0FF91C3AA3F00049A72F /* Connection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3D0FF81C3AA3F00049A72F /* Connection.swift */; };
 		0D54BB901C158FAA006A9382 /* Otsimo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D54BB8F1C158FAA006A9382 /* Otsimo.swift */; };
+		0D60A90D1C5652DF00115500 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D60A90C1C5652DF00115500 /* Game.swift */; };
+		0D60A9101C566E6B00115500 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D60A90F1C566E6B00115500 /* Log.swift */; };
+		0D60A9151C5692E200115500 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D60A9141C5692E200115500 /* Protocols.swift */; };
+		0D60A9171C5692FC00115500 /* Otsimo+Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D60A9161C5692FC00115500 /* Otsimo+Account.swift */; };
+		0D60A9191C56938C00115500 /* Otsimo+Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D60A9181C56938C00115500 /* Otsimo+Profile.swift */; };
+		0D60A91B1C5693DB00115500 /* Otsimo+Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D60A91A1C5693DB00115500 /* Otsimo+Game.swift */; };
+		0D60A91D1C5693F200115500 /* Otsimo+Child.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D60A91C1C5693F200115500 /* Otsimo+Child.swift */; };
+		0D60A91F1C56940700115500 /* Otsimo+Catalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D60A91E1C56940700115500 /* Otsimo+Catalog.swift */; };
 		0D8214A11C38755100DC246F /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D8214A01C38755100DC246F /* Session.swift */; };
 		0D9044021C3AD68B00F51C8D /* JWT.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9044011C3AD68B00F51C8D /* JWT.swift */; };
 		0DC2841E1C4EE8B30075FE63 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DC2841D1C4EE8B30075FE63 /* Utils.swift */; };
@@ -48,6 +56,14 @@
 		0D36E2991C15C8EF00B4B549 /* OtsimoSDK_Example.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OtsimoSDK_Example.xcodeproj; path = Example/OtsimoSDK_Example.xcodeproj; sourceTree = "<group>"; };
 		0D3D0FF81C3AA3F00049A72F /* Connection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Connection.swift; path = Sources/Connection.swift; sourceTree = "<group>"; };
 		0D54BB8F1C158FAA006A9382 /* Otsimo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Otsimo.swift; path = Sources/Otsimo.swift; sourceTree = "<group>"; };
+		0D60A90C1C5652DF00115500 /* Game.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Game.swift; path = Sources/Game.swift; sourceTree = "<group>"; };
+		0D60A90F1C566E6B00115500 /* Log.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Log.swift; path = Sources/Log.swift; sourceTree = "<group>"; };
+		0D60A9141C5692E200115500 /* Protocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Protocols.swift; path = Sources/Protocols.swift; sourceTree = "<group>"; };
+		0D60A9161C5692FC00115500 /* Otsimo+Account.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Otsimo+Account.swift"; path = "Sources/Otsimo+Account.swift"; sourceTree = "<group>"; };
+		0D60A9181C56938C00115500 /* Otsimo+Profile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Otsimo+Profile.swift"; path = "Sources/Otsimo+Profile.swift"; sourceTree = "<group>"; };
+		0D60A91A1C5693DB00115500 /* Otsimo+Game.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Otsimo+Game.swift"; path = "Sources/Otsimo+Game.swift"; sourceTree = "<group>"; };
+		0D60A91C1C5693F200115500 /* Otsimo+Child.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Otsimo+Child.swift"; path = "Sources/Otsimo+Child.swift"; sourceTree = "<group>"; };
+		0D60A91E1C56940700115500 /* Otsimo+Catalog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Otsimo+Catalog.swift"; path = "Sources/Otsimo+Catalog.swift"; sourceTree = "<group>"; };
 		0D8214A01C38755100DC246F /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Session.swift; path = Sources/Session.swift; sourceTree = "<group>"; };
 		0D9044011C3AD68B00F51C8D /* JWT.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JWT.swift; path = Sources/JWT.swift; sourceTree = "<group>"; };
 		0DC2841D1C4EE8B30075FE63 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Utils.swift; path = Sources/Utils.swift; sourceTree = "<group>"; };
@@ -127,14 +143,22 @@
 		0DE680D11C1728CF00FA8CF6 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				0D333A671C158D3200968DDA /* OtsimoSDK.h */,
-				0D333A691C158D3200968DDA /* Info.plist */,
-				0D54BB8F1C158FAA006A9382 /* Otsimo.swift */,
-				0D8214A01C38755100DC246F /* Session.swift */,
 				0D137FA81C3A7C280006BB8E /* ClientConfig.swift */,
 				0D3D0FF81C3AA3F00049A72F /* Connection.swift */,
 				0D3053731C3AAAB0000FE8B1 /* Errors.swift */,
+				0D60A90C1C5652DF00115500 /* Game.swift */,
+				0D333A691C158D3200968DDA /* Info.plist */,
 				0D9044011C3AD68B00F51C8D /* JWT.swift */,
+				0D60A90F1C566E6B00115500 /* Log.swift */,
+				0D54BB8F1C158FAA006A9382 /* Otsimo.swift */,
+				0D60A9161C5692FC00115500 /* Otsimo+Account.swift */,
+				0D60A91E1C56940700115500 /* Otsimo+Catalog.swift */,
+				0D60A91C1C5693F200115500 /* Otsimo+Child.swift */,
+				0D60A91A1C5693DB00115500 /* Otsimo+Game.swift */,
+				0D60A9181C56938C00115500 /* Otsimo+Profile.swift */,
+				0D333A671C158D3200968DDA /* OtsimoSDK.h */,
+				0D60A9141C5692E200115500 /* Protocols.swift */,
+				0D8214A01C38755100DC246F /* Session.swift */,
 				0DC2841D1C4EE8B30075FE63 /* Utils.swift */,
 			);
 			name = Sources;
@@ -267,11 +291,19 @@
 			files = (
 				0D8214A11C38755100DC246F /* Session.swift in Sources */,
 				0D3D0FF91C3AA3F00049A72F /* Connection.swift in Sources */,
+				0D60A91B1C5693DB00115500 /* Otsimo+Game.swift in Sources */,
+				0D60A9191C56938C00115500 /* Otsimo+Profile.swift in Sources */,
+				0D60A9101C566E6B00115500 /* Log.swift in Sources */,
+				0D60A9151C5692E200115500 /* Protocols.swift in Sources */,
+				0D60A91F1C56940700115500 /* Otsimo+Catalog.swift in Sources */,
 				0D137FA91C3A7C280006BB8E /* ClientConfig.swift in Sources */,
 				0DC2841E1C4EE8B30075FE63 /* Utils.swift in Sources */,
 				0D9044021C3AD68B00F51C8D /* JWT.swift in Sources */,
+				0D60A91D1C5693F200115500 /* Otsimo+Child.swift in Sources */,
 				0D3053741C3AAAB0000FE8B1 /* Errors.swift in Sources */,
 				0D54BB901C158FAA006A9382 /* Otsimo.swift in Sources */,
+				0D60A9171C5692FC00115500 /* Otsimo+Account.swift in Sources */,
+				0D60A90D1C5652DF00115500 /* Game.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -13,3 +13,23 @@ func onMainThread(closure: () -> ()) {
             closure()
         })
 }
+
+public struct RegistrationData {
+    let email: String
+    let password: String
+    let firstName: String
+    let lastName: String
+    let language: String
+    public init(email: String, password: String, firstName: String, lastName: String, language: String) {
+        self.email = email
+        self.password = password
+        self.firstName = firstName
+        self.lastName = lastName
+        self.language = language
+    }
+}
+
+
+func versionToUrl(version: String) -> String {
+    return version.stringByReplacingOccurrencesOfString(".", withString: "_")
+}

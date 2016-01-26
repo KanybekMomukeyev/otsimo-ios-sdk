@@ -11,17 +11,23 @@ import Foundation
 public class ClientConfig {
     internal var issuer = ""
     public var clientID = ""
+    public var useProductionGames: Bool = true
     internal var apiGrpcUrl = ""
     internal var registryGrpcUrl = ""
     internal var authorizationEndpoint = ""
     internal var tokenEndpoint = ""
     internal var accountsServiceUrl = ""
+    internal var catalogGrpcUrl = ""
+    internal var watchGrpcUrl = ""
+    internal var listenerGrpcUrl = ""
+    internal var publicContentUrl = ""
+    
     internal var useTls = false
     internal var caCert = ""
     internal var useKeychain = false
     
     public static func development(clientID: String, host: String?) -> ClientConfig {
-        var ip = "192.168.1.103"
+        var ip = "192.168.1.104"
         if host != nil {
             ip = host!
         }
@@ -31,10 +37,15 @@ public class ClientConfig {
         cc.apiGrpcUrl = "\(ip):18854"
         cc.clientID = clientID
         cc.registryGrpcUrl = "\(ip):18852"
+        cc.watchGrpcUrl = "\(ip):18858"
+        cc.catalogGrpcUrl = "\(ip):18857"
+        cc.listenerGrpcUrl = "\(ip):18847"
+        cc.publicContentUrl = "http://\(ip):18851/public"
         cc.authorizationEndpoint = "http://\(ip):18848/auth"
         cc.tokenEndpoint = "http://\(ip):18848/token"
         cc.accountsServiceUrl = "http://\(ip):18856"
         cc.useTls = false
+        cc.useProductionGames = false
         return cc
     }
 }

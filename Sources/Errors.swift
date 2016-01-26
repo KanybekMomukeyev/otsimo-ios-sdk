@@ -78,6 +78,7 @@ public enum InvalidToken : CustomStringConvertible, ErrorType {
 
 public enum OtsimoError {
     case None
+    case NotInitialized
     case NotLoggedIn(message: String)
     case ServiceError(message: String)
     case NetworkError(message: String)

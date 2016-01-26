@@ -13,14 +13,25 @@ import gRPC
 internal class Connection {
     internal let config : ClientConfig
     internal let apiService: OTSApiService
+    internal let catalogService: OTSCatalogService
+    internal let watchService: OTSWatchService
+    internal let listenerService: OTSListenerService
+    internal let registryService: OTSRegistryService
     
     internal init(config: ClientConfig) {
         self.config = config
         if (!config.useTls) {
             GRPCCall.useInsecureConnectionsForHost(config.apiGrpcUrl)
             GRPCCall.useInsecureConnectionsForHost(config.registryGrpcUrl)
+            GRPCCall.useInsecureConnectionsForHost(config.catalogGrpcUrl)
+            GRPCCall.useInsecureConnectionsForHost(config.listenerGrpcUrl)
+            GRPCCall.useInsecureConnectionsForHost(config.watchGrpcUrl)
         }
         apiService = OTSApiService(host: config.apiGrpcUrl)
+        catalogService = OTSCatalogService(host: config.catalogGrpcUrl)
+        watchService = OTSWatchService(host: config.watchGrpcUrl)
+        listenerService = OTSListenerService(host: config.listenerGrpcUrl)
+        registryService = OTSRegistryService(host: config.registryGrpcUrl)
     }
     
     func getProfile(session: Session, handler: (OTSProfile?, OtsimoError) -> Void) {
@@ -32,7 +43,7 @@ internal class Connection {
                 session.profile = response // cache return value
                 onMainThread {handler(response, OtsimoError.None)}
             } else {
-                print("getProfile: Finished with error: \(error!)")
+                Log.error("getProfile: Finished with error: \(error!)")
                 onMainThread {handler(nil, OtsimoError.ServiceError(message: "\(error)"))}
             }
         }
@@ -56,7 +67,7 @@ internal class Connection {
                     onMainThread {handler(OtsimoError.ServiceError(message: "code:\(response.type),message:\(response.message!)"))}
                 }
             } else {
-                print("addChild, Finished with error: \(error!)")
+                Log.error("addChild, Finished with error: \(error!)")
                 onMainThread {handler(OtsimoError.ServiceError(message: "\(error)"))}
             }
         }
@@ -78,7 +89,7 @@ internal class Connection {
             if let response = response {
                 onMainThread {handler(res: response, err: .None)}
             } else {
-                print("getChild, Finished with error: \(error!)")
+                Log.error("getChild, Finished with error: \(error!)")
                 onMainThread {handler(res: nil, err: OtsimoError.ServiceError(message: "\(error)"))}
             }
         }
@@ -109,7 +120,7 @@ internal class Connection {
                 onMainThread {handler(res: r, err: .None)}
             } else {
                 onMainThread {handler(res: [], err: OtsimoError.ServiceError(message: "\(error)"))}
-                print("getChildren, Finished with error: \(error!)")
+                Log.error("getChildren, Finished with error: \(error!)")
             }
         }
         
@@ -131,7 +142,7 @@ internal class Connection {
                     onMainThread {handler(OtsimoError.ServiceError(message: "code:\(response.type),message:\(response.message!)"))}
                 }
             } else {
-                print("updateGameEntry, Finished with error: \(error!)")
+                Log.error("updateGameEntry, Finished with error: \(error!)")
                 onMainThread {handler(OtsimoError.ServiceError(message: "\(error)"))}
             }
         }
@@ -156,7 +167,7 @@ internal class Connection {
                     onMainThread {handler(OtsimoError.ServiceError(message: "code:\(response.type),message:\(response.message!)"))}
                 }
             } else {
-                NSLog("updateProfile, Finished with error: \(error!)")
+                Log.error("updateProfile, Finished with error: \(error!)")
                 onMainThread {handler(OtsimoError.ServiceError(message: "\(error)"))}
             }
         }
@@ -168,6 +179,86 @@ internal class Connection {
             handler(OtsimoError.NotLoggedIn(message: "is not authenticated"))
         }
     }
+    
+    func getCurrentCatalog(session: Session, req: OTSCatalogPullRequest, handler: (res: OTSCatalog?, err: OtsimoError) -> Void) {
+        var RPC : ProtoRPC!
+        RPC = catalogService.RPCToPullWithRequest(req) {response, error in
+            if let response = response {
+                onMainThread {handler(res: response, err: OtsimoError.None)}
+            } else {
+                Log.error("getCurrentCatalog, Finished with error: \(error!)")
+                onMainThread {handler(res: nil, err: OtsimoError.ServiceError(message: "\(error)"))}
+            }
+        }
+        if session.isAuthenticated {
+            RPC.requestHeaders["Authorization"] = "\(session.tokenType) \(session.accessToken)"
+            RPC.start()
+        } else {
+            handler(res: nil, err: OtsimoError.NotLoggedIn(message: "is not authenticated"))
+        }
+    }
+    
+    func getGameRelease(session: Session, gameID: String, version: String?, onlyProduction: Bool?, handler: (res: OTSGameRelease?, err: OtsimoError) -> Void) {
+        let req = OTSGetGameReleaseRequest()
+        req.gameId = gameID
+        req.version = version
+        if let prod = onlyProduction {
+            if prod {
+                req.state = OTSRequestReleaseState.ProductionState
+            } else {
+                req.state = OTSRequestReleaseState.AllStates
+            }
+        } else {
+            req.state = OTSRequestReleaseState.ProductionState
+        }
+        
+        var RPC : ProtoRPC!
+        
+        RPC = registryService.RPCToGetReleaseWithRequest(req) {response, error in
+            if let response = response {
+                onMainThread {handler(res: response, err: OtsimoError.None)}
+            } else {
+                Log.error("getGameRelease, Finished with error: \(error!)")
+                onMainThread {handler(res: nil, err: OtsimoError.ServiceError(message: "\(error)"))}
+            }
+        }
+        if session.isAuthenticated {
+            RPC.requestHeaders["Authorization"] = "\(session.tokenType) \(session.accessToken)"
+            RPC.start()
+        } else {
+            handler(res: nil, err: OtsimoError.NotLoggedIn(message: "is not authenticated"))
+        }
+    }
+    
+    func getAllGamesStream(session: Session, handler: (OTSListItem?, done: Bool, err: OtsimoError) -> Void) {
+        let req = OTSListGamesRequest()
+        req.releaseState = OTSListGamesRequest_InnerState.Production
+        req.limit = 32
+        
+        var RPC : ProtoRPC!
+        
+        RPC = registryService.RPCToListGamesWithRequest(req) {done, response, error in
+            if let response = response {
+                onMainThread {handler(response, done: false, err: OtsimoError.None)}
+            } else {
+                Log.error("getAllGames, Finished with error: \(error!)")
+                onMainThread {handler(nil, done: true, err: OtsimoError.ServiceError(message: "\(error)"))}
+                return
+            }
+            if (done) {
+                onMainThread {handler(nil, done: true, err: OtsimoError.None)}
+            }
+        }
+        if session.isAuthenticated {
+            RPC.requestHeaders["Authorization"] = "\(session.tokenType) \(session.accessToken)"
+            RPC.start()
+        } else {
+            handler(nil, done: true, err: OtsimoError.NotLoggedIn(message: "is not authenticated"))
+        }
+    }
+    
+    
+    
     
     func login(email: String, plainPassword: String, handler: (res: TokenResult, session: Session?) -> Void) {
         let grant_type = "password"
@@ -194,6 +285,7 @@ internal class Connection {
         let postString = "old_email=\(old)&new_email=\(new)"
         httpPostRequestWithToken(urlPath, postString: postString, authorization: "\(session.tokenType) \(session.accessToken)", handler: handler)
     }
+    
     
     
     
@@ -277,7 +369,7 @@ internal class Connection {
         request.HTTPBody = postString.dataUsingEncoding(NSUTF8StringEncoding)
         request.timeoutInterval = 20
         request.cachePolicy = .ReloadIgnoringLocalAndRemoteCacheData
-        print("sending data to", urlPath, " data:", postString)
+        Log.debug("sending data to  \(urlPath) data: \(postString)")
         let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {data, response, error in
             guard error == nil && data != nil else {// check for fundamental networking error
                 onMainThread {handler(error: .NetworkError(message: "\(error)"))}

@@ -1,2 +1,3 @@
-github "matthewpalmer/Locksmith" "2.0.3"
-github "otsimo/otsimo-ios-grpc" "0.4.0"
+github "Haneke/HanekeSwift" "v0.10.1"
+github "matthewpalmer/Locksmith" "2.0.6"
+github "otsimo/otsimo-ios-grpc" "0.6.6"
