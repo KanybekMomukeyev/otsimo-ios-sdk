@@ -1,60 +1,60 @@
 
 /* Class = "UILabel"; text = "Password Re-Enter"; ObjectID = "06D-FK-fKF"; */
-"06D-FK-fKF.text" = "Password Re-Enter";
+"06D-FK-fKF.text" = "Tekrar";
 
 /* Class = "UILabel"; text = "Subtitle"; ObjectID = "13O-qH-eYc"; */
-"13O-qH-eYc.text" = "Subtitle";
+"13O-qH-eYc.text" = "Altbaşlık";
 
 /* Class = "UITextField"; placeholder = "email"; ObjectID = "1DE-2Q-5Ni"; */
 "1DE-2Q-5Ni.placeholder" = "email";
 
 /* Class = "UILabel"; text = "Phone"; ObjectID = "1QU-JE-0jO"; */
-"1QU-JE-0jO.text" = "Phone";
+"1QU-JE-0jO.text" = "Telefon";
 
 /* Class = "UINavigationItem"; title = "Root"; ObjectID = "38C-CQ-anR"; */
-"38C-CQ-anR.title" = "Root";
+"38C-CQ-anR.title" = "AnaEkran";
 
 /* Class = "UILabel"; text = "Male"; ObjectID = "3gK-1h-sly"; */
-"3gK-1h-sly.text" = "Male";
+"3gK-1h-sly.text" = "Erkek";
 
 /* Class = "UITextField"; placeholder = "name"; ObjectID = "3ug-q9-tpF"; */
-"3ug-q9-tpF.placeholder" = "name";
+"3ug-q9-tpF.placeholder" = "isim";
 
 /* Class = "UILabel"; text = "Last Name"; ObjectID = "4QU-gR-mkW"; */
-"4QU-gR-mkW.text" = "Last Name";
+"4QU-gR-mkW.text" = "Soyisim";
 
 /* Class = "UINavigationItem"; title = "Child Info"; ObjectID = "4lo-Ua-a1M"; */
-"4lo-Ua-a1M.title" = "Child Info";
+"4lo-Ua-a1M.title" = "Çocuk";
 
 /* Class = "UITextField"; placeholder = "name"; ObjectID = "5NR-Ew-Dbc"; */
-"5NR-Ew-Dbc.placeholder" = "name";
+"5NR-Ew-Dbc.placeholder" = "isim";
 
 /* Class = "UILabel"; text = "Title"; ObjectID = "5aT-oe-KoL"; */
-"5aT-oe-KoL.text" = "Title";
+"5aT-oe-KoL.text" = "Başlık";
 
 /* Class = "UIButton"; normalTitle = "Register"; ObjectID = "65X-Qf-ffS"; */
-"65X-Qf-ffS.normalTitle" = "Register";
+"65X-Qf-ffS.normalTitle" = "Kayıt Ol";
 
 /* Class = "UITextField"; placeholder = "name"; ObjectID = "7Dl-Xg-ihR"; */
-"7Dl-Xg-ihR.placeholder" = "name";
+"7Dl-Xg-ihR.placeholder" = "isim";
 
 /* Class = "UILabel"; text = "Title"; ObjectID = "7aJ-cl-CiL"; */
-"7aJ-cl-CiL.text" = "Title";
+"7aJ-cl-CiL.text" = "Başık";
 
 /* Class = "UITextField"; placeholder = "phone number"; ObjectID = "83o-26-IrF"; */
-"83o-26-IrF.placeholder" = "phone number";
+"83o-26-IrF.placeholder" = "telefon numarası";
 
 /* Class = "UITextField"; placeholder = "re-enter your password"; ObjectID = "891-3M-Pri"; */
-"891-3M-Pri.placeholder" = "re-enter your password";
+"891-3M-Pri.placeholder" = "tekrar gir";
 
 /* Class = "UILabel"; text = "Female"; ObjectID = "8Dy-g1-oFS"; */
-"8Dy-g1-oFS.text" = "Female";
+"8Dy-g1-oFS.text" = "Kız";
 
 /* Class = "UILabel"; text = "Password"; ObjectID = "B6o-gk-aJ9"; */
-"B6o-gk-aJ9.text" = "Password";
+"B6o-gk-aJ9.text" = "Parola";
 
 /* Class = "UIViewController"; title = "Login"; ObjectID = "BYZ-38-t0r"; */
-"BYZ-38-t0r.title" = "Login";
+"BYZ-38-t0r.title" = "Giriş";
 
 /* Class = "UITextField"; placeholder = "email"; ObjectID = "FEL-Mq-VcR"; */
 "FEL-Mq-VcR.placeholder" = "email";
@@ -63,7 +63,7 @@
 "FFr-pW-J5O.headerTitle" = "fill below to add a new child";
 
 /* Class = "UILabel"; text = "PostalCode"; ObjectID = "GXB-qt-1vU"; */
-"GXB-qt-1vU.text" = "PostalCode";
+"GXB-qt-1vU.text" = "Posta Kodu";
 
 /* Class = "UITextField"; placeholder = "password"; ObjectID = "GuM-Il-b3v"; */
 "GuM-Il-b3v.placeholder" = "password";
@@ -75,94 +75,94 @@
 "HeS-9h-zIk.headerTitle" = "email";
 
 /* Class = "UITextField"; placeholder = "city"; ObjectID = "Hiv-ln-UUX"; */
-"Hiv-ln-UUX.placeholder" = "city";
+"Hiv-ln-UUX.placeholder" = "ilçe";
 
 /* Class = "UILabel"; text = "Email"; ObjectID = "IHa-PW-hyR"; */
 "IHa-PW-hyR.text" = "Email";
 
 /* Class = "UITextField"; placeholder = "state"; ObjectID = "Ikk-Jz-caK"; */
-"Ikk-Jz-caK.placeholder" = "state";
+"Ikk-Jz-caK.placeholder" = "il";
 
 /* Class = "UINavigationItem"; title = "Change Password Test"; ObjectID = "JV1-LA-Phc"; */
 "JV1-LA-Phc.title" = "Change Password Test";
 
 /* Class = "UITextField"; placeholder = "password"; ObjectID = "JdA-KW-s47"; */
-"JdA-KW-s47.placeholder" = "password";
+"JdA-KW-s47.placeholder" = "parola";
 
 /* Class = "UITextField"; placeholder = "language"; ObjectID = "Jek-34-Hyq"; */
-"Jek-34-Hyq.placeholder" = "language";
+"Jek-34-Hyq.placeholder" = "dil";
 
 /* Class = "UILabel"; text = "Subtitle"; ObjectID = "JhT-jc-Kwv"; */
-"JhT-jc-Kwv.text" = "Subtitle";
+"JhT-jc-Kwv.text" = "Alt Başlık";
 
 /* Class = "UIButton"; normalTitle = "Login"; ObjectID = "L3W-19-NE9"; */
-"L3W-19-NE9.normalTitle" = "Login";
+"L3W-19-NE9.normalTitle" = "Giriş";
 
 /* Class = "UITextField"; placeholder = "street"; ObjectID = "MOd-fI-t3S"; */
-"MOd-fI-t3S.placeholder" = "street";
+"MOd-fI-t3S.placeholder" = "cadde";
 
 /* Class = "UITableViewSection"; headerTitle = "address"; ObjectID = "MnV-fb-VwW"; */
-"MnV-fb-VwW.headerTitle" = "address";
+"MnV-fb-VwW.headerTitle" = "adres";
 
 /* Class = "UINavigationItem"; title = "Profile Info Test"; ObjectID = "Mvw-kE-KxU"; */
 "Mvw-kE-KxU.title" = "Profile Info Test";
 
 /* Class = "UILabel"; text = "First Name"; ObjectID = "NKY-bd-Ohj"; */
-"NKY-bd-Ohj.text" = "First Name";
+"NKY-bd-Ohj.text" = "İsim";
 
 /* Class = "UIButton"; normalTitle = "Update"; ObjectID = "NyF-ks-444"; */
-"NyF-ks-444.normalTitle" = "Update";
+"NyF-ks-444.normalTitle" = "Güncelle";
 
 /* Class = "UILabel"; text = "Password"; ObjectID = "Pp4-Ag-B8k"; */
-"Pp4-Ag-B8k.text" = "Password";
+"Pp4-Ag-B8k.text" = "Parola";
 
 /* Class = "UITextField"; placeholder = "last name"; ObjectID = "QOd-RO-TBE"; */
-"QOd-RO-TBE.placeholder" = "last name";
+"QOd-RO-TBE.placeholder" = "soyisim";
 
 /* Class = "UIButton"; normalTitle = "Change Password"; ObjectID = "RYJ-2L-nkN"; */
-"RYJ-2L-nkN.normalTitle" = "Change Password";
+"RYJ-2L-nkN.normalTitle" = "Parola Değiştir";
 
 /* Class = "UITextField"; placeholder = "country"; ObjectID = "S6K-WQ-wVC"; */
-"S6K-WQ-wVC.placeholder" = "country";
+"S6K-WQ-wVC.placeholder" = "ülke";
 
 /* Class = "UILabel"; text = "State"; ObjectID = "Szf-cr-sQ5"; */
-"Szf-cr-sQ5.text" = "State";
+"Szf-cr-sQ5.text" = "İl";
 
 /* Class = "UILabel"; text = "First Name"; ObjectID = "UOX-dS-7hc"; */
-"UOX-dS-7hc.text" = "First Name";
+"UOX-dS-7hc.text" = "İlk İsim";
 
 /* Class = "UILabel"; text = "Gender"; ObjectID = "UPn-Uh-kP9"; */
-"UPn-Uh-kP9.text" = "Gender";
+"UPn-Uh-kP9.text" = "Cinsiyet";
 
 /* Class = "UINavigationItem"; title = "Wiki Test"; ObjectID = "Un5-pa-fMF"; */
 "Un5-pa-fMF.title" = "Wiki Test";
 
 /* Class = "UILabel"; text = "Last Name"; ObjectID = "XWY-sP-hVB"; */
-"XWY-sP-hVB.text" = "Last Name";
+"XWY-sP-hVB.text" = "Soyisim";
 
 /* Class = "UILabel"; text = "City"; ObjectID = "YVy-av-860"; */
-"YVy-av-860.text" = "City";
+"YVy-av-860.text" = "Şehir";
 
 /* Class = "UINavigationItem"; title = "Wiki-Content"; ObjectID = "ZN8-UZ-2u7"; */
 "ZN8-UZ-2u7.title" = "Wiki-Content";
 
 /* Class = "UITextField"; placeholder = "password"; ObjectID = "aPJ-Sf-Se5"; */
-"aPJ-Sf-Se5.placeholder" = "password";
+"aPJ-Sf-Se5.placeholder" = "parola";
 
 /* Class = "UINavigationItem"; title = "Update Profile Test"; ObjectID = "aRi-6J-uFP"; */
 "aRi-6J-uFP.title" = "Update Profile Test";
 
 /* Class = "UILabel"; text = "result"; ObjectID = "baG-4C-MSR"; */
-"baG-4C-MSR.text" = "result";
+"baG-4C-MSR.text" = "sonuç";
 
 /* Class = "UILabel"; text = "Street"; ObjectID = "cQh-L9-h1A"; */
-"cQh-L9-h1A.text" = "Street";
+"cQh-L9-h1A.text" = "Cadde";
 
 /* Class = "UIViewController"; title = "Profile-Info"; ObjectID = "cZl-fS-daT"; */
 "cZl-fS-daT.title" = "Profile-Info";
 
 /* Class = "UILabel"; text = "Title"; ObjectID = "cdu-EU-9nQ"; */
-"cdu-EU-9nQ.text" = "Title";
+"cdu-EU-9nQ.text" = "Başlık";
 
 /* Class = "UILabel"; text = "Email"; ObjectID = "dIc-Cf-hzD"; */
 "dIc-Cf-hzD.text" = "Email";
@@ -171,22 +171,22 @@
 "dUe-jB-2EJ.placeholder" = "email";
 
 /* Class = "UILabel"; text = "Language"; ObjectID = "duD-nM-YAK"; */
-"duD-nM-YAK.text" = "Language";
+"duD-nM-YAK.text" = "Dil";
 
 /* Class = "UILabel"; text = "Label"; ObjectID = "e3H-4l-Sl0"; */
 "e3H-4l-Sl0.text" = "Label";
 
 /* Class = "UIButton"; normalTitle = "Add"; ObjectID = "e76-AA-DxG"; */
-"e76-AA-DxG.normalTitle" = "Add";
+"e76-AA-DxG.normalTitle" = "Ekle";
 
 /* Class = "UILabel"; text = "Country"; ObjectID = "et5-pu-FKz"; */
-"et5-pu-FKz.text" = "Country";
+"et5-pu-FKz.text" = "Ülke";
 
 /* Class = "UINavigationItem"; title = "Login"; ObjectID = "fPm-DG-NeD"; */
-"fPm-DG-NeD.title" = "Login";
+"fPm-DG-NeD.title" = "Giriş";
 
 /* Class = "UILabel"; text = "First Name"; ObjectID = "fRj-ni-xiA"; */
-"fRj-ni-xiA.text" = "First Name";
+"fRj-ni-xiA.text" = "İsim";
 
 /* Class = "UITableViewController"; title = "Wiki"; ObjectID = "g9t-Nf-HRz"; */
 "g9t-Nf-HRz.title" = "Wiki";
@@ -195,10 +195,10 @@
 "hKH-FU-GLZ.headerTitle" = "fill below to register";
 
 /* Class = "UITextField"; placeholder = "last name"; ObjectID = "hgE-qW-37f"; */
-"hgE-qW-37f.placeholder" = "last name";
+"hgE-qW-37f.placeholder" = "soyisim";
 
 /* Class = "UITableViewSection"; headerTitle = "profile"; ObjectID = "hkF-n0-cNA"; */
-"hkF-n0-cNA.headerTitle" = "profile";
+"hkF-n0-cNA.headerTitle" = "kullanıcı profili";
 
 /* Class = "UILabel"; text = "Password Re-Enter"; ObjectID = "ky1-aB-UAh"; */
 "ky1-aB-UAh.text" = "Password Re-Enter";
@@ -207,31 +207,31 @@
 "llk-Vl-T7a.title" = "Wiki-Content";
 
 /* Class = "UIButton"; normalTitle = "Change Email"; ObjectID = "lvE-OA-BAx"; */
-"lvE-OA-BAx.normalTitle" = "Change Email";
+"lvE-OA-BAx.normalTitle" = "Email Değiştir";
 
 /* Class = "UILabel"; text = "Email"; ObjectID = "mcb-IF-V0Y"; */
 "mcb-IF-V0Y.text" = "Email";
 
 /* Class = "UILabel"; text = "Old Password"; ObjectID = "n1L-nr-2v8"; */
-"n1L-nr-2v8.text" = "Old Password";
+"n1L-nr-2v8.text" = "Eski Parola";
 
 /* Class = "UITextField"; placeholder = "last name"; ObjectID = "oi1-5k-fFC"; */
-"oi1-5k-fFC.placeholder" = "last name";
+"oi1-5k-fFC.placeholder" = "soyisim";
 
 /* Class = "UITextField"; placeholder = "birthday"; ObjectID = "osP-KE-Rru"; */
-"osP-KE-Rru.placeholder" = "birthday";
+"osP-KE-Rru.placeholder" = "doğum günü";
 
 /* Class = "UILabel"; text = "Label"; ObjectID = "sSF-aR-ZWb"; */
-"sSF-aR-ZWb.text" = "Label";
+"sSF-aR-ZWb.text" = "Başlık";
 
 /* Class = "UINavigationItem"; title = "Register Test"; ObjectID = "saw-dX-AQm"; */
 "saw-dX-AQm.title" = "Register Test";
 
 /* Class = "UITextField"; placeholder = "password"; ObjectID = "ucr-um-LgV"; */
-"ucr-um-LgV.placeholder" = "password";
+"ucr-um-LgV.placeholder" = "parola";
 
 /* Class = "UILabel"; text = "Last Name"; ObjectID = "usN-3j-2Hw"; */
-"usN-3j-2Hw.text" = "Last Name";
+"usN-3j-2Hw.text" = "Soyisim";
 
 /* Class = "UITextField"; placeholder = "re-enter your password"; ObjectID = "wQf-i6-CXh"; */
 "wQf-i6-CXh.placeholder" = "re-enter your password";
@@ -246,4 +246,4 @@
 "xz5-B1-D3c.placeholder" = "postal code";
 
 /* Class = "UILabel"; text = "Birth Date"; ObjectID = "zeH-rs-MEq"; */
-"zeH-rs-MEq.text" = "Birth Date";
+"zeH-rs-MEq.text" = "Doğum Günü";
