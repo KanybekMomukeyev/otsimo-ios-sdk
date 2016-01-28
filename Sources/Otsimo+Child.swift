@@ -13,7 +13,7 @@ extension Otsimo: ChildApi {
     public func addChild(firstName: String, lastName: String, gender: OTSGender, birthDay: NSDate, language: String, handler: (res: OtsimoError) -> Void) {
         if let connection = connection {
             let child: OTSChild = OTSChild()
-            child.fistName = firstName
+            child.firstName = firstName
             child.lastName = lastName
             child.gender = gender
             child.language = language
