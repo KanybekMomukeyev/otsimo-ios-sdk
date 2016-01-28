@@ -59,12 +59,25 @@ class AllGamesViewController: UITableViewController {
         return cell
     }
     
+    private var selectedGame: Game?
+    
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        /*   let child = childList[indexPath.row]
-         selectedChildId = child.id_p
-         print("clicked on '\(selectedChildId)'")
-         performSegueWithIdentifier("getchildtest", sender: tableView)
-         */
+        let game = games[indexPath.row]
+        selectedGame = game
+        performSegueWithIdentifier("gameinfotest", sender: tableView)
     }
     
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
+        if let id = segue.identifier {
+            if id != "gameinfotest" {
+                return
+            }
+        } else {
+            return
+        }
+        let gic = segue.destinationViewController as! GameInfoViewController
+        gic.game = selectedGame
+    }
 }

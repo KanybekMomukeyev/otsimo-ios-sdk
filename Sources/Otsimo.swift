@@ -40,7 +40,7 @@ public class Otsimo {
         
     }
     
-    internal func fixGameAssetUrl(id: String, version: String, rawUrl: String) -> String {
+    public func fixGameAssetUrl(id: String, version: String, rawUrl: String) -> String {
         let v = versionToUrl(version)
         return "\(connection!.config.publicContentUrl)/\(id)/\(v)/\(rawUrl)"
     }
