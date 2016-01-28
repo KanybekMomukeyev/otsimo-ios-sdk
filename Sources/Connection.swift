@@ -240,7 +240,7 @@ internal class Connection {
         RPC = registryService.RPCToListGamesWithRequest(req) {done, response, error in
             if let response = response {
                 onMainThread {handler(response, done: false, err: OtsimoError.None)}
-            } else {
+            } else if (!done) {
                 Log.error("getAllGames, Finished with error: \(error!)")
                 onMainThread {handler(nil, done: true, err: OtsimoError.ServiceError(message: "\(error)"))}
                 return

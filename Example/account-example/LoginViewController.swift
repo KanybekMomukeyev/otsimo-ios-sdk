@@ -24,7 +24,6 @@ class LoginViewController: UIViewController {
     }
     
     @IBAction func loginTouched(sender: UIButton) {
-        print(emailText.text!, passwordText.text!)
         SwiftSpinner.show("logging in...", animated: true)
         otsimo.login(emailText.text!, password: passwordText.text!) {repo in
             print("login finished")
@@ -39,9 +38,7 @@ class LoginViewController: UIViewController {
                 SwiftSpinner.show("failed", animated: false)
                 self.footerText.text = "ERROR: \(error)"
             }
-            
         }
     }
-    
 }
 

@@ -77,7 +77,7 @@ class AddChildTableViewController: UITableViewController {
         let language : String = NSBundle.mainBundle().preferredLocalizations.first!
         
         let child: OTSChild = OTSChild()
-        child.fistName = firstNameText.text!
+        child.firstName = firstNameText.text!
         child.lastName = lastNameText.text!
         child.gender = gender
         child.language = language

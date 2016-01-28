@@ -46,7 +46,7 @@ class ChildListViewController: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("child_list_reuse_identifier", forIndexPath: indexPath)
         let child = childList[indexPath.row]
-        cell.textLabel?.text = "\(child.fistName) \(child.lastName)"
+        cell.textLabel?.text = "\(child.firstName) \(child.lastName)"
         cell.detailTextLabel?.text = child.id_p
         return cell
     }

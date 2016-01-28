@@ -27,9 +27,10 @@ public class Otsimo {
         sharedInstance.useProductionGames = config.useProductionGames
         sharedInstance.connection = Connection(config: config)
         sharedInstance.recoverOldSessionIfExist()
-        sharedInstance.languages.removeAll()
-        sharedInstance.languages.appendContentsOf(NSLocale.preferredLanguages())
+        sharedInstance.readLanguages()
     }
+    
+    
     
     public func handleOpenURL(url: NSURL) {
         print("handleURL: ", url)
@@ -42,5 +43,12 @@ public class Otsimo {
     internal func fixGameAssetUrl(id: String, version: String, rawUrl: String) -> String {
         let v = versionToUrl(version)
         return "\(connection!.config.publicContentUrl)/\(id)/\(v)/\(rawUrl)"
+    }
+    
+    func readLanguages() {
+        languages.removeAll()
+        for l in NSLocale.preferredLanguages() {
+            languages.append(l.substringToIndex(l.startIndex.advancedBy(2)))
+        }
     }
 }
