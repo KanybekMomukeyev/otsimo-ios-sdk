@@ -10,15 +10,18 @@ import Foundation
 import OtsimoApiGrpc
 import gRPC
 
-
 public class Otsimo {
     
     public static let sharedInstance = Otsimo()
-    
     public var session: Session?
     internal var connection: Connection?
     public var useProductionGames: Bool = true
     public var languages: [String] = []
+    public let cache: CacheProtocol
+    
+    public init() {
+        cache = OtsimoCache()
+    }
     
     public static func config(config: ClientConfig) {
         sharedInstance.useProductionGames = config.useProductionGames
@@ -26,7 +29,6 @@ public class Otsimo {
         sharedInstance.recoverOldSessionIfExist()
         sharedInstance.languages.removeAll()
         sharedInstance.languages.appendContentsOf(NSLocale.preferredLanguages())
-        print("")
     }
     
     public func handleOpenURL(url: NSURL) {

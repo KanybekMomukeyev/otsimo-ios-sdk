@@ -88,7 +88,7 @@ class CatalogViewController: UITableViewController {
             game.getManifest() {man, error in
                 if let m = man {
                     cell.titlLabel?.text = m.localVisibleName
-                    cell.versionLabel?.text = m.manifest.version
+                    cell.versionLabel?.text = m.version
                     cell.imageLabel.hnk_setImageFromURL(NSURL(string: m.localIcon)!)
                 } else {
                     print("failed to get manifes")

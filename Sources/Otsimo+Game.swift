@@ -12,11 +12,19 @@ import OtsimoApiGrpc
 extension Otsimo: GameApi {
     // Game
     public func getGame(id: String, handler: (Game?, error: OtsimoError) -> Void) {
-        getGameRelease(id, version: nil, onlyProduction: Otsimo.sharedInstance.useProductionGames) {resp, error in
-            if let gr = resp {
-                handler(Game(gameRelease: gr), error: .None)
+        Otsimo.sharedInstance.cache.fetchGame(id) {
+            if let game = $0 {
+                handler(game, error: .None)
             } else {
-                handler(nil, error: error)
+                self.getGameRelease(id, version: nil, onlyProduction: Otsimo.sharedInstance.useProductionGames) {resp, error in
+                    if let gr = resp {
+                        let game = Game(gameRelease: gr)
+                        game.cache()
+                        handler(game, error: .None)
+                    } else {
+                        handler(nil, error: error)
+                    }
+                }
             }
         }
     }
@@ -38,7 +46,13 @@ extension Otsimo: GameApi {
             if let ses = session {
                 connection.getAllGamesStream(ses) {li, done, error in
                     if let item = li {
-                        handler(Game(listItem: item), done: done, error: error)
+                        Otsimo.sharedInstance.cache.fetchGame(item.gameId) {
+                            if let game = $0 {
+                                handler(game, done: done, error: error)
+                            } else {
+                                handler(Game(listItem: item), done: done, error: error)
+                            }
+                        }
                     } else {
                         handler(nil, done: done, error: error)
                     }

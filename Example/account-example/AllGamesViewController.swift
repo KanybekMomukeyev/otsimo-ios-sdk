@@ -7,8 +7,11 @@
 //
 
 import UIKit
+import OtsimoSDK
 
 class AllGamesViewController: UITableViewController {
+    
+    var games: [Game] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,7 +21,14 @@ class AllGamesViewController: UITableViewController {
         
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
-        
+        otsimo.getAllGames(getAllGamesStream)
+    }
+    
+    func getAllGamesStream(game: Game?, done: Bool, error: OtsimoError) {
+        if let game = game {
+            games.append(game)
+            tableView.reloadData()
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -30,12 +40,12 @@ class AllGamesViewController: UITableViewController {
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return games.count
     }
     
     /*

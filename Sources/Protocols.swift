@@ -58,4 +58,13 @@ public protocol CatalogApi {
     func getCatalog(handler: (OTSCatalog?, OtsimoError) -> Void)
 }
 
+public protocol CacheProtocol {
+    // Game
+    func fetchGame(id: String, handler: (Game?) -> Void)
+    func cacheGame(game: Game)
+    // Catalog
+    func fetchCatalog(handler: (OTSCatalog?) -> Void)
+    func cacheCatalog(catalog: OTSCatalog)
+}
+
 

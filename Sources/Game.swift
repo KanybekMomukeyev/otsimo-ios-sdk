@@ -8,14 +8,21 @@
 
 import Foundation
 import OtsimoApiGrpc
+import Haneke
 
-public class Game {
+public class Game : DataConvertible, DataRepresentable {
     public let id: String
     public var uniqueName: String = ""
     public var productionVersion: String = ""
     internal var latestVersion: String = ""
     internal var latestState: OTSReleaseState = OTSReleaseState.Created
-    internal var gameManifest: GameManifest?
+    internal var fetchedAt: NSDate?
+    
+    internal var gameManifest: GameManifest? {
+        didSet {
+            fetchedAt = NSDate()
+        }
+    }
     
     public init(gameId: String) {
         self.id = gameId
@@ -42,6 +49,16 @@ public class Game {
         }
     }
     
+    internal convenience init(cache: OTSGameCache, manifest: OTSGameManifest) {
+        self.init(gameId: cache.gameId)
+        fetchedAt = NSDate(timeIntervalSince1970: cache.fetchedAt)
+        uniqueName = manifest.uniqueName
+        latestVersion = cache.latestVersion
+        productionVersion = cache.productionVersion
+        latestState = cache.latestState
+        gameManifest = GameManifest(id: id, version: cache.manifestVersion, gameManifest: manifest)
+    }
+    
     public func getManifest(handler: (GameManifest?, OtsimoError) -> Void) {
         if let gm = gameManifest {
             // TODO(sercand) there could be a bug if previously get dev release and now want to production
@@ -52,6 +69,7 @@ public class Game {
                     if let r = resp {
                         self.gameManifest = GameManifest(id: self.id, gameRelease: r)
                         self.productionVersion = r.version
+                        self.cache()
                         handler(self.gameManifest, .None)
                     } else {
                         Log.error("failed to get getManifest \(err)")
@@ -63,6 +81,7 @@ public class Game {
                     if let r = resp {
                         self.gameManifest = GameManifest(id: self.id, gameRelease: r)
                         self.productionVersion = r.version
+                        self.cache()
                         handler(self.gameManifest, .None)
                     } else {
                         Log.error("failed to get getManifest \(err)")
@@ -73,6 +92,48 @@ public class Game {
         }
     }
     
+    public func cache() {
+        Otsimo.sharedInstance.cache.cacheGame(self)
+    }
+    
+    public typealias Result = Game
+    
+    public class func convertFromData(data: NSData) -> Result? {
+        var error: NSError? = nil
+        let cache: OTSGameCache = OTSGameCache(data: data, error: &error)
+        if let theError = error {
+            Log.error("failed to parse cache data:\(theError)")
+            return nil
+        } else {
+            let manifest: OTSGameManifest = OTSGameManifest(data: cache.manifest, error: &error)
+            if let te = error {
+                Log.error("failed to parse cache manifest data:\(te)")
+                return nil
+            } else {
+                return Game(cache: cache, manifest: manifest)
+            }
+        }
+    }
+    
+    public func asData() -> NSData! {
+        if let gm = gameManifest {
+            let cache: OTSGameCache = OTSGameCache()
+            cache.gameId = id
+            cache.productionVersion = productionVersion
+            cache.latestVersion = latestVersion
+            cache.latestState = latestState
+            cache.manifest = gm.manifest.data()
+            cache.manifestVersion = gm.version
+            if let fa = fetchedAt {
+                cache.fetchedAt = fa.timeIntervalSince1970
+            } else {
+                cache.fetchedAt = NSDate().timeIntervalSince1970
+            }
+            return cache.data()
+        } else {
+            return nil
+        }
+    }
 }
 
 public class GameManifest {
@@ -81,12 +142,18 @@ public class GameManifest {
     public let metadatas: [OTSGameMetadata]
     public let version: String
     
-    
     init(id: String, gameRelease: OTSGameRelease) {
         gameId = id
-        self.manifest = gameRelease.gameManifest
+        manifest = gameRelease.gameManifest
         metadatas = manifest.metadataArray as AnyObject as! [OTSGameMetadata]
         version = gameRelease.version
+    }
+    
+    init(id: String, version: String, gameManifest: OTSGameManifest) {
+        gameId = id
+        manifest = gameManifest
+        metadatas = manifest.metadataArray as AnyObject as! [OTSGameMetadata]
+        self.version = version
     }
     
     public var localVisibleName: String {
