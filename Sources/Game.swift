@@ -223,14 +223,28 @@ public class GameManifest {
     
     public var localImages: [String] {
         get {
+            var images: [String] = []
+            
             for l in Otsimo.sharedInstance.languages {
                 for md in metadatas {
                     if md.language == l {
-                        return md.imagesArray as AnyObject as![String]
+                        for i in md.imagesArray {
+                            if let im = i as? String {
+                                let u = Otsimo.sharedInstance.fixGameAssetUrl(gameId, version: version, rawUrl: im)
+                                images.append(u)
+                            }
+                        }
+                        return images;
                     }
                 }
             }
-            return manifest.defaultImagesArray as AnyObject as![String]
+            for i in manifest.defaultImagesArray {
+                if let im = i as? String {
+                    let u = Otsimo.sharedInstance.fixGameAssetUrl(gameId, version: version, rawUrl: im)
+                    images.append(u)
+                }
+            }
+            return images
         }
     }
 }
