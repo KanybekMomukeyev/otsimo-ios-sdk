@@ -22,6 +22,7 @@ class UpdateProfileViewController: UITableViewController {
     @IBOutlet weak var postalCodeText: UITextField!
     @IBOutlet weak var countryText: UITextField!
     
+    @IBOutlet weak var asd: UILabel!
     var initialProfile: OTSProfile?
     
     override func viewDidLoad() {

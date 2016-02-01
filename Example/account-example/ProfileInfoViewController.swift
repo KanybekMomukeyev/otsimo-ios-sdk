@@ -22,7 +22,6 @@ class ProfileInfoViewController: UIViewController {
             default:
                 self.outputLabel.text = "ERROR: \(error)"
             }
-            
         }
     }
 }
