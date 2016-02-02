@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>OtsimoClientID</key>
+	<string>OdvHPcsgTcTnmYnvxJMVRDA4ifTy6a2zPTN6cnTUQ8g=@com.otsimo.sdk-example</string>
+	<key>OtsimoClientSecret</key>
+	<string>asdasdasdasdasdasd</string>
+</dict>
+</plist>

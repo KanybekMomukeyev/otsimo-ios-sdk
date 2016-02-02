@@ -28,6 +28,7 @@ class GameInfoViewController: UIViewController {
     internal var language: String = ""
     internal var images: [String] = []
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         imageCollectionView.dataSource = self
@@ -79,6 +80,21 @@ class GameInfoViewController: UIViewController {
             }
         }
     }
+    
+    @IBAction func addTouched(sender: UIButton) {
+        let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewControllerWithIdentifier("AddGameToChildViewController") as! AddGameToChildViewController
+        vc.modalPresentationStyle = UIModalPresentationStyle.Popover
+        vc.game = self.game
+        vc.preferredContentSize = CGSizeMake(300, 300)
+        
+        let popover: UIPopoverPresentationController = vc.popoverPresentationController!
+        popover.sourceView = sender
+        popover.delegate = self
+        popover.sourceRect = CGRectMake(0, 0, sender.frame.size.width, sender.frame.size.height)
+        
+        presentViewController(vc, animated: true, completion: nil)
+    }
 }
 
 extension GameInfoViewController: UICollectionViewDataSource {
@@ -96,6 +112,13 @@ extension GameInfoViewController: UICollectionViewDataSource {
         cell.image.hnk_setImageFromURL(NSURL(string: images[indexPath.row])!)
         
         return cell
+    }
+}
+
+extension GameInfoViewController: UIPopoverPresentationControllerDelegate {
+    func adaptivePresentationStyleForPresentationController(
+        controller: UIPresentationController) -> UIModalPresentationStyle {
+        return UIModalPresentationStyle.None
     }
 }
 

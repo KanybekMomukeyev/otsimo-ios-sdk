@@ -257,20 +257,17 @@ internal class Connection {
         }
     }
     
-    
-    
-    
     func login(email: String, plainPassword: String, handler: (res: TokenResult, session: Session?) -> Void) {
         let grant_type = "password"
         let urlPath: String = "\(config.accountsServiceUrl)/login"
         let emailTrimmed = email.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-        let postString = "username=\(emailTrimmed)&password=\(plainPassword)&grant_type=\(grant_type)"
+        let postString = "username=\(emailTrimmed)&password=\(plainPassword)&grant_type=\(grant_type)&client_id=\(config.clientID)"
         httpRequestWithTokenResult(urlPath, postString: postString, handler: handler)
     }
     
     func register(data: RegistrationData, handler: (res: TokenResult, session: Session?) -> Void) {
         let urlPath: String = "\(config.accountsServiceUrl)/register"
-        let postString = "username=\(data.email)&password=\(data.password)&first_name=\(data.firstName)&last_name=\(data.lastName)&language=\(data.language)"
+        let postString = "username=\(data.email)&password=\(data.password)&first_name=\(data.firstName)&last_name=\(data.lastName)&language=\(data.language)&client_id=\(config.clientID)"
         httpRequestWithTokenResult(urlPath, postString: postString, handler: handler)
     }
     
@@ -286,8 +283,7 @@ internal class Connection {
         httpPostRequestWithToken(urlPath, postString: postString, authorization: "\(session.tokenType) \(session.accessToken)", handler: handler)
     }
     
-    
-    
+    // http requests
     
     func httpRequestWithTokenResult(urlPath: String, postString: String, handler: (res: TokenResult, session: Session?) -> Void) {
         let request = NSMutableURLRequest(URL: NSURL(string: urlPath)!)

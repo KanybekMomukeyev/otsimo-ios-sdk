@@ -15,6 +15,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
+        var keys: NSDictionary?
+        
+        if let path = NSBundle.mainBundle().pathForResource("keys", ofType: "plist") {
+            keys = NSDictionary(contentsOfFile: path)
+        }
+        if let dict = keys {
+            clientID = dict["OtsimoClientID"] as! String
+        }
         #if DEBUG
         Otsimo.config(ClientConfig.development(clientID, host: devHost))
         #else

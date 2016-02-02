@@ -30,8 +30,6 @@ public class Otsimo {
         sharedInstance.readLanguages()
     }
     
-    
-    
     public func handleOpenURL(url: NSURL) {
         print("handleURL: ", url)
     }

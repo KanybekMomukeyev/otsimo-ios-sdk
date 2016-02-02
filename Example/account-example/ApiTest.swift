@@ -38,7 +38,6 @@ let apiTestScenes = [
     ApiTest(title: "Get Child", segmentName: "getchildlisttest", requires: true, provides: false),
     ApiTest(title: "-Update Child Game", segmentName: "updatechildgametest", requires: true, provides: false),
     ApiTest(title: "Get Game List", segmentName: "getgamelisttest", requires: true, provides: false),
-    ApiTest(title: "-Get Game", segmentName: "getgametest", requires: true, provides: false),
     ApiTest(title: "-Game Settings", segmentName: "gamesettingstest", requires: true, provides: false),
     ApiTest(title: "-Wiki", segmentName: "wikitest", requires: true, provides: false),
     ApiTest(title: "Catalog", segmentName: "catalogtest", requires: true, provides: false),
