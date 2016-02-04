@@ -14,6 +14,7 @@ class ChildListViewController: UITableViewController {
     
     var childList: [OTSChild] = []
     var selectedChildId = ""
+    var nextSegue = "getchildtest"
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -55,7 +56,7 @@ class ChildListViewController: UITableViewController {
         let child = childList[indexPath.row]
         selectedChildId = child.id_p
         print("clicked on '\(selectedChildId)'")
-        performSegueWithIdentifier("getchildtest", sender: tableView)
+        performSegueWithIdentifier(nextSegue, sender: tableView)
     }
     
     // MARK: - Navigation
@@ -65,14 +66,11 @@ class ChildListViewController: UITableViewController {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         if let id = segue.identifier {
-            if id != "getchildtest" {
-                return
+            if id == "getchildtest" {
+                let cic = segue.destinationViewController as! ChildViewController
+                cic.childIdWillFetch = selectedChildId
+                print("will fetch '\(selectedChildId)'")
             }
-        } else {
-            return
         }
-        let cic = segue.destinationViewController as! ChildInfoViewController
-        cic.childIdWillFetch = selectedChildId
-        print("will fetch '\(selectedChildId)'")
     }
 }

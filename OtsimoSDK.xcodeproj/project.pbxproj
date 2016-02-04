@@ -16,6 +16,7 @@
 		0D4D7CDD1C5A415C000BFEC5 /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D4D7CDC1C5A415C000BFEC5 /* Cache.swift */; };
 		0D4D7CE21C5A4EE6000BFEC5 /* GPBMessage+Haneke.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D4D7CE11C5A4EE6000BFEC5 /* GPBMessage+Haneke.swift */; };
 		0D5395A51C60D8DF00DBB19C /* GameManifest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5395A41C60D8DF00DBB19C /* GameManifest.swift */; };
+		0D5395AD1C62AD4600DBB19C /* GameSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5395AC1C62AD4600DBB19C /* GameSettings.swift */; };
 		0D54BB901C158FAA006A9382 /* Otsimo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D54BB8F1C158FAA006A9382 /* Otsimo.swift */; };
 		0D60A90D1C5652DF00115500 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D60A90C1C5652DF00115500 /* Game.swift */; };
 		0D60A9101C566E6B00115500 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D60A90F1C566E6B00115500 /* Log.swift */; };
@@ -61,6 +62,7 @@
 		0D4D7CDC1C5A415C000BFEC5 /* Cache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Cache.swift; path = Sources/Cache.swift; sourceTree = "<group>"; };
 		0D4D7CE11C5A4EE6000BFEC5 /* GPBMessage+Haneke.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "GPBMessage+Haneke.swift"; path = "Sources/GPBMessage+Haneke.swift"; sourceTree = "<group>"; };
 		0D5395A41C60D8DF00DBB19C /* GameManifest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameManifest.swift; path = Sources/GameManifest.swift; sourceTree = "<group>"; };
+		0D5395AC1C62AD4600DBB19C /* GameSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameSettings.swift; path = Sources/GameSettings.swift; sourceTree = "<group>"; };
 		0D54BB8F1C158FAA006A9382 /* Otsimo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Otsimo.swift; path = Sources/Otsimo.swift; sourceTree = "<group>"; };
 		0D60A90C1C5652DF00115500 /* Game.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Game.swift; path = Sources/Game.swift; sourceTree = "<group>"; };
 		0D60A90F1C566E6B00115500 /* Log.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Log.swift; path = Sources/Log.swift; sourceTree = "<group>"; };
@@ -154,6 +156,8 @@
 				0D3D0FF81C3AA3F00049A72F /* Connection.swift */,
 				0D3053731C3AAAB0000FE8B1 /* Errors.swift */,
 				0D60A90C1C5652DF00115500 /* Game.swift */,
+				0D5395A41C60D8DF00DBB19C /* GameManifest.swift */,
+				0D5395AC1C62AD4600DBB19C /* GameSettings.swift */,
 				0D4D7CE11C5A4EE6000BFEC5 /* GPBMessage+Haneke.swift */,
 				0D333A691C158D3200968DDA /* Info.plist */,
 				0D9044011C3AD68B00F51C8D /* JWT.swift */,
@@ -168,7 +172,6 @@
 				0D60A9141C5692E200115500 /* Protocols.swift */,
 				0D8214A01C38755100DC246F /* Session.swift */,
 				0DC2841D1C4EE8B30075FE63 /* Utils.swift */,
-				0D5395A41C60D8DF00DBB19C /* GameManifest.swift */,
 			);
 			name = Sources;
 			sourceTree = "<group>";
@@ -299,6 +302,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0D8214A11C38755100DC246F /* Session.swift in Sources */,
+				0D5395AD1C62AD4600DBB19C /* GameSettings.swift in Sources */,
 				0D3D0FF91C3AA3F00049A72F /* Connection.swift in Sources */,
 				0D60A91B1C5693DB00115500 /* Otsimo+Game.swift in Sources */,
 				0D60A9191C56938C00115500 /* Otsimo+Profile.swift in Sources */,

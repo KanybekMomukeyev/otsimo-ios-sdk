@@ -15,12 +15,14 @@ public class GameManifest {
     public let manifest: OTSGameManifest
     public let metadatas: [OTSGameMetadata]
     public let version: String
+    private let settings: GameSettings?
     
     init(id: String, gameRelease: OTSGameRelease) {
         gameId = id
         manifest = gameRelease.gameManifest
         metadatas = manifest.metadataArray as AnyObject as! [OTSGameMetadata]
         version = gameRelease.version
+        settings = nil
     }
     
     init(id: String, version: String, gameManifest: OTSGameManifest) {
@@ -28,6 +30,7 @@ public class GameManifest {
         manifest = gameManifest
         metadatas = manifest.metadataArray as AnyObject as! [OTSGameMetadata]
         self.version = version
+        settings = nil
     }
     
     public var localVisibleName: String {
@@ -119,6 +122,14 @@ public class GameManifest {
                 }
             }
             return images
+        }
+    }
+    
+    public func getSettings(handler: (GameSettings?) -> Void) {
+        if let s = settings {
+            handler(s)
+        } else {
+            handler(nil)
         }
     }
 }

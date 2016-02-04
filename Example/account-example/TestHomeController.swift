@@ -86,8 +86,16 @@ class TestHomeController: UITableViewController {
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        print("going to \(segue.identifier)")
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        if let id = segue.identifier {
+            if id == "editchildgamestest" {
+                let cic = segue.destinationViewController as! ChildListViewController
+                cic.nextSegue = "getchildtest"
+            } else if id == "getchildlisttest" {
+                let cic = segue.destinationViewController as! ChildListViewController
+                cic.nextSegue = "getchildtest"
+            }
+        }
     }
 }

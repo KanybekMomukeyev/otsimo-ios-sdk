@@ -108,7 +108,6 @@ extension GameInfoViewController: UICollectionViewDataSource {
     
     internal func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = self.imageCollectionView.dequeueReusableCellWithReuseIdentifier("game_image_cell", forIndexPath: indexPath) as! GameImageViewCell
-        print("get image cell for", indexPath.row)
         cell.image.hnk_setImageFromURL(NSURL(string: images[indexPath.row])!)
         
         return cell

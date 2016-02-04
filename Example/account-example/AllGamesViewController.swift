@@ -71,13 +71,10 @@ class AllGamesViewController: UITableViewController {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         if let id = segue.identifier {
-            if id != "gameinfotest" {
-                return
+            if id == "gameinfotest" {
+                let gic = segue.destinationViewController as! GameInfoViewController
+                gic.game = selectedGame
             }
-        } else {
-            return
         }
-        let gic = segue.destinationViewController as! GameInfoViewController
-        gic.game = selectedGame
     }
 }
