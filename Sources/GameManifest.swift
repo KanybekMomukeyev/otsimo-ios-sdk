@@ -15,7 +15,7 @@ public class GameManifest {
     public let manifest: OTSGameManifest
     public let metadatas: [OTSGameMetadata]
     public let version: String
-    private let settings: GameSettings?
+    private var settings: GameSettings?
     
     init(id: String, gameRelease: OTSGameRelease) {
         gameId = id
@@ -129,7 +129,10 @@ public class GameManifest {
         if let s = settings {
             handler(s)
         } else {
-            handler(nil)
+            GameSettings.fromIdAndVersion(self.gameId, version: self.version, path: self.manifest.settings) {gs in
+                self.settings = gs
+                handler(gs)
+            }
         }
     }
 }
