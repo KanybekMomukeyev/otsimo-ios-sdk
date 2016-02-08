@@ -12,10 +12,12 @@ import Haneke
 
 public class GameManifest {
     public let gameId: String
+    public let version: String
     public let manifest: OTSGameManifest
     public let metadatas: [OTSGameMetadata]
-    public let version: String
+    
     private var settings: GameSettings?
+    private var keyvalue: GameKeyValueStore?
     
     init(id: String, gameRelease: OTSGameRelease) {
         gameId = id
@@ -135,4 +137,36 @@ public class GameManifest {
             }
         }
     }
+    
+    public func getKeyValueStore(handler: (GameKeyValueStore?) -> Void) {
+        if let k = keyvalue {
+            handler(k)
+        } else {
+            let suplangs = manifest.languagesArray as AnyObject as! [NSString]
+            if suplangs.count == 0 {
+                handler(nil)
+                return
+            }
+            var lang: String = ""
+            for syslang in Otsimo.sharedInstance.languages {
+                if suplangs.contains(syslang) {
+                    lang = syslang
+                    break
+                }
+            }
+            var rawUrl: String
+            if lang == "" {
+                rawUrl = "\(manifest.kvPath)/general.json"
+            } else {
+                rawUrl = "\(manifest.kvPath)/\(lang).json"
+            }
+            let fullUrl: String = Otsimo.sharedInstance.fixGameAssetUrl(self.gameId, version: self.version, rawUrl: rawUrl)
+            let url = NSURL(string: fullUrl)!
+            GameKeyValueStore.fromUrl(url) {kv, e in
+                self.keyvalue = kv
+                handler(self.keyvalue)
+            }
+        }
+    }
+    
 }

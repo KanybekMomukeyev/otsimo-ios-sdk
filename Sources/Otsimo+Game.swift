@@ -46,10 +46,12 @@ extension Otsimo: GameApi {
             if let ses = session {
                 connection.getAllGamesStream(ses) {li, done, error in
                     if let item = li {
+                        print("list(1) item: ", item)
                         Otsimo.sharedInstance.cache.fetchGame(item.gameId) {
                             if let game = $0 {
                                 handler(game, done: done, error: error)
                             } else {
+                                print("list(2) item: ", item)
                                 handler(Game(listItem: item), done: done, error: error)
                             }
                         }

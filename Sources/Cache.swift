@@ -10,7 +10,7 @@ import Foundation
 import OtsimoApiGrpc
 import Haneke
 
-class OtsimoCache: CacheProtocol {
+final class OtsimoCache: CacheProtocol {
     static let catalogCache = Cache<OTSCatalog>(name: "otsimo-catalog")
     static let catalogKey = "catalog"
     static let gameCache = Cache<Game>(name: "otsimo-game")

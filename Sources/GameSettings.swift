@@ -8,6 +8,7 @@
 
 import Foundation
 import Haneke
+import OtsimoApiGrpc
 
 public enum SettingsProperty {
     case Integer(key: String, defaultValue: Int)
@@ -15,19 +16,155 @@ public enum SettingsProperty {
     case Text(key: String, defaultValue: String)
     case Boolean(key: String, defaultValue: Bool)
     case Enum(key: String, defaultValue: String, values: [String])
+    
+    public var defaultValue: SettingsPropertyValue {
+        get {
+            switch (self) {
+            case .Boolean(let key, let defaultValue):
+                return SettingsPropertyValue.Boolean(key: key, value: defaultValue)
+            case .Integer(let key, let defaultValue):
+                return SettingsPropertyValue.Integer(key: key, value: defaultValue)
+            case .Enum(let key, let defaultValue, _):
+                return SettingsPropertyValue.Text(key: key, value: defaultValue)
+            case .Text(let key, let defaultValue):
+                return SettingsPropertyValue.Text(key: key, value: defaultValue)
+            case .Float(let key, let defaultValue):
+                return SettingsPropertyValue.Float(key: key, value: defaultValue)
+            }
+        }
+    }
+    
+    public var key: String {
+        get {
+            switch (self) {
+            case .Boolean(let key, _):
+                return key
+            case .Integer(let key, _):
+                return key
+            case .Enum(let key, _, _):
+                return key
+            case .Text(let key, _):
+                return key
+            case .Float(let key, _):
+                return key
+            }
+        }
+    }
 }
 
+public enum SettingsPropertyValue {
+    case Integer(key: String, value: Int)
+    case Float(key: String, value: Float64)
+    case Text(key: String, value: String)
+    case Boolean(key: String, value: Bool)
+    
+    public var value: AnyObject {
+        get {
+            switch (self) {
+            case .Integer(_, let value):
+                return value
+            case .Boolean(_, let value):
+                return value
+            case .Text(_, let value):
+                return value
+            case .Float(_, let value):
+                return value
+            }
+        }
+    }
+    
+    public var integer: Int! {
+        get {
+            switch (self) {
+            case .Integer(_, let value):
+                return value
+            default:
+                return nil
+            }
+        }
+    }
+    public var string: String! {
+        get {
+            switch (self) {
+            case .Text(_, let value):
+                return value
+            default:
+                return nil
+            }
+        }
+    }
+    public var float: Float64! {
+        get {
+            switch (self) {
+            case .Float(_, let value):
+                return value
+            default:
+                return nil
+            }
+        }
+    }
+    public var boolean: Bool! {
+        get {
+            switch (self) {
+            case .Boolean(_, let value):
+                return value
+            case .Integer(_, let value):
+                return value != 0
+            default:
+                return nil
+            }
+        }
+    }
+    public var key: String {
+        get {
+            switch (self) {
+            case .Integer(let key, _):
+                return key
+            case .Text(let key, _):
+                return key
+            case .Float(let key, _):
+                return key
+            case .Boolean(let key, _):
+                return key
+            }
+        }
+    }
+}
+
+public typealias SettingsValues = [String: SettingsPropertyValue]
+
 public class GameSettings {
-    public var properties: [SettingsProperty] = []
+    public private(set) var properties: [SettingsProperty] = []
+    
+    public func getDefaultValues() -> SettingsValues {
+        var v: SettingsValues = SettingsValues()
+        for p in properties {
+            v[p.key] = p.defaultValue
+        }
+        return v
+    }
+    
+    
+    public func getFromKey(key: String) -> SettingsProperty? {
+        for p in properties {
+            if p.key == key {
+                return p
+            }
+        }
+        return nil
+    }
     
     public static func fromIdAndVersion(gameID: String, version: String, path: String, handler: (GameSettings?) -> Void) {
         let url = Otsimo.sharedInstance.fixGameAssetUrl(gameID, version: version, rawUrl: path)
         GameSettings.fromUrl(url, handler: handler)
     }
     
-    public static func fromUrl(settingsUrl: String, handler: (GameSettings?) -> Void) {
+    private static func fromUrl(settingsUrl: String, handler: (GameSettings?) -> Void) {
         let cache = Shared.JSONCache
         let URL = NSURL(string: settingsUrl)
+        
+        Log.info("going to fetch \(settingsUrl)")
+        
         if let url = URL {
             cache.fetch(URL: url).onSuccess {JSON in
                 if let prop = JSON.dictionary?["properties"] as? [String : [String : AnyObject]] {
@@ -101,7 +238,3 @@ public class GameSettings {
     }
 }
 
-/*
- extension GameSettings: DataConvertible, DataRepresentable {
- }
- */

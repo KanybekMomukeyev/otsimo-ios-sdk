@@ -48,6 +48,36 @@ class OtsimoSDKTests: XCTestCase {
             }
         }
     }
+    
+    func testKV() {
+        let expectation = expectationWithDescription("...")
+        
+        let URL = NSURL(string: "http://192.168.99.100:18851/public/56b8a5583ee0720001d128ee/0_0_1/i18n/kv/tr.json")!
+        GameKeyValueStore.fromUrl(URL) {kv, e in
+            if let kv = kv {
+                XCTAssertEqual("Orta", kv.settingsTitle("difficulty", enumKey: "medium"))
+                XCTAssertEqual(23, kv.integer("test_integer"))
+                XCTAssertEqual(123.23, kv.float("test_float"))
+                let ia = kv.any("test_int_array") as! [Int]
+                XCTAssertEqual(ia.count, 2)
+                XCTAssertTrue(ia.contains(23))
+                XCTAssertTrue(ia.contains(123))
+                let dd = kv.any("test_object") as! [String: AnyObject]
+                XCTAssertEqual(dd.count, 2)
+                
+                expectation.fulfill()
+            } else {
+                XCTFail("failed to fetch \(e)")
+            }
+        }
+        
+        waitForExpectationsWithTimeout(10) {error in
+            if let error = error {
+                print("Error: \(error.localizedDescription)")
+            }
+        }
+    }
+    
     /*
      func testPerformanceExample() {
      // This is an example of a performance test case.

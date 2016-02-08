@@ -25,7 +25,7 @@ public class Game {
     }
     
     public init(gameId: String) {
-        assert(gameId == "", "id is empty")
+        assert(gameId != "", "id is empty")
         self.id = gameId
     }
     
@@ -94,7 +94,7 @@ public class Game {
     }
     
     public func cache() {
-        assert(id == "", "id is empty")
+        assert(id != "", "id is empty")
         Otsimo.sharedInstance.cache.cacheGame(self)
     }
     

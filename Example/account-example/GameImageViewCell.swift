@@ -8,6 +8,6 @@
 
 import UIKit
 
-class GameImageViewCell: UICollectionViewCell {
+final class GameImageViewCell: UICollectionViewCell {
     @IBOutlet weak var image: UIImageView!
 }

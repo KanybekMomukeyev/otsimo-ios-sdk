@@ -34,6 +34,8 @@
 		0D8214A11C38755100DC246F /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D8214A01C38755100DC246F /* Session.swift */; };
 		0D9044021C3AD68B00F51C8D /* JWT.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9044011C3AD68B00F51C8D /* JWT.swift */; };
 		0DC2841E1C4EE8B30075FE63 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DC2841D1C4EE8B30075FE63 /* Utils.swift */; };
+		0DE9425C1C66902E008DEB7E /* GameKeyValueStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE9425B1C66902E008DEB7E /* GameKeyValueStore.swift */; };
+		0DE9425E1C67D8BD008DEB7E /* ChildGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE9425D1C67D8BD008DEB7E /* ChildGame.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,6 +87,8 @@
 		0D8214A01C38755100DC246F /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Session.swift; path = Sources/Session.swift; sourceTree = "<group>"; };
 		0D9044011C3AD68B00F51C8D /* JWT.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JWT.swift; path = Sources/JWT.swift; sourceTree = "<group>"; };
 		0DC2841D1C4EE8B30075FE63 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Utils.swift; path = Sources/Utils.swift; sourceTree = "<group>"; };
+		0DE9425B1C66902E008DEB7E /* GameKeyValueStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameKeyValueStore.swift; path = Sources/GameKeyValueStore.swift; sourceTree = "<group>"; };
+		0DE9425D1C67D8BD008DEB7E /* ChildGame.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChildGame.swift; path = Sources/ChildGame.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -172,10 +176,12 @@
 			isa = PBXGroup;
 			children = (
 				0D4D7CDC1C5A415C000BFEC5 /* Cache.swift */,
+				0DE9425D1C67D8BD008DEB7E /* ChildGame.swift */,
 				0D137FA81C3A7C280006BB8E /* ClientConfig.swift */,
 				0D3D0FF81C3AA3F00049A72F /* Connection.swift */,
 				0D3053731C3AAAB0000FE8B1 /* Errors.swift */,
 				0D60A90C1C5652DF00115500 /* Game.swift */,
+				0DE9425B1C66902E008DEB7E /* GameKeyValueStore.swift */,
 				0D5395A41C60D8DF00DBB19C /* GameManifest.swift */,
 				0D5395AC1C62AD4600DBB19C /* GameSettings.swift */,
 				0D4D7CE11C5A4EE6000BFEC5 /* GPBMessage+Haneke.swift */,
@@ -326,6 +332,8 @@
 				0D3D0FF91C3AA3F00049A72F /* Connection.swift in Sources */,
 				0D60A91B1C5693DB00115500 /* Otsimo+Game.swift in Sources */,
 				0D60A9191C56938C00115500 /* Otsimo+Profile.swift in Sources */,
+				0DE9425C1C66902E008DEB7E /* GameKeyValueStore.swift in Sources */,
+				0DE9425E1C67D8BD008DEB7E /* ChildGame.swift in Sources */,
 				0D60A9101C566E6B00115500 /* Log.swift in Sources */,
 				0D60A9151C5692E200115500 /* Protocols.swift in Sources */,
 				0D60A91F1C56940700115500 /* Otsimo+Catalog.swift in Sources */,

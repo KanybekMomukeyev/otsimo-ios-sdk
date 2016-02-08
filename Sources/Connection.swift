@@ -10,7 +10,7 @@ import Foundation
 import OtsimoApiGrpc
 import gRPC
 
-internal class Connection {
+internal final class Connection {
     internal let config : ClientConfig
     internal let apiService: OTSApiService
     internal let catalogService: OTSCatalogService

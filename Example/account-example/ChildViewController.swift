@@ -16,9 +16,10 @@ class ChildViewController: UITableViewController {
     var childIdWillFetch: String = ""
     
     var infos: [String] = []
-    var games: [Game] = []
     var targetChild: OTSChild?
-    var gameEntries: [OTSChildGameEntry] = []
+    var gameEntries: [ChildGame] = []
+    var fetchedGames: [ChildGame] = []
+    var selectedGameEntry: ChildGame?
     override func viewDidLoad() {
         super.viewDidLoad()
         otsimo.getChild(childIdWillFetch, handler: getChildHandler)
@@ -26,7 +27,6 @@ class ChildViewController: UITableViewController {
     
     func getChildHandler(child: OTSChild?, err: OtsimoError) {
         infos.removeAll()
-        games.removeAll()
         targetChild = child
         if let child = child {
             infos.append("name: \(child.firstName) \(child.lastName)")
@@ -42,25 +42,27 @@ class ChildViewController: UITableViewController {
             
             tableView.reloadData()
             
-            gameEntries = child.gamesArray as AnyObject as! [OTSChildGameEntry]
+            gameEntries = child.getGames()
             for e in gameEntries {
-                print("getting the game", e.id_p, e.description)
-                otsimo.getGame(e.id_p, handler: getGameHandler)
+                print("getting the game", e.gameID)
+                e.initialize(true, initKeyValueStorage: true, handler: getGameHandler)
             }
         }
     }
     
-    func getGameHandler(game: Game?, error: OtsimoError) {
-        if let g = game {
-            games.append(g)
+    func getGameHandler(game: ChildGame, error: OtsimoError) {
+        switch (error) {
+        case .None:
+            fetchedGames.append(game)
             tableView.reloadData()
+        default:
+            print("failed to fetch \(game.gameID) error:\(error)")
         }
     }
     
     // MARK: - Table view data source
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 2
     }
     
@@ -68,21 +70,9 @@ class ChildViewController: UITableViewController {
         if section == 0 {
             return infos.count
         } else {
-            return games.count
+            return fetchedGames.count
         }
     }
-    
-    func updateCell(game: Game, cell: UITableViewCell) {
-        game.getManifest() {man, err in
-            if let man = man {
-                cell.textLabel?.text = man.localVisibleName
-                if let url = NSURL(string: man.localIcon) {
-                    cell.imageView!.hnk_setImageFromURL(url)
-                }
-            }
-        }
-    }
-    
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
@@ -94,8 +84,13 @@ class ChildViewController: UITableViewController {
         } else {
             let cell = tableView.dequeueReusableCellWithIdentifier("child_game_cell", forIndexPath: indexPath)
             cell.textLabel?.text = "loading..."
-            let game = games[indexPath.row]
-            updateCell(game, cell: cell)
+            let game = fetchedGames[indexPath.row]
+            if let man = game.manifest {
+                cell.textLabel?.text = man.localVisibleName
+                if let url = NSURL(string: man.localIcon) {
+                    cell.imageView!.hnk_setImageFromURL(url)
+                }
+            }
             return cell
         }
     }
@@ -113,14 +108,17 @@ class ChildViewController: UITableViewController {
         if indexPath.section == 0 {
             return
         }
-        print(games[indexPath.row].uniqueName, "pressed")
+        selectedGameEntry = fetchedGames[indexPath.row]
+        performSegueWithIdentifier("show_child_game_entry", sender: self)
     }
     
     // MARK: - Navigation
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "show_child_game_entry" {
+            let cgc = segue.destinationViewController as! ChildGameController
+            cgc.childGame = selectedGameEntry
+        }
     }
 }

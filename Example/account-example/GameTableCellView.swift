@@ -8,7 +8,7 @@
 
 import UIKit
 
-class GameTableCellView: UITableViewCell {
+final class GameTableCellView: UITableViewCell {
     
     @IBOutlet weak var titlLabel: UILabel!
     
