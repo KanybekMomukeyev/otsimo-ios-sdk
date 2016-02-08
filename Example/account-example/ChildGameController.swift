@@ -50,7 +50,7 @@ class ChildGameController: UITableViewController, SettingsPropertyDelegate {
                 return cell
             case 2:
                 let cell = tableView.dequeueReusableCellWithIdentifier("child_game_info_boolean_cell", forIndexPath: indexPath) as! BooleanCellViewCell
-                cell.titleLabel!.text = "Index: \(childGame.index)"
+                cell.titleLabel!.text = "Active"
                 cell.booleanSwitch.on = childGame.isActive
                 cell.delegate = self
                 return cell

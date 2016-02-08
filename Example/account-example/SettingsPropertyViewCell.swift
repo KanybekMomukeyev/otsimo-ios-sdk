@@ -16,23 +16,26 @@ public protocol SettingsPropertyDelegate {
     func activationValueChanged(value: Bool)
 }
 
-final class SettingsPropertyViewCell: UITableViewCell {
+final class SettingsPropertyViewCell: UITableViewCell, UIPickerViewDataSource, UIPickerViewDelegate {
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var descriptionText: UILabel!
     @IBOutlet weak var numberText: UITextField!
     @IBOutlet weak var stringText: UITextField!
-    @IBOutlet weak var enumLabel: UILabel!
+    @IBOutlet weak var enumLabel: UITextField!
     @IBOutlet weak var booleanSwitch: UISwitch!
     
     var key: String!
     var game: ChildGame!
     var setProp: SettingsProperty!
     var delegate: SettingsPropertyDelegate!
+    var enumValues: [String] = []
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        let pickerView = UIPickerView()
+        pickerView.delegate = self
+        enumLabel.inputView = pickerView
     }
     
     override func setSelected(selected: Bool, animated: Bool) {
@@ -69,6 +72,26 @@ final class SettingsPropertyViewCell: UITableViewCell {
     
     @IBAction func onStringEditingEnded(sender: UITextField) {
         delegate.propertyValueChanged(.Text(key: key, value: sender.text!))
+    }
+    // number of column
+    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    // number of row
+    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return enumValues.count
+    }
+    
+    // Title
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return game.keyvalue!.settingsTitle(key, enumKey: enumValues[row])
+    }
+    
+    // update enum label when value changed
+    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        enumLabel.text = game.keyvalue!.settingsTitle(key, enumKey: enumValues[row])
+        enumLabel.resignFirstResponder()
+        delegate.propertyValueChanged(.Text(key: key, value: enumValues[row]))
     }
     
     func initFromProperty(key: String, childGame: ChildGame, delegate: SettingsPropertyDelegate) {
@@ -134,11 +157,12 @@ final class SettingsPropertyViewCell: UITableViewCell {
         case .Enum(_, let defaultValue, let values):
             self.enumLabel.enabled = true
             self.enumLabel.hidden = false
-            
+            enumValues.removeAll()
+            enumValues.appendContentsOf(values)
             if let v = vp {
-                enumLabel.text = "\(v.string)"
+                enumLabel.text = game.keyvalue!.settingsTitle(key, enumKey: v.string)
             } else {
-                enumLabel.text = "\(defaultValue)"
+                enumLabel.text = game.keyvalue!.settingsTitle(key, enumKey: defaultValue)
             }
         }
     }
