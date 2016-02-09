@@ -13,11 +13,18 @@ import gRPC
 public class Otsimo {
     
     public static let sharedInstance = Otsimo()
-    public var session: Session?
+    public var session: Session? {
+        didSet {
+            if let ssc = self.sessionStatusChanged {
+                ssc(session)
+            }
+        }
+    }
     internal var connection: Connection?
     public var useProductionGames: Bool = true
     public var languages: [String] = []
     public let cache: CacheProtocol
+    public var sessionStatusChanged: ((Session?) -> Void)?
     
     public init() {
         cache = OtsimoCache()
@@ -26,7 +33,7 @@ public class Otsimo {
     public static func config(config: ClientConfig) {
         sharedInstance.useProductionGames = config.useProductionGames
         sharedInstance.connection = Connection(config: config)
-        sharedInstance.recoverOldSessionIfExist()
+        sharedInstance.recoverOldSessionIfExist(config)
         sharedInstance.readLanguages()
     }
     
@@ -34,8 +41,10 @@ public class Otsimo {
         print("handleURL: ", url)
     }
     
-    private func recoverOldSessionIfExist() {
-        
+    private func recoverOldSessionIfExist(config: ClientConfig) {
+        Session.loadLastSession(config) {ses in
+            self.session = ses
+        }
     }
     
     public func fixGameAssetUrl(id: String, version: String, rawUrl: String) -> String {

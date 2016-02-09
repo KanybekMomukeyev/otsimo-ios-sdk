@@ -26,15 +26,15 @@ class LoginViewController: UIViewController {
     @IBAction func loginTouched(sender: UIButton) {
         SwiftSpinner.show("logging in...", animated: true)
         otsimo.login(emailText.text!, password: passwordText.text!) {repo in
-            print("login finished")
+            Log.debug("login finished")
             delay(seconds: 1.0) {SwiftSpinner.hide()}
             switch (repo) {
             case .Success:
-                print("successfully logged in")
+                Log.info("successfully logged in")
                 SwiftSpinner.show("successful", animated: false)
                 self.footerText.text = "ID: \(otsimo.session!.profileID)"
             case .Error(let error):
-                print("login error: \(error)")
+                Log.error("login error: \(error)")
                 SwiftSpinner.show("failed", animated: false)
                 self.footerText.text = "ERROR: \(error)"
             }

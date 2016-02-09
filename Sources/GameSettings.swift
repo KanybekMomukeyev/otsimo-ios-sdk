@@ -163,7 +163,7 @@ public class GameSettings {
         let cache = Shared.JSONCache
         let URL = NSURL(string: settingsUrl)
         
-        Log.info("going to fetch \(settingsUrl)")
+        Log.debug("going to fetch \(settingsUrl)")
         
         if let url = URL {
             cache.fetch(URL: url).onSuccess {JSON in
@@ -188,7 +188,6 @@ public class GameSettings {
     }
     
     private func addProperty(key: String, prop: [String: AnyObject]) {
-        print(key, prop["id"]!)
         if let t = prop["type"] as? String {
             switch (t) {
             case "string":

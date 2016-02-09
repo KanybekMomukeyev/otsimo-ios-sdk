@@ -23,3 +23,16 @@ extension OTSCatalog : DataConvertible, DataRepresentable {
         return data()
     }
 }
+
+extension OTSSessionCache : DataConvertible, DataRepresentable {
+    public typealias Result = OTSSessionCache
+    
+    public class func convertFromData(data: NSData) -> Result? {
+        var error: NSError? = nil
+        return parseFromData(data, error: &error)
+    }
+    
+    public func asData() -> NSData! {
+        return data()
+    }
+}

@@ -23,23 +23,23 @@ public class Log {
         logLevel = level
     }
     
-    static func debug(message: String) {
+    public static func debug(message: String) {
         log(.Debug, message: message)
     }
     
-    static func info(message: String) {
+    public static func info(message: String) {
         log(.Info, message: message)
     }
     
-    static func warm(message: String) {
+    public static func warm(message: String) {
         log(.Warning, message: message)
     }
     
-    static func error(message: String) {
+    public static func error(message: String) {
         log(.Error, message: message)
     }
     
-    static func severe(message: String) {
+    public static func severe(message: String) {
         log(.Severe, message: message)
     }
     

@@ -8,6 +8,21 @@
 
 import Foundation
 import OtsimoApiGrpc
+import Locksmith
+
+struct OtsimoAccount: ReadableSecureStorable, CreateableSecureStorable, DeleteableSecureStorable, GenericPasswordSecureStorable {
+    let email: String
+    let jwt: String
+    let refresh: String
+    let tokentype: String
+    let service = "Otsimo"
+    
+    var account: String {return email}
+    
+    var data: [String: AnyObject] {
+        return ["jwt": jwt, "refresh": refresh, "tokentype": tokentype]
+    }
+}
 
 public class Session {
     internal let config : ClientConfig
@@ -49,10 +64,44 @@ public class Session {
     public func logout() {
         accessToken = ""
         profileID = ""
+        Otsimo.sharedInstance.cache.clearSession()
+        let account = OtsimoAccount(email: email, jwt: accessToken, refresh: refreshToken, tokentype: tokenType)
+        do {
+            try account.deleteFromSecureStore()
+        } catch {
+            Log.error("failed to clear account information: \(error)")
+        }
     }
     
     internal func save() {
-        // todo save session to ...
+        if isAuthenticated {
+            let sc = OTSSessionCache()
+            sc.profileId = self.profileID
+            sc.email = self.email
+            
+            let account = OtsimoAccount(email: email, jwt: accessToken, refresh: refreshToken, tokentype: tokenType)
+            do {
+                try account.createInSecureStore()
+                Otsimo.sharedInstance.cache.cacheSession(sc)
+                Log.info("session is saved")
+            } catch {
+                switch (error) {
+                case LocksmithError.Duplicate:
+                    do {
+                        try account.deleteFromSecureStore()
+                        try account.createInSecureStore()
+                        Otsimo.sharedInstance.cache.cacheSession(sc)
+                        Log.info("session is saved")
+                    } catch {
+                        Log.error("failed to save account information: \(error)")
+                    }
+                default:
+                    Log.error("failed to save account information: \(error)")
+                }
+            }
+        } else {
+            Log.error("session is not saved because user is not authenticated")
+        }
     }
     
     internal func loadToken() -> LoadResult {
@@ -110,5 +159,48 @@ public class Session {
         }
         
         return .Success
+    }
+    
+    internal static func loadLastSession(config: ClientConfig, handler: (Session?) -> Void) {
+        Otsimo.sharedInstance.cache.fetchSession {ses in
+            if let sc = ses {
+                let account = OtsimoAccount(email: sc.email, jwt: "", refresh: "", tokentype: "")
+                if let result = account.readFromSecureStore() {
+                    let session = Session(config: config)
+                    session.profileID = sc.profileId
+                    session.email = sc.email
+                    session.accessToken = result.data?["jwt"] as! String
+                    session.refreshToken = result.data?["refresh"] as! String
+                    session.tokenType = result.data?["tokentype"] as! String
+                    
+                    if session.refreshToken == "" {
+                        Log.error("there is no 'refresh' data at account information")
+                        handler(nil)
+                        return
+                    }
+                    if session.tokenType == "" {
+                        Log.error("there is no 'tokentype' data at account information")
+                        handler(nil)
+                        return
+                    }
+                    
+                    let res = session.loadToken()
+                    switch (res) {
+                    case .Success:
+                        Log.debug("old session loaded successfully")
+                        handler(session)
+                    case .Failure(let it):
+                        Log.error("failed to load jwt token, error:\(it)")
+                        handler(nil)
+                    }
+                } else {
+                    Log.error("there is no account information on keychain")
+                    handler(nil)
+                }
+            } else {
+                Log.error("could not find any previous session")
+                handler(nil)
+            }
+        }
     }
 }

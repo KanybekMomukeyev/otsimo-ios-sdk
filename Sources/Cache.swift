@@ -13,6 +13,8 @@ import Haneke
 final class OtsimoCache: CacheProtocol {
     static let catalogCache = Cache<OTSCatalog>(name: "otsimo-catalog")
     static let catalogKey = "catalog"
+    static let sessionCache = Cache<OTSSessionCache>(name: "otsimo-session")
+    static let sessionKey = "session"
     static let gameCache = Cache<Game>(name: "otsimo-game")
     static let gameTTL: Double = 100
     
@@ -54,5 +56,20 @@ final class OtsimoCache: CacheProtocol {
     }
     func cacheCatalog(catalog: OTSCatalog) {
         OtsimoCache.catalogCache.set(value: catalog, key: OtsimoCache.catalogKey)
+    }
+    
+    // Session
+    func fetchSession(handler: (OTSSessionCache?) -> Void) {
+        OtsimoCache.sessionCache.fetch(key: OtsimoCache.sessionKey)
+            .onFailure {_ in handler(nil)}
+            .onSuccess {handler($0)}
+    }
+    
+    func cacheSession(session: OTSSessionCache) {
+        OtsimoCache.sessionCache.set(value: session, key: OtsimoCache.sessionKey)
+    }
+    
+    func clearSession() {
+        OtsimoCache.sessionCache.remove(key: OtsimoCache.sessionKey)
     }
 }

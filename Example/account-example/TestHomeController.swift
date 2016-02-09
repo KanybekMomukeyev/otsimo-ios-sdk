@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import OtsimoSDK
 
 class TestHomeController: UITableViewController {
     var testEntries: [ApiTest] = apiTestScenes
@@ -18,6 +19,11 @@ class TestHomeController: UITableViewController {
         
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        otsimo.sessionStatusChanged = onSessionStatusChanged
+    }
+    
+    func onSessionStatusChanged(ses: Session?) {
+        self.tableView.reloadData()
     }
     
     override func didReceiveMemoryWarning() {

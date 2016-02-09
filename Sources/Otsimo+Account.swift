@@ -17,6 +17,7 @@ extension Otsimo: AccountApi {
                 switch (res) {
                 case .Success:
                     self.session = ses
+                    self.session?.save()
                 default:
                     Log.error("login failed error:\(res)")
                 }
@@ -33,6 +34,7 @@ extension Otsimo: AccountApi {
                 switch (res) {
                 case .Success:
                     self.session = ses
+                    self.session?.save()
                 default:
                     Log.error("register failed error:\(res)")
                 }
@@ -46,6 +48,7 @@ extension Otsimo: AccountApi {
     public func logout() {
         if let ses = session {
             ses.logout()
+            self.session = nil
         }
     }
     

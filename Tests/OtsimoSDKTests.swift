@@ -10,6 +10,7 @@ import XCTest
 import OtsimoApiGrpc
 import OtsimoSDK
 import Haneke
+import Locksmith
 
 class OtsimoSDKTests: XCTestCase {
     
@@ -76,6 +77,37 @@ class OtsimoSDKTests: XCTestCase {
                 print("Error: \(error.localizedDescription)")
             }
         }
+    }
+    
+    func testOtsimoAccount() {
+        struct OtsimoAccount: ReadableSecureStorable, CreateableSecureStorable, DeleteableSecureStorable, GenericPasswordSecureStorable {
+            let email: String
+            let password: String
+            let service = "Otsimo"
+            let jwt = "hellyeah"
+            var account: String {return email}
+            
+            var data: [String: AnyObject] {
+                return ["password": password, "jwt": jwt]
+            }
+        }
+        
+        let account = OtsimoAccount(email: "kl@otsimo.com", password: "my_password")
+        
+        
+        // CreateableSecureStorable lets us create the account in the keychain
+        try! account.createInSecureStore()
+        try! account.createInSecureStore()
+        
+        // ReadableSecureStorable lets us read the account from the keychain
+        let account2 = OtsimoAccount(email: "kl@otsimo.com", password: "fuck")
+        let result = account2.readFromSecureStore()
+        
+        print("iOS app: \(result),", "\ndata:\n", "\(result?.data)", "\n")
+        
+        // DeleteableSecureStorable lets us delete the account from the keychain
+        try! account.deleteFromSecureStore()
+        
     }
     
     /*
