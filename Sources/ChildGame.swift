@@ -169,6 +169,6 @@ extension OTSChild {
         for e in gameEntries {
             chs.append(ChildGame(entry: e, childID: id_p))
         }
-        return chs
+        return chs.sort {$0.index < $1.index}
     }
 }

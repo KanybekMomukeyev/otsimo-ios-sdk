@@ -15,10 +15,10 @@ public class GameManifest {
     public let version: String
     public let manifest: OTSGameManifest
     public let metadatas: [OTSGameMetadata]
-    
+
     private var settings: GameSettings?
     private var keyvalue: GameKeyValueStore?
-    
+
     init(id: String, gameRelease: OTSGameRelease) {
         gameId = id
         manifest = gameRelease.gameManifest
@@ -26,7 +26,7 @@ public class GameManifest {
         version = gameRelease.version
         settings = nil
     }
-    
+
     init(id: String, version: String, gameManifest: OTSGameManifest) {
         gameId = id
         manifest = gameManifest
@@ -34,7 +34,7 @@ public class GameManifest {
         self.version = version
         settings = nil
     }
-    
+
     public var localVisibleName: String {
         get {
             for l in Otsimo.sharedInstance.languages {
@@ -47,7 +47,7 @@ public class GameManifest {
             return manifest.defaultName
         }
     }
-    
+
     public var localIcon: String {
         get {
             for l in Otsimo.sharedInstance.languages {
@@ -60,7 +60,7 @@ public class GameManifest {
             return Otsimo.sharedInstance.fixGameAssetUrl(gameId, version: version, rawUrl: manifest.defaultIcon)
         }
     }
-    
+
     public var localLogo: String {
         get {
             for l in Otsimo.sharedInstance.languages {
@@ -73,7 +73,7 @@ public class GameManifest {
             return Otsimo.sharedInstance.fixGameAssetUrl(gameId, version: version, rawUrl: manifest.defaultLogo)
         }
     }
-    
+
     public var localSummary: String {
         get {
             for l in Otsimo.sharedInstance.languages {
@@ -86,7 +86,7 @@ public class GameManifest {
             return ""
         }
     }
-    
+
     public var localDescription: String {
         get {
             for l in Otsimo.sharedInstance.languages {
@@ -99,11 +99,31 @@ public class GameManifest {
             return ""
         }
     }
-    
+
+    public var localPackage: String {
+        get {
+            for l in Otsimo.sharedInstance.languages {
+                for md in metadatas {
+                    if md.language == l {
+                        // todo(sercan) get this from registry api
+                        return Otsimo.sharedInstance.fixGameAssetUrl(gameId, version: version, rawUrl: "package_\(l).tar.gz")
+                    }
+                }
+            }
+            return globalPackage
+        }
+    }
+
+    public var globalPackage: String {
+        get {
+            return Otsimo.sharedInstance.fixGameAssetUrl(gameId, version: version, rawUrl: "package.tar.gz")
+        }
+    }
+
     public var localImages: [String] {
         get {
             var images: [String] = []
-            
+
             for l in Otsimo.sharedInstance.languages {
                 for md in metadatas {
                     if md.language == l {
@@ -126,18 +146,18 @@ public class GameManifest {
             return images
         }
     }
-    
+
     public func getSettings(handler: (GameSettings?) -> Void) {
         if let s = settings {
             handler(s)
         } else {
-            GameSettings.fromIdAndVersion(self.gameId, version: self.version, path: self.manifest.settings) {gs in
+            GameSettings.fromIdAndVersion(self.gameId, version: self.version, path: self.manifest.settings) { gs in
                 self.settings = gs
                 handler(gs)
             }
         }
     }
-    
+
     public func getKeyValueStore(handler: (GameKeyValueStore?) -> Void) {
         if let k = keyvalue {
             handler(k)
@@ -162,11 +182,10 @@ public class GameManifest {
             }
             let fullUrl: String = Otsimo.sharedInstance.fixGameAssetUrl(self.gameId, version: self.version, rawUrl: rawUrl)
             let url = NSURL(string: fullUrl)!
-            GameKeyValueStore.fromUrl(url) {kv, e in
+            GameKeyValueStore.fromUrl(url) { kv, e in
                 self.keyvalue = kv
                 handler(self.keyvalue)
             }
         }
     }
-    
 }
