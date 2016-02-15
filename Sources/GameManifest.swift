@@ -120,6 +120,12 @@ public class GameManifest {
         }
     }
 
+    public var remoteUrl: String {
+        get {
+            return Otsimo.sharedInstance.fixGameAssetUrl(gameId, version: version, rawUrl: manifest.main)
+        }
+    }
+    
     public var localImages: [String] {
         get {
             var images: [String] = []
