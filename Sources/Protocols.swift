@@ -66,8 +66,8 @@ public protocol CacheProtocol {
     func fetchCatalog(handler: (OTSCatalog?) -> Void)
     func cacheCatalog(catalog: OTSCatalog)
     // Session
-    func fetchSession(handler: (OTSSessionCache?) -> Void)
-    func cacheSession(session: OTSSessionCache)
+    func fetchSession()->SessionCache?
+    func cacheSession(session: SessionCache)
     func clearSession()
 }
 

@@ -9,39 +9,138 @@
 import Foundation
 import OtsimoApiGrpc
 import Haneke
+import RealmSwift
+
+let store = try! Realm()
+
+class CatalogCache: Object{
+    dynamic var id :String = "catalog"
+    dynamic var data = NSData()
+    override class func primaryKey() -> String?{
+        return "id"
+    }
+    
+    func getCatalog()->OTSCatalog?{
+        var error: NSError? = nil
+        return OTSCatalog.parseFromData(data, error: &error)
+    }
+}
+
+public class SessionCache : Object {
+    dynamic var id: String = "session"
+    dynamic var profileId: String = ""
+    dynamic var email: String = ""
+    public override class func primaryKey() -> String?{
+        return "id"
+    }
+}
+
+public class GameCache:Object{
+    dynamic var gameId: String = ""
+    
+    dynamic var productionVersion: String = ""
+    
+    dynamic var latestVersion: String = ""
+    
+    dynamic var latestState: Int32 = 0
+    
+    dynamic var fetchedAt: NSDate = NSDate(timeIntervalSince1970: 1)
+    
+    dynamic var manifestVersion: String = ""
+    
+    dynamic var manifest: NSData = NSData()
+    
+    public override class func primaryKey() -> String?{
+        return "gameId"
+    }
+    
+    public static func fromGame(game:Game)-> GameCache?{
+        if let gm = game.gameManifest {
+            let cache = GameCache()
+            cache.gameId = game.id
+            cache.productionVersion = game.productionVersion
+            cache.latestVersion = game.latestVersion
+            cache.latestState = game.latestState.rawValue
+            cache.manifest = gm.manifest.data()!
+            cache.manifestVersion = gm.version
+            if let fa = game.fetchedAt {
+                cache.fetchedAt = fa
+            } else {
+                cache.fetchedAt = NSDate()
+            }
+            return cache
+        }else{
+            return nil
+        }
+    }
+    
+    public func getGame() -> Game! {
+        var error: NSError? = nil
+        let manifest: OTSGameManifest = OTSGameManifest(data: self.manifest, error: &error)
+        if let te = error {
+            Log.error("failed to parse cache manifest data:\(te)")
+            return nil
+        }else{
+            return Game(cache: self, manifest: manifest)
+        }
+    }
+    
+}
 
 final class OtsimoCache: CacheProtocol {
-    static let catalogCache = Cache<OTSCatalog>(name: "otsimo-catalog")
     static let catalogKey = "catalog"
-    static let sessionCache = Cache<OTSSessionCache>(name: "otsimo-session")
     static let sessionKey = "session"
-    static let gameCache = Cache<Game>(name: "otsimo-game")
-    static let gameTTL: Double = 100
+    static let gameTTL: Double = 3600 * 24
     
     // Game
     func fetchGame(id: String, handler: (Game?) -> Void) {
-        OtsimoCache.gameCache.fetch(key: id)
-            .onFailure({_ in handler(nil)})
-            .onSuccess({g in
-                let now: Double = NSDate().timeIntervalSince1970
-                let fetched = g.fetchedAt!.timeIntervalSince1970
-                if (now - fetched) > OtsimoCache.gameTTL {
-                    OtsimoCache.gameCache.remove(key: id)
-                    handler(nil)
-                } else {
-                    handler(g)
+        let cached = store.objects(GameCache).filter(NSPredicate(format: "gameId = %@", id)).first
+        
+        if let gc = cached{
+            let now: Double = NSDate().timeIntervalSince1970
+            let fetched = gc.fetchedAt.timeIntervalSince1970
+            if (now - fetched) > OtsimoCache.gameTTL {
+                do {
+                    try store.write {
+                        store.delete(gc)
+                    }
+                }catch let error{
+                    Log.error("failed to remove game cache \(error)")
                 }
-            })
+                handler(nil)
+            } else {
+                handler(gc.getGame())
+            }
+        }else{
+            handler(nil)
+        }
     }
     
     func cacheGame(game: Game) {
-        if game.gameManifest != nil {
-            OtsimoCache.gameCache.set(value: game, key: game.id)
+        do {
+            if let gc = GameCache.fromGame(game){
+                try store.write{
+                    store.add(gc, update:true)
+                }
+            }else{
+                Log.error("failed to create GameCache object")
+            }
+        }catch let error{
+            Log.error("failed to cache game \(error)")
         }
+        
     }
     
     // Catalog
     func fetchCatalog(handler: (OTSCatalog?) -> Void) {
+        let c = store.objects(CatalogCache).first
+        
+        if let cat = c?.getCatalog(){
+            handler(cat)
+        }else{
+            handler(nil)
+        }
+       /*
         OtsimoCache.catalogCache.fetch(key: OtsimoCache.catalogKey)
             .onFailure({_ in handler(nil)})
             .onSuccess({c in
@@ -52,24 +151,49 @@ final class OtsimoCache: CacheProtocol {
                 } else {
                     handler(c)
                 }
-            })
+            })*/
     }
     func cacheCatalog(catalog: OTSCatalog) {
-        OtsimoCache.catalogCache.set(value: catalog, key: OtsimoCache.catalogKey)
+        let cc = CatalogCache()
+        cc.id = OtsimoCache.catalogKey
+        if let d = catalog.data(){
+            cc.data = d
+        }else{
+            return
+        }
+        
+        do {
+            try store.write {
+                store.add(cc, update: true)
+            }
+        } catch let error {
+            Log.error("failed to cache catalog \(error)")
+        }
     }
     
     // Session
-    func fetchSession(handler: (OTSSessionCache?) -> Void) {
-        OtsimoCache.sessionCache.fetch(key: OtsimoCache.sessionKey)
-            .onFailure {_ in handler(nil)}
-            .onSuccess {handler($0)}
+    func fetchSession()-> SessionCache? {
+        return store.objects(SessionCache).first
     }
     
-    func cacheSession(session: OTSSessionCache) {
-        OtsimoCache.sessionCache.set(value: session, key: OtsimoCache.sessionKey)
+    func cacheSession(session: SessionCache) {
+        do {
+            try store.write{
+                store.add(session,update:true)
+                }
+        }catch let error{
+            Log.error("failed to cache session \(error)")
+        }
     }
     
     func clearSession() {
-        OtsimoCache.sessionCache.remove(key: OtsimoCache.sessionKey)
+        do {
+            let objs = store.objects(SessionCache)
+            try store.write {
+                store.delete(objs)
+            }
+        }catch let error{
+            Log.error("failed to clear session \(error)")
+        }
     }
 }

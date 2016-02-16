@@ -25,7 +25,6 @@ public class Otsimo {
     public var languages: [String] = []
     public let cache: CacheProtocol
     public var sessionStatusChanged: ((Session?) -> Void)?
-    
     public init() {
         cache = OtsimoCache()
     }

@@ -75,7 +75,7 @@ public class Session {
     
     internal func save() {
         if isAuthenticated {
-            let sc = OTSSessionCache()
+            let sc = SessionCache()
             sc.profileId = self.profileID
             sc.email = self.email
             
@@ -162,8 +162,7 @@ public class Session {
     }
     
     internal static func loadLastSession(config: ClientConfig, handler: (Session?) -> Void) {
-        Otsimo.sharedInstance.cache.fetchSession {ses in
-            if let sc = ses {
+            if let sc = Otsimo.sharedInstance.cache.fetchSession() {
                 let account = OtsimoAccount(email: sc.email, jwt: "", refresh: "", tokentype: "")
                 if let result = account.readFromSecureStore() {
                     let session = Session(config: config)
@@ -201,6 +200,6 @@ public class Session {
                 Log.error("could not find any previous session")
                 handler(nil)
             }
-        }
+        
     }
 }

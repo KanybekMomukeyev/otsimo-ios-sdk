@@ -50,13 +50,13 @@ public class Game {
         }
     }
     
-    internal convenience init(cache: OTSGameCache, manifest: OTSGameManifest) {
+    internal convenience init(cache: GameCache, manifest: OTSGameManifest) {
         self.init(gameId: cache.gameId)
-        fetchedAt = NSDate(timeIntervalSince1970: cache.fetchedAt)
+        fetchedAt = cache.fetchedAt
         uniqueName = manifest.uniqueName
         latestVersion = cache.latestVersion
         productionVersion = cache.productionVersion
-        latestState = cache.latestState
+        latestState = OTSReleaseState(rawValue: cache.latestState)!
         gameManifest = GameManifest(id: id, version: cache.manifestVersion, gameManifest: manifest)
     }
     
@@ -100,48 +100,6 @@ public class Game {
     
     public func defaultSettings() -> NSData {
         return NSData()
-    }
-}
-
-extension Game: DataConvertible, DataRepresentable {
-    
-    public typealias Result = Game
-    
-    public class func convertFromData(data: NSData) -> Result? {
-        var error: NSError? = nil
-        let cache: OTSGameCache = OTSGameCache(data: data, error: &error)
-        if let theError = error {
-            Log.error("failed to parse cache data:\(theError)")
-            return nil
-        } else {
-            let manifest: OTSGameManifest = OTSGameManifest(data: cache.manifest, error: &error)
-            if let te = error {
-                Log.error("failed to parse cache manifest data:\(te)")
-                return nil
-            } else {
-                return Game(cache: cache, manifest: manifest)
-            }
-        }
-    }
-    
-    public func asData() -> NSData! {
-        if let gm = gameManifest {
-            let cache: OTSGameCache = OTSGameCache()
-            cache.gameId = id
-            cache.productionVersion = productionVersion
-            cache.latestVersion = latestVersion
-            cache.latestState = latestState
-            cache.manifest = gm.manifest.data()
-            cache.manifestVersion = gm.version
-            if let fa = fetchedAt {
-                cache.fetchedAt = fa.timeIntervalSince1970
-            } else {
-                cache.fetchedAt = NSDate().timeIntervalSince1970
-            }
-            return cache.data()
-        } else {
-            return nil
-        }
     }
 }
 
