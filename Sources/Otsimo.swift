@@ -11,33 +11,46 @@ import OtsimoApiGrpc
 import gRPC
 
 public class Otsimo {
-    
+    public static let sdkVersion:String = "0.1.0"
     public static let sharedInstance = Otsimo()
     public var session: Session? {
         didSet {
             if let ssc = self.sessionStatusChanged {
                 ssc(session)
             }
+            if let ses = session{
+                analytics.start(ses)
+                analytics.customEvent("session:start", payload: ["refresh":ses.refreshToken])
+            }else{
+                analytics.stop(nil)
+            }
         }
     }
     internal var connection: Connection?
     public var useProductionGames: Bool = true
     public var languages: [String] = []
-    public let cache: CacheProtocol
+    internal let cache: CacheProtocol
     public var sessionStatusChanged: ((Session?) -> Void)?
+    public var analytics: OtsimoAnalyticsProtocol!
+    
     public init() {
         cache = OtsimoCache()
     }
     
     public static func config(config: ClientConfig) {
         sharedInstance.useProductionGames = config.useProductionGames
-        sharedInstance.connection = Connection(config: config)
-        sharedInstance.recoverOldSessionIfExist(config)
         sharedInstance.readLanguages()
+        
+        sharedInstance.connection = Connection(config: config)
+        sharedInstance.analytics = Analytics(connection: sharedInstance.connection!)
+        
+        sharedInstance.recoverOldSessionIfExist(config)
+        sharedInstance.analytics.appEvent("start", payload: [String:AnyObject]())
     }
     
     public func handleOpenURL(url: NSURL) {
         print("handleURL: ", url)
+        analytics.appEvent("deeplink", payload: ["url":url.absoluteString])
     }
     
     private func recoverOldSessionIfExist(config: ClientConfig) {

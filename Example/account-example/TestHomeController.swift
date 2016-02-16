@@ -95,6 +95,9 @@ class TestHomeController: UITableViewController {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         if let id = segue.identifier {
+            
+            otsimo.analytics.customEvent("test:scene", payload: ["identifier":id])
+            
             if id == "editchildgamestest" {
                 let cic = segue.destinationViewController as! ChildListViewController
                 cic.nextSegue = "getchildtest"

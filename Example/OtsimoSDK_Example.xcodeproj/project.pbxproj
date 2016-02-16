@@ -268,7 +268,7 @@
 				TargetAttributes = {
 					0D36E2831C15C8EF00B4B549 = {
 						CreatedOnToolsVersion = 7.1.1;
-						DevelopmentTeam = DFUP975GRN;
+						DevelopmentTeam = LUBGWANK4N;
 					};
 				};
 			};
@@ -451,7 +451,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Sercan Degirmenci (D6ACKB3AL9)";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Carthage/Build/iOS\"";
 				HEADER_SEARCH_PATHS = (
@@ -475,7 +475,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Sercan Degirmenci (D6ACKB3AL9)";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Carthage/Build/iOS\"";
 				HEADER_SEARCH_PATHS = (
