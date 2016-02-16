@@ -9,15 +9,122 @@
 import Foundation
 import OtsimoApiGrpc
 
+class ChildGameInitializer {
+    var callback: (ChildGame, OtsimoError) -> Void
+    var childGame: ChildGame
+    
+    var prepareList: [()->Void] = []
+    var lastError:OtsimoError = OtsimoError.None
+    
+    private var isCanceled = false
+    
+    init(game:ChildGame,initSettings: Bool, initKeyValueStorage: Bool, handler: (ChildGame, OtsimoError) -> Void){
+        self.childGame=game
+        self.callback=handler
+        
+        if let g = childGame.game{
+            if g.gameManifest == nil{
+                prepareList.append(prepareManifest)
+            }
+        }else{
+            prepareList.append(prepareGame)
+            prepareList.append(prepareManifest)
+        }
+        
+        if initKeyValueStorage && game.keyvalue==nil{
+            prepareList.append(prepareKeyValueStore)
+        }
+        
+        if initSettings && game.settings == nil{
+            prepareList.append(prepareSettings)
+        }
+    }
+    
+    func start(){
+        next()
+    }
+    
+    private func next(){
+        if isCanceled {return}
+        
+        var call : (()->Void)?
+        
+        switch(lastError){
+        case OtsimoError.None:
+            if prepareList.count == 0{
+                childGame.initializer = nil
+                callback(childGame, OtsimoError.None)
+            }else{
+                call = prepareList.removeFirst()
+            }
+        default:
+            childGame.initializer = nil
+            callback(childGame, lastError)
+        }
+        
+        if let c = call{
+            c()
+        }
+    }
+    
+    private func handleGetGame(game: Game?, error: OtsimoError){
+        if isCanceled {return}
+        self.childGame.game = game
+        lastError = error
+        next()
+    }
+    
+    private func prepareGame(){
+        Otsimo.sharedInstance.getGame(childGame.entry.id_p, handler: handleGetGame)
+    }
+    
+    
+    private func prepareManifest(){
+        childGame.game!.getManifest(handleGetManifest)
+    }
+    
+    private func handleGetManifest(man:GameManifest?, error:OtsimoError){
+        if isCanceled {return}
+        childGame.manifest = man
+        lastError = error
+        next()
+    }
+    
+    private func prepareSettings(){
+        if self.isCanceled {return}
+        childGame.manifest!.getSettings{
+            if self.isCanceled {return}
+            self.childGame.settings = $0
+            self.next()
+        }
+    }
+    
+    private func prepareKeyValueStore(){
+        if self.isCanceled {return}
+        childGame.manifest!.getKeyValueStore{
+            if self.isCanceled {return}
+            self.childGame.keyvalue = $0
+            self.next()
+        }
+    }
+    
+    func cancel(){
+        isCanceled = true
+    }
+}
+
 public class ChildGame {
     public let entry: OTSChildGameEntry
     public let childID: String
     public private(set) var settingsValues: SettingsValues
     
-    public private(set) var game: Game?
-    public private(set) var manifest: GameManifest?
-    public private(set) var settings: GameSettings?
-    public private(set) var keyvalue: GameKeyValueStore?
+    public internal(set) var game: Game?
+    public internal(set) var manifest: GameManifest?
+    public internal(set) var settings: GameSettings?
+    public internal(set) var keyvalue: GameKeyValueStore?
+    
+    var initializer:ChildGameInitializer?
+    
     public var gameID: String {
         get {
             return entry.id_p
@@ -62,55 +169,22 @@ public class ChildGame {
         self.settingsValues = ChildGame.InitSettingsValues(entry.settings)
     }
     
-    public func initialize(initSettings: Bool, initKeyValueStorage: Bool, handler: (ChildGame, OtsimoError) -> Void) {
-        var targetFetchAmount: Int = 0
-        if initSettings {
-            targetFetchAmount += 1
+    public func cancelInitialize(){
+        if let i = initializer{
+            i.cancel()
+            initializer = nil
         }
-        if initKeyValueStorage {
-            targetFetchAmount += 1
+    }
+    
+    public func initialize(initSettings: Bool, initKeyValueStorage: Bool, handler: (ChildGame, OtsimoError) -> Void) {
+        if let i = initializer{
+            i.cancel()
+            initializer = nil
         }
         
-        Otsimo.sharedInstance.getGame(entry.id_p) {_game, error in
-            self.game = _game
-            switch (error) {
-            case .None:
-                self.game!.getManifest {m, e in
-                    self.manifest = m
-                    if targetFetchAmount == 0 {
-                        handler(self, OtsimoError.None)
-                        return
-                    }
-                    
-                    if let man = self.manifest {
-                        var fc = 0
-                        
-                        if initSettings {
-                            man.getSettings {
-                                self.settings = $0
-                                fc += 1
-                                if fc == targetFetchAmount {
-                                    handler(self, OtsimoError.None)
-                                }
-                            }
-                        }
-                        if initKeyValueStorage {
-                            man.getKeyValueStore {
-                                self.keyvalue = $0
-                                fc += 1
-                                if fc == targetFetchAmount {
-                                    handler(self, OtsimoError.None)
-                                }
-                            }
-                        }
-                    } else {
-                        handler(self, e)
-                    }
-                }
-            default:
-                handler(self, error)
-            }
-        }
+        let _init = ChildGameInitializer(game: self, initSettings: initSettings, initKeyValueStorage: initKeyValueStorage, handler: handler)
+        self.initializer=_init
+        _init.start()
     }
     
     public func valueFor(key: String) -> SettingsPropertyValue? {
