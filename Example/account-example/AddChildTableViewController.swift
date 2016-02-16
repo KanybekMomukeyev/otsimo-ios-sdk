@@ -14,8 +14,9 @@ class AddChildTableViewController: UITableViewController {
     @IBOutlet weak var firstNameText: UITextField!
     @IBOutlet weak var lastNameText: UITextField!
     @IBOutlet weak var dateTextField: UITextField!
-    @IBOutlet weak var infoLabel: UILabel!
     @IBOutlet weak var genderSwith: UISwitch!
+    
+    @IBOutlet weak var infoLabel: UILabel!
     var birthDate: NSDate? = nil
     
     override func viewDidLoad() {

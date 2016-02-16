@@ -20,6 +20,7 @@
 		0D36E28D1C15C8EF00B4B549 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0D36E28B1C15C8EF00B4B549 /* Main.storyboard */; };
 		0D36E28F1C15C8EF00B4B549 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0D36E28E1C15C8EF00B4B549 /* Assets.xcassets */; };
 		0D36E2921C15C8EF00B4B549 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0D36E2901C15C8EF00B4B549 /* LaunchScreen.storyboard */; };
+		0D44A6E81C72706F00FB763B /* OtsimoSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D44A6E71C72706F00FB763B /* OtsimoSDK.framework */; };
 		0D4D7CED1C5AA93B000BFEC5 /* GameInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D4D7CEC1C5AA93B000BFEC5 /* GameInfoViewController.swift */; };
 		0D5395A81C60F16100DBB19C /* key.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0D5395A71C60F16100DBB19C /* key.plist */; };
 		0D5395AB1C6127C100DBB19C /* ChildViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5395AA1C6127C100DBB19C /* ChildViewController.swift */; };
@@ -39,6 +40,10 @@
 		0D90442E1C3E184700F51C8D /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D90442D1C3E184700F51C8D /* ChangePasswordViewController.swift */; };
 		0D9044301C3E185D00F51C8D /* UpdateProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D90442F1C3E185D00F51C8D /* UpdateProfileViewController.swift */; };
 		0D9044321C3E188800F51C8D /* ChildListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9044311C3E188800F51C8D /* ChildListViewController.swift */; };
+		0DA3017B1C727FD6000F28CE /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DA301791C727FD6000F28CE /* Realm.framework */; };
+		0DA3017C1C727FD6000F28CE /* Realm.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0DA301791C727FD6000F28CE /* Realm.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		0DA3017D1C727FD6000F28CE /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DA3017A1C727FD6000F28CE /* RealmSwift.framework */; };
+		0DA3017E1C727FD6000F28CE /* RealmSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0DA3017A1C727FD6000F28CE /* RealmSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0DB0C1CE1C5F6E0500CBBB33 /* GameImageViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB0C1CD1C5F6E0500CBBB33 /* GameImageViewCell.swift */; };
 		0DB0C1D01C5FA57500CBBB33 /* AddGameToChildViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB0C1CF1C5FA57500CBBB33 /* AddGameToChildViewController.swift */; };
 		0DC284211C4EE98F0075FE63 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DC284201C4EE98F0075FE63 /* Utils.swift */; };
@@ -59,7 +64,9 @@
 				0D137FA11C39F66A0006BB8E /* gRPC.framework in Embed Frameworks */,
 				0DE942551C6516D7008DEB7E /* Haneke.framework in Embed Frameworks */,
 				0D90442A1C3C862600F51C8D /* Locksmith.framework in Embed Frameworks */,
+				0DA3017C1C727FD6000F28CE /* Realm.framework in Embed Frameworks */,
 				0D137FA31C39F66A0006BB8E /* BoringSSL.framework in Embed Frameworks */,
+				0DA3017E1C727FD6000F28CE /* RealmSwift.framework in Embed Frameworks */,
 				0D137F9F1C39F66A0006BB8E /* OtsimoApiGrpc.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -73,13 +80,14 @@
 		0D137F8E1C39F4B60006BB8E /* OtsimoApiGrpc.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OtsimoApiGrpc.framework; path = ../Carthage/Build/iOS/OtsimoApiGrpc.framework; sourceTree = "<group>"; };
 		0D137F901C39F4B80006BB8E /* Protobuf.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Protobuf.framework; path = ../Carthage/Build/iOS/Protobuf.framework; sourceTree = "<group>"; };
 		0D137F921C39F4BE0006BB8E /* OtsimoSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OtsimoSDK.framework; path = "../../../../Library/Developer/Xcode/DerivedData/OtsimoSDK-exietrbmafntdpfboftcudyweopo/Build/Products/Debug-iphoneos/OtsimoSDK.framework"; sourceTree = "<group>"; };
-		0D36E2841C15C8EF00B4B549 /* OtsimoSDK_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OtsimoSDK_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0D36E2841C15C8EF00B4B549 /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0D36E2871C15C8EF00B4B549 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0D36E2891C15C8EF00B4B549 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		0D36E28C1C15C8EF00B4B549 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		0D36E28E1C15C8EF00B4B549 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0D36E2911C15C8EF00B4B549 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0D36E2931C15C8EF00B4B549 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0D44A6E71C72706F00FB763B /* OtsimoSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OtsimoSDK.framework; path = "../build/Debug-iphoneos/OtsimoSDK.framework"; sourceTree = "<group>"; };
 		0D4D7CEC1C5AA93B000BFEC5 /* GameInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameInfoViewController.swift; sourceTree = "<group>"; };
 		0D5395A71C60F16100DBB19C /* key.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = key.plist; sourceTree = "<group>"; };
 		0D5395AA1C6127C100DBB19C /* ChildViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChildViewController.swift; sourceTree = "<group>"; };
@@ -100,6 +108,8 @@
 		0D90442D1C3E184700F51C8D /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
 		0D90442F1C3E185D00F51C8D /* UpdateProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateProfileViewController.swift; sourceTree = "<group>"; };
 		0D9044311C3E188800F51C8D /* ChildListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChildListViewController.swift; sourceTree = "<group>"; };
+		0DA301791C727FD6000F28CE /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Realm.framework; path = ../Carthage/Build/iOS/Realm.framework; sourceTree = "<group>"; };
+		0DA3017A1C727FD6000F28CE /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RealmSwift.framework; path = ../Carthage/Build/iOS/RealmSwift.framework; sourceTree = "<group>"; };
 		0DB0C1CD1C5F6E0500CBBB33 /* GameImageViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameImageViewCell.swift; sourceTree = "<group>"; };
 		0DB0C1CF1C5FA57500CBBB33 /* AddGameToChildViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddGameToChildViewController.swift; sourceTree = "<group>"; };
 		0DB65F1B1C38AAD700C5B1AD /* Bridigin-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridigin-Header.h"; sourceTree = "<group>"; };
@@ -115,9 +125,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0D44A6E81C72706F00FB763B /* OtsimoSDK.framework in Frameworks */,
 				0D137F9C1C39F66A0006BB8E /* Protobuf.framework in Frameworks */,
+				0DA3017D1C727FD6000F28CE /* RealmSwift.framework in Frameworks */,
 				0D137FA01C39F66A0006BB8E /* gRPC.framework in Frameworks */,
 				0DE942541C6516D7008DEB7E /* Haneke.framework in Frameworks */,
+				0DA3017B1C727FD6000F28CE /* Realm.framework in Frameworks */,
 				0D9044291C3C862600F51C8D /* Locksmith.framework in Frameworks */,
 				0D137FA21C39F66A0006BB8E /* BoringSSL.framework in Frameworks */,
 				0D137F9E1C39F66A0006BB8E /* OtsimoApiGrpc.framework in Frameworks */,
@@ -130,6 +143,8 @@
 		0D36E27B1C15C8EF00B4B549 = {
 			isa = PBXGroup;
 			children = (
+				0DA301791C727FD6000F28CE /* Realm.framework */,
+				0DA3017A1C727FD6000F28CE /* RealmSwift.framework */,
 				0DE680CC1C16EDB100FA8CF6 /* OtsimoSDK.framework */,
 				0D36E2861C15C8EF00B4B549 /* account-example */,
 				0D36E2851C15C8EF00B4B549 /* Products */,
@@ -140,7 +155,7 @@
 		0D36E2851C15C8EF00B4B549 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				0D36E2841C15C8EF00B4B549 /* OtsimoSDK_Example.app */,
+				0D36E2841C15C8EF00B4B549 /* Example.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -208,6 +223,7 @@
 		C1E4904BBA118E6E10B7BDD5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0D44A6E71C72706F00FB763B /* OtsimoSDK.framework */,
 				0DE942531C6516D7008DEB7E /* Haneke.framework */,
 				0D9044281C3C862600F51C8D /* Locksmith.framework */,
 				0D137F921C39F4BE0006BB8E /* OtsimoSDK.framework */,
@@ -237,7 +253,7 @@
 			);
 			name = OtsimoSDK_Example;
 			productName = "account-example";
-			productReference = 0D36E2841C15C8EF00B4B549 /* OtsimoSDK_Example.app */;
+			productReference = 0D36E2841C15C8EF00B4B549 /* Example.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -361,6 +377,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer: degirmencisercan@gmail.com (QLTFF87Q2J)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -407,9 +424,10 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer: degirmencisercan@gmail.com (QLTFF87Q2J)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -446,7 +464,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.otsimo.sdk-example";
-				PRODUCT_NAME = OtsimoSDK_Example;
+				PRODUCT_NAME = Example;
 				SWIFT_OBJC_BRIDGING_HEADER = "/Users/sercand/Developer/Otsimo/OtsimoSDK/Example/account-example/Bridigin-Header.h";
 				USER_HEADER_SEARCH_PATHS = "";
 			};
@@ -470,7 +488,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.otsimo.sdk-example";
-				PRODUCT_NAME = OtsimoSDK_Example;
+				PRODUCT_NAME = Example;
 				SWIFT_OBJC_BRIDGING_HEADER = "/Users/sercand/Developer/Otsimo/OtsimoSDK/Example/account-example/Bridigin-Header.h";
 				USER_HEADER_SEARCH_PATHS = "";
 			};

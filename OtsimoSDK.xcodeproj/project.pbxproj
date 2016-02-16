@@ -155,7 +155,7 @@
 		0D52FFB01C38A6400052C750 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				0D52FFB41C38A6420052C750 /* OtsimoSDK_Example.app */,
+				0D52FFB41C38A6420052C750 /* Example.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -296,10 +296,10 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		0D52FFB41C38A6420052C750 /* OtsimoSDK_Example.app */ = {
+		0D52FFB41C38A6420052C750 /* Example.app */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.application;
-			path = OtsimoSDK_Example.app;
+			path = Example.app;
 			remoteRef = 0D52FFB31C38A6420052C750 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
