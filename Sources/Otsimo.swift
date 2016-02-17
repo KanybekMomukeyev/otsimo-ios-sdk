@@ -20,7 +20,6 @@ public class Otsimo {
             }
             if let ses = session{
                 analytics.start(ses)
-                analytics.customEvent("session:start", payload: ["refresh":ses.refreshToken])
             }else{
                 analytics.stop(nil)
             }
@@ -45,7 +44,10 @@ public class Otsimo {
         sharedInstance.analytics = Analytics(connection: sharedInstance.connection!)
         
         sharedInstance.recoverOldSessionIfExist(config)
-        sharedInstance.analytics.appEvent("start", payload: [String:AnyObject]())
+        
+        if isFirstLaunch(){
+            sharedInstance.analytics.appEvent("start", payload: [String:AnyObject]())
+        }
     }
     
     public func handleOpenURL(url: NSURL) {
@@ -69,5 +71,14 @@ public class Otsimo {
         for l in NSLocale.preferredLanguages() {
             languages.append(l.substringToIndex(l.startIndex.advancedBy(2)))
         }
+    }
+    
+    private static func isFirstLaunch() -> Bool {
+        if !NSUserDefaults.standardUserDefaults().boolForKey("OtsimoSDKHasLaunchedOnce") {
+            NSUserDefaults.standardUserDefaults().setBool(true, forKey: "OtsimoSDKHasLaunchedOnce")
+            NSUserDefaults.standardUserDefaults().synchronize()
+            return true
+        }
+        return false
     }
 }
