@@ -21,14 +21,14 @@ public protocol OtsimoAnalyticsProtocol{
 internal class Analytics : OtsimoAnalyticsProtocol{
     private var internalWriter: GRXBufferedPipe
     private var connection: Connection
-    private var isConnected: Bool
+    private var isStarted: Bool
     private var device: OTSDeviceInfo
     private var session: Session?
     
     init(connection: Connection) {
         internalWriter = GRXBufferedPipe()
         self.connection = connection
-        isConnected = false
+        isStarted = false
         device = OTSDeviceInfo(os:"ios")
     }
     
@@ -39,18 +39,19 @@ internal class Analytics : OtsimoAnalyticsProtocol{
    // var writable: GRXWriteableProtocol = GRXWriteable()
     
     func start(session:Session) {
-        print("start analytics")
-        
         internalWriter = GRXBufferedPipe()
         
         self.session = session
         let RPC : ProtoRPC = connection.listenerService.RPCToCustomEventWithRequestsWriter(writer, handler: rpcHandler)
+        
         RPC.requestHeaders["Authorization"] = "\(session.tokenType) \(session.accessToken)"
+        RPC.requestHeaders["device"] = device.data()!.base64EncodedStringWithOptions(.EncodingEndLineWithCarriageReturn)
+        
         RPC.startWithWriteable(internalWriter)
+        isStarted = true
     }
     
     func stop(error:NSError?){
-        print("stop analytics")
         internalWriter.writesFinishedWithError(error)
     }
     
