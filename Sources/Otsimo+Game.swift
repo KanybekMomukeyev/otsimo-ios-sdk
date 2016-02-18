@@ -66,4 +66,16 @@ extension Otsimo: GameApi {
             handler(nil, done: true, error: OtsimoError.NotInitialized)
         }
     }
+    
+    public func gamesLatestVersions(gameIDs:[String], handler: (result: [OTSGameAndVersion], error: OtsimoError) -> Void) {
+        if let connection = connection {
+            if let ses = session {
+                connection.gamesLatestVersions(ses, gameIDs: gameIDs, handler: handler)
+            } else {
+                handler(result:[], error: .NotLoggedIn(message: "not logged in, session is nil"))
+            }
+        } else {
+            handler(result:[], error: OtsimoError.NotInitialized)
+        }
+    }
 }

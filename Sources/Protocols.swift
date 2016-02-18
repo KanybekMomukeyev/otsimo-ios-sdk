@@ -52,6 +52,8 @@ public protocol GameApi {
     
     func getGameRelease(id: String, version: String?, onlyProduction: Bool?, handler: (OTSGameRelease?, error: OtsimoError) -> Void)
     
+    func gamesLatestVersions(gameIDs:[String], handler: (result: [OTSGameAndVersion], error: OtsimoError) -> Void)
+    
 }
 
 public protocol CatalogApi {

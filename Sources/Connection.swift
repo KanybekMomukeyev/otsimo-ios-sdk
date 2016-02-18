@@ -257,6 +257,38 @@ internal final class Connection {
         }
     }
     
+    func gamesLatestVersions(session: Session,gameIDs:[String], handler: ([OTSGameAndVersion], err: OtsimoError) -> Void) {
+        let req:OTSGetLatestVersionsRequest = OTSGetLatestVersionsRequest()
+        if config.useProductionGames{
+            req.state = OTSRequestReleaseState.ProductionState
+        }else{
+            req.state = OTSRequestReleaseState.AllStates
+        }
+        req.gameIdsArray = NSMutableArray(array: gameIDs)
+        
+        let RPC = registryService.RPCToGetLatestVersionsWithRequest(req){ resp, err in
+            if let resp = resp {
+                var r: [OTSGameAndVersion] = []
+                for i in 0..<Int(resp.resultsArray_Count) {
+                    let gav = resp.resultsArray[i] as? OTSGameAndVersion
+                    if let g = gav {
+                        r.append(g)
+                    }
+                }
+                onMainThread{handler(r, err: .None)}
+            }else{
+                onMainThread {handler([], err: OtsimoError.ServiceError(message: "\(err)"))}
+            }
+        }
+        if session.isAuthenticated {
+            RPC.requestHeaders["Authorization"] = "\(session.tokenType) \(session.accessToken)"
+            RPC.start()
+        } else {
+            handler([], err: OtsimoError.NotLoggedIn(message: "is not authenticated"))
+        }
+    }
+    
+    
     func login(email: String, plainPassword: String, handler: (res: TokenResult, session: Session?) -> Void) {
         let grant_type = "password"
         let urlPath: String = "\(config.accountsServiceUrl)/login"
