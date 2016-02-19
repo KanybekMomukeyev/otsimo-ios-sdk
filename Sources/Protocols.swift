@@ -60,6 +60,10 @@ public protocol CatalogApi {
     func getCatalog(handler: (OTSCatalog?, OtsimoError) -> Void)
 }
 
+public protocol WatchApi{
+    func startWatch(callback: (OTSWatchEvent) -> Void) -> (watch:WatchProtocol?,error: OtsimoError)
+}
+
 public protocol CacheProtocol {
     // Game
     func fetchGame(id: String, handler: (Game?) -> Void)
