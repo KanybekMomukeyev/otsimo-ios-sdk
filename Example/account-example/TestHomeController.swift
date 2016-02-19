@@ -8,6 +8,11 @@
 
 import UIKit
 import OtsimoSDK
+import OtsimoApiGrpc
+
+func watchCallback(event:OTSWatchEvent){
+    print("Watch: \(event)")
+}
 
 class TestHomeController: UITableViewController {
     var testEntries: [ApiTest] = apiTestScenes
@@ -24,6 +29,8 @@ class TestHomeController: UITableViewController {
     
     func onSessionStatusChanged(ses: Session?) {
         self.tableView.reloadData()
+        let (_,e) = otsimo.startWatch(watchCallback)
+        print("Watch: \(e)")
     }
     
     override func didReceiveMemoryWarning() {

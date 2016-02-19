@@ -16,7 +16,7 @@ public class Otsimo {
     public var session: Session? {
         didSet {
             if let ssc = self.sessionStatusChanged {
-                ssc(session)
+                onMainThread{ssc(self.session)}
             }
             if let ses = session{
                 analytics.start(ses)

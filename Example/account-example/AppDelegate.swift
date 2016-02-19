@@ -23,12 +23,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let dict = keys {
             clientID = dict["OtsimoClientID"] as! String
         }
+        
+        otsimo.sessionStatusChanged = onSessionStatusChanged
+
         #if DEBUG
         Otsimo.config(ClientConfig.development(clientID, host: devHost))
         #else
         Otsimo.config(ClientConfig.development(clientID, host: devHost))
         #endif
         return true
+    }
+    
+    func onSessionStatusChanged(ses: Session?) {
+        let (_,e) = otsimo.startWatch(watchCallback)
+        print("WatchCreate: \(e)")
     }
     
     func application(application: UIApplication,

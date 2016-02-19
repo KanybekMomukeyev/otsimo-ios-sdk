@@ -12,38 +12,34 @@ import OtsimoApiGrpc
 import gRPC
 
 internal class Watch: WatchProtocol{
-    private var internalWriter: GRXBufferedPipe
+    
     private var connection: Connection
     private var isStarted: Bool
     private var session: Session?
     private var handler:((watch:OTSWatchEvent)->Void)?
-    
+    private var RPC: ProtoRPC!
     init(connection: Connection) {
-        internalWriter = GRXBufferedPipe()
         self.connection = connection
         isStarted = false
     }
     
-    var writer: GRXWriter {
-        return internalWriter
-    }
-        
     func start(session:Session,handler:(watch:OTSWatchEvent) -> Void) {
-        internalWriter = GRXBufferedPipe()
-        self.session = session
-        let RPC : ProtoRPC = connection.watchService.RPCToWatchWithRequestsWriter(writer, eventHandler: rpcHandler)        
-        RPC.requestHeaders["Authorization"] = "\(session.tokenType) \(session.accessToken)"
-        RPC.startWithWriteable(internalWriter)
-        isStarted = true
-        
         let req = OTSWatchRequest()
         req.profileId = session.profileID
-        req.type = OTSWatchRequest_WatchRequestType.Create
-        internalWriter.writeValue(req)
+
+        self.session = session
+        RPC = connection.watchService.RPCToWatchWithRequest(req, eventHandler: rpcHandler)
+        RPC.requestHeaders["Authorization"] = "\(session.tokenType) \(session.accessToken)"
+        
+        RPC.start()
+        isStarted = true
     }
     
     func stop(error:NSError?){
-        internalWriter.writesFinishedWithError(error)
+        if isStarted{
+            RPC.cancel()
+        }
+        isStarted = false
     }
 
     func rpcHandler(done:Bool, response: OTSWatchResponse!, error:NSError!) {
@@ -54,7 +50,5 @@ internal class Watch: WatchProtocol{
                 }
             }
         }
-        print("rpcHandler \(response) \(error)")
     }
-    
 }
