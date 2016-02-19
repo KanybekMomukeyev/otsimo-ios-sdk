@@ -10,14 +10,6 @@ import Foundation
 import OtsimoApiGrpc
 import gRPC
 
-public protocol OtsimoAnalyticsProtocol{
-    func customEvent(event: String, payload: [String : AnyObject])
-    func customEvent(event: String, childID: String?, gameID: String?, payload: [String:AnyObject])
-    func appEvent(event: String, payload: [String : AnyObject])
-    func start(session:Session)
-    func stop(error:NSError?)
-}
-
 internal class Analytics : OtsimoAnalyticsProtocol{
     private var internalWriter: GRXBufferedPipe
     private var connection: Connection
@@ -64,17 +56,19 @@ internal class Analytics : OtsimoAnalyticsProtocol{
     }
     
     func customEvent(event: String, childID: String?, gameID: String?, payload: [String:AnyObject]){
-        let e = OTSEvent()
-        e.event = event
-        e.appId = NSBundle.mainBundle().bundleIdentifier!
-        e.childId = childID
-        e.subId = gameID
-        e.timestamp = Int64(NSDate().timeIntervalSince1970)
-        e.deviceId = device.vendorId
-        e.userId = session!.profileID
-        e.payload = try? NSJSONSerialization.dataWithJSONObject(payload, options: NSJSONWritingOptions())
-        
-        internalWriter.writeValue(e)
+        if let session=session{
+            let e = OTSEvent()
+            e.event = event
+            e.appId = NSBundle.mainBundle().bundleIdentifier!
+            e.childId = childID
+            e.subId = gameID
+            e.timestamp = Int64(NSDate().timeIntervalSince1970)
+            e.deviceId = device.vendorId
+            e.userId = session.profileID
+            e.payload = try? NSJSONSerialization.dataWithJSONObject(payload, options: NSJSONWritingOptions())
+            
+            internalWriter.writeValue(e)
+        }
     }
     
     func appEvent(event: String, payload: [String : AnyObject]) {

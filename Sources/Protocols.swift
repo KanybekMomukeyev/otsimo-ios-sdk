@@ -73,4 +73,17 @@ public protocol CacheProtocol {
     func clearSession()
 }
 
+public protocol OtsimoAnalyticsProtocol{
+    func customEvent(event: String, payload: [String : AnyObject])
+    func customEvent(event: String, childID: String?, gameID: String?, payload: [String:AnyObject])
+    func appEvent(event: String, payload: [String : AnyObject])
+    func start(session:Session)
+    func stop(error:NSError?)
+}
+
+public protocol WatchProtocol{
+    func stop(error:NSError?)
+}
+
+
 
