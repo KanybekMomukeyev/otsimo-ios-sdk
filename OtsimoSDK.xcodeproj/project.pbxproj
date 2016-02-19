@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		0D137FA91C3A7C280006BB8E /* ClientConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D137FA81C3A7C280006BB8E /* ClientConfig.swift */; };
+		0D2C465C1C76FA9900B9DEC8 /* Watch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D2C465B1C76FA9900B9DEC8 /* Watch.swift */; };
+		0D2C465F1C7700F800B9DEC8 /* Otsimo+Watch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D2C465E1C7700F800B9DEC8 /* Otsimo+Watch.swift */; };
 		0D3053741C3AAAB0000FE8B1 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3053731C3AAAB0000FE8B1 /* Errors.swift */; };
 		0D333A681C158D3200968DDA /* OtsimoSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 0D333A671C158D3200968DDA /* OtsimoSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0D333A6F1C158D3200968DDA /* OtsimoSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D333A641C158D3200968DDA /* OtsimoSDK.framework */; };
@@ -58,6 +60,8 @@
 
 /* Begin PBXFileReference section */
 		0D137FA81C3A7C280006BB8E /* ClientConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ClientConfig.swift; path = Sources/ClientConfig.swift; sourceTree = "<group>"; };
+		0D2C465B1C76FA9900B9DEC8 /* Watch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Watch.swift; path = Sources/Watch.swift; sourceTree = "<group>"; };
+		0D2C465E1C7700F800B9DEC8 /* Otsimo+Watch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Otsimo+Watch.swift"; path = "Sources/Otsimo+Watch.swift"; sourceTree = "<group>"; };
 		0D3053731C3AAAB0000FE8B1 /* Errors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Errors.swift; path = Sources/Errors.swift; sourceTree = "<group>"; };
 		0D333A641C158D3200968DDA /* OtsimoSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OtsimoSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0D333A671C158D3200968DDA /* OtsimoSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = OtsimoSDK.h; path = Sources/OtsimoSDK.h; sourceTree = "<group>"; };
@@ -184,6 +188,7 @@
 				0D60A91C1C5693F200115500 /* Otsimo+Child.swift */,
 				0D60A91A1C5693DB00115500 /* Otsimo+Game.swift */,
 				0D60A9181C56938C00115500 /* Otsimo+Profile.swift */,
+				0D2C465E1C7700F800B9DEC8 /* Otsimo+Watch.swift */,
 				0D60A9141C5692E200115500 /* Protocols.swift */,
 			);
 			name = Otsimo;
@@ -229,6 +234,7 @@
 				0D3D0FF81C3AA3F00049A72F /* Connection.swift */,
 				0DA3018A1C73B912000F28CE /* DeviceInfo.swift */,
 				0D8214A01C38755100DC246F /* Session.swift */,
+				0D2C465B1C76FA9900B9DEC8 /* Watch.swift */,
 			);
 			name = Api;
 			sourceTree = "<group>";
@@ -372,6 +378,7 @@
 			files = (
 				0D8214A11C38755100DC246F /* Session.swift in Sources */,
 				0D5395AD1C62AD4600DBB19C /* GameSettings.swift in Sources */,
+				0D2C465F1C7700F800B9DEC8 /* Otsimo+Watch.swift in Sources */,
 				0D3D0FF91C3AA3F00049A72F /* Connection.swift in Sources */,
 				0D60A91B1C5693DB00115500 /* Otsimo+Game.swift in Sources */,
 				0DA301891C7338E6000F28CE /* Analytics.swift in Sources */,
@@ -384,6 +391,7 @@
 				0D137FA91C3A7C280006BB8E /* ClientConfig.swift in Sources */,
 				0DC2841E1C4EE8B30075FE63 /* Utils.swift in Sources */,
 				0D9044021C3AD68B00F51C8D /* JWT.swift in Sources */,
+				0D2C465C1C76FA9900B9DEC8 /* Watch.swift in Sources */,
 				0D4D7CDD1C5A415C000BFEC5 /* Cache.swift in Sources */,
 				0D5395A51C60D8DF00DBB19C /* GameManifest.swift in Sources */,
 				0DA3018B1C73B912000F28CE /* DeviceInfo.swift in Sources */,
