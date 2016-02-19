@@ -1,16 +1,25 @@
 language: objective-c
 osx_image: xcode7.2
 xcode_project: OtsimoSDK.xcodeproj
-xcode_scheme: <SCHEME_PLACEHOLDER>
+xcode_scheme: OtsimoSDK
 xcode_sdk: iphonesimulator9.2
 env:
-  global: 
-    - FRAMEWORK_NAME=OtsimoSDK
+  global:
+  - FRAMEWORK_NAME=OtsimoSDK
 before_install:
-  - brew update
-  - brew install carthage
+- brew update
+- brew install carthage
 before_script:
-  - carthage bootstrap  
+- carthage bootstrap
 before_deploy:
-  - carthage build --no-skip-current
-  - carthage archive OtsimoSDK OtsimoApiGrpc Locksmith Haneke gRPC Realm RealmSwift
+- carthage build --no-skip-current
+- carthage archive OtsimoSDK OtsimoApiGrpc Locksmith Haneke gRPC Realm RealmSwift
+deploy:
+  provider: releases
+  api_key:
+    secure: jcXHdQQaZowOmW74t4LxZDt0aqn2JHOdo4A8xkInJecwxUmPnT424bXf2VxA1ZxPvBAXQMvSjCVfOMULk5ZmC7pUm5+CeWmr83u2u9kVxOuryPjkHXVerqY+OyoU24ytgFo2CiFYt2T1WFi9IDnKiW6k0nTvD4IWhB8PQaVZTraRQ/xfsn7MB51j5WN5/IZxl4UI3YGIDOsi3F/vq2PScOk0v4spHVWxSTaiFO+/V9WR+IrwFrbG69f7W+ChVbD0rXglHec2FozIEtu4wVEpteOFGgxglftFS2o9flt2IqOQYh6YM19xBx3QhC1slzhOHrtNd5afGs4R1rWQAkj8P5q6BPiiFkJfRt7QyphJI25EnrDsgJGI9+B7S96JxG4cA0FCNK1Dz89StFGjVocAHRatiUsloVrjeuwf07lirZmGHlY9O2pRtkjH/23C+rAhsqoiZxNlfA1mimLYuQ7wN6UHHi8VTh70xbRLjl2f3EsbYcYo7WkMQ29T3KvCYGfaSX8VqrhTA5b+VmzIVqx2p6aKzFqe0ITFjrBDUOJ02LZJNSPW+CEa6I1WuqBOgmw6FkOQvI9fIfpHhOgH7pGr7DkE2SkEPd3IbqOepJLzqSfZdfO/WxLjPQsuO3BBD+L2AM3OWx6WGVu9HKa3abniHu6wLCX0UR5pPBGWVraATH8=
+  file: $FRAMEWORK_NAME.framework.zip
+  skip_cleanup: true
+  on:
+    repo: otsimo/otsimo-ios-sdk
+    tags: true
