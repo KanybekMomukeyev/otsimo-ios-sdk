@@ -277,6 +277,7 @@ public class Session {
                     let lr = self.loadToken()
                     switch (lr) {
                     case .Success(_, _, _, _):
+                        self.save()
                         onMainThread {handler(error: .None)}
                     case .Failure(let it):
                         onMainThread {handler(error: OtsimoError.InvalidTokenError(error: it))}

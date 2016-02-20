@@ -8,6 +8,9 @@
 
 import Foundation
 
+let analyticsQueue = dispatch_queue_create(
+    "com.otsimo.iossdk.analytics", DISPATCH_QUEUE_CONCURRENT)
+
 func onMainThread(closure: () -> ()) {
     dispatch_async(dispatch_get_main_queue(), {() -> Void in
             closure()

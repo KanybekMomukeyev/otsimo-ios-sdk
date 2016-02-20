@@ -429,7 +429,7 @@ internal final class Connection {
         request.HTTPBody = postString.dataUsingEncoding(NSUTF8StringEncoding)
         request.timeoutInterval = 20
         request.cachePolicy = .ReloadIgnoringLocalAndRemoteCacheData
-        Log.debug("sending data to  \(urlPath) data: \(postString)")
+        
         let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {data, response, error in
             guard error == nil && data != nil else {// check for fundamental networking error
                 onMainThread {handler(error: .NetworkError(message: "\(error)"))}
