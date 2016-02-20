@@ -1,4 +1,4 @@
 github "Haneke/HanekeSwift" "v0.10.1"
 github "matthewpalmer/Locksmith" "2.0.8"
-github "otsimo/otsimo-ios-grpc" "v0.10.1"
+github "otsimo/otsimo-ios-grpc" "v0.10.10"
 github "realm/realm-cocoa" "v0.98.2"

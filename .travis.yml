@@ -9,8 +9,7 @@ env:
 before_script:
 - carthage bootstrap
 before_deploy:
-- carthage build --no-skip-current --platform ios
-- carthage archive OtsimoSDK OtsimoApiGrpc Locksmith Haneke gRPC Realm RealmSwift
+- carthage archive OtsimoApiGrpc Locksmith Haneke gRPC BoringSSL Protobuf Realm RealmSwift OtsimoSDK
 deploy:
   provider: releases
   api_key:
@@ -20,3 +19,7 @@ deploy:
   on:
     repo: otsimo/otsimo-ios-sdk
     tags: true
+notifications:
+  email: false
+  slack:
+    secure: dr6u+Xjksz3y16UsSuXdCL9Ad4BJIVLGvexNLJrv7nsPvtPKfN9MYh0MHKEzK7y7Oieu/G89pWUKp+htYwFsDB7aJdFzXXJK8RpTEEVlaTtxz3rf3JG3XWdxrZQtj95eL9va9Eb/GK+0FMhb6lfXjaVYjbO5MCC0J6U9lXwxXhhPI6qFnDbxYuT7xa/8AdMleI5Ww3RsbhBeHOswd37IM0f0cR3TtcNLctrxC+45KKJp7QoJjuiDFlmaX4x20WAPNhRvnkVfTSFc6vUwBfqhRyGwwChsI1jrNhwcNEonlAtY/ah/we48V6GzZstWCUjgKTIsvl+QQV3hFmlv/2RIa1qO6qHhkW7JxxjK6vr6w3feYV8Aa8LJDsY90qVgm8420NfNTKhGxFiyo7K+4MyOvCWfaF/sbiw99Mp1C/3ZBzJXG8X2TTxn2F7ytcqZVOygQlnsd/M4W5dDMwINwlO4msaXRV8lWfdjBkx8m4Ow20RfnWC6NjRa9LmZ7VUj78IArLtXPnNG14d6Vlz5zR9hwwOEiut1Weqit8c6mUVE2hPdxSX2Z3y9QSlhTfKSUPB6fSjU9cvzf/4X6F/3veCtn/gMv4RCNU/57Mp6dR4p995Vw0O5t6yMmOAQu2o+5tCu1nwpCqwaYcjh5eWgAr8MmCJqB/t8TEsVY20F53LG37Y=

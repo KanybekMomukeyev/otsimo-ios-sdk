@@ -47,12 +47,17 @@ internal final class Connection {
                 onMainThread {handler(nil, OtsimoError.ServiceError(message: "\(error)"))}
             }
         }
-        if session.isAuthenticated {
-            RPC.requestHeaders["Authorization"] = "\(session.tokenType) \(session.accessToken)"
-            RPC.start()
-        } else {
-            handler(nil, OtsimoError.NotLoggedIn(message: "is not authenticated"))
+        
+        session.getAuthorizationHeader { header, err in
+            switch(err){
+            case .None:
+                RPC.requestHeaders["Authorization"] = header
+                RPC.start()
+            default:
+                handler(nil, err)
+            }
         }
+        
     }
     
     func addChild(session: Session, child: OTSChild, handler: (OtsimoError) -> Void) {
@@ -71,11 +76,14 @@ internal final class Connection {
                 onMainThread {handler(OtsimoError.ServiceError(message: "\(error)"))}
             }
         }
-        if session.isAuthenticated {
-            RPC.requestHeaders["Authorization"] = "\(session.tokenType) \(session.accessToken)"
-            RPC.start()
-        } else {
-            handler(OtsimoError.NotLoggedIn(message: "is not authenticated"))
+        session.getAuthorizationHeader { header, err in
+            switch(err){
+            case .None:
+                RPC.requestHeaders["Authorization"] = header
+                RPC.start()
+            default:
+                handler(err)
+            }
         }
     }
     
@@ -94,11 +102,14 @@ internal final class Connection {
             }
         }
         
-        if session.isAuthenticated {
-            RPC.requestHeaders["Authorization"] = "\(session.tokenType) \(session.accessToken)"
-            RPC.start()
-        } else {
-            handler(res: nil, err: OtsimoError.NotLoggedIn(message: "is not authenticated"))
+        session.getAuthorizationHeader { header, err in
+            switch(err){
+            case .None:
+                RPC.requestHeaders["Authorization"] = header
+                RPC.start()
+            default:
+                handler(res:nil, err: err)
+            }
         }
     }
     
@@ -124,11 +135,14 @@ internal final class Connection {
             }
         }
         
-        if session.isAuthenticated {
-            RPC.requestHeaders["Authorization"] = "\(session.tokenType) \(session.accessToken)"
-            RPC.start()
-        } else {
-            handler(res: [], err: OtsimoError.NotLoggedIn(message: "is not authenticated"))
+        session.getAuthorizationHeader { header, err in
+            switch(err){
+            case .None:
+                RPC.requestHeaders["Authorization"] = header
+                RPC.start()
+            default:
+                handler(res:[], err: err)
+            }
         }
     }
     
@@ -147,11 +161,14 @@ internal final class Connection {
             }
         }
         
-        if session.isAuthenticated {
-            RPC.requestHeaders["Authorization"] = "\(session.tokenType) \(session.accessToken)"
-            RPC.start()
-        } else {
-            handler(OtsimoError.NotLoggedIn(message: "is not authenticated"))
+        session.getAuthorizationHeader { header, err in
+            switch(err){
+            case .None:
+                RPC.requestHeaders["Authorization"] = header
+                RPC.start()
+            default:
+                handler(err)
+            }
         }
     }
     
@@ -172,11 +189,14 @@ internal final class Connection {
             }
         }
         
-        if session.isAuthenticated {
-            RPC.requestHeaders["Authorization"] = "\(session.tokenType) \(session.accessToken)"
-            RPC.start()
-        } else {
-            handler(OtsimoError.NotLoggedIn(message: "is not authenticated"))
+        session.getAuthorizationHeader { header, err in
+            switch(err){
+            case .None:
+                RPC.requestHeaders["Authorization"] = header
+                RPC.start()
+            default:
+                handler(err)
+            }
         }
     }
     
@@ -190,11 +210,14 @@ internal final class Connection {
                 onMainThread {handler(res: nil, err: OtsimoError.ServiceError(message: "\(error)"))}
             }
         }
-        if session.isAuthenticated {
-            RPC.requestHeaders["Authorization"] = "\(session.tokenType) \(session.accessToken)"
-            RPC.start()
-        } else {
-            handler(res: nil, err: OtsimoError.NotLoggedIn(message: "is not authenticated"))
+        session.getAuthorizationHeader { header, err in
+            switch(err){
+            case .None:
+                RPC.requestHeaders["Authorization"] = header
+                RPC.start()
+            default:
+                handler(res:nil,err:err)
+            }
         }
     }
     
@@ -222,11 +245,14 @@ internal final class Connection {
                 onMainThread {handler(res: nil, err: OtsimoError.ServiceError(message: "\(error)"))}
             }
         }
-        if session.isAuthenticated {
-            RPC.requestHeaders["Authorization"] = "\(session.tokenType) \(session.accessToken)"
-            RPC.start()
-        } else {
-            handler(res: nil, err: OtsimoError.NotLoggedIn(message: "is not authenticated"))
+        session.getAuthorizationHeader { header, err in
+            switch(err){
+            case .None:
+                RPC.requestHeaders["Authorization"] = header
+                RPC.start()
+            default:
+                handler(res:nil,err:err)
+            }
         }
     }
     
@@ -249,11 +275,14 @@ internal final class Connection {
                 onMainThread {handler(nil, done: true, err: OtsimoError.None)}
             }
         }
-        if session.isAuthenticated {
-            RPC.requestHeaders["Authorization"] = "\(session.tokenType) \(session.accessToken)"
-            RPC.start()
-        } else {
-            handler(nil, done: true, err: OtsimoError.NotLoggedIn(message: "is not authenticated"))
+        session.getAuthorizationHeader { header, err in
+            switch(err){
+            case .None:
+                RPC.requestHeaders["Authorization"] = header
+                RPC.start()
+            default:
+                handler(nil, done: true, err: err)
+            }
         }
     }
     
@@ -280,11 +309,14 @@ internal final class Connection {
                 onMainThread {handler([], err: OtsimoError.ServiceError(message: "\(err)"))}
             }
         }
-        if session.isAuthenticated {
-            RPC.requestHeaders["Authorization"] = "\(session.tokenType) \(session.accessToken)"
-            RPC.start()
-        } else {
-            handler([], err: OtsimoError.NotLoggedIn(message: "is not authenticated"))
+        session.getAuthorizationHeader { header, err in
+            switch(err){
+            case .None:
+                RPC.requestHeaders["Authorization"] = header
+                RPC.start()
+            default:
+                handler([], err: err)
+            }
         }
     }
     
@@ -432,4 +464,5 @@ internal final class Connection {
         }
         task.resume()
     }
+    
 }
