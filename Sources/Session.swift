@@ -30,7 +30,7 @@ public class Session {
     internal var refreshToken: String = ""
     internal var tokenType: String = ""
     public var emailVerified: Bool = false
-    public var expiresAt: Int64 = 0
+    public var expiresAt: Int = 0
     public var issuedAt: Int64 = 0
     public var issuer: String = ""
     public var clientID: String = ""
@@ -121,6 +121,7 @@ public class Session {
     }
     
     internal func loadPayload(payload: Payload) -> PayloadLoadResult {
+        
         if let sub = payload["sub"] as? String {
             profileID = sub
         } else {
@@ -158,12 +159,19 @@ public class Session {
             displayName = ""
         }
         
+        if let e = payload["exp"] as? Int{
+            expiresAt = e
+        }else{
+            return PayloadLoadResult.Failure(InvalidToken.MissingExp)
+        }
+        
         return .Success
     }
     
     func getAuthorizationHeader(handler:(String,OtsimoError)->Void){
         if isAuthenticated{
             if isTokenExpired{
+                print("access token is expired")
                 self.refreshCurrentToken{ err in
                     switch(err){
                     case .None:
@@ -277,8 +285,10 @@ public class Session {
                     let lr = self.loadToken()
                     switch (lr) {
                     case .Success(_, _, _, _):
-                        self.save()
-                        onMainThread {handler(error: .None)}
+                        onMainThread {
+                            self.save()
+                            handler(error: .None)
+                        }
                     case .Failure(let it):
                         onMainThread {handler(error: OtsimoError.InvalidTokenError(error: it))}
                     }

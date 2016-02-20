@@ -51,6 +51,9 @@ public enum InvalidToken : CustomStringConvertible, ErrorType {
     // The issuer claim failed to verify
     case MissingEmail
     
+    case MissingExp
+
+    
     // / Returns a readable description of the error
     public var description: String {
         switch self {
@@ -72,6 +75,8 @@ public enum InvalidToken : CustomStringConvertible, ErrorType {
             return "Sub is missing"
         case MissingEmail:
             return "Email is missing"
+        case .MissingExp:
+            return "Expire time is missing"
         }
     }
 }
