@@ -64,6 +64,12 @@ public protocol WatchApi{
     func startWatch(callback: (OTSWatchEvent) -> Void) -> (watch:WatchProtocol?,error: OtsimoError)
 }
 
+public protocol WikiApi{
+    func featuredContents(callback: ([OTSContent],OtsimoError) -> Void)
+    
+    func contentsByDate(callback: ([OTSContent],OtsimoError) -> Void)
+}
+
 public protocol CacheProtocol {
     // Game
     func fetchGame(id: String, handler: (Game?) -> Void)

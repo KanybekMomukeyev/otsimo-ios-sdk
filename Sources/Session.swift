@@ -16,9 +16,9 @@ struct OtsimoAccount: ReadableSecureStorable, CreateableSecureStorable, Deleteab
     let refresh: String
     let tokentype: String
     let service = "Otsimo"
-    
-    var account: String {return email}
-    
+
+    var account: String { return email }
+
     var data: [String: AnyObject] {
         return ["jwt": jwt, "refresh": refresh, "tokentype": tokentype]
     }
@@ -37,15 +37,15 @@ public class Session {
     public var displayName: String = ""
     public var profileID: String = ""
     public var email: String = ""
-    
+
     internal var profile: OTSProfile? = nil
-    
+
     public var isAuthenticated: Bool {
         get {
             return accessToken != ""
         }
     }
-    
+
     public var isTokenExpired: Bool {
         get {
             let exp = NSDate(timeIntervalSince1970: Double(expiresAt))
@@ -56,11 +56,11 @@ public class Session {
             return true
         }
     }
-    
+
     internal init(config: ClientConfig) {
         self.config = config
     }
-    
+
     public func logout() {
         accessToken = ""
         profileID = ""
@@ -72,13 +72,13 @@ public class Session {
             Log.error("failed to clear account information: \(error)")
         }
     }
-    
+
     internal func save() {
         if isAuthenticated {
             let sc = SessionCache()
             sc.profileId = self.profileID
             sc.email = self.email
-            
+
             let account = OtsimoAccount(email: email, jwt: accessToken, refresh: refreshToken, tokentype: tokenType)
             do {
                 try account.createInSecureStore()
@@ -103,7 +103,7 @@ public class Session {
             Log.error("session is not saved because user is not authenticated")
         }
     }
-    
+
     internal func loadToken() -> LoadResult {
         let res = loadJwt(accessToken)
         switch (res) {
@@ -119,87 +119,87 @@ public class Session {
             return res
         }
     }
-    
+
     internal func loadPayload(payload: Payload) -> PayloadLoadResult {
-        
+
         if let sub = payload["sub"] as? String {
             profileID = sub
         } else {
             return PayloadLoadResult.Failure(InvalidToken.MissingSub)
         }
-        
+
         if let e = payload["email"] as? String {
             email = e
         } else {
             return PayloadLoadResult.Failure(InvalidToken.MissingEmail)
         }
-        
+
         if let e = payload["email_verified"] as? Bool {
             emailVerified = e
         } else {
             emailVerified = false
         }
-        
+
         let it = validateIssuer(payload, issuer: self.config.issuer)
-        
+
         if let i = it {
             return PayloadLoadResult.Failure(i)
         }
-        
+
         if let i = payload["iss"] as? String {
             // todo look validate issuer
             issuer = i
         } else {
             return PayloadLoadResult.Failure(InvalidToken.InvalidIssuer)
         }
-        
+
         if let n = payload["name"] as? String {
             displayName = n
         } else {
             displayName = ""
         }
-        
-        if let e = payload["exp"] as? Int{
+
+        if let e = payload["exp"] as? Int {
             expiresAt = e
-        }else{
+        } else {
             return PayloadLoadResult.Failure(InvalidToken.MissingExp)
         }
-        
+
         return .Success
     }
-    
-    func getAuthorizationHeader(handler:(String,OtsimoError)->Void){
-        if isAuthenticated{
-            if isTokenExpired{
+
+    func getAuthorizationHeader(handler: (String, OtsimoError) -> Void) {
+        if isAuthenticated {
+            if isTokenExpired {
                 print("access token is expired")
-                self.refreshCurrentToken{ err in
-                    switch(err){
+                self.refreshCurrentToken { err in
+                    switch (err) {
                     case .None:
                         handler("\(self.tokenType) \(self.accessToken)", OtsimoError.None)
                     default:
                         handler("", err)
                     }
                 }
-            }else{
+            } else {
                 handler("\(tokenType) \(accessToken)", OtsimoError.None)
             }
-        }else{
+        } else {
             handler("", OtsimoError.NotLoggedIn(message: "not logged in"))
         }
     }
-    
+
     internal static func loadLastSession(config: ClientConfig, handler: (Session?) -> Void) {
         if let sc = Otsimo.sharedInstance.cache.fetchSession() {
             let account = OtsimoAccount(email: sc.email, jwt: "", refresh: "", tokentype: "")
             if let result = account.readFromSecureStore() {
                 let session = Session(config: config)
-                
+
                 session.profileID = sc.profileId
                 session.email = sc.email
                 session.accessToken = result.data?["jwt"] as! String
                 session.refreshToken = result.data?["refresh"] as! String
                 session.tokenType = result.data?["tokentype"] as! String
-                
+
                 if session.refreshToken == "" {
                     Log.error("there is no 'refresh' data at account information")
                     handler(nil)
@@ -227,10 +227,9 @@ public class Session {
             Log.error("could not find any previous session")
             handler(nil)
         }
-        
     }
-    
-    private func refreshCurrentToken(handler: (error: OtsimoError)->Void){
+
+    private func refreshCurrentToken(handler: (error: OtsimoError) -> Void) {
         let grant_type = "refresh_token"
         let urlPath: String = "\(config.accountsServiceUrl)/refresh"
         let postString = "grant_type=\(grant_type)&refresh_token=\(refreshToken)&client_id=\(config.clientID)"
@@ -241,42 +240,42 @@ public class Session {
         request.HTTPBody = postString.dataUsingEncoding(NSUTF8StringEncoding)
         request.timeoutInterval = 20
         request.cachePolicy = .ReloadIgnoringLocalAndRemoteCacheData
-        
-        let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {data, response, error in
-            guard error == nil && data != nil else {// check for fundamental networking error
-                onMainThread {handler(error: .NetworkError(message: "\(error)"))}
+
+        let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { data, response, error in
+            guard error == nil && data != nil else { // check for fundamental networking error
+                onMainThread { handler(error: .NetworkError(message: "\(error)")) }
                 return
             }
             var isOK = true
-            if let httpStatus = response as? NSHTTPURLResponse where httpStatus.statusCode != 200 {// check for http errors
+            if let httpStatus = response as? NSHTTPURLResponse where httpStatus.statusCode != 200 { // check for http errors
                 isOK = false
             }
-            
+
             do {
                 let JSON = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions(rawValue: 0))
                 guard let JSONDictionary : NSDictionary = JSON as? NSDictionary else {
-                    onMainThread {handler(error: .InvalidResponse(message: "invalid response:not a dictionary"))}
+                    onMainThread { handler(error: .InvalidResponse(message: "invalid response:not a dictionary")) }
                     return
                 }
                 if isOK && JSONDictionary["error"] == nil {
                     let accessToken: String? = JSONDictionary["access_token"] as? String
                     let refreshToken: String? = JSONDictionary["refresh_token"] as? String
                     let tokenType: String? = JSONDictionary["token_type"] as? String
-                    
+
                     if let at = accessToken {
                         self.accessToken = at
                     } else {
-                        onMainThread {handler(error: .InvalidResponse(message: "invalid response: access_token is missing"))}
+                        onMainThread { handler(error: .InvalidResponse(message: "invalid response: access_token is missing")) }
                         return
                     }
-                    
+
                     if let rt = refreshToken {
                         self.refreshToken = rt
                     } else {
-                        onMainThread {handler(error: .InvalidResponse(message: "invalid response: refresh_token is missing"))}
+                        onMainThread { handler(error: .InvalidResponse(message: "invalid response: refresh_token is missing")) }
                         return
                     }
-                    
+
                     if let tt = tokenType {
                         self.tokenType = tt
                     } else {
@@ -290,23 +289,21 @@ public class Session {
                             handler(error: .None)
                         }
                     case .Failure(let it):
-                        onMainThread {handler(error: OtsimoError.InvalidTokenError(error: it))}
+                        onMainThread { handler(error: OtsimoError.InvalidTokenError(error: it)) }
                     }
                 } else {
                     let e = JSONDictionary["error"]
                     if e != nil {
-                        onMainThread {handler(error: .InvalidResponse(message: "request failed: error= \(e)"))}
+                        onMainThread { handler(error: .InvalidResponse(message: "request failed: error= \(e)")) }
                     } else {
-                        onMainThread {handler(error: .InvalidResponse(message: "request failed: \(data)"))}
+                        onMainThread { handler(error: .InvalidResponse(message: "request failed: \(data)")) }
                     }
                 }
             }
             catch let JSONError as NSError {
-                onMainThread {handler(error: .InvalidResponse(message: "invalid response: \(JSONError)"))}
+                onMainThread { handler(error: .InvalidResponse(message: "invalid response: \(JSONError)")) }
             }
         }
         task.resume()
-    
     }
-    
 }

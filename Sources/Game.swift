@@ -17,18 +17,18 @@ public class Game {
     internal var latestVersion: String = ""
     internal var latestState: OTSReleaseState = OTSReleaseState.Created
     internal var fetchedAt: NSDate?
-    
+
     internal var gameManifest: GameManifest? {
         didSet {
             fetchedAt = NSDate()
         }
     }
-    
+
     public init(gameId: String) {
         assert(gameId != "", "id is empty")
         self.id = gameId
     }
-    
+
     public convenience init(listItem: OTSListItem) {
         self.init(gameId: listItem.gameId)
         uniqueName = listItem.uniqueName
@@ -36,7 +36,7 @@ public class Game {
         latestVersion = listItem.latestVersion
         latestState = listItem.latestState
     }
-    
+
     public convenience init(gameRelease: OTSGameRelease) {
         self.init(gameId: gameRelease.gameId)
         if (gameRelease.releaseState == OTSReleaseState.Production) {
@@ -49,7 +49,7 @@ public class Game {
             gameManifest = GameManifest(id: id, gameRelease: gameRelease)
         }
     }
-    
+
     internal convenience init(cache: GameCache, manifest: OTSGameManifest) {
         self.init(gameId: cache.gameId)
         fetchedAt = cache.fetchedAt
@@ -59,14 +59,14 @@ public class Game {
         latestState = OTSReleaseState(rawValue: cache.latestState)!
         gameManifest = GameManifest(id: id, version: cache.manifestVersion, gameManifest: manifest)
     }
-    
+
     public func getManifest(handler: (GameManifest?, OtsimoError) -> Void) {
         if let gm = gameManifest {
             // TODO(sercand) there could be a bug if previously get dev release and now want to production
             handler(gm, OtsimoError.None)
         } else {
-            if Otsimo.sharedInstance.useProductionGames {
-                Otsimo.sharedInstance.getGameRelease(id, version: productionVersion, onlyProduction: true) {resp, err in
+            if Otsimo.sharedInstance.onlyProduction {
+                Otsimo.sharedInstance.getGameRelease(id, version: productionVersion, onlyProduction: true) { resp, err in
                     if let r = resp {
                         self.gameManifest = GameManifest(id: self.id, gameRelease: r)
                         self.productionVersion = r.version
@@ -78,7 +78,7 @@ public class Game {
                     }
                 }
             } else {
-                Otsimo.sharedInstance.getGameRelease(id, version: latestVersion, onlyProduction: false) {resp, err in
+                Otsimo.sharedInstance.getGameRelease(id, version: latestVersion, onlyProduction: false) { resp, err in
                     if let r = resp {
                         self.gameManifest = GameManifest(id: self.id, gameRelease: r)
                         self.productionVersion = r.version
@@ -92,12 +92,12 @@ public class Game {
             }
         }
     }
-    
+
     public func cache() {
         assert(id != "", "id is empty")
         Otsimo.sharedInstance.cache.cacheGame(self)
     }
-    
+
     public func defaultSettings() -> NSData {
         return NSData()
     }

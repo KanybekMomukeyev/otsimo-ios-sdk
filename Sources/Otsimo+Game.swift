@@ -16,7 +16,7 @@ extension Otsimo: GameApi {
             if let game = $0 {
                 handler(game, error: .None)
             } else {
-                self.getGameRelease(id, version: nil, onlyProduction: Otsimo.sharedInstance.useProductionGames) {resp, error in
+                self.getGameRelease(id, version: nil, onlyProduction: Otsimo.sharedInstance.onlyProduction) { resp, error in
                     if let gr = resp {
                         let game = Game(gameRelease: gr)
                         game.cache()
@@ -28,7 +28,7 @@ extension Otsimo: GameApi {
             }
         }
     }
-    
+
     public func getGameRelease(id: String, version: String?, onlyProduction: Bool?, handler: (OTSGameRelease?, error: OtsimoError) -> Void) {
         if let connection = connection {
             if let ses = session {
@@ -40,11 +40,11 @@ extension Otsimo: GameApi {
             handler(nil, error: OtsimoError.NotInitialized)
         }
     }
-    
+
     public func getAllGames(handler: (Game?, done: Bool, error: OtsimoError) -> Void) {
         if let connection = connection {
             if let ses = session {
-                connection.getAllGamesStream(ses) {li, done, error in
+                connection.getAllGamesStream(ses) { li, done, error in
                     if let item = li {
                         print("list(1) item: ", item)
                         Otsimo.sharedInstance.cache.fetchGame(item.gameId) {
@@ -66,16 +66,16 @@ extension Otsimo: GameApi {
             handler(nil, done: true, error: OtsimoError.NotInitialized)
         }
     }
-    
-    public func gamesLatestVersions(gameIDs:[String], handler: (result: [OTSGameAndVersion], error: OtsimoError) -> Void) {
+
+    public func gamesLatestVersions(gameIDs: [String], handler: (result: [OTSGameAndVersion], error: OtsimoError) -> Void) {
         if let connection = connection {
             if let ses = session {
                 connection.gamesLatestVersions(ses, gameIDs: gameIDs, handler: handler)
             } else {
-                handler(result:[], error: .NotLoggedIn(message: "not logged in, session is nil"))
+                handler(result: [], error: .NotLoggedIn(message: "not logged in, session is nil"))
             }
         } else {
-            handler(result:[], error: OtsimoError.NotInitialized)
+            handler(result: [], error: OtsimoError.NotInitialized)
         }
     }
 }

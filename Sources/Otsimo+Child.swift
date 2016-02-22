@@ -18,7 +18,7 @@ extension Otsimo: ChildApi {
             child.gender = gender
             child.language = language
             child.birthDay = Int64(birthDay.timeIntervalSince1970)
-            
+
             if let ses = session {
                 connection.addChild(ses, child: child, handler: handler)
             } else {
@@ -28,7 +28,7 @@ extension Otsimo: ChildApi {
             handler(res: OtsimoError.NotInitialized)
         }
     }
-    
+
     public func getChild(id: String, handler: (res: OTSChild?, err: OtsimoError) -> Void) {
         if let connection = connection {
             if let ses = session {
@@ -40,7 +40,7 @@ extension Otsimo: ChildApi {
             handler(res: nil, err: OtsimoError.NotInitialized)
         }
     }
-    
+
     public func getChildren(handler: (res: [OTSChild], err: OtsimoError) -> Void) {
         if let connection = connection {
             if let ses = session {
@@ -52,10 +52,10 @@ extension Otsimo: ChildApi {
             handler(res: [], err: .NotInitialized)
         }
     }
-    
+
     public func addGameToChild(gameID: String, childID: String, index: Int32, settings: NSData, handler: (error: OtsimoError) -> Void) {
         if let connection = connection {
-            
+
             let req = OTSGameEntryRequest()
             req.gameId = gameID
             req.childId = childID
@@ -71,7 +71,7 @@ extension Otsimo: ChildApi {
             handler(error: .NotInitialized)
         }
     }
-    
+
     public func updateActivationGame(gameID: String, childID: String, activate: Bool, handler: (error: OtsimoError) -> Void) {
         if let connection = connection {
             let req = OTSGameEntryRequest()
@@ -91,7 +91,7 @@ extension Otsimo: ChildApi {
             handler(error: .NotInitialized)
         }
     }
-    
+
     public func updateSettings(gameID: String, childID: String, settings: NSData, handler: (error: OtsimoError) -> Void) {
         if let connection = connection {
             let req = OTSGameEntryRequest()
@@ -108,7 +108,7 @@ extension Otsimo: ChildApi {
             handler(error: .NotInitialized)
         }
     }
-    
+
     public func updateDashboardIndex(gameID: String, childID: String, index: Int32, handler: (error: OtsimoError) -> Void) {
         if let connection = connection {
             let req = OTSGameEntryRequest()
@@ -125,5 +125,4 @@ extension Otsimo: ChildApi {
             handler(error: .NotInitialized)
         }
     }
-    
 }
