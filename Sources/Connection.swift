@@ -27,7 +27,7 @@ internal final class Connection {
             GRPCCall.useInsecureConnectionsForHost(config.catalogGrpcUrl)
             GRPCCall.useInsecureConnectionsForHost(config.listenerGrpcUrl)
             GRPCCall.useInsecureConnectionsForHost(config.watchGrpcUrl)
-            GRPCCall.useInsecureConnectionsForHost(config.contentServiceUrl)
+            GRPCCall.useInsecureConnectionsForHost(config.contentGrpcUrl)
         }
 
         apiService = OTSApiService(host: config.apiGrpcUrl)
@@ -35,7 +35,7 @@ internal final class Connection {
         watchService = OTSWatchService(host: config.watchGrpcUrl)
         listenerService = OTSListenerService(host: config.listenerGrpcUrl)
         registryService = OTSRegistryService(host: config.registryGrpcUrl)
-        contentService = OTSContentService(host: config.contentServiceUrl)
+        contentService = OTSContentService(host: config.contentGrpcUrl)
     }
 
     func getProfile(session: Session, handler: (OTSProfile?, OtsimoError) -> Void) {

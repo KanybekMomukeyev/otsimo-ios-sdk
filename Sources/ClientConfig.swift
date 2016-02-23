@@ -17,7 +17,7 @@ public class ClientConfig {
     internal var authorizationEndpoint = ""
     internal var tokenEndpoint = ""
     internal var accountsServiceUrl = ""
-    internal var contentServiceUrl = ""
+    internal var contentGrpcUrl = ""
     internal var catalogGrpcUrl = ""
     internal var watchGrpcUrl = ""
     internal var listenerGrpcUrl = ""
@@ -41,11 +41,11 @@ public class ClientConfig {
         cc.watchGrpcUrl = "\(ip):18858"
         cc.catalogGrpcUrl = "\(ip):18857"
         cc.listenerGrpcUrl = "\(ip):18847"
+        cc.contentGrpcUrl = "\(ip):18859"
         cc.publicContentUrl = "http://\(ip):18851/public"
         cc.authorizationEndpoint = "http://\(ip):18848/auth"
         cc.tokenEndpoint = "http://\(ip):18848/token"
         cc.accountsServiceUrl = "http://\(ip):18856"
-        cc.contentServiceUrl = "http://\(ip):18859"
 
         cc.useTls = false
         cc.onlyProduction = false
