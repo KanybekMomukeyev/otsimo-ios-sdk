@@ -11,20 +11,20 @@ import OtsimoSDK
 import OtsimoApiGrpc
 
 class ChildListViewController: UITableViewController {
-    
+
     var childList: [OTSChild] = []
     var selectedChildId = ""
     var nextSegue = "getchildtest"
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        otsimo.getChildren() {res, err in
+
+        otsimo.getChildren() { res, err in
             switch (err) {
             case .None:
                 self.childList.removeAll()
                 self.childList.appendContentsOf(res)
                 self.tableView.reloadData()
-                for i in 0..<self.childList.count {
+                for i in 0 ..< self.childList.count {
                     print("child[\(i)] is \(self.childList[i]) and parentID: \(self.childList[i].parentId)")
                 }
             default:
@@ -32,18 +32,17 @@ class ChildListViewController: UITableViewController {
             }
         }
     }
-    
+
     // MARK: - Table view data source
-    
+
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
-    
+
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return childList.count
     }
-    
-    
+
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("child_list_reuse_identifier", forIndexPath: indexPath)
         let child = childList[indexPath.row]
@@ -51,16 +50,16 @@ class ChildListViewController: UITableViewController {
         cell.detailTextLabel?.text = child.id_p
         return cell
     }
-    
+
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let child = childList[indexPath.row]
         selectedChildId = child.id_p
         print("clicked on '\(selectedChildId)'")
         performSegueWithIdentifier(nextSegue, sender: tableView)
     }
-    
+
     // MARK: - Navigation
-    
+
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.

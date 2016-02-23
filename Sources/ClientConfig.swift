@@ -51,4 +51,27 @@ public class ClientConfig {
         cc.onlyProduction = false
         return cc
     }
+
+    public static func sandbox(clientID: String) -> ClientConfig {
+        let cc = ClientConfig()
+
+        cc.clientID = clientID
+        
+        cc.issuer = "https://connect.otsimo.xyz"
+        
+        cc.apiGrpcUrl = "api.otsimo.xyz"
+        cc.registryGrpcUrl = "registry.otsimo.xyz"
+        cc.watchGrpcUrl = "watch.otsimo.xyz"
+        cc.catalogGrpcUrl = "catalog.otsimo.xyz"
+        cc.listenerGrpcUrl = "listener.otsimo.xyz"
+        cc.contentGrpcUrl = "content.otsimo.xyz"
+        cc.publicContentUrl = "https://games.otsimo.com/public"
+        cc.authorizationEndpoint = "https://connect.otsimo.com/auth"
+        cc.tokenEndpoint = "https://connect.otsimo.com/token"
+        cc.accountsServiceUrl = "https://accounts.otsimo.com"
+
+        cc.useTls = true
+        cc.onlyProduction = true
+        return cc
+    }
 }
