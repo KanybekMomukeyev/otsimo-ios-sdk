@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Vyh-Q3-beE">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Vyh-Q3-beE">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
@@ -10,7 +10,7 @@
         <!--Login-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController title="Login" id="BYZ-38-t0r" userLabel="Login" customClass="LoginViewController" customModule="OtsimoSDK_Example" customModuleProvider="target" colorLabel="IBBuiltInLabel-Red" sceneMemberID="viewController">
+                <viewController title="Login" id="BYZ-38-t0r" userLabel="Login" customClass="LoginViewController" customModule="Example" customModuleProvider="target" colorLabel="IBBuiltInLabel-Red" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -90,7 +90,7 @@
         <!--Register-->
         <scene sceneID="1ec-M2-DL7">
             <objects>
-                <tableViewController id="Ed8-dK-FZ5" userLabel="Register" customClass="RegisterViewController" customModule="OtsimoSDK_Example" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="Ed8-dK-FZ5" userLabel="Register" customClass="RegisterViewController" customModule="Example" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="QAr-aS-Nh5">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -306,7 +306,7 @@
         <!--Profil-Info-->
         <scene sceneID="qQ9-ZA-mZ9">
             <objects>
-                <viewController title="Profile-Info" id="cZl-fS-daT" userLabel="Profil-Info" customClass="ProfileInfoViewController" customModule="OtsimoSDK_Example" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Profile-Info" id="cZl-fS-daT" userLabel="Profil-Info" customClass="ProfileInfoViewController" customModule="Example" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="RDR-WW-Xuw"/>
                         <viewControllerLayoutGuide type="bottom" id="jXo-EU-06S"/>
@@ -413,13 +413,13 @@
         <!--Catalog-->
         <scene sceneID="fwG-GR-kOQ">
             <objects>
-                <tableViewController id="XF5-0w-nIk" userLabel="Catalog" customClass="CatalogViewController" customModule="OtsimoSDK_Example" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="XF5-0w-nIk" userLabel="Catalog" customClass="CatalogViewController" customModule="Example" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="90" sectionHeaderHeight="28" sectionFooterHeight="28" id="RCS-kv-3C8">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="game_table_reuse_identifier" rowHeight="116" id="mCv-Tk-qFe" customClass="GameTableCellView" customModule="OtsimoSDK_Example" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="game_table_reuse_identifier" rowHeight="116" id="mCv-Tk-qFe" customClass="GameTableCellView" customModule="Example" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="92" width="600" height="116"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="mCv-Tk-qFe" id="whf-Up-4lv">
@@ -460,7 +460,7 @@
                         <attributedString key="attributedTitle">
                             <fragment content="Refresh">
                                 <attributes>
-                                    <font key="NSFont" metaFont="controlContent" size="11"/>
+                                    <font key="NSFont" metaFont="smallSystem"/>
                                     <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                 </attributes>
                             </fragment>
@@ -477,7 +477,7 @@
         <!--Game Info-->
         <scene sceneID="kAS-dq-qpM">
             <objects>
-                <viewController id="lzq-a3-tdP" userLabel="Game Info" customClass="GameInfoViewController" customModule="OtsimoSDK_Example" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="lzq-a3-tdP" userLabel="Game Info" customClass="GameInfoViewController" customModule="Example" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="YOB-Wt-Xk9"/>
                         <viewControllerLayoutGuide type="bottom" id="IYr-KI-vKM"/>
@@ -568,7 +568,7 @@
                                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                 </collectionViewFlowLayout>
                                                 <cells>
-                                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="game_image_cell" id="3vk-J8-b5v" customClass="GameImageViewCell" customModule="OtsimoSDK_Example" customModuleProvider="target">
+                                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="game_image_cell" id="3vk-J8-b5v" customClass="GameImageViewCell" customModule="Example" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -673,7 +673,7 @@
         <!--ChildView-->
         <scene sceneID="Huu-kD-E3b">
             <objects>
-                <tableViewController id="z9q-Mg-YkH" userLabel="ChildView" customClass="ChildViewController" customModule="OtsimoSDK_Example" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="z9q-Mg-YkH" userLabel="ChildView" customClass="ChildViewController" customModule="Example" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="64" sectionHeaderHeight="28" sectionFooterHeight="28" id="MDE-GO-4OE">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -734,7 +734,7 @@
         <!--ChildGame-->
         <scene sceneID="1Vp-28-UJa">
             <objects>
-                <tableViewController id="zAG-ji-Xml" userLabel="ChildGame" customClass="ChildGameController" customModule="OtsimoSDK_Example" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="zAG-ji-Xml" userLabel="ChildGame" customClass="ChildGameController" customModule="Example" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="72" sectionHeaderHeight="28" sectionFooterHeight="28" id="Mqf-5r-vkI">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -757,7 +757,7 @@
                                     </subviews>
                                 </tableViewCellContentView>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="child_game_info_boolean_cell" rowHeight="44" id="yp1-vX-sqv" customClass="BooleanCellViewCell" customModule="OtsimoSDK_Example" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="child_game_info_boolean_cell" rowHeight="44" id="yp1-vX-sqv" customClass="BooleanCellViewCell" customModule="Example" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="136" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="yp1-vX-sqv" id="OwY-oa-wxw">
@@ -789,7 +789,7 @@
                                     <outlet property="titleLabel" destination="UKk-cT-HJJ" id="wc3-pC-SGA"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="settings_property_cell" id="eM7-r1-uf7" customClass="SettingsPropertyViewCell" customModule="OtsimoSDK_Example" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="settings_property_cell" id="eM7-r1-uf7" customClass="SettingsPropertyViewCell" customModule="Example" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="180" width="600" height="72"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="eM7-r1-uf7" id="BE1-Sj-PjX">
@@ -880,7 +880,7 @@
         <!--AddGame-->
         <scene sceneID="oTS-vj-VCa">
             <objects>
-                <viewController storyboardIdentifier="AddGameToChildViewController" title="Add Game" id="jao-h7-0kH" userLabel="AddGame" customClass="AddGameToChildViewController" customModule="OtsimoSDK_Example" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AddGameToChildViewController" title="Add Game" id="jao-h7-0kH" userLabel="AddGame" customClass="AddGameToChildViewController" customModule="Example" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="v1x-xP-UqP"/>
                         <viewControllerLayoutGuide type="bottom" id="TnM-vE-Ejd"/>
@@ -1000,7 +1000,7 @@
         <!--Root-->
         <scene sceneID="7o2-km-1et">
             <objects>
-                <tableViewController id="16l-Jy-t9S" userLabel="Root" customClass="TestHomeController" customModule="OtsimoSDK_Example" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="16l-Jy-t9S" userLabel="Root" customClass="TestHomeController" customModule="Example" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="PxI-ok-GlE">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1067,7 +1067,7 @@
         <!--AddChild-->
         <scene sceneID="Evq-hK-av6">
             <objects>
-                <tableViewController id="IGL-Hj-Ltu" userLabel="AddChild" customClass="AddChildTableViewController" customModule="OtsimoSDK_Example" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="IGL-Hj-Ltu" userLabel="AddChild" customClass="AddChildTableViewController" customModule="Example" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="TLH-Zg-BlO">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1266,7 +1266,7 @@
         <!--Child List-->
         <scene sceneID="Mp3-HE-n3R">
             <objects>
-                <tableViewController id="UE9-GO-XZn" userLabel="Child List" customClass="ChildListViewController" customModule="OtsimoSDK_Example" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="UE9-GO-XZn" userLabel="Child List" customClass="ChildListViewController" customModule="Example" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="IxZ-e8-ovJ">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1314,7 +1314,7 @@
         <!--Profile Update-->
         <scene sceneID="y4X-4b-3tW">
             <objects>
-                <tableViewController id="MJ7-y8-UHo" userLabel="Profile Update" customClass="UpdateProfileViewController" customModule="OtsimoSDK_Example" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="MJ7-y8-UHo" userLabel="Profile Update" customClass="UpdateProfileViewController" customModule="Example" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="wBS-fi-rU2">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1684,7 +1684,7 @@
         <!--Change Password-->
         <scene sceneID="T0u-G0-5ll">
             <objects>
-                <tableViewController id="GIO-8r-0MH" userLabel="Change Password" customClass="ChangePasswordViewController" customModule="OtsimoSDK_Example" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="GIO-8r-0MH" userLabel="Change Password" customClass="ChangePasswordViewController" customModule="Example" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="F6d-nM-zEX">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1842,13 +1842,13 @@
         <!--All Games-->
         <scene sceneID="Vhy-Gv-Mym">
             <objects>
-                <tableViewController id="ZmO-lT-lrd" userLabel="All Games" customClass="AllGamesViewController" customModule="OtsimoSDK_Example" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="ZmO-lT-lrd" userLabel="All Games" customClass="AllGamesViewController" customModule="Example" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="90" sectionHeaderHeight="28" sectionFooterHeight="28" id="5db-NY-SMX">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="game_cell_reuse_identifier" rowHeight="116" id="SmU-e4-6jX" customClass="GameTableCellView" customModule="OtsimoSDK_Example" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="game_cell_reuse_identifier" rowHeight="116" id="SmU-e4-6jX" customClass="GameTableCellView" customModule="Example" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="92" width="600" height="116"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="SmU-e4-6jX" id="jKl-sf-pdB">

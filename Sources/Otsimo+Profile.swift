@@ -10,7 +10,7 @@ import Foundation
 import OtsimoApiGrpc
 
 extension Otsimo: ProfileApi {
-    
+
     public func updateProfile(profile: OTSProfile, handler: (error: OtsimoError) -> Void) {
         if let connection = connection {
             if let ses = session {
@@ -22,17 +22,12 @@ extension Otsimo: ProfileApi {
             handler(error: OtsimoError.NotInitialized)
         }
     }
-    
+
     // Profile
     public func getProfile(handler: (OTSProfile?, OtsimoError) -> Void) {
         if let connection = connection {
             if let ses = session {
-                if ses.profile != nil {
-                    // returns cached profile info
-                    handler(ses.profile, OtsimoError.None)
-                } else {
-                    connection.getProfile(ses, handler: handler)
-                }
+                connection.getProfile(ses, handler: handler)
             } else {
                 handler(nil, .NotLoggedIn(message: "not logged in, session is nil"))
             }

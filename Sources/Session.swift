@@ -38,8 +38,6 @@ public class Session {
     public var profileID: String = ""
     public var email: String = ""
 
-    internal var profile: OTSProfile? = nil
-
     public var isAuthenticated: Bool {
         get {
             return accessToken != ""

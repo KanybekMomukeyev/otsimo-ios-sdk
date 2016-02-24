@@ -44,7 +44,6 @@ internal final class Connection {
         var RPC : ProtoRPC!
         RPC = apiService.RPCToGetProfileWithRequest(request) { response, error in
             if let response = response {
-                session.profile = response // cache return value
                 onMainThread { handler(response, OtsimoError.None) }
             } else {
                 Log.error("getProfile: Finished with error: \(error!)")
