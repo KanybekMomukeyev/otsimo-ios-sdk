@@ -28,7 +28,7 @@ public class ClientConfig {
     internal var useKeychain = false
 
     public static func development(clientID: String, host: String?) -> ClientConfig {
-        var ip = "192.168.1.104"
+        var ip = "192.168.2.200"
         if host != nil {
             ip = host!
         }
@@ -56,15 +56,38 @@ public class ClientConfig {
         let cc = ClientConfig()
 
         cc.clientID = clientID
-        
+
         cc.issuer = "https://connect.otsimo.xyz"
-        
+
         cc.apiGrpcUrl = "api.otsimo.xyz"
         cc.registryGrpcUrl = "registry.otsimo.xyz"
         cc.watchGrpcUrl = "watch.otsimo.xyz"
         cc.catalogGrpcUrl = "catalog.otsimo.xyz"
         cc.listenerGrpcUrl = "listener.otsimo.xyz"
         cc.contentGrpcUrl = "content.otsimo.xyz"
+        cc.publicContentUrl = "https://games.otsimo.xyz/public"
+        cc.authorizationEndpoint = "https://connect.otsimo.xyz/auth"
+        cc.tokenEndpoint = "https://connect.otsimo.xyz/token"
+        cc.accountsServiceUrl = "https://accounts.otsimo.xyz"
+
+        cc.useTls = true
+        cc.onlyProduction = true
+        return cc
+    }
+
+    public static func production(clientID: String) -> ClientConfig {
+        let cc = ClientConfig()
+
+        cc.clientID = clientID
+
+        cc.issuer = "https://connect.otsimo.com"
+
+        cc.apiGrpcUrl = "api.otsimo.com"
+        cc.registryGrpcUrl = "registry.otsimo.com"
+        cc.watchGrpcUrl = "watch.otsimo.com"
+        cc.catalogGrpcUrl = "catalog.otsimo.com"
+        cc.listenerGrpcUrl = "listener.otsimo.com"
+        cc.contentGrpcUrl = "content.otsimo.com"
         cc.publicContentUrl = "https://games.otsimo.com/public"
         cc.authorizationEndpoint = "https://connect.otsimo.com/auth"
         cc.tokenEndpoint = "https://connect.otsimo.com/token"
