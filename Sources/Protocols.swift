@@ -43,6 +43,8 @@ public protocol ChildApi {
     func updateSettings(gameID: String, childID: String, settings: NSData, handler: (error: OtsimoError) -> Void)
 
     func updateDashboardIndex(gameID: String, childID: String, index: Int32, handler: (error: OtsimoError) -> Void)
+
+    func updateChild(childID: String, child: OTSChild, handler: (error: OtsimoError) -> Void)
 }
 
 public protocol GameApi {

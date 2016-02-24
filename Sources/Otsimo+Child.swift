@@ -10,6 +10,19 @@ import Foundation
 import OtsimoApiGrpc
 
 extension Otsimo: ChildApi {
+
+    public func updateChild(childID: String, child: OTSChild, handler: (error: OtsimoError) -> Void) {
+        if let connection = connection {
+            if let ses = session {
+                connection.updateChild(ses, id: childID, parentID: ses.profileID, child: child, handler: handler)
+            } else {
+                handler(error: .NotLoggedIn(message: "not logged in, session is nil"))
+            }
+        } else {
+            handler(error: OtsimoError.NotInitialized)
+        }
+    }
+
     public func addChild(firstName: String, lastName: String, gender: OTSGender, birthDay: NSDate, language: String, handler: (res: OtsimoError) -> Void) {
         if let connection = connection {
             let child: OTSChild = OTSChild()

@@ -202,6 +202,35 @@ internal final class Connection {
         }
     }
 
+    func updateChild(session: Session, id: String, parentID: String, child: OTSChild, handler: (OtsimoError) -> Void) {
+        child.id_p = id
+        child.parentId = parentID
+
+        var RPC : ProtoRPC!
+        RPC = apiService.RPCToUpdateChildWithRequest(child) { response, error in
+            if let response = response {
+                if response.type == 0 {
+                    onMainThread { handler(OtsimoError.None) }
+                } else {
+                    onMainThread { handler(OtsimoError.ServiceError(message: "code:\(response.type),message:\(response.message!)")) }
+                }
+            } else {
+                Log.error("updateChild, Finished with error: \(error!)")
+                onMainThread { handler(OtsimoError.ServiceError(message: "\(error)")) }
+            }
+        }
+
+        session.getAuthorizationHeader { header, err in
+            switch (err) {
+            case .None:
+                RPC.requestHeaders["Authorization"] = header
+                RPC.start()
+            default:
+                handler(err)
+            }
+        }
+    }
+
     func getCurrentCatalog(session: Session, req: OTSCatalogPullRequest, handler: (res: OTSCatalog?, err: OtsimoError) -> Void) {
         var RPC : ProtoRPC!
         RPC = catalogService.RPCToPullWithRequest(req) { response, error in
