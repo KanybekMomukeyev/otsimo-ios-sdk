@@ -11,7 +11,7 @@ import Foundation
 import OtsimoApiGrpc
 
 extension Otsimo: WikiApi {
-    public func featuredContents(handler: ([OTSContent], OtsimoError) -> Void) {
+    public func featuredContents(handler: (Int, [OTSContent], OtsimoError) -> Void) {
         if let connection = connection {
             if let ses = session {
                 self.getProfile { prof, err in
@@ -26,18 +26,18 @@ extension Otsimo: WikiApi {
                         req.sort = OTSContentListRequest_SortBy.Weight
                         connection.getContents(ses, req: req, handler: handler)
                     } else {
-                        handler([], OtsimoError.ServiceError(message: "failed to get profile"))
+                        handler(0, [], OtsimoError.ServiceError(message: "failed to get profile"))
                     }
                 }
             } else {
-                handler([], .NotLoggedIn(message: "not logged in, session is nil"))
+                handler(0, [], .NotLoggedIn(message: "not logged in, session is nil"))
             }
         } else {
-            handler([], .NotInitialized)
+            handler(0, [], .NotInitialized)
         }
     }
 
-    public func contentsByDate(handler: ([OTSContent], OtsimoError) -> Void) {
+    public func contentsByDate(handler: (Int, [OTSContent], OtsimoError) -> Void) {
         if let connection = connection {
             if let ses = session {
                 self.getProfile { prof, err in
@@ -52,14 +52,14 @@ extension Otsimo: WikiApi {
                         req.sort = OTSContentListRequest_SortBy.Time
                         connection.getContents(ses, req: req, handler: handler)
                     } else {
-                        handler([], OtsimoError.ServiceError(message: "failed to get profile"))
+                        handler(0, [], OtsimoError.ServiceError(message: "failed to get profile"))
                     }
                 }
             } else {
-                handler([], .NotLoggedIn(message: "not logged in, session is nil"))
+                handler(0, [], .NotLoggedIn(message: "not logged in, session is nil"))
             }
         } else {
-            handler([], .NotInitialized)
+            handler(0, [], .NotInitialized)
         }
     }
 }

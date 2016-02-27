@@ -66,9 +66,9 @@ public protocol WatchApi {
 }
 
 public protocol WikiApi {
-    func featuredContents(callback: ([OTSContent], OtsimoError) -> Void)
+    func featuredContents(callback: (Int, [OTSContent], OtsimoError) -> Void)
 
-    func contentsByDate(callback: ([OTSContent], OtsimoError) -> Void)
+    func contentsByDate(callback: (Int, [OTSContent], OtsimoError) -> Void)
 }
 
 public protocol CacheProtocol {

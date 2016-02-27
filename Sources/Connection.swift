@@ -18,6 +18,7 @@ internal final class Connection {
     internal let listenerService: OTSListenerService
     internal let registryService: OTSRegistryService
     internal let contentService: OTSContentService
+    // internal let dashboardService: DashboardService
 
     internal init(config: ClientConfig) {
         self.config = config
@@ -29,7 +30,6 @@ internal final class Connection {
             GRPCCall.useInsecureConnectionsForHost(config.watchGrpcUrl)
             GRPCCall.useInsecureConnectionsForHost(config.contentGrpcUrl)
         }
-
         apiService = OTSApiService(host: config.apiGrpcUrl)
         catalogService = OTSCatalogService(host: config.catalogGrpcUrl)
         watchService = OTSWatchService(host: config.watchGrpcUrl)
@@ -351,7 +351,7 @@ internal final class Connection {
         }
     }
 
-    func getContents(session: Session, req: OTSContentListRequest, handler: (res: [OTSContent], err: OtsimoError) -> Void) {
+    func getContents(session: Session, req: OTSContentListRequest, handler: (ver: Int, res: [OTSContent], err: OtsimoError) -> Void) {
         req.profileId = session.profileID
         req.clientVersion = Otsimo.sdkVersion
 
@@ -365,10 +365,10 @@ internal final class Connection {
                     }
                 }
                 onMainThread {
-                    handler(res: r, err: .None)
+                    handler(ver: Int(response.assetVersion), res: r, err: .None)
                 }
             } else {
-                onMainThread { handler(res: [], err: OtsimoError.ServiceError(message: "\(error)")) }
+                onMainThread { handler(ver: 0, res: [], err: OtsimoError.ServiceError(message: "\(error)")) }
                 Log.error("getContents, Finished with error: \(error!)")
             }
         }
