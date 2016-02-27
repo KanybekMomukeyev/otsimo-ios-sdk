@@ -19,11 +19,6 @@
 		0D4D7CDD1C5A415C000BFEC5 /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D4D7CDC1C5A415C000BFEC5 /* Cache.swift */; };
 		0D5395A51C60D8DF00DBB19C /* GameManifest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5395A41C60D8DF00DBB19C /* GameManifest.swift */; };
 		0D5395AD1C62AD4600DBB19C /* GameSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5395AC1C62AD4600DBB19C /* GameSettings.swift */; };
-		0D5395B11C63F3B300DBB19C /* Haneke.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D5395B01C63F3B300DBB19C /* Haneke.framework */; };
-		0D5395B61C63F3E100DBB19C /* gRPC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D5395B21C63F3E100DBB19C /* gRPC.framework */; };
-		0D5395B71C63F3E100DBB19C /* Locksmith.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D5395B31C63F3E100DBB19C /* Locksmith.framework */; };
-		0D5395B81C63F3E100DBB19C /* OtsimoApiGrpc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D5395B41C63F3E100DBB19C /* OtsimoApiGrpc.framework */; };
-		0D5395B91C63F3E100DBB19C /* Protobuf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D5395B51C63F3E100DBB19C /* Protobuf.framework */; };
 		0D54BB901C158FAA006A9382 /* Otsimo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D54BB8F1C158FAA006A9382 /* Otsimo.swift */; };
 		0D60A90D1C5652DF00115500 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D60A90C1C5652DF00115500 /* Game.swift */; };
 		0D60A9101C566E6B00115500 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D60A90F1C566E6B00115500 /* Log.swift */; };
@@ -76,11 +71,6 @@
 		0D4D7CDC1C5A415C000BFEC5 /* Cache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Cache.swift; path = Sources/Cache.swift; sourceTree = "<group>"; };
 		0D5395A41C60D8DF00DBB19C /* GameManifest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameManifest.swift; path = Sources/GameManifest.swift; sourceTree = "<group>"; };
 		0D5395AC1C62AD4600DBB19C /* GameSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameSettings.swift; path = Sources/GameSettings.swift; sourceTree = "<group>"; };
-		0D5395B01C63F3B300DBB19C /* Haneke.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Haneke.framework; path = Carthage/Build/iOS/Haneke.framework; sourceTree = "<group>"; };
-		0D5395B21C63F3E100DBB19C /* gRPC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = gRPC.framework; path = Carthage/Build/iOS/gRPC.framework; sourceTree = "<group>"; };
-		0D5395B31C63F3E100DBB19C /* Locksmith.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Locksmith.framework; path = Carthage/Build/iOS/Locksmith.framework; sourceTree = "<group>"; };
-		0D5395B41C63F3E100DBB19C /* OtsimoApiGrpc.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OtsimoApiGrpc.framework; path = Carthage/Build/iOS/OtsimoApiGrpc.framework; sourceTree = "<group>"; };
-		0D5395B51C63F3E100DBB19C /* Protobuf.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Protobuf.framework; path = Carthage/Build/iOS/Protobuf.framework; sourceTree = "<group>"; };
 		0D54BB8F1C158FAA006A9382 /* Otsimo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Otsimo.swift; path = Sources/Otsimo.swift; sourceTree = "<group>"; };
 		0D60A90C1C5652DF00115500 /* Game.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Game.swift; path = Sources/Game.swift; sourceTree = "<group>"; };
 		0D60A90F1C566E6B00115500 /* Log.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Log.swift; path = Sources/Log.swift; sourceTree = "<group>"; };
@@ -112,11 +102,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				0D333A6F1C158D3200968DDA /* OtsimoSDK.framework in Frameworks */,
-				0D5395B11C63F3B300DBB19C /* Haneke.framework in Frameworks */,
-				0D5395B61C63F3E100DBB19C /* gRPC.framework in Frameworks */,
-				0D5395B71C63F3E100DBB19C /* Locksmith.framework in Frameworks */,
-				0D5395B81C63F3E100DBB19C /* OtsimoApiGrpc.framework in Frameworks */,
-				0D5395B91C63F3E100DBB19C /* Protobuf.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -171,11 +156,6 @@
 		0D54BB8E1C158F8B006A9382 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				0D5395B21C63F3E100DBB19C /* gRPC.framework */,
-				0D5395B31C63F3E100DBB19C /* Locksmith.framework */,
-				0D5395B41C63F3E100DBB19C /* OtsimoApiGrpc.framework */,
-				0D5395B51C63F3E100DBB19C /* Protobuf.framework */,
-				0D5395B01C63F3B300DBB19C /* Haneke.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

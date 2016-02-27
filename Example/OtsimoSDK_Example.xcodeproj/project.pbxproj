@@ -7,14 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0D137F9C1C39F66A0006BB8E /* Protobuf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D137F901C39F4B80006BB8E /* Protobuf.framework */; };
-		0D137F9D1C39F66A0006BB8E /* Protobuf.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0D137F901C39F4B80006BB8E /* Protobuf.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		0D137F9E1C39F66A0006BB8E /* OtsimoApiGrpc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D137F8E1C39F4B60006BB8E /* OtsimoApiGrpc.framework */; };
-		0D137F9F1C39F66A0006BB8E /* OtsimoApiGrpc.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0D137F8E1C39F4B60006BB8E /* OtsimoApiGrpc.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		0D137FA01C39F66A0006BB8E /* gRPC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D137F8C1C39F4B40006BB8E /* gRPC.framework */; };
-		0D137FA11C39F66A0006BB8E /* gRPC.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0D137F8C1C39F4B40006BB8E /* gRPC.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		0D137FA21C39F66A0006BB8E /* BoringSSL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D137F8A1C39F4B20006BB8E /* BoringSSL.framework */; };
-		0D137FA31C39F66A0006BB8E /* BoringSSL.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0D137F8A1C39F4B20006BB8E /* BoringSSL.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0D36E2881C15C8EF00B4B549 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D36E2871C15C8EF00B4B549 /* AppDelegate.swift */; };
 		0D36E28A1C15C8EF00B4B549 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D36E2891C15C8EF00B4B549 /* LoginViewController.swift */; };
 		0D36E28D1C15C8EF00B4B549 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0D36E28B1C15C8EF00B4B549 /* Main.storyboard */; };
@@ -60,14 +52,10 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				0D137F9D1C39F66A0006BB8E /* Protobuf.framework in Embed Frameworks */,
-				0D137FA11C39F66A0006BB8E /* gRPC.framework in Embed Frameworks */,
 				0DE942551C6516D7008DEB7E /* Haneke.framework in Embed Frameworks */,
 				0D90442A1C3C862600F51C8D /* Locksmith.framework in Embed Frameworks */,
 				0DA3017C1C727FD6000F28CE /* Realm.framework in Embed Frameworks */,
-				0D137FA31C39F66A0006BB8E /* BoringSSL.framework in Embed Frameworks */,
 				0DA3017E1C727FD6000F28CE /* RealmSwift.framework in Embed Frameworks */,
-				0D137F9F1C39F66A0006BB8E /* OtsimoApiGrpc.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -75,10 +63,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		0D137F8A1C39F4B20006BB8E /* BoringSSL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BoringSSL.framework; path = ../Carthage/Build/iOS/BoringSSL.framework; sourceTree = "<group>"; };
-		0D137F8C1C39F4B40006BB8E /* gRPC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = gRPC.framework; path = ../Carthage/Build/iOS/gRPC.framework; sourceTree = "<group>"; };
-		0D137F8E1C39F4B60006BB8E /* OtsimoApiGrpc.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OtsimoApiGrpc.framework; path = ../Carthage/Build/iOS/OtsimoApiGrpc.framework; sourceTree = "<group>"; };
-		0D137F901C39F4B80006BB8E /* Protobuf.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Protobuf.framework; path = ../Carthage/Build/iOS/Protobuf.framework; sourceTree = "<group>"; };
 		0D137F921C39F4BE0006BB8E /* OtsimoSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OtsimoSDK.framework; path = "../../../../Library/Developer/Xcode/DerivedData/OtsimoSDK-exietrbmafntdpfboftcudyweopo/Build/Products/Debug-iphoneos/OtsimoSDK.framework"; sourceTree = "<group>"; };
 		0D36E2841C15C8EF00B4B549 /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0D36E2871C15C8EF00B4B549 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -126,14 +110,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				0D44A6E81C72706F00FB763B /* OtsimoSDK.framework in Frameworks */,
-				0D137F9C1C39F66A0006BB8E /* Protobuf.framework in Frameworks */,
 				0DA3017D1C727FD6000F28CE /* RealmSwift.framework in Frameworks */,
-				0D137FA01C39F66A0006BB8E /* gRPC.framework in Frameworks */,
 				0DE942541C6516D7008DEB7E /* Haneke.framework in Frameworks */,
 				0DA3017B1C727FD6000F28CE /* Realm.framework in Frameworks */,
 				0D9044291C3C862600F51C8D /* Locksmith.framework in Frameworks */,
-				0D137FA21C39F66A0006BB8E /* BoringSSL.framework in Frameworks */,
-				0D137F9E1C39F66A0006BB8E /* OtsimoApiGrpc.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -227,10 +207,6 @@
 				0DE942531C6516D7008DEB7E /* Haneke.framework */,
 				0D9044281C3C862600F51C8D /* Locksmith.framework */,
 				0D137F921C39F4BE0006BB8E /* OtsimoSDK.framework */,
-				0D137F901C39F4B80006BB8E /* Protobuf.framework */,
-				0D137F8E1C39F4B60006BB8E /* OtsimoApiGrpc.framework */,
-				0D137F8C1C39F4B40006BB8E /* gRPC.framework */,
-				0D137F8A1C39F4B20006BB8E /* BoringSSL.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
