@@ -8,7 +8,6 @@
 
 import Foundation
 import OtsimoApiGrpc
-import gRPC
 
 public class Otsimo {
     public static let sdkVersion: String = "0.1.0"

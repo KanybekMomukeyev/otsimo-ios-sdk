@@ -5,10 +5,8 @@
 //  Created by Sercan Değirmenci on 16/02/16.
 //  Copyright © 2016 Otsimo. All rights reserved.
 //
-
-import gRPC
-import RealmSwift
 import Foundation
+import RealmSwift
 import OtsimoApiGrpc
 
 class AppEventCache: Object {

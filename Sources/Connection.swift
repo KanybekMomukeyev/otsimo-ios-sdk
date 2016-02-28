@@ -8,7 +8,6 @@
 
 import Foundation
 import OtsimoApiGrpc
-import gRPC
 
 internal final class Connection {
     internal let config : ClientConfig
