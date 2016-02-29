@@ -49,6 +49,7 @@ public class ClientConfig {
 
         cc.useTls = false
         cc.onlyProduction = false
+        Log.setLevel(LogLevel.Debug)
         return cc
     }
 

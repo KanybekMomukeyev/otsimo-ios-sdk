@@ -16,33 +16,32 @@ enum LogLevel: Int {
     case Severe = 5
 }
 
-
 public class Log {
     static var logLevel: LogLevel = LogLevel.Info
     static func setLevel(level: LogLevel) {
         logLevel = level
     }
-    
+
     public static func debug(message: String) {
         log(.Debug, message: message)
     }
-    
+
     public static func info(message: String) {
         log(.Info, message: message)
     }
-    
+
     public static func warm(message: String) {
         log(.Warning, message: message)
     }
-    
+
     public static func error(message: String) {
         log(.Error, message: message)
     }
-    
+
     public static func severe(message: String) {
         log(.Severe, message: message)
     }
-    
+
     private static func log(level: LogLevel, message: String) {
         if level.rawValue >= logLevel.rawValue {
             print("[\(level)] \(message)")
