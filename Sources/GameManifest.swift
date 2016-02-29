@@ -111,7 +111,7 @@ public class GameManifest {
                 for md in metadatas {
                     if md.language == l {
                         // todo(sercan) get this from registry api
-                        return Otsimo.sharedInstance.fixGameAssetUrl(gameId, version: version, rawUrl: "package_\(l).tar.gz")
+                        return Otsimo.sharedInstance.fixGameAssetUrl(gameId, version: version, rawUrl: "package_\(l).\(archiveFormat)")
                     }
                 }
             }
@@ -121,7 +121,7 @@ public class GameManifest {
 
     public var globalPackage: String {
         get {
-            return Otsimo.sharedInstance.fixGameAssetUrl(gameId, version: version, rawUrl: "package.tar.gz")
+            return Otsimo.sharedInstance.fixGameAssetUrl(gameId, version: version, rawUrl: "package.\(archiveFormat)")
         }
     }
 
@@ -130,7 +130,33 @@ public class GameManifest {
             return Otsimo.sharedInstance.fixGameAssetUrl(gameId, version: version, rawUrl: manifest.main)
         }
     }
-    
+
+    public var localMetadata: OTSGameMetadata? {
+        get {
+            for l in Otsimo.sharedInstance.languages {
+                for md in metadatas {
+                    if md.language == l {
+                        return md
+                    }
+                }
+            }
+            return nil
+        }
+    }
+
+    public var localSlug: String {
+        get {
+            for l in Otsimo.sharedInstance.languages {
+                for md in metadatas {
+                    if md.language == l {
+                        return md.infoSlug
+                    }
+                }
+            }
+            return ""
+        }
+    }
+
     public var localImages: [String] {
         get {
             var images: [String] = []
