@@ -84,7 +84,6 @@
 		0D9044011C3AD68B00F51C8D /* JWT.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JWT.swift; path = Sources/JWT.swift; sourceTree = "<group>"; };
 		0DA301881C7338E6000F28CE /* Analytics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Analytics.swift; path = Sources/Analytics.swift; sourceTree = "<group>"; };
 		0DA3018A1C73B912000F28CE /* DeviceInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeviceInfo.swift; path = Sources/DeviceInfo.swift; sourceTree = "<group>"; };
-		0DAB2F221C83694100A40423 /* OtsimoApiGrpc.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OtsimoApiGrpc.framework; path = Carthage/Build/iOS/OtsimoApiGrpc.framework; sourceTree = "<group>"; };
 		0DC2841D1C4EE8B30075FE63 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Utils.swift; path = Sources/Utils.swift; sourceTree = "<group>"; };
 		0DE9425B1C66902E008DEB7E /* GameKeyValueStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameKeyValueStore.swift; path = Sources/GameKeyValueStore.swift; sourceTree = "<group>"; };
 		0DE9425D1C67D8BD008DEB7E /* ChildGame.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChildGame.swift; path = Sources/ChildGame.swift; sourceTree = "<group>"; };
@@ -157,7 +156,6 @@
 		0D54BB8E1C158F8B006A9382 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				0DAB2F221C83694100A40423 /* OtsimoApiGrpc.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

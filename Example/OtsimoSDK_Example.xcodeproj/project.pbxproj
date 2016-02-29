@@ -36,6 +36,14 @@
 		0DA3017C1C727FD6000F28CE /* Realm.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0DA301791C727FD6000F28CE /* Realm.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0DA3017D1C727FD6000F28CE /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DA3017A1C727FD6000F28CE /* RealmSwift.framework */; };
 		0DA3017E1C727FD6000F28CE /* RealmSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0DA3017A1C727FD6000F28CE /* RealmSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		0DAB2FAD1C8486C400A40423 /* BoringSSL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DAB2FAA1C8486C400A40423 /* BoringSSL.framework */; };
+		0DAB2FAE1C8486C400A40423 /* BoringSSL.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0DAB2FAA1C8486C400A40423 /* BoringSSL.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		0DAB2FAF1C8486C400A40423 /* gRPC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DAB2FAB1C8486C400A40423 /* gRPC.framework */; };
+		0DAB2FB01C8486C400A40423 /* gRPC.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0DAB2FAB1C8486C400A40423 /* gRPC.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		0DAB2FB11C8486C400A40423 /* Protobuf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DAB2FAC1C8486C400A40423 /* Protobuf.framework */; };
+		0DAB2FB21C8486C400A40423 /* Protobuf.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0DAB2FAC1C8486C400A40423 /* Protobuf.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		0DAB2FB41C8486F800A40423 /* OtsimoApiGrpc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DAB2FB31C8486F800A40423 /* OtsimoApiGrpc.framework */; };
+		0DAB2FB51C8486F800A40423 /* OtsimoApiGrpc.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0DAB2FB31C8486F800A40423 /* OtsimoApiGrpc.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0DB0C1CE1C5F6E0500CBBB33 /* GameImageViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB0C1CD1C5F6E0500CBBB33 /* GameImageViewCell.swift */; };
 		0DB0C1D01C5FA57500CBBB33 /* AddGameToChildViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB0C1CF1C5FA57500CBBB33 /* AddGameToChildViewController.swift */; };
 		0DC284211C4EE98F0075FE63 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DC284201C4EE98F0075FE63 /* Utils.swift */; };
@@ -52,10 +60,14 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				0DAB2FAE1C8486C400A40423 /* BoringSSL.framework in Embed Frameworks */,
 				0DE942551C6516D7008DEB7E /* Haneke.framework in Embed Frameworks */,
 				0D90442A1C3C862600F51C8D /* Locksmith.framework in Embed Frameworks */,
+				0DAB2FB01C8486C400A40423 /* gRPC.framework in Embed Frameworks */,
+				0DAB2FB51C8486F800A40423 /* OtsimoApiGrpc.framework in Embed Frameworks */,
 				0DA3017C1C727FD6000F28CE /* Realm.framework in Embed Frameworks */,
 				0DA3017E1C727FD6000F28CE /* RealmSwift.framework in Embed Frameworks */,
+				0DAB2FB21C8486C400A40423 /* Protobuf.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -94,6 +106,10 @@
 		0D9044311C3E188800F51C8D /* ChildListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChildListViewController.swift; sourceTree = "<group>"; };
 		0DA301791C727FD6000F28CE /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Realm.framework; path = ../Carthage/Build/iOS/Realm.framework; sourceTree = "<group>"; };
 		0DA3017A1C727FD6000F28CE /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RealmSwift.framework; path = ../Carthage/Build/iOS/RealmSwift.framework; sourceTree = "<group>"; };
+		0DAB2FAA1C8486C400A40423 /* BoringSSL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BoringSSL.framework; path = ../Carthage/Build/iOS/BoringSSL.framework; sourceTree = "<group>"; };
+		0DAB2FAB1C8486C400A40423 /* gRPC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = gRPC.framework; path = ../Carthage/Build/iOS/gRPC.framework; sourceTree = "<group>"; };
+		0DAB2FAC1C8486C400A40423 /* Protobuf.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Protobuf.framework; path = ../Carthage/Build/iOS/Protobuf.framework; sourceTree = "<group>"; };
+		0DAB2FB31C8486F800A40423 /* OtsimoApiGrpc.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OtsimoApiGrpc.framework; path = ../Carthage/Build/iOS/OtsimoApiGrpc.framework; sourceTree = "<group>"; };
 		0DB0C1CD1C5F6E0500CBBB33 /* GameImageViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameImageViewCell.swift; sourceTree = "<group>"; };
 		0DB0C1CF1C5FA57500CBBB33 /* AddGameToChildViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddGameToChildViewController.swift; sourceTree = "<group>"; };
 		0DB65F1B1C38AAD700C5B1AD /* Bridigin-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridigin-Header.h"; sourceTree = "<group>"; };
@@ -112,8 +128,12 @@
 				0D44A6E81C72706F00FB763B /* OtsimoSDK.framework in Frameworks */,
 				0DA3017D1C727FD6000F28CE /* RealmSwift.framework in Frameworks */,
 				0DE942541C6516D7008DEB7E /* Haneke.framework in Frameworks */,
+				0DAB2FAD1C8486C400A40423 /* BoringSSL.framework in Frameworks */,
 				0DA3017B1C727FD6000F28CE /* Realm.framework in Frameworks */,
+				0DAB2FB41C8486F800A40423 /* OtsimoApiGrpc.framework in Frameworks */,
+				0DAB2FAF1C8486C400A40423 /* gRPC.framework in Frameworks */,
 				0D9044291C3C862600F51C8D /* Locksmith.framework in Frameworks */,
+				0DAB2FB11C8486C400A40423 /* Protobuf.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -123,6 +143,10 @@
 		0D36E27B1C15C8EF00B4B549 = {
 			isa = PBXGroup;
 			children = (
+				0DAB2FB31C8486F800A40423 /* OtsimoApiGrpc.framework */,
+				0DAB2FAA1C8486C400A40423 /* BoringSSL.framework */,
+				0DAB2FAB1C8486C400A40423 /* gRPC.framework */,
+				0DAB2FAC1C8486C400A40423 /* Protobuf.framework */,
 				0DA301791C727FD6000F28CE /* Realm.framework */,
 				0DA3017A1C727FD6000F28CE /* RealmSwift.framework */,
 				0DE680CC1C16EDB100FA8CF6 /* OtsimoSDK.framework */,
