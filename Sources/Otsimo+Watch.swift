@@ -9,14 +9,14 @@
 import Foundation
 import OtsimoApiGrpc
 
-extension Otsimo : WatchApi{
-    public func startWatch(callback: (OTSWatchEvent) -> Void) -> (watch:WatchProtocol?,error: OtsimoError){
-        if let session = session{
+extension Otsimo : WatchApi {
+    public func startWatch(callback: (OTSWatchEvent) -> Void) -> (watch: WatchProtocol?, error: OtsimoError) {
+        if let session = session {
             let watch = Watch(connection: connection!)
             watch.start(session, handler: callback)
-            return (watch:watch, error: OtsimoError.None)
-        }else{
-            return (watch:nil,error:OtsimoError.NotLoggedIn(message: "not logged in"))
+            return (watch: watch, error: OtsimoError.None)
+        } else {
+            return (watch: nil, error: OtsimoError.NotLoggedIn(message: "not logged in"))
         }
     }
 }

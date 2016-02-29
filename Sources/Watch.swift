@@ -23,6 +23,7 @@ internal class Watch: WatchProtocol {
     }
 
     func start(session: Session, handler: (watch: OTSWatchEvent) -> Void) {
+        self.handler = handler
         let req = OTSWatchRequest()
         req.profileId = session.profileID
 
@@ -42,6 +43,7 @@ internal class Watch: WatchProtocol {
     }
 
     func rpcHandler(done: Bool, response: OTSWatchResponse!, error: NSError!) {
+        Log.debug("Watch RpcHandler: done=\(done), error=\(error), event=\(response)")
         if let r = response {
             if r.hasEvent {
                 if let h = handler {
