@@ -17,7 +17,8 @@ public class Game {
     internal var latestVersion: String = ""
     internal var latestState: OTSReleaseState = OTSReleaseState.Created
     internal var fetchedAt: NSDate?
-
+    internal var storage: String = ""
+    internal var archiveFormat: String = ""
     internal var gameManifest: GameManifest? {
         didSet {
             fetchedAt = NSDate()
@@ -35,6 +36,8 @@ public class Game {
         productionVersion = listItem.productionVersion
         latestVersion = listItem.latestVersion
         latestState = listItem.latestState
+        storage = listItem.storage
+        archiveFormat = listItem.archiveFormat
     }
 
     public convenience init(gameRelease: OTSGameRelease) {
@@ -44,6 +47,9 @@ public class Game {
         }
         latestVersion = gameRelease.version
         latestState = gameRelease.releaseState
+        storage = gameRelease.storage
+        archiveFormat = gameRelease.archiveFormat
+
         if gameRelease.hasGameManifest {
             uniqueName = gameRelease.gameManifest.uniqueName
             gameManifest = GameManifest(id: id, gameRelease: gameRelease)
@@ -56,8 +62,11 @@ public class Game {
         uniqueName = manifest.uniqueName
         latestVersion = cache.latestVersion
         productionVersion = cache.productionVersion
+        storage = cache.storage
+        archiveFormat = cache.archiveFormat
+
         latestState = OTSReleaseState(rawValue: cache.latestState)!
-        gameManifest = GameManifest(id: id, version: cache.manifestVersion, gameManifest: manifest)
+        gameManifest = GameManifest(id: id, version: cache.manifestVersion, storage: cache.storage, archive: cache.archiveFormat, gameManifest: manifest)
     }
 
     public func getManifest(handler: (GameManifest?, OtsimoError) -> Void) {
@@ -70,6 +79,8 @@ public class Game {
                     if let r = resp {
                         self.gameManifest = GameManifest(id: self.id, gameRelease: r)
                         self.productionVersion = r.version
+                        self.storage = r.storage
+                        self.archiveFormat = r.archiveFormat
                         self.cache()
                         handler(self.gameManifest, .None)
                     } else {
@@ -82,6 +93,8 @@ public class Game {
                     if let r = resp {
                         self.gameManifest = GameManifest(id: self.id, gameRelease: r)
                         self.productionVersion = r.version
+                        self.storage = r.storage
+                        self.archiveFormat = r.archiveFormat
                         self.cache()
                         handler(self.gameManifest, .None)
                     } else {
@@ -108,4 +121,3 @@ extension OTSCatalogItem {
         return Game(gameId: self.gameId)
     }
 }
-

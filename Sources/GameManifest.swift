@@ -15,7 +15,8 @@ public class GameManifest {
     public let version: String
     public let manifest: OTSGameManifest
     public let metadatas: [OTSGameMetadata]
-
+    public let storage: String
+    public let archiveFormat: String
     private var settings: GameSettings?
     private var keyvalue: GameKeyValueStore?
 
@@ -25,14 +26,18 @@ public class GameManifest {
         metadatas = manifest.metadataArray as AnyObject as! [OTSGameMetadata]
         version = gameRelease.version
         settings = nil
+        storage = gameRelease.storage
+        archiveFormat = gameRelease.archiveFormat
     }
 
-    init(id: String, version: String, gameManifest: OTSGameManifest) {
+    init(id: String, version: String, storage: String, archive: String, gameManifest: OTSGameManifest) {
         gameId = id
         manifest = gameManifest
         metadatas = manifest.metadataArray as AnyObject as! [OTSGameMetadata]
         self.version = version
         settings = nil
+        self.storage = storage
+        archiveFormat = archive
     }
 
     public var localVisibleName: String {
