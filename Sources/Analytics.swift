@@ -8,6 +8,7 @@
 import Foundation
 import RealmSwift
 import OtsimoApiGrpc
+import gRPC
 
 class AppEventCache: Object {
     dynamic var time: NSDate = NSDate()

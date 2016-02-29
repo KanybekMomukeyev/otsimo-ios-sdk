@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+import gRPC
 import OtsimoApiGrpc
 
 internal class Watch: WatchProtocol {

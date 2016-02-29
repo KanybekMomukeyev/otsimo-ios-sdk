@@ -519,11 +519,18 @@
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				GCC_PREFIX_HEADER = "";
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/Carthage/Build/iOS/OtsimoApiGrpc.framework/Headers\"";
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/Carthage/Build/iOS/Realm.framework/Headers\"",
+					"\"$(SRCROOT)/Carthage/Build/iOS/BoringSSL.framework/Headers\"",
+					"\"$(SRCROOT)/Carthage/Build/iOS/Protobuf.framework/Headers\"",
+					"\"$(SRCROOT)/Carthage/Build/iOS/gRPC.framework/Headers\"",
+					"\"$(SRCROOT)/Carthage/Build/iOS/OtsimoApiGrpc.framework/Headers\"",
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/Sources/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.otsimo.otsimo-sdk";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -548,11 +555,18 @@
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				GCC_PREFIX_HEADER = "";
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/Carthage/Build/iOS/OtsimoApiGrpc.framework/Headers\"";
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/Carthage/Build/iOS/Realm.framework/Headers\"",
+					"\"$(SRCROOT)/Carthage/Build/iOS/BoringSSL.framework/Headers\"",
+					"\"$(SRCROOT)/Carthage/Build/iOS/Protobuf.framework/Headers\"",
+					"\"$(SRCROOT)/Carthage/Build/iOS/gRPC.framework/Headers\"",
+					"\"$(SRCROOT)/Carthage/Build/iOS/OtsimoApiGrpc.framework/Headers\"",
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/Sources/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.otsimo.otsimo-sdk";
 				PRODUCT_NAME = "$(TARGET_NAME)";
