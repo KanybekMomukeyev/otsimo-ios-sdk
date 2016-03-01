@@ -138,4 +138,20 @@ extension Otsimo: ChildApi {
             handler(error: .NotInitialized)
         }
     }
+
+    public func enableSound(childID: String, enable: Bool, handler: (error: OtsimoError) -> Void) {
+        if let connection = connection {
+            let req = OTSSoundEnableRequest()
+            req.childId = childID
+            req.enable = enable
+            if let ses = session {
+                req.profileId = ses.profileID
+                connection.updateChildAppSound(ses, req: req, handler: handler)
+            } else {
+                handler(error: .NotLoggedIn(message: "not logged in, session is nil"))
+            }
+        } else {
+            handler(error: .NotInitialized)
+        }
+    }
 }

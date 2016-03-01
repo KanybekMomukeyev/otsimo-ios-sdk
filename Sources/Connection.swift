@@ -174,6 +174,32 @@ internal final class Connection {
         }
     }
 
+    func updateChildAppSound(session: Session, req: OTSSoundEnableRequest, handler: (OtsimoError) -> Void) {
+        var RPC : ProtoRPC!
+        RPC = apiService.RPCToSoundEnableWithRequest(req) { response, error in
+            if let response = response {
+                if response.type == 0 {
+                    onMainThread { handler(OtsimoError.None) }
+                } else {
+                    onMainThread { handler(OtsimoError.ServiceError(message: "code:\(response.type),message:\(response.message!)")) }
+                }
+            } else {
+                Log.error("updateChildAppSound, Finished with error: \(error!)")
+                onMainThread { handler(OtsimoError.ServiceError(message: "\(error)")) }
+            }
+        }
+
+        session.getAuthorizationHeader { header, err in
+            switch (err) {
+            case .None:
+                RPC.requestHeaders["Authorization"] = header
+                RPC.start()
+            default:
+                handler(err)
+            }
+        }
+    }
+
     func updateProfile(session: Session, profile: OTSProfile, handler: (OtsimoError) -> Void) {
         profile.id_p = session.profileID
 

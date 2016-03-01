@@ -45,6 +45,8 @@ public protocol ChildApi {
     func updateDashboardIndex(gameID: String, childID: String, index: Int32, handler: (error: OtsimoError) -> Void)
 
     func updateChild(childID: String, child: OTSChild, handler: (error: OtsimoError) -> Void)
+
+    func enableSound(childID: String, enable: Bool, handler: (error: OtsimoError) -> Void)
 }
 
 public protocol GameApi {
