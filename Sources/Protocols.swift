@@ -19,6 +19,8 @@ public protocol AccountApi {
     func changeEmail(newEmail: String, handler: (OtsimoError) -> Void)
 
     func changePassword(old: String, newPassword: String, handler: (OtsimoError) -> Void)
+
+    func resetPassword(email: String, handler: (res: OtsimoError) -> Void)
 }
 
 public protocol ProfileApi {

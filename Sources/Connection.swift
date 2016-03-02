@@ -418,13 +418,35 @@ internal final class Connection {
     func changePassword(session: Session, old: String, new: String, handler: (OtsimoError) -> Void) {
         let urlPath: String = "\(config.accountsServiceUrl)/update/password"
         let postString = "user_id=\(session.profileID)&old_password=\(old)&new_password=\(new)"
-        httpPostRequestWithToken(urlPath, postString: postString, authorization: "\(session.tokenType) \(session.accessToken)", handler: handler)
+
+        session.getAuthorizationHeader { header, err in
+            switch (err) {
+            case .None:
+                self.httpPostRequestWithToken(urlPath, postString: postString, authorization: header, handler: handler)
+            default:
+                handler(err)
+            }
+        }
     }
 
     func changeEmail(session: Session, old: String, new: String, handler: (OtsimoError) -> Void) {
         let urlPath: String = "\(config.accountsServiceUrl)/update/email"
         let postString = "old_email=\(old)&new_email=\(new)"
-        httpPostRequestWithToken(urlPath, postString: postString, authorization: "\(session.tokenType) \(session.accessToken)", handler: handler)
+
+        session.getAuthorizationHeader { header, err in
+            switch (err) {
+            case .None:
+                self.httpPostRequestWithToken(urlPath, postString: postString, authorization: header, handler: handler)
+            default:
+                handler(err)
+            }
+        }
+    }
+
+    func resetPasswrod(email: String, handler: (OtsimoError) -> Void) {
+        let urlPath: String = "\(config.accountsServiceUrl)/reset"
+        let postString = "email=\(email)"
+        httpPostRequest(urlPath, postString: postString, handler: handler)
     }
 
     // http requests
@@ -505,6 +527,49 @@ internal final class Connection {
         let request = NSMutableURLRequest(URL: NSURL(string: urlPath)!)
         request.HTTPMethod = "POST"
         request.setValue(authorization, forHTTPHeaderField: "Authorization")
+        request.setValue("application/x-www-form-urlencoded; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        request.HTTPBody = postString.dataUsingEncoding(NSUTF8StringEncoding)
+        request.timeoutInterval = 20
+        request.cachePolicy = .ReloadIgnoringLocalAndRemoteCacheData
+
+        let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { data, response, error in
+            guard error == nil && data != nil else { // check for fundamental networking error
+                onMainThread { handler(error: .NetworkError(message: "\(error)")) }
+                return
+            }
+            var isOK = true
+            if let httpStatus = response as? NSHTTPURLResponse where httpStatus.statusCode != 200 { // check for http errors
+                isOK = false
+            }
+
+            do {
+                let JSON = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions(rawValue: 0))
+                guard let JSONDictionary : NSDictionary = JSON as? NSDictionary else {
+                    onMainThread { handler(error: .InvalidResponse(message: "invalid response:not a dictionary")) }
+                    return
+                }
+                if isOK && JSONDictionary["error"] == nil {
+                    // todo
+                    onMainThread { handler(error: OtsimoError.None) }
+                } else {
+                    let e = JSONDictionary["error"]
+                    if e != nil {
+                        onMainThread { handler(error: .InvalidResponse(message: "request failed: error= \(e)")) }
+                    } else {
+                        onMainThread { handler(error: .InvalidResponse(message: "request failed: \(data)")) }
+                    }
+                }
+            }
+            catch let JSONError as NSError {
+                onMainThread { handler(error: .InvalidResponse(message: "invalid response: \(JSONError)")) }
+            }
+        }
+        task.resume()
+    }
+
+    func httpPostRequest(urlPath: String, postString: String, handler: (error: OtsimoError) -> Void) {
+        let request = NSMutableURLRequest(URL: NSURL(string: urlPath)!)
+        request.HTTPMethod = "POST"
         request.setValue("application/x-www-form-urlencoded; charset=utf-8", forHTTPHeaderField: "Content-Type")
         request.HTTPBody = postString.dataUsingEncoding(NSUTF8StringEncoding)
         request.timeoutInterval = 20

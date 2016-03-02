@@ -13,7 +13,7 @@ extension Otsimo: AccountApi {
     // login with given email and password. handler wil call on main queue
     public func login(email: String, password: String, handler: (res: TokenResult) -> Void) {
         if let connection = connection {
-            connection.login(email, plainPassword: password) {res, ses in
+            connection.login(email, plainPassword: password) { res, ses in
                 switch (res) {
                 case .Success:
                     self.session = ses
@@ -27,10 +27,10 @@ extension Otsimo: AccountApi {
             handler(res: TokenResult.Error(error: OtsimoError.NotInitialized))
         }
     }
-    
+
     public func register(data: RegistrationData, handler: (res: TokenResult) -> Void) {
         if let connection = connection {
-            connection.register(data) {res, ses in
+            connection.register(data) { res, ses in
                 switch (res) {
                 case .Success:
                     self.session = ses
@@ -44,14 +44,14 @@ extension Otsimo: AccountApi {
             handler(res: TokenResult.Error(error: OtsimoError.NotInitialized))
         }
     }
-    
+
     public func logout() {
         if let ses = session {
             ses.logout()
             self.session = nil
         }
     }
-    
+
     public func changeEmail(newEmail: String, handler: (OtsimoError) -> Void) {
         if let connection = connection {
             if let ses = session {
@@ -63,7 +63,7 @@ extension Otsimo: AccountApi {
             handler(OtsimoError.NotInitialized)
         }
     }
-    
+
     public func changePassword(old: String, newPassword: String, handler: (OtsimoError) -> Void) {
         if let connection = connection {
             if let ses = session {
@@ -75,5 +75,12 @@ extension Otsimo: AccountApi {
             handler(OtsimoError.NotInitialized)
         }
     }
-    
+
+    public func resetPassword(email: String, handler: (res: OtsimoError) -> Void) {
+        if let connection = connection {
+            connection.resetPasswrod(email, handler: handler)
+        } else {
+            handler(res: OtsimoError.NotInitialized)
+        }
+    }
 }
