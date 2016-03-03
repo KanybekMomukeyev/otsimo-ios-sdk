@@ -60,9 +60,24 @@ public class Otsimo {
         }
     }
 
+    public var gamesDir: String {
+        let root = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+        let libraryDirectoryPath: String = root[0]
+        return libraryDirectoryPath.stringByAppendingString("/Games")
+    }
+
+    private func isLocallyAvailable(gameID: String, version: String) -> Bool {
+        let path = gamesDir.stringByAppendingString("/\(gameID)/\(version)/otsimo.json")
+        return NSFileManager.defaultManager().fileExistsAtPath(path)
+    }
+
     public func fixGameAssetUrl(id: String, version: String, rawUrl: String) -> String {
-        let v = versionToUrl(version)
-        return "\(connection!.config.publicContentUrl)/\(id)/\(v)/\(rawUrl)"
+        if isLocallyAvailable(id, version: version) {
+            return gamesDir.stringByAppendingString("/\(id)/\(version)/\(rawUrl)")
+        } else {
+            let v = versionToUrl(version)
+            return "\(connection!.config.publicContentUrl)/\(id)/\(v)/\(rawUrl)"
+        }
     }
 
     func readLanguages() {
