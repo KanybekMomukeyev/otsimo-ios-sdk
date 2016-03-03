@@ -26,34 +26,33 @@ enum PayloadLoadResult {
 public enum InvalidToken : CustomStringConvertible, ErrorType {
     // / Decoding the JWT itself failed
     case DecodeError(String)
-    
+
     // / The JWT uses an unsupported algorithm
     case InvalidAlgorithm
-    
+
     // / The issued claim has expired
     case ExpiredSignature
-    
+
     // / The issued claim is for the future
     case ImmatureSignature
-    
+
     // / The claim is for the future
     case InvalidIssuedAt
-    
+
     // / The audience of the claim doesn't match
     case InvalidAudience
-    
+
     // / The issuer claim failed to verify
     case InvalidIssuer
-    
+
     // The issuer claim failed to verify
     case MissingSub
-    
+
     // The issuer claim failed to verify
     case MissingEmail
-    
+
     case MissingExp
 
-    
     // / Returns a readable description of the error
     public var description: String {
         switch self {
@@ -84,10 +83,10 @@ public enum InvalidToken : CustomStringConvertible, ErrorType {
 public enum OtsimoError {
     case None
     case NotInitialized
+    case General(message: String)
     case NotLoggedIn(message: String)
     case ServiceError(message: String)
     case NetworkError(message: String)
     case InvalidResponse(message: String)
     case InvalidTokenError(error: InvalidToken)
 }
-

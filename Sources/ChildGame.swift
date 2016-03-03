@@ -50,14 +50,14 @@ class ChildGameInitializer {
         var call : (() -> Void)?
 
         switch (lastError) {
-            case OtsimoError.None:
+        case OtsimoError.None:
             if prepareList.count == 0 {
                 childGame.initializer = nil
                 callback(childGame, OtsimoError.None)
             } else {
                 call = prepareList.removeFirst()
             }
-            default:
+        default:
             childGame.initializer = nil
             callback(childGame, lastError)
         }
@@ -165,7 +165,11 @@ public class ChildGame {
     public init(entry: OTSChildGameEntry, childID: String) {
         self.entry = entry
         self.childID = childID
-        self.settingsValues = ChildGame.InitSettingsValues(entry.settings)
+        if let s = entry.settings {
+            self.settingsValues = ChildGame.InitSettingsValues(s)
+        } else {
+            self.settingsValues = SettingsValues()
+        }
     }
 
     public func cancelInitialize() {
@@ -219,7 +223,7 @@ public class ChildGame {
             }
             return sv
         } catch {
-            Log.error("Invalid JSON data for settings ,error: \(error)")
+            Log.error("ChildGame:InitSettingsValues-> Invalid JSON data for settings ,error: \(error)")
             return SettingsValues()
         }
     }

@@ -71,10 +71,12 @@ public class Game {
 
     public func getManifest(handler: (GameManifest?, OtsimoError) -> Void) {
         if let gm = gameManifest {
+            Log.debug("Manifest already fetched for \(id), using it")
             // TODO(sercand) there could be a bug if previously get dev release and now want to production
             handler(gm, OtsimoError.None)
         } else {
             if Otsimo.sharedInstance.onlyProduction {
+                Log.debug("Game:getManifest-> going to fetch game='\(id)' version='\(productionVersion)' as production version")
                 Otsimo.sharedInstance.getGameRelease(id, version: productionVersion, onlyProduction: true) { resp, err in
                     if let r = resp {
                         self.gameManifest = GameManifest(id: self.id, gameRelease: r)
@@ -89,6 +91,7 @@ public class Game {
                     }
                 }
             } else {
+                Log.debug("Game:getManifest-> going to fetch game='\(id)' version='\(latestVersion)' as latestVersion version")
                 Otsimo.sharedInstance.getGameRelease(id, version: latestVersion, onlyProduction: false) { resp, err in
                     if let r = resp {
                         self.gameManifest = GameManifest(id: self.id, gameRelease: r)
