@@ -20,6 +20,7 @@
 		0D5395A51C60D8DF00DBB19C /* GameManifest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5395A41C60D8DF00DBB19C /* GameManifest.swift */; };
 		0D5395AD1C62AD4600DBB19C /* GameSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5395AC1C62AD4600DBB19C /* GameSettings.swift */; };
 		0D54BB901C158FAA006A9382 /* Otsimo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D54BB8F1C158FAA006A9382 /* Otsimo.swift */; };
+		0D5624AA1C898738006FA311 /* NetworkFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5624A91C898738006FA311 /* NetworkFetcher.swift */; };
 		0D60A90D1C5652DF00115500 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D60A90C1C5652DF00115500 /* Game.swift */; };
 		0D60A9101C566E6B00115500 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D60A90F1C566E6B00115500 /* Log.swift */; };
 		0D60A9151C5692E200115500 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D60A9141C5692E200115500 /* Protocols.swift */; };
@@ -72,6 +73,7 @@
 		0D5395A41C60D8DF00DBB19C /* GameManifest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameManifest.swift; path = Sources/GameManifest.swift; sourceTree = "<group>"; };
 		0D5395AC1C62AD4600DBB19C /* GameSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameSettings.swift; path = Sources/GameSettings.swift; sourceTree = "<group>"; };
 		0D54BB8F1C158FAA006A9382 /* Otsimo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Otsimo.swift; path = Sources/Otsimo.swift; sourceTree = "<group>"; };
+		0D5624A91C898738006FA311 /* NetworkFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetworkFetcher.swift; path = Sources/NetworkFetcher.swift; sourceTree = "<group>"; };
 		0D60A90C1C5652DF00115500 /* Game.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Game.swift; path = Sources/Game.swift; sourceTree = "<group>"; };
 		0D60A90F1C566E6B00115500 /* Log.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Log.swift; path = Sources/Log.swift; sourceTree = "<group>"; };
 		0D60A9141C5692E200115500 /* Protocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Protocols.swift; path = Sources/Protocols.swift; sourceTree = "<group>"; };
@@ -196,6 +198,7 @@
 				0DC2841D1C4EE8B30075FE63 /* Utils.swift */,
 				0D9044011C3AD68B00F51C8D /* JWT.swift */,
 				0D60A90F1C566E6B00115500 /* Log.swift */,
+				0D5624A91C898738006FA311 /* NetworkFetcher.swift */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -361,6 +364,7 @@
 			files = (
 				0D8214A11C38755100DC246F /* Session.swift in Sources */,
 				0D5395AD1C62AD4600DBB19C /* GameSettings.swift in Sources */,
+				0D5624AA1C898738006FA311 /* NetworkFetcher.swift in Sources */,
 				0D2C465F1C7700F800B9DEC8 /* Otsimo+Watch.swift in Sources */,
 				0D3D0FF91C3AA3F00049A72F /* Connection.swift in Sources */,
 				0D60A91B1C5693DB00115500 /* Otsimo+Game.swift in Sources */,

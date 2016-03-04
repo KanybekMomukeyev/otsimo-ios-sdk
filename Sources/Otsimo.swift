@@ -66,13 +66,13 @@ public class Otsimo {
         return libraryDirectoryPath.stringByAppendingString("/Games")
     }
 
-    private func isLocallyAvailable(gameID: String, version: String) -> Bool {
+    internal func isLocallyAvailable(gameID: String, version: String) -> Bool {
         let path = gamesDir.stringByAppendingString("/\(gameID)/\(version)/otsimo.json")
         return NSFileManager.defaultManager().fileExistsAtPath(path)
     }
 
-    public func fixGameAssetUrl(id: String, version: String, rawUrl: String) -> String {
-        if isLocallyAvailable(id, version: version) {
+    public func fixGameAssetUrl(id: String, version: String, rawUrl: String, nolocal: Bool = false) -> String {
+        if !nolocal && isLocallyAvailable(id, version: version) {
             return gamesDir.stringByAppendingString("/\(id)/\(version)/\(rawUrl)")
         } else {
             let v = versionToUrl(version)

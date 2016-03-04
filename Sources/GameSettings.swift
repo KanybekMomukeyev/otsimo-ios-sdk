@@ -7,8 +7,8 @@
 //
 
 import Foundation
-import Haneke
 import OtsimoApiGrpc
+import RealmSwift
 
 public enum SettingsProperty {
     case Integer(key: String, defaultValue: Int)
@@ -16,7 +16,7 @@ public enum SettingsProperty {
     case Text(key: String, defaultValue: String)
     case Boolean(key: String, defaultValue: Bool)
     case Enum(key: String, defaultValue: String, values: [String])
-    
+
     public var defaultValue: SettingsPropertyValue {
         get {
             switch (self) {
@@ -33,7 +33,7 @@ public enum SettingsProperty {
             }
         }
     }
-    
+
     public var key: String {
         get {
             switch (self) {
@@ -57,7 +57,7 @@ public enum SettingsPropertyValue {
     case Float(key: String, value: Float64)
     case Text(key: String, value: String)
     case Boolean(key: String, value: Bool)
-    
+
     public var value: AnyObject {
         get {
             switch (self) {
@@ -72,7 +72,7 @@ public enum SettingsPropertyValue {
             }
         }
     }
-    
+
     public var integer: Int! {
         get {
             switch (self) {
@@ -135,7 +135,7 @@ public typealias SettingsValues = [String: SettingsPropertyValue]
 
 public class GameSettings {
     public private(set) var properties: [SettingsProperty] = []
-    
+
     public func getDefaultValues() -> SettingsValues {
         var v: SettingsValues = SettingsValues()
         for p in properties {
@@ -143,8 +143,7 @@ public class GameSettings {
         }
         return v
     }
-    
-    
+
     public func getFromKey(key: String) -> SettingsProperty? {
         for p in properties {
             if p.key == key {
@@ -153,40 +152,101 @@ public class GameSettings {
         }
         return nil
     }
-    
+
     public static func fromIdAndVersion(gameID: String, version: String, path: String, handler: (GameSettings?) -> Void) {
-        let url = Otsimo.sharedInstance.fixGameAssetUrl(gameID, version: version, rawUrl: path)
-        GameSettings.fromUrl(url, handler: handler)
-    }
-    
-    private static func fromUrl(settingsUrl: String, handler: (GameSettings?) -> Void) {
-        let cache = Shared.JSONCache
-        let URL = NSURL(string: settingsUrl)
-        
-        Log.debug("going to fetch \(settingsUrl)")
-        
-        if let url = URL {
-            cache.fetch(URL: url).onSuccess {JSON in
-                if let prop = JSON.dictionary?["properties"] as? [String : [String : AnyObject]] {
-                    let gs: GameSettings = GameSettings()
-                    for (k, v) in prop {
-                        gs.addProperty(k, prop: v)
-                    }
+        let id = SettingsCache.createID(gameID, version: version)
+        if let sc = SettingsCache.storage.filter("id = %@", id).first {
+            handler(sc.gameSettings())
+            return
+        }
+        if Otsimo.sharedInstance.isLocallyAvailable(gameID, version: version) {
+            let filepath = Otsimo.sharedInstance.fixGameAssetUrl(gameID, version: version, rawUrl: path)
+            GameSettings.fromFile(filepath) {
+                if let gs = $0 {
+                    let sc = SettingsCache()
+                    sc.id = id
+                    sc.data = $1
                     handler(gs)
                 } else {
-                    Log.error("missing properties object")
                     handler(nil)
                 }
-            }.onFailure {e in
-                Log.error("failed to fetch gamesettings \(e)")
-                handler(nil)
             }
         } else {
-            Log.error("failed to init url '\(settingsUrl)'")
-            handler(nil)
+            let url = Otsimo.sharedInstance.fixGameAssetUrl(gameID, version: version, rawUrl: path, nolocal: true)
+            GameSettings.fromUrl(url) {
+                if let gs = $0 {
+                    let sc = SettingsCache()
+                    sc.id = id
+                    sc.data = $1
+                    handler(gs)
+                } else {
+                    handler(nil)
+                }
+            }
         }
     }
-    
+
+    private static func fromData(data: NSData) -> GameSettings? {
+        do {
+            let object = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions())
+            switch (object) {
+            case let dictionary as [String: AnyObject]:
+                let gs = GameSettings()
+                gs.readDictionary(dictionary)
+                return gs
+            case _ as [AnyObject]:
+                Log.error("wrong json format for settings")
+            default:
+                Log.error("failed to read parse JSON settings, error= 'it is unknown formatted'")
+            }
+            return nil
+        } catch(let error) {
+            Log.error("failed to read parse JSON settings, error=\(error)")
+            return nil
+        }
+    }
+
+    private func readDictionary(dict: [String: AnyObject]) -> Bool {
+        if let prop = dict["properties"] as? [String : [String : AnyObject]] {
+            for (k, v) in prop {
+                addProperty(k, prop: v)
+            }
+            return true
+        } else {
+            Log.error("missing properties object")
+            return false
+        }
+    }
+
+    private static func fromFile(filepath: String, handler: (GameSettings?, NSData) -> Void) {
+        let man = NSFileManager.defaultManager()
+        if man.fileExistsAtPath(filepath) {
+            if let data = man.contentsAtPath(filepath) {
+                let gs = GameSettings.fromData(data)
+                handler(gs, data)
+            } else {
+                Log.error("reding settings at path \(filepath) failed")
+                handler(nil, NSData())
+            }
+        } else {
+            Log.error("settings at path \(filepath) does not exist")
+            handler(nil, NSData())
+        }
+    }
+
+    private static func fromUrl(url: String, handler: (GameSettings?, NSData) -> Void) {
+        NetworkFetcher.get(url) { (data: NSData, error: OtsimoError) in
+            switch (error) {
+            case .None:
+                let gs = GameSettings.fromData(data)
+                handler(gs, data)
+            default:
+                Log.error("failed to fetch gamesettings \(error)")
+                handler(nil, NSData())
+            }
+        }
+    }
+
     private func addProperty(key: String, prop: [String: AnyObject]) {
         if let t = prop["type"] as? String {
             switch (t) {
@@ -201,7 +261,7 @@ public class GameSettings {
             }
         }
     }
-    
+
     private func addIntegerProperty(key: String, prop: [String: AnyObject]) {
         if let d = prop["default"] as? Int {
             properties.append(SettingsProperty.Integer(key: key, defaultValue: d))
@@ -209,7 +269,7 @@ public class GameSettings {
             Log.error("failed to get default value of \(key)")
         }
     }
-    
+
     private func addBooleanProperty(key: String, prop: [String: AnyObject]) {
         if let d = prop["default"] as? Bool {
             properties.append(SettingsProperty.Boolean(key: key, defaultValue: d))
@@ -217,7 +277,7 @@ public class GameSettings {
             Log.error("failed to get default value of \(key)")
         }
     }
-    
+
     private func addStringProperty(key: String, prop: [String: AnyObject]) {
         if let vs = prop["enum"] as? [String] {
             addEnumProperty(key, prop: prop, values: vs)
@@ -227,7 +287,7 @@ public class GameSettings {
             Log.error("failed to get default value of \(key)")
         }
     }
-    
+
     private func addEnumProperty(key: String, prop: [String: AnyObject], values: [String]) {
         if let d = prop["default"] as? String {
             properties.append(SettingsProperty.Enum(key: key, defaultValue: d, values: values))
@@ -236,4 +296,3 @@ public class GameSettings {
         }
     }
 }
-

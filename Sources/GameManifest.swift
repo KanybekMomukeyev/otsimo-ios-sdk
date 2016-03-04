@@ -8,7 +8,6 @@
 
 import Foundation
 import OtsimoApiGrpc
-import Haneke
 
 public class GameManifest {
     public let gameId: String

@@ -8,7 +8,6 @@
 
 import Foundation
 import OtsimoApiGrpc
-import Haneke
 import RealmSwift
 
 let store = try! Realm()
@@ -24,6 +23,30 @@ class CatalogCache: Object {
         var error: NSError? = nil
         return OTSCatalog.parseFromData(data, error: &error)
     }
+}
+
+public class SettingsCache: Object {
+    public dynamic var id: String = ""
+    public dynamic var data: NSData = NSData()
+
+    override public class func primaryKey() -> String? {
+        return "id"
+    }
+
+    static var storage: Results<SettingsCache> {
+        return store.objects(SettingsCache)
+    }
+
+    public func gameSettings() -> GameSettings? {
+        let gs: GameSettings = GameSettings()
+        return gs
+    }
+    
+    static func createID(gameid: String, version: String) -> String {
+        return "\(gameid)_\(version)"
+    }
+    
+    
 }
 
 public class SessionCache : Object {
@@ -145,7 +168,7 @@ final class OtsimoCache: CacheProtocol {
         } else {
             handler(nil)
         }
-         /*
+        /*
          OtsimoCache.catalogCache.fetch(key: OtsimoCache.catalogKey)
          .onFailure({_ in handler(nil)})
          .onSuccess({c in
