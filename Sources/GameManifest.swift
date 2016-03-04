@@ -109,8 +109,7 @@ public class GameManifest {
             for l in Otsimo.sharedInstance.languages {
                 for md in metadatas {
                     if md.language == l {
-                        // todo(sercan) get this from registry api
-                        return Otsimo.sharedInstance.fixGameAssetUrl(gameId, version: version, rawUrl: "package_\(l).\(archiveFormat)")
+                        return Otsimo.sharedInstance.fixGameAssetUrl(gameId, version: version, rawUrl: "package_\(l).\(archiveFormat)", nolocal: true)
                     }
                 }
             }
@@ -120,13 +119,13 @@ public class GameManifest {
 
     public var globalPackage: String {
         get {
-            return Otsimo.sharedInstance.fixGameAssetUrl(gameId, version: version, rawUrl: "package.\(archiveFormat)")
+            return Otsimo.sharedInstance.fixGameAssetUrl(gameId, version: version, rawUrl: "package.\(archiveFormat)", nolocal: true)
         }
     }
 
     public var remoteUrl: String {
         get {
-            return Otsimo.sharedInstance.fixGameAssetUrl(gameId, version: version, rawUrl: manifest.main)
+            return Otsimo.sharedInstance.fixGameAssetUrl(gameId, version: version, rawUrl: manifest.main, nolocal: true)
         }
     }
 
