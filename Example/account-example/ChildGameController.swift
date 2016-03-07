@@ -12,22 +12,22 @@ import OtsimoApiGrpc
 
 class ChildGameController: UITableViewController, SettingsPropertyDelegate {
     var childGame: ChildGame!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         initInfo(childGame.manifest!)
     }
-    
+
     func initInfo(gm: GameManifest) {
         navigationItem.title = childGame.manifest!.localVisibleName
     }
-    
+
     // MARK: - Table view data source
-    
+
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 2
     }
-    
+
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
             return 3
@@ -36,7 +36,7 @@ class ChildGameController: UITableViewController, SettingsPropertyDelegate {
         }
         return 0
     }
-    
+
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             switch (indexPath.row) {
@@ -59,22 +59,21 @@ class ChildGameController: UITableViewController, SettingsPropertyDelegate {
                 cell.textLabel?.text = "unknown"
                 return cell
             }
-            
         } else {
-            
+
             return createSettingsCell(tableView, index: indexPath)
         }
     }
-    
+
     func createSettingsCell(tableView: UITableView, index: NSIndexPath) -> UITableViewCell {
         let prop = childGame.settings!.properties[index.row]
         let cell = tableView.dequeueReusableCellWithIdentifier("settings_property_cell", forIndexPath: index) as!SettingsPropertyViewCell
-        
+
         cell.initFromProperty(prop.key, childGame: self.childGame, delegate: self)
-        
+
         return cell
     }
-    
+
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if section == 0 {
             return "info"
@@ -82,17 +81,17 @@ class ChildGameController: UITableViewController, SettingsPropertyDelegate {
             return "settings"
         }
     }
-    
+
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if indexPath.section == 0 {
             return
         }
 //        print(games[indexPath.row].uniqueName, "pressed")
     }
-    
+
     func propertyValueChanged(value: SettingsPropertyValue) {
         childGame.updateValue(value)
-        childGame.saveSettings {e in
+        childGame.saveSettings { e in
             switch (e) {
             case .None:
                 print("saved")
@@ -101,7 +100,7 @@ class ChildGameController: UITableViewController, SettingsPropertyDelegate {
             }
         }
     }
-    
+
     func activationValueChanged(value: Bool) {
         childGame.isActive = value
     }

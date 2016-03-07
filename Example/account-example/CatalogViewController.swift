@@ -12,24 +12,24 @@ import OtsimoSDK
 import Haneke
 
 class CatalogViewController: UITableViewController {
-    
+
     var items: [OTSCatalogCategory: [OTSCatalogItem]] = [OTSCatalogCategory: [OTSCatalogItem]]()
-    
+
     var catalog: OTSCatalog? {
         didSet {
             processItems()
         }
     }
-    
+
     func processItems() {
         items.removeAll()
         if let cat = catalog {
-            for i in 0..<Int(cat.itemsArray_Count) {
+            for i in 0 ..< Int(cat.itemsArray_Count) {
                 let item = cat.itemsArray[i] as? OTSCatalogItem
                 if let item = item {
                     if let _ = items[item.category] {
                         items[item.category]?.append(item)
-                        items[item.category]?.sortInPlace({$0.index < $1.index})
+                        items[item.category]?.sortInPlace({ $0.index < $1.index})
                     } else {
                         items[item.category] = [item]
                     }
@@ -38,11 +38,11 @@ class CatalogViewController: UITableViewController {
         }
         tableView.reloadData()
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        otsimo.getCatalog() {cat, error in
+
+        otsimo.getCatalog() { cat, error in
             switch (error) {
             case .None:
                 if let c = cat {
@@ -53,18 +53,13 @@ class CatalogViewController: UITableViewController {
             }
         }
     }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
+
     // MARK: - Table view data source
-    
+
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return items.count
     }
-    
+
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let index = items.startIndex.advancedBy(section) // index 1
         let key = items.keys[index]
@@ -74,18 +69,18 @@ class CatalogViewController: UITableViewController {
         }
         return 0
     }
-    
+
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String?
     {
         let index = items.startIndex.advancedBy(section) // index 1
         let key = items.keys[index]
         return "\(OTSCatalogCategory_EnumDescriptor().enumNameForValue(key.rawValue)!)"
     }
-    
+
     func updateCell(cell: GameTableCellView, ci: OTSCatalogItem?) {
         if let item = ci {
             let game: Game = item.getGame()
-            game.getManifest() {man, error in
+            game.getManifest() { man, error in
                 if let m = man {
                     cell.titlLabel?.text = m.localVisibleName
                     cell.versionLabel?.text = m.version
@@ -96,10 +91,10 @@ class CatalogViewController: UITableViewController {
             }
         }
     }
-    
+
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("game_table_reuse_identifier", forIndexPath: indexPath) as! GameTableCellView
-        
+
         let index = items.startIndex.advancedBy(indexPath.section) // index 1
         let key = items.keys[index]
         var ci : OTSCatalogItem? = nil
@@ -109,12 +104,11 @@ class CatalogViewController: UITableViewController {
         updateCell(cell, ci: ci)
         return cell
     }
-    
-    
+
     private var selectedGame: Game?
-    
+
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
+
         let index = items.startIndex.advancedBy(indexPath.section) // index 1
         let key = items.keys[index]
         if let arr = items[key] {
@@ -123,7 +117,7 @@ class CatalogViewController: UITableViewController {
             performSegueWithIdentifier("gameinfotest", sender: tableView)
         }
     }
-    
+
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
@@ -138,4 +132,3 @@ class CatalogViewController: UITableViewController {
         gic.game = selectedGame
     }
 }
-

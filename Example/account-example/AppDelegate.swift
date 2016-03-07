@@ -27,9 +27,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         otsimo.sessionStatusChanged = onSessionStatusChanged
 
         #if DEBUG
-            Otsimo.config(ClientConfig.development(clientID, host: devHost))
+            Otsimo.config(ClientConfig.sandbox(clientID))
         #else
-            Otsimo.config(ClientConfig.development(clientID, host: devHost))
+            Otsimo.config(ClientConfig.sandbox(clientID))
         #endif
         return true
     }
