@@ -22,6 +22,7 @@ public class ClientConfig {
     internal var watchGrpcUrl = ""
     internal var listenerGrpcUrl = ""
     internal var publicContentUrl = ""
+    internal var dashboardGrpcUrl = ""
 
     internal var useTls = false
     internal var caCert = ""
@@ -65,7 +66,7 @@ public class ClientConfig {
         cc.watchGrpcUrl = "services.otsimo.xyz:18858"
         cc.catalogGrpcUrl = "services.otsimo.xyz:18857"
         cc.listenerGrpcUrl = "services.otsimo.xyz:18847"
-        cc.contentGrpcUrl = "wiki.otsimo.xyz"
+        cc.contentGrpcUrl = "wiki.otsimo.xyz:18859"
         cc.publicContentUrl = "https://registry.otsimo.xyz:18851/public"
         cc.authorizationEndpoint = "https://connect.otsimo.xyz/auth"
         cc.tokenEndpoint = "https://connect.otsimo.xyz/token"

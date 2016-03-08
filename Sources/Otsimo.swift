@@ -49,6 +49,24 @@ public class Otsimo {
         }
     }
 
+    public static func config(discovery: String, env: String) {
+        self.configFromDiscoveryService(discovery, env: env) { cc in
+            if let config = cc {
+                sharedInstance.onlyProduction = config.onlyProduction
+                sharedInstance.readLanguages()
+
+                sharedInstance.connection = Connection(config: config)
+                sharedInstance.analytics = Analytics(connection: sharedInstance.connection!)
+
+                sharedInstance.recoverOldSessionIfExist(config)
+
+                if isFirstLaunch() {
+                    sharedInstance.analytics.appEvent("start", payload: [String: AnyObject]())
+                }
+            }
+        }
+    }
+
     public func handleOpenURL(url: NSURL) {
         print("handleURL: ", url)
         analytics.appEvent("deeplink", payload: ["url": url.absoluteString])

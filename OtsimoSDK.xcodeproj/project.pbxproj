@@ -34,6 +34,7 @@
 		0DA301891C7338E6000F28CE /* Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DA301881C7338E6000F28CE /* Analytics.swift */; };
 		0DA3018B1C73B912000F28CE /* DeviceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DA3018A1C73B912000F28CE /* DeviceInfo.swift */; };
 		0DC2841E1C4EE8B30075FE63 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DC2841D1C4EE8B30075FE63 /* Utils.swift */; };
+		0DCD07AB1C8F8BDF00138D4D /* Otsimo+Discovery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DCD07AA1C8F8BDF00138D4D /* Otsimo+Discovery.swift */; };
 		0DE9425C1C66902E008DEB7E /* GameKeyValueStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE9425B1C66902E008DEB7E /* GameKeyValueStore.swift */; };
 		0DE9425E1C67D8BD008DEB7E /* ChildGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE9425D1C67D8BD008DEB7E /* ChildGame.swift */; };
 /* End PBXBuildFile section */
@@ -87,6 +88,7 @@
 		0DA301881C7338E6000F28CE /* Analytics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Analytics.swift; path = Sources/Analytics.swift; sourceTree = "<group>"; };
 		0DA3018A1C73B912000F28CE /* DeviceInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeviceInfo.swift; path = Sources/DeviceInfo.swift; sourceTree = "<group>"; };
 		0DC2841D1C4EE8B30075FE63 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Utils.swift; path = Sources/Utils.swift; sourceTree = "<group>"; };
+		0DCD07AA1C8F8BDF00138D4D /* Otsimo+Discovery.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Otsimo+Discovery.swift"; path = "Sources/Otsimo+Discovery.swift"; sourceTree = "<group>"; };
 		0DE9425B1C66902E008DEB7E /* GameKeyValueStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameKeyValueStore.swift; path = Sources/GameKeyValueStore.swift; sourceTree = "<group>"; };
 		0DE9425D1C67D8BD008DEB7E /* ChildGame.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChildGame.swift; path = Sources/ChildGame.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -175,6 +177,7 @@
 				0D2C465E1C7700F800B9DEC8 /* Otsimo+Watch.swift */,
 				0D1E095F1C7B8A010084A990 /* Otsimo+Wiki.swift */,
 				0D60A9141C5692E200115500 /* Protocols.swift */,
+				0DCD07AA1C8F8BDF00138D4D /* Otsimo+Discovery.swift */,
 			);
 			name = Otsimo;
 			sourceTree = "<group>";
@@ -364,6 +367,7 @@
 			files = (
 				0D8214A11C38755100DC246F /* Session.swift in Sources */,
 				0D5395AD1C62AD4600DBB19C /* GameSettings.swift in Sources */,
+				0DCD07AB1C8F8BDF00138D4D /* Otsimo+Discovery.swift in Sources */,
 				0D5624AA1C898738006FA311 /* NetworkFetcher.swift in Sources */,
 				0D2C465F1C7700F800B9DEC8 /* Otsimo+Watch.swift in Sources */,
 				0D3D0FF91C3AA3F00049A72F /* Connection.swift in Sources */,
