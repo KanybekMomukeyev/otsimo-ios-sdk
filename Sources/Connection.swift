@@ -18,7 +18,7 @@ internal final class Connection {
     internal let listenerService: OTSListenerService
     internal let registryService: OTSRegistryService
     internal let contentService: OTSContentService
-    // internal let dashboardService: DashboardService
+    internal let dashboardService: DashboardService
 
     internal init(config: ClientConfig) {
         self.config = config
@@ -36,6 +36,7 @@ internal final class Connection {
         listenerService = OTSListenerService(host: config.listenerGrpcUrl)
         registryService = OTSRegistryService(host: config.registryGrpcUrl)
         contentService = OTSContentService(host: config.contentGrpcUrl)
+        dashboardService = DashboardService(host: config.dashboardGrpcUrl)
     }
 
     func getProfile(session: Session, handler: (OTSProfile?, OtsimoError) -> Void) {
@@ -373,6 +374,32 @@ internal final class Connection {
                 RPC.start()
             default:
                 handler([], err: err)
+            }
+        }
+    }
+
+    func getDashboard(session: Session, childID: String, handler: (dashboard: Dashboard?, err: OtsimoError) -> Void) {
+        let req = DashboardGetRequest()
+
+        req.profileId = session.profileID
+        req.appVersion = NSBundle.mainBundle().infoDictionary!["CFBundleVersion"] as! String
+        req.childId = childID
+
+        let RPC = dashboardService.RPCToGetWithRequest(req) { response, error in
+            if let response = response {
+                onMainThread { handler(dashboard: response, err: OtsimoError.None) }
+            } else {
+                onMainThread { handler(dashboard: nil, err: OtsimoError.ServiceError(message: "\(error)")) }
+            }
+        }
+
+        session.getAuthorizationHeader { header, err in
+            switch (err) {
+            case .None:
+                RPC.requestHeaders["Authorization"] = header
+                RPC.start()
+            default:
+                handler(dashboard: nil, err: err)
             }
         }
     }

@@ -69,6 +69,10 @@ public protocol WatchApi {
     func startWatch(callback: (OTSWatchEvent) -> Void) -> (watch: WatchProtocol?, error: OtsimoError)
 }
 
+public protocol DashboardApi {
+    func dashboard(childID: String, handler: (Dashboard?, OtsimoError) -> Void)
+}
+
 public protocol WikiApi {
     func featuredContents(callback: (Int, [OTSContent], OtsimoError) -> Void)
 
