@@ -102,4 +102,5 @@ public protocol OtsimoAnalyticsProtocol {
 
 public protocol WatchProtocol {
     func stop(error: NSError?)
+    func restart()
 }

@@ -29,10 +29,32 @@ internal class Watch: WatchProtocol {
 
         self.session = session
         RPC = connection.watchService.RPCToWatchWithRequest(req, eventHandler: rpcHandler)
-        RPC.requestHeaders["Authorization"] = "\(session.tokenType) \(session.accessToken)"
+        session.getAuthorizationHeader() { h, e in
+            switch (e) {
+            case .None:
+                self.RPC.requestHeaders["Authorization"] = h
+                self.RPC.start()
+                self.isStarted = true
+            default:
+                Log.error("failed to get authorization header, \(e)")
+            }
+        }
+    }
 
-        RPC.start()
-        isStarted = true
+    func restart() {
+        let req = OTSWatchRequest()
+        req.profileId = session!.profileID
+        RPC = connection.watchService.RPCToWatchWithRequest(req, eventHandler: rpcHandler)
+        session?.getAuthorizationHeader() { h, e in
+            switch (e) {
+            case .None:
+                self.RPC.requestHeaders["Authorization"] = h
+                self.RPC.start()
+                self.isStarted = true
+            default:
+                Log.error("failed to get authorization header, \(e)")
+            }
+        }
     }
 
     func stop(error: NSError?) {
@@ -50,6 +72,10 @@ internal class Watch: WatchProtocol {
                     h(watch: r.event)
                 }
             }
+        }
+        if done {
+            isStarted = false
+            restart()
         }
     }
 }
