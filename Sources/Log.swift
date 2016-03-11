@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum LogLevel: Int {
+public enum LogLevel: Int {
     case Debug = 1
     case Info = 2
     case Warning = 3
@@ -18,7 +18,7 @@ enum LogLevel: Int {
 
 public class Log {
     static var logLevel: LogLevel = LogLevel.Info
-    static func setLevel(level: LogLevel) {
+    public static func setLevel(level: LogLevel) {
         logLevel = level
     }
 
