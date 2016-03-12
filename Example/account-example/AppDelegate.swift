@@ -31,6 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         #else
             Otsimo.config(ClientConfig.sandbox(clientID))
         #endif
+        Log.setLevel(LogLevel.Debug)
         return true
     }
 
