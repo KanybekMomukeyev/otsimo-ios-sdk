@@ -101,16 +101,7 @@ internal class Analytics : OtsimoAnalyticsProtocol {
         device = OTSDeviceInfo(os: "ios")
     }
 
-    func createDispatchTimer(interval: UInt64, queue: dispatch_queue_t, handler: () -> Void) -> dispatch_source_t {
-        let t = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue)
-
-        if let timer = t {
-            dispatch_source_set_timer(timer, DISPATCH_TIME_NOW, interval * NSEC_PER_SEC, 1 * NSEC_PER_SEC) // every 60 seconds, with leeway of 1 second
-            dispatch_source_set_event_handler(timer, handler)
-            dispatch_resume(timer)
-        }
-        return t;
-    }
+ 
 
     func start(session: Session) {
         internalWriter = GRXBufferedPipe()
@@ -122,7 +113,7 @@ internal class Analytics : OtsimoAnalyticsProtocol {
         session.getAuthorizationHeader() { h, e in
             switch (e) {
             case .None:
-                RPC.requestHeaders["Authorization"] = h
+                RPC.oauth2AccessToken = h
                 RPC.requestHeaders["device"] = self.device.data()!.base64EncodedStringWithOptions(.EncodingEndLineWithCarriageReturn)
                 RPC.start()
                 self.isStartedBefore = true
@@ -141,9 +132,9 @@ internal class Analytics : OtsimoAnalyticsProtocol {
         self.session!.getAuthorizationHeader() { h, e in
             switch (e) {
             case .None:
-                RPC.requestHeaders["Authorization"] = h
+                RPC.oauth2AccessToken = h
                 RPC.requestHeaders["device"] = self.device.data()!.base64EncodedStringWithOptions(.EncodingEndLineWithCarriageReturn)
-                RPC.startWithWriteable(self.internalWriter)
+                RPC.start()
             default:
                 Log.error("failed to get authorization header, \(e)")
             }

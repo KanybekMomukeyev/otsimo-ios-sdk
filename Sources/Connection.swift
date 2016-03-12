@@ -55,7 +55,7 @@ internal final class Connection {
         session.getAuthorizationHeader { header, err in
             switch (err) {
             case .None:
-                RPC.requestHeaders["Authorization"] = header
+                RPC.oauth2AccessToken = header
                 RPC.start()
             default:
                 handler(nil, err)
@@ -82,7 +82,7 @@ internal final class Connection {
         session.getAuthorizationHeader { header, err in
             switch (err) {
             case .None:
-                RPC.requestHeaders["Authorization"] = header
+                RPC.oauth2AccessToken = header
                 RPC.start()
             default:
                 handler(err)
@@ -108,7 +108,7 @@ internal final class Connection {
         session.getAuthorizationHeader { header, err in
             switch (err) {
             case .None:
-                RPC.requestHeaders["Authorization"] = header
+                RPC.oauth2AccessToken = header
                 RPC.start()
             default:
                 handler(res: nil, err: err)
@@ -141,7 +141,7 @@ internal final class Connection {
         session.getAuthorizationHeader { header, err in
             switch (err) {
             case .None:
-                RPC.requestHeaders["Authorization"] = header
+                RPC.oauth2AccessToken = header
                 RPC.start()
             default:
                 handler(res: [], err: err)
@@ -167,7 +167,7 @@ internal final class Connection {
         session.getAuthorizationHeader { header, err in
             switch (err) {
             case .None:
-                RPC.requestHeaders["Authorization"] = header
+                RPC.oauth2AccessToken = header
                 RPC.start()
             default:
                 handler(err)
@@ -193,7 +193,7 @@ internal final class Connection {
         session.getAuthorizationHeader { header, err in
             switch (err) {
             case .None:
-                RPC.requestHeaders["Authorization"] = header
+                RPC.oauth2AccessToken = header
                 RPC.start()
             default:
                 handler(err)
@@ -221,7 +221,7 @@ internal final class Connection {
         session.getAuthorizationHeader { header, err in
             switch (err) {
             case .None:
-                RPC.requestHeaders["Authorization"] = header
+                RPC.oauth2AccessToken = header
                 RPC.start()
             default:
                 handler(err)
@@ -250,7 +250,7 @@ internal final class Connection {
         session.getAuthorizationHeader { header, err in
             switch (err) {
             case .None:
-                RPC.requestHeaders["Authorization"] = header
+                RPC.oauth2AccessToken = header
                 RPC.start()
             default:
                 handler(err)
@@ -271,7 +271,7 @@ internal final class Connection {
         session.getAuthorizationHeader { header, err in
             switch (err) {
             case .None:
-                RPC.requestHeaders["Authorization"] = header
+                RPC.oauth2AccessToken = header
                 RPC.start()
             default:
                 handler(res: nil, err: err)
@@ -306,7 +306,7 @@ internal final class Connection {
         session.getAuthorizationHeader { header, err in
             switch (err) {
             case .None:
-                RPC.requestHeaders["Authorization"] = header
+                RPC.oauth2AccessToken = header
                 RPC.start()
             default:
                 handler(res: nil, err: err)
@@ -336,7 +336,7 @@ internal final class Connection {
         session.getAuthorizationHeader { header, err in
             switch (err) {
             case .None:
-                RPC.requestHeaders["Authorization"] = header
+                RPC.oauth2AccessToken = header
                 RPC.start()
             default:
                 handler(nil, done: true, err: err)
@@ -370,7 +370,7 @@ internal final class Connection {
         session.getAuthorizationHeader { header, err in
             switch (err) {
             case .None:
-                RPC.requestHeaders["Authorization"] = header
+                RPC.oauth2AccessToken = header
                 RPC.start()
             default:
                 handler([], err: err)
@@ -396,7 +396,7 @@ internal final class Connection {
         session.getAuthorizationHeader { header, err in
             switch (err) {
             case .None:
-                RPC.requestHeaders["Authorization"] = header
+                RPC.oauth2AccessToken = header
                 RPC.start()
             default:
                 handler(dashboard: nil, err: err)
@@ -553,7 +553,7 @@ internal final class Connection {
     func httpPostRequestWithToken(urlPath: String, postString: String, authorization: String, handler: (error: OtsimoError) -> Void) {
         let request = NSMutableURLRequest(URL: NSURL(string: urlPath)!)
         request.HTTPMethod = "POST"
-        request.setValue(authorization, forHTTPHeaderField: "Authorization")
+        request.setValue("Bearer \(authorization)", forHTTPHeaderField: "authorization")
         request.setValue("application/x-www-form-urlencoded; charset=utf-8", forHTTPHeaderField: "Content-Type")
         request.HTTPBody = postString.dataUsingEncoding(NSUTF8StringEncoding)
         request.timeoutInterval = 20

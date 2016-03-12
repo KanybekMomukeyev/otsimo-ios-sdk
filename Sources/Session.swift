@@ -173,13 +173,13 @@ public class Session {
                 self.refreshCurrentToken { err in
                     switch (err) {
                     case .None:
-                        handler("\(self.tokenType) \(self.accessToken)", OtsimoError.None)
+                        handler(self.accessToken, OtsimoError.None)
                     default:
-                        handler("", err)
+                        handler(self.accessToken, err)
                     }
                 }
             } else {
-                handler("\(tokenType) \(accessToken)", OtsimoError.None)
+                handler(accessToken, OtsimoError.None)
             }
         } else {
             handler("", OtsimoError.NotLoggedIn(message: "not logged in"))
