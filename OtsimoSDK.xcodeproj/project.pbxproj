@@ -189,8 +189,8 @@
 			isa = PBXGroup;
 			children = (
 				0DE9425D1C67D8BD008DEB7E /* ChildGame.swift */,
-				0DE9425B1C66902E008DEB7E /* GameKeyValueStore.swift */,
 				0D60A90C1C5652DF00115500 /* Game.swift */,
+				0DE9425B1C66902E008DEB7E /* GameKeyValueStore.swift */,
 				0D5395A41C60D8DF00DBB19C /* GameManifest.swift */,
 				0D5395AC1C62AD4600DBB19C /* GameSettings.swift */,
 			);

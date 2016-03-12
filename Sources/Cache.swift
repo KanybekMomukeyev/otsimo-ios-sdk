@@ -38,15 +38,53 @@ public class SettingsCache: Object {
     }
 
     public func gameSettings() -> GameSettings? {
-        let gs: GameSettings = GameSettings()
-        return gs
+        return GameSettings.fromData(data)
     }
-    
+
+    public func save() {
+        do {
+            try store.write {
+                store.add(self)
+            }
+        } catch(let error) {
+            print("failed to store,err=\(error)")
+        }
+    }
+
     static func createID(gameid: String, version: String) -> String {
         return "\(gameid)_\(version)"
     }
-    
-    
+}
+
+public class KeyValueStoreCache: Object {
+    public dynamic var id: String = ""
+    public dynamic var data: NSData = NSData()
+
+    override public class func primaryKey() -> String? {
+        return "id"
+    }
+
+    static var storage: Results<KeyValueStoreCache> {
+        return store.objects(KeyValueStoreCache)
+    }
+
+    public func keyvalueStore() -> GameKeyValueStore? {
+        return GameKeyValueStore.fromData(data)
+    }
+
+    public func save() {
+        do {
+            try store.write {
+                store.add(self)
+            }
+        } catch(let error) {
+            print("failed to store,err=\(error)")
+        }
+    }
+
+    static func createID(gameid: String, version: String, language: String) -> String {
+        return "\(gameid)_\(version)_\(language)"
+    }
 }
 
 public class SessionCache : Object {

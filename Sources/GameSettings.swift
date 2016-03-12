@@ -166,6 +166,7 @@ public class GameSettings {
                     let sc = SettingsCache()
                     sc.id = id
                     sc.data = $1
+                    sc.save()
                     handler(gs)
                 } else {
                     handler(nil)
@@ -178,6 +179,7 @@ public class GameSettings {
                     let sc = SettingsCache()
                     sc.id = id
                     sc.data = $1
+                    sc.save()
                     handler(gs)
                 } else {
                     handler(nil)
@@ -186,7 +188,7 @@ public class GameSettings {
         }
     }
 
-    private static func fromData(data: NSData) -> GameSettings? {
+    internal static func fromData(data: NSData) -> GameSettings? {
         do {
             let object = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions())
             switch (object) {

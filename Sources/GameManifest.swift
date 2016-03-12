@@ -209,17 +209,14 @@ public class GameManifest {
                     break
                 }
             }
-            var rawUrl: String
             if lang == "" {
-                rawUrl = "\(manifest.kvPath)/general.json"
-            } else {
-                rawUrl = "\(manifest.kvPath)/\(lang).json"
+                lang = "general"
             }
-            let fullUrl: String = Otsimo.sharedInstance.fixGameAssetUrl(self.gameId, version: self.version, rawUrl: rawUrl)
-            let url = NSURL(string: fullUrl)!
-            GameKeyValueStore.fromUrl(url) { kv, e in
-                self.keyvalue = kv
-                handler(self.keyvalue)
+            let rawUrl = "\(manifest.kvPath)/\(lang).json"
+
+            GameKeyValueStore.fromIdAndVersion(gameId, version: version, language: lang, path: rawUrl) { k in
+                self.keyvalue = k
+                handler(k)
             }
         }
     }
