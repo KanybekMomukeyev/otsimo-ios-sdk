@@ -13,13 +13,13 @@ import OtsimoApiGrpc
 internal class Watch: WatchProtocol {
 
     private var connection: Connection
-    private var isStarted: Bool
     private var session: Session?
     private var handler: ((watch: OTSWatchEvent) -> Void)?
     private var RPC: ProtoRPC!
+    private var timer: dispatch_source_t?
+
     init(connection: Connection) {
         self.connection = connection
-        isStarted = false
     }
 
     func start(session: Session, handler: (watch: OTSWatchEvent) -> Void) {
@@ -32,9 +32,8 @@ internal class Watch: WatchProtocol {
         session.getAuthorizationHeader() { h, e in
             switch (e) {
             case .None:
-                self.RPC.requestHeaders["Authorization"] = h
+                self.RPC.oauth2AccessToken = h
                 self.RPC.start()
-                self.isStarted = true
             default:
                 Log.error("failed to get authorization header, \(e)")
             }
@@ -42,15 +41,24 @@ internal class Watch: WatchProtocol {
     }
 
     func restart() {
+        if let rpc = RPC {
+            if rpc.state == GRXWriterState.Started {
+                if let t = timer {
+                    dispatch_source_cancel(t)
+                    timer = nil
+                    return
+                }
+            }
+        }
+
         let req = OTSWatchRequest()
         req.profileId = session!.profileID
         RPC = connection.watchService.RPCToWatchWithRequest(req, eventHandler: rpcHandler)
         session?.getAuthorizationHeader() { h, e in
             switch (e) {
             case .None:
-                self.RPC.requestHeaders["Authorization"] = h
+                self.RPC.oauth2AccessToken = h
                 self.RPC.start()
-                self.isStarted = true
             default:
                 Log.error("failed to get authorization header, \(e)")
             }
@@ -58,10 +66,11 @@ internal class Watch: WatchProtocol {
     }
 
     func stop(error: NSError?) {
-        if isStarted {
-            RPC.cancel()
+        if let rpc = RPC {
+            if rpc.state == GRXWriterState.Started {
+                rpc.cancel()
+            }
         }
-        isStarted = false
     }
 
     func rpcHandler(done: Bool, response: OTSWatchResponse!, error: NSError!) {
@@ -74,8 +83,9 @@ internal class Watch: WatchProtocol {
             }
         }
         if done {
-            isStarted = false
-            restart()
+            if timer == nil {
+                timer = createDispatchTimer(30, queue: analyticsQueue, handler: self.restart)
+            }
         }
     }
 }
