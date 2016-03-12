@@ -101,8 +101,6 @@ internal class Analytics : OtsimoAnalyticsProtocol {
         device = OTSDeviceInfo(os: "ios")
     }
 
- 
-
     func start(session: Session) {
         internalWriter = GRXBufferedPipe()
 

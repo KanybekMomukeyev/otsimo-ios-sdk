@@ -23,6 +23,7 @@ extension Otsimo: CatalogApi {
                 fallthrough
             default:
                 Otsimo.sharedInstance.cache.fetchCatalog() { cat in
+                    print("fetched catalog result =\(cat)")
                     if let catalog = cat {
                         handler(catalog, .None)
                     } else {

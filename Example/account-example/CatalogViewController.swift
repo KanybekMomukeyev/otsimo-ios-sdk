@@ -79,14 +79,18 @@ class CatalogViewController: UITableViewController {
 
     func updateCell(cell: GameTableCellView, ci: OTSCatalogItem?) {
         if let item = ci {
-            let game: Game = item.getGame()
-            game.getManifest() { man, error in
-                if let m = man {
-                    cell.titlLabel?.text = m.localVisibleName
-                    cell.versionLabel?.text = m.version
-                    cell.imageLabel.hnk_setImageFromURL(NSURL(string: m.localIcon)!)
+            otsimo.getGame(item.gameId) { g, e in
+                if let game = g {
+                    game.getManifest() { man, error in
+                        if let m = man {
+                            cell.titlLabel?.text = m.localVisibleName
+                            cell.versionLabel?.text = m.version
+                            cell.imageLabel.hnk_setImageFromURL(NSURL(string: m.localIcon)!)
+                        } else {
+                            print("failed to get manifes")
+                        }
+                    }
                 } else {
-                    print("failed to get manifes")
                 }
             }
         }
@@ -108,12 +112,11 @@ class CatalogViewController: UITableViewController {
     private var selectedGame: Game?
 
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-
         let index = items.startIndex.advancedBy(indexPath.section) // index 1
         let key = items.keys[index]
         if let arr = items[key] {
             let ci = arr[indexPath.row]
-            selectedGame = ci.getGame()
+            selectedGame = Game(gameId: ci.gameId)
             performSegueWithIdentifier("gameinfotest", sender: tableView)
         }
     }

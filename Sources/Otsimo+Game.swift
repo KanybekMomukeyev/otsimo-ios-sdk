@@ -12,15 +12,20 @@ import OtsimoApiGrpc
 extension Otsimo: GameApi {
     // Game
     public func getGame(id: String, handler: (Game?, error: OtsimoError) -> Void) {
-        Otsimo.sharedInstance.cache.fetchGame(id) {
-            if let game = $0 {
+        Otsimo.sharedInstance.cache.fetchGame(id) { game, isExpired in
+            if game != nil && !isExpired {
                 handler(game, error: .None)
-            } else {
-                self.getGameRelease(id, version: nil, onlyProduction: Otsimo.sharedInstance.onlyProduction) { resp, error in
-                    if let gr = resp {
-                        let game = Game(gameRelease: gr)
-                        game.cache()
-                        handler(game, error: .None)
+                return
+            }
+
+            self.getGameRelease(id, version: nil, onlyProduction: Otsimo.sharedInstance.onlyProduction) { resp, error in
+                if let gr = resp {
+                    let game = Game(gameRelease: gr)
+                    game.cache()
+                    handler(game, error: .None)
+                } else {
+                    if let game = game {
+                        handler(game, error: OtsimoError.ExpiredValue)
                     } else {
                         handler(nil, error: error)
                     }
@@ -46,12 +51,14 @@ extension Otsimo: GameApi {
             if let ses = session {
                 connection.getAllGamesStream(ses) { li, done, error in
                     if let item = li {
-                        print("list(1) item: ", item)
-                        Otsimo.sharedInstance.cache.fetchGame(item.gameId) {
-                            if let game = $0 {
-                                handler(game, done: done, error: error)
+                        Otsimo.sharedInstance.cache.fetchGame(item.gameId) { game, isExpired in
+                            if let game = game {
+                                if game.productionVersion == item.productionVersion {
+                                    handler(game, done: done, error: error)
+                                } else {
+                                    handler(Game(listItem: item), done: done, error: error)
+                                }
                             } else {
-                                print("list(2) item: ", item)
                                 handler(Game(listItem: item), done: done, error: error)
                             }
                         }

@@ -11,24 +11,23 @@ import OtsimoSDK
 import Haneke
 
 class GameInfoViewController: UIViewController {
-    
+
     @IBOutlet weak var languagesSegmentedControl: UISegmentedControl!
-    
+
     @IBOutlet weak var iconImage: UIImageView!
-    
+
     @IBOutlet weak var nameLabel: UILabel!
-    
+
     @IBOutlet weak var summaryLabel: UILabel!
-    
+
     @IBOutlet weak var descriptionLabel: UILabel!
-    
+
     @IBOutlet weak var imageCollectionView: UICollectionView!
     internal var game: Game?
-    
+
     internal var language: String = ""
     internal var images: [String] = []
-    
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         imageCollectionView.dataSource = self
@@ -36,21 +35,21 @@ class GameInfoViewController: UIViewController {
             renderForLanguage(selectedLang)
         }
     }
-    
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+
     @IBAction func languageChanged(sender: UISegmentedControl) {
         if let selectedLang = languagesSegmentedControl.titleForSegmentAtIndex(languagesSegmentedControl.selectedSegmentIndex) {
             renderForLanguage(selectedLang)
         }
     }
-    
+
     func renderForLanguage(lang: String) {
         language = lang
-        game?.getManifest() {manifest, error in
+        game?.getManifest() { manifest, error in
             if let man = manifest {
                 self.renderForLanguageAndManifest(lang, man: man)
             } else {
@@ -58,7 +57,7 @@ class GameInfoViewController: UIViewController {
             }
         }
     }
-    
+
     func renderForLanguageAndManifest(lang: String, man: GameManifest) {
         navigationItem.title = man.localVisibleName
         for md in man.metadatas {
@@ -80,19 +79,19 @@ class GameInfoViewController: UIViewController {
             }
         }
     }
-    
+
     @IBAction func addTouched(sender: UIButton) {
         let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewControllerWithIdentifier("AddGameToChildViewController") as! AddGameToChildViewController
         vc.modalPresentationStyle = UIModalPresentationStyle.Popover
         vc.game = self.game
         vc.preferredContentSize = CGSizeMake(300, 300)
-        
+
         let popover: UIPopoverPresentationController = vc.popoverPresentationController!
         popover.sourceView = sender
         popover.delegate = self
         popover.sourceRect = CGRectMake(0, 0, sender.frame.size.width, sender.frame.size.height)
-        
+
         presentViewController(vc, animated: true, completion: nil)
     }
 }
@@ -101,15 +100,15 @@ extension GameInfoViewController: UICollectionViewDataSource {
     internal func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return images.count;
     }
-    
+
     internal func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return 1;
     }
-    
+
     internal func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = self.imageCollectionView.dequeueReusableCellWithReuseIdentifier("game_image_cell", forIndexPath: indexPath) as! GameImageViewCell
         cell.image.hnk_setImageFromURL(NSURL(string: images[indexPath.row])!)
-        
+
         return cell
     }
 }
@@ -117,7 +116,6 @@ extension GameInfoViewController: UICollectionViewDataSource {
 extension GameInfoViewController: UIPopoverPresentationControllerDelegate {
     func adaptivePresentationStyleForPresentationController(
         controller: UIPresentationController) -> UIModalPresentationStyle {
-        return UIModalPresentationStyle.None
+            return UIModalPresentationStyle.None
     }
 }
-

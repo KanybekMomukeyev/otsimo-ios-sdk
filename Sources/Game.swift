@@ -117,9 +117,3 @@ public class Game {
         return NSData()
     }
 }
-
-extension OTSCatalogItem {
-    public func getGame() -> Game {
-        return Game(gameId: self.gameId)
-    }
-}

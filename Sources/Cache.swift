@@ -160,26 +160,19 @@ final class OtsimoCache: CacheProtocol {
     static let gameTTL: Double = 3600 * 24
 
     // Game
-    func fetchGame(id: String, handler: (Game?) -> Void) {
+    func fetchGame(id: String, handler: (game: Game?, isExpired: Bool) -> Void) {
         let cached = store.objects(GameCache).filter(NSPredicate(format: "gameId = %@", id)).first
 
         if let gc = cached {
             let now: Double = NSDate().timeIntervalSince1970
             let fetched = gc.fetchedAt.timeIntervalSince1970
             if (now - fetched) > OtsimoCache.gameTTL {
-                do {
-                    try store.write {
-                        store.delete(gc)
-                    }
-                } catch let error {
-                    Log.error("failed to remove game cache \(error)")
-                }
-                handler(nil)
+                handler(game: nil, isExpired: true)
             } else {
-                handler(gc.getGame())
+                handler(game: gc.getGame(), isExpired: false)
             }
         } else {
-            handler(nil)
+            handler(game: nil, isExpired: true)
         }
     }
 
@@ -197,7 +190,7 @@ final class OtsimoCache: CacheProtocol {
         }
     }
 
-    // Catalog
+// Catalog
     func fetchCatalog(handler: (OTSCatalog?) -> Void) {
         let c = store.objects(CatalogCache).first
 
@@ -237,15 +230,17 @@ final class OtsimoCache: CacheProtocol {
         }
     }
 
-    // Session
+// Session
     func fetchSession() -> SessionCache? {
-        return store.objects(SessionCache).first
+        let s = try! Realm()
+        return s.objects(SessionCache).first
     }
 
     func cacheSession(session: SessionCache) {
         do {
-            try store.write {
-                store.add(session, update: true)
+            let s = try! Realm()
+            try s.write {
+                s.add(session, update: true)
             }
         } catch let error {
             Log.error("failed to cache session \(error)")

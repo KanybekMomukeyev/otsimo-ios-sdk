@@ -81,7 +81,7 @@ public protocol WikiApi {
 
 public protocol CacheProtocol {
     // Game
-    func fetchGame(id: String, handler: (Game?) -> Void)
+    func fetchGame(id: String, handler: (game: Game?, isExpired: Bool) -> Void)
     func cacheGame(game: Game)
     // Catalog
     func fetchCatalog(handler: (OTSCatalog?) -> Void)
