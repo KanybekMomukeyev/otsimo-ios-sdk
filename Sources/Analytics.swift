@@ -148,6 +148,7 @@ internal class Analytics : OtsimoAnalyticsProtocol {
 
     func stop(error: NSError?) {
         internalWriter.writesFinishedWithError(error)
+        stopTimer()
     }
 
     func rpcHandler(done: Bool, response: OTSEventResponse!, err: NSError!) {
