@@ -43,7 +43,6 @@ public class Session {
             return accessToken != ""
         }
     }
-
     public var isTokenExpired: Bool {
         get {
             let exp = NSDate(timeIntervalSince1970: Double(expiresAt))
@@ -169,13 +168,27 @@ public class Session {
     func getAuthorizationHeader(handler: (String, OtsimoError) -> Void) {
         if isAuthenticated {
             if isTokenExpired {
-                print("access token is expired")
-                self.refreshCurrentToken { err in
-                    switch (err) {
-                    case .None:
-                        handler(self.accessToken, OtsimoError.None)
-                    default:
-                        handler(self.accessToken, err)
+                dispatch_barrier_async(sessionQueue) {
+                    if self.isTokenExpired {
+                        Log.debug("access token is expired")
+                        let refreshGroup = dispatch_group_create() // Create Group
+                        dispatch_group_enter(refreshGroup) // Enter Group
+                        self.refreshCurrentToken { err in
+                            onMainThread {
+                                Log.debug("access token got \(err)")
+                                switch (err) {
+                                case .None:
+                                    handler(self.accessToken, OtsimoError.None)
+                                default:
+                                    handler(self.accessToken, err)
+                                }
+                            }
+                            dispatch_group_leave(refreshGroup) // Leave Group
+                        }
+                        dispatch_group_wait(refreshGroup, DISPATCH_TIME_FOREVER) // Wait completing the group
+                    } else {
+                        Log.debug("new token is got, sending it")
+                        onMainThread { handler(self.accessToken, OtsimoError.None) }
                     }
                 }
             } else {
@@ -241,7 +254,7 @@ public class Session {
 
         let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { data, response, error in
             guard error == nil && data != nil else { // check for fundamental networking error
-                onMainThread { handler(error: .NetworkError(message: "\(error)")) }
+                handler(error: .NetworkError(message: "\(error)"))
                 return
             }
             var isOK = true
@@ -252,7 +265,7 @@ public class Session {
             do {
                 let JSON = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions(rawValue: 0))
                 guard let JSONDictionary : NSDictionary = JSON as? NSDictionary else {
-                    onMainThread { handler(error: .InvalidResponse(message: "invalid response:not a dictionary")) }
+                    handler(error: .InvalidResponse(message: "invalid response:not a dictionary"))
                     return
                 }
                 if isOK && JSONDictionary["error"] == nil {
@@ -263,14 +276,14 @@ public class Session {
                     if let at = accessToken {
                         self.accessToken = at
                     } else {
-                        onMainThread { handler(error: .InvalidResponse(message: "invalid response: access_token is missing")) }
+                        handler(error: .InvalidResponse(message: "invalid response: access_token is missing"))
                         return
                     }
 
                     if let rt = refreshToken {
                         self.refreshToken = rt
                     } else {
-                        onMainThread { handler(error: .InvalidResponse(message: "invalid response: refresh_token is missing")) }
+                        handler(error: .InvalidResponse(message: "invalid response: refresh_token is missing"))
                         return
                     }
 
@@ -282,24 +295,22 @@ public class Session {
                     let lr = self.loadToken()
                     switch (lr) {
                     case .Success(_, _, _, _):
-                        onMainThread {
-                            self.save()
-                            handler(error: .None)
-                        }
+                        onMainThread { self.save() }
+                        handler(error: .None)
                     case .Failure(let it):
-                        onMainThread { handler(error: OtsimoError.InvalidTokenError(error: it)) }
+                        handler(error: OtsimoError.InvalidTokenError(error: it))
                     }
                 } else {
                     let e = JSONDictionary["error"]
                     if e != nil {
-                        onMainThread { handler(error: .InvalidResponse(message: "request failed: error= \(e)")) }
+                        handler(error: .InvalidResponse(message: "request failed: error= \(e)"))
                     } else {
-                        onMainThread { handler(error: .InvalidResponse(message: "request failed: \(data)")) }
+                        handler(error: .InvalidResponse(message: "request failed: \(data)"))
                     }
                 }
             }
             catch let JSONError as NSError {
-                onMainThread { handler(error: .InvalidResponse(message: "invalid response: \(JSONError)")) }
+                handler(error: .InvalidResponse(message: "invalid response: \(JSONError)"))
             }
         }
         task.resume()
