@@ -205,21 +205,25 @@ public class ChildGame {
 
     public static func InitSettingsValues(data: NSData) -> SettingsValues {
         do {
-            let object : AnyObject = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers)
             var sv = SettingsValues()
-            if let o = object as? [String: AnyObject] {
-                for (k, v) in o {
-                    switch (v) {
-                    case let integer as Int:
-                        sv[k] = SettingsPropertyValue.Integer(key: k, value: integer)
-                    case let f as Float64:
-                        sv[k] = SettingsPropertyValue.Float(key: k, value: f)
-                    case let str as String:
-                        sv[k] = SettingsPropertyValue.Text(key: k, value: str)
-                    default:
-                        Log.debug("non supporting value type \(k)")
+            if data.length > 0 {
+                let object : AnyObject = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers)
+                if let o = object as? [String: AnyObject] {
+                    for (k, v) in o {
+                        switch (v) {
+                        case let integer as Int:
+                            sv[k] = SettingsPropertyValue.Integer(key: k, value: integer)
+                        case let f as Float64:
+                            sv[k] = SettingsPropertyValue.Float(key: k, value: f)
+                        case let str as String:
+                            sv[k] = SettingsPropertyValue.Text(key: k, value: str)
+                        default:
+                            Log.debug("non supporting value type \(k)")
+                        }
                     }
                 }
+            } else {
+                Log.debug("Empty Settings Data")
             }
             return sv
         } catch {

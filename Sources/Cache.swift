@@ -44,7 +44,7 @@ public class SettingsCache: Object {
     public func save() {
         do {
             try store.write {
-                store.add(self)
+                store.add(self, update: true)
             }
         } catch(let error) {
             print("failed to store,err=\(error)")
@@ -75,7 +75,7 @@ public class KeyValueStoreCache: Object {
     public func save() {
         do {
             try store.write {
-                store.add(self)
+                store.add(self, update: true)
             }
         } catch(let error) {
             print("failed to store,err=\(error)")
