@@ -68,7 +68,7 @@ public class Otsimo {
     }
 
     public func handleOpenURL(url: NSURL) {
-        print("handleURL: ", url)
+        Log.info("handleURL: \(url)")
         analytics.appEvent("deeplink", payload: ["url": url.absoluteString])
     }
 

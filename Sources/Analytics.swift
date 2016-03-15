@@ -152,7 +152,6 @@ internal class Analytics : OtsimoAnalyticsProtocol {
     }
 
     func rpcHandler(done: Bool, response: OTSEventResponse!, err: NSError!) {
-        print(rpcHandler)
         if let resp = response {
             if resp.success {
                 Log.debug("rpcHandler: \(resp.eventId) sent")
@@ -164,12 +163,11 @@ internal class Analytics : OtsimoAnalyticsProtocol {
             }
         }
         if done {
-            print("Done Listening, err=\(err)")
+            Log.info("Done Listening, err=\(err)")
         }
     }
 
     func checkState() {
-        print("checkState \(internalWriter.state.rawValue)")
         switch (internalWriter.state) {
         case .Started:
             self.sendStoredEvents()
@@ -178,7 +176,7 @@ internal class Analytics : OtsimoAnalyticsProtocol {
                 restart()
             }
         case .Paused:
-            print("Paused")
+            Log.debug("Analytics Paused")
         case .Finished:
             restart()
         }

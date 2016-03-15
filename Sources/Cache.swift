@@ -47,7 +47,7 @@ public class SettingsCache: Object {
                 store.add(self, update: true)
             }
         } catch(let error) {
-            print("failed to store,err=\(error)")
+            Log.error("failed to store,err=\(error)")
         }
     }
 
@@ -78,7 +78,7 @@ public class KeyValueStoreCache: Object {
                 store.add(self, update: true)
             }
         } catch(let error) {
-            print("failed to store,err=\(error)")
+            Log.error("failed to store,err=\(error)")
         }
     }
 
