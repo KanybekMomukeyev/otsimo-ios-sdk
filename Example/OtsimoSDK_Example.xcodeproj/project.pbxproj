@@ -50,7 +50,6 @@
 		0DE35B291C949FFE00788260 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DE35B1A1C949FFE00788260 /* RealmSwift.framework */; };
 		0DE35B2A1C949FFE00788260 /* RealmSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0DE35B1A1C949FFE00788260 /* RealmSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0DE35B2C1C94A01E00788260 /* OtsimoSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D137F921C39F4BE0006BB8E /* OtsimoSDK.framework */; };
-		0DE35B2D1C94A01E00788260 /* OtsimoSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0D137F921C39F4BE0006BB8E /* OtsimoSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0DE35B2F1C94A1EE00788260 /* gRPCCertificates.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0DE35B2E1C94A1ED00788260 /* gRPCCertificates.bundle */; };
 		0DE9425A1C65F47A008DEB7E /* SettingsPropertyViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE942591C65F47A008DEB7E /* SettingsPropertyViewCell.swift */; };
 		0DF845B71C69111B00C28F67 /* BooleanCellViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DF845B61C69111B00C28F67 /* BooleanCellViewCell.swift */; };
@@ -69,7 +68,6 @@
 				0DE35B1C1C949FFE00788260 /* BoringSSL.framework in Embed Frameworks */,
 				0DE35B281C949FFE00788260 /* Realm.framework in Embed Frameworks */,
 				0DE35B201C949FFE00788260 /* Haneke.framework in Embed Frameworks */,
-				0DE35B2D1C94A01E00788260 /* OtsimoSDK.framework in Embed Frameworks */,
 				0DE35B2A1C949FFE00788260 /* RealmSwift.framework in Embed Frameworks */,
 				0DE35B261C949FFE00788260 /* Protobuf.framework in Embed Frameworks */,
 			);

@@ -174,13 +174,13 @@
 				0D60A9161C5692FC00115500 /* Otsimo+Account.swift */,
 				0D60A91E1C56940700115500 /* Otsimo+Catalog.swift */,
 				0D60A91C1C5693F200115500 /* Otsimo+Child.swift */,
+				0DCD07AD1C8F928100138D4D /* Otsimo+Dashboard.swift */,
+				0DCD07AA1C8F8BDF00138D4D /* Otsimo+Discovery.swift */,
 				0D60A91A1C5693DB00115500 /* Otsimo+Game.swift */,
 				0D60A9181C56938C00115500 /* Otsimo+Profile.swift */,
 				0D2C465E1C7700F800B9DEC8 /* Otsimo+Watch.swift */,
 				0D1E095F1C7B8A010084A990 /* Otsimo+Wiki.swift */,
 				0D60A9141C5692E200115500 /* Protocols.swift */,
-				0DCD07AA1C8F8BDF00138D4D /* Otsimo+Discovery.swift */,
-				0DCD07AD1C8F928100138D4D /* Otsimo+Dashboard.swift */,
 			);
 			name = Otsimo;
 			sourceTree = "<group>";
