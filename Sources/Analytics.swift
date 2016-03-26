@@ -112,7 +112,7 @@ internal class Analytics : OtsimoAnalyticsProtocol {
             switch (e) {
             case .None:
                 RPC.oauth2AccessToken = h
-                RPC.requestHeaders["device"] = self.device.data()!.base64EncodedStringWithOptions(.EncodingEndLineWithCarriageReturn)
+                RPC.requestHeaders.setValue(self.device.data()!.base64EncodedStringWithOptions(.EncodingEndLineWithCarriageReturn), forKey: "device")
                 RPC.start()
                 self.isStartedBefore = true
             default:
@@ -131,7 +131,7 @@ internal class Analytics : OtsimoAnalyticsProtocol {
             switch (e) {
             case .None:
                 RPC.oauth2AccessToken = h
-                RPC.requestHeaders["device"] = self.device.data()!.base64EncodedStringWithOptions(.EncodingEndLineWithCarriageReturn)
+                RPC.requestHeaders.setValue(self.device.data()!.base64EncodedStringWithOptions(.EncodingEndLineWithCarriageReturn), forKey: "device")
                 RPC.start()
             default:
                 Log.error("failed to get authorization header, \(e)")
