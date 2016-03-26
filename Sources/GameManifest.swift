@@ -39,55 +39,60 @@ public class GameManifest {
         archiveFormat = archive
     }
 
-    public var localVisibleName: String {
+    public var localMetadata: OTSGameMetadata {
         get {
-            for l in Otsimo.sharedInstance.languages {
+            if let lang = Otsimo.sharedInstance.preferredLanguage {
                 for md in metadatas {
-                    if md.language == l {
-                        return md.visibleName
+                    if md.language == lang {
+                        return md
+                    }
+                }
+            } else {
+
+                for l in Otsimo.sharedInstance.languages {
+                    for md in metadatas {
+                        if md.language == l {
+                            return md
+                        }
                     }
                 }
             }
-            return manifest.defaultName
+            return defaultMetadata
+        }
+    }
+
+    public var defaultMetadata: OTSGameMetadata {
+        get {
+            for md in metadatas {
+                if md.language == manifest.defaultLanguage {
+                    return md
+                }
+            }
+            return metadatas[0]
+        }
+    }
+
+    public var localVisibleName: String {
+        get {
+            return localMetadata.visibleName
         }
     }
 
     public var localIcon: String {
         get {
-            for l in Otsimo.sharedInstance.languages {
-                for md in metadatas {
-                    if md.language == l {
-                        return Otsimo.sharedInstance.fixGameAssetUrl(gameId, version: version, rawUrl: md.icon)
-                    }
-                }
-            }
-            return Otsimo.sharedInstance.fixGameAssetUrl(gameId, version: version, rawUrl: manifest.defaultIcon)
+            return Otsimo.sharedInstance.fixGameAssetUrl(gameId, version: version, rawUrl: localMetadata.icon)
         }
     }
 
     public var localLogo: String {
         get {
-            for l in Otsimo.sharedInstance.languages {
-                for md in metadatas {
-                    if md.language == l {
-                        return Otsimo.sharedInstance.fixGameAssetUrl(gameId, version: version, rawUrl: md.logo)
-                    }
-                }
-            }
-            return Otsimo.sharedInstance.fixGameAssetUrl(gameId, version: version, rawUrl: manifest.defaultLogo)
+            return Otsimo.sharedInstance.fixGameAssetUrl(gameId, version: version, rawUrl: localMetadata.logo)
         }
     }
 
     public var localSummary: String {
         get {
-            for l in Otsimo.sharedInstance.languages {
-                for md in metadatas {
-                    if md.language == l {
-                        return md.summary
-                    }
-                }
-            }
-            return ""
+            return localMetadata.summary
         }
     }
 
@@ -129,50 +134,17 @@ public class GameManifest {
         }
     }
 
-    public var localMetadata: OTSGameMetadata? {
-        get {
-            for l in Otsimo.sharedInstance.languages {
-                for md in metadatas {
-                    if md.language == l {
-                        return md
-                    }
-                }
-            }
-            return nil
-        }
-    }
-
     public var localSlug: String {
         get {
-            for l in Otsimo.sharedInstance.languages {
-                for md in metadatas {
-                    if md.language == l {
-                        return md.infoSlug
-                    }
-                }
-            }
-            return ""
+            return localMetadata.infoSlug
         }
     }
 
     public var localImages: [String] {
         get {
             var images: [String] = []
-
-            for l in Otsimo.sharedInstance.languages {
-                for md in metadatas {
-                    if md.language == l {
-                        for i in md.imagesArray {
-                            if let im = i as? String {
-                                let u = Otsimo.sharedInstance.fixGameAssetUrl(gameId, version: version, rawUrl: im)
-                                images.append(u)
-                            }
-                        }
-                        return images;
-                    }
-                }
-            }
-            for i in manifest.defaultImagesArray {
+            let md = localMetadata
+            for i in md.imagesArray {
                 if let im = i as? String {
                     let u = Otsimo.sharedInstance.fixGameAssetUrl(gameId, version: version, rawUrl: im)
                     images.append(u)
