@@ -73,10 +73,19 @@ public protocol DashboardApi {
     func dashboard(childID: String, handler: (Dashboard?, OtsimoError) -> Void)
 }
 
+public enum ContentSort {
+    case WeightAsc
+    case WeightDsc
+    case DateAsc
+    case DateDsc
+}
+
 public protocol WikiApi {
     func featuredContents(callback: (Int, [OTSContent], OtsimoError) -> Void)
 
     func contentsByDate(callback: (Int, [OTSContent], OtsimoError) -> Void)
+
+    func contentsByCategory(category: String, sort: ContentSort, limit: Int32?, offset: Int32?, callback: (Int, [OTSContent], OtsimoError) -> Void)
 }
 
 public protocol CacheProtocol {
