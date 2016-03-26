@@ -26,6 +26,7 @@ public class Otsimo {
     }
     internal var connection: Connection?
     internal var onlyProduction: Bool = true
+    internal var preferredLanguage: String?
     public var languages: [String] = []
     internal let cache: CacheProtocol
     public var sessionStatusChanged: ((Session?) -> Void)?
@@ -96,6 +97,10 @@ public class Otsimo {
             let v = versionToUrl(version)
             return "\(connection!.config.publicContentUrl)/\(id)/\(v)/\(rawUrl)"
         }
+    }
+
+    public func setUserLanguage(lang: String?) {
+        preferredLanguage = lang
     }
 
     func readLanguages() {
