@@ -11,7 +11,6 @@ import gRPC
 import OtsimoApiGrpc
 
 extension OtsimoServices {
-
     var clientConfig: ClientConfig {
         let cc = ClientConfig()
         cc.issuer = self.issuer
@@ -32,9 +31,52 @@ extension OtsimoServices {
     }
 }
 
+class ClusterConfig {
+    internal var discoveryUrl: String = ""
+    internal var env: String = ""
+    internal var configSet: Bool = false
+
+    var hasValue: Bool {
+        return discoveryUrl != "" && env != ""
+    }
+
+    func storedData() -> OtsimoServices? {
+        let data = NSUserDefaults.standardUserDefaults().dataForKey("OtsimoClusterConfig")
+        if let d = data {
+            var error: NSError? = nil
+            let svc = OtsimoServices(data: d, error: &error)
+            if error == nil {
+                return svc
+            }
+        }
+        return nil
+    }
+
+    func store(svc: OtsimoServices) {
+        configSet = true
+        if let d = svc.data() {
+            NSUserDefaults.standardUserDefaults().setObject(d, forKey: "OtsimoClusterConfig")
+            NSUserDefaults.standardUserDefaults().synchronize()
+        }
+    }
+}
+
 extension Otsimo {
 
-    public static func configFromDiscoveryService(serviceUrl: String, env: String, handler: (cnf: ClientConfig?) -> Void) {
+    public static func config(discovery: String, env: String) {
+        Otsimo.sharedInstance.cluster.discoveryUrl = discovery
+        Otsimo.sharedInstance.cluster.env = env
+
+        self.configFromDiscoveryService(discovery, env: env) { cc in
+            if let config = cc {
+                Otsimo.config(config)
+            } else {
+                Log.error("failed to get cluster info")
+            }
+        }
+    }
+
+    internal static func configFromDiscoveryService(serviceUrl: String, env: String, handler: (cnf: ClientConfig?) -> Void) {
         let url = NSURL(string: serviceUrl)!
         let host: String = (url.port != nil) ? "\(url.host!):\(url.port!)" : url.host!
         if (url.scheme == "http") {
@@ -46,13 +88,57 @@ extension Otsimo {
         req.sdkVersion = Otsimo.sdkVersion
         req.environment = env
         req.countryCode = NSLocale.currentLocale().objectForKey(NSLocaleCountryCode) as! String
+        
         discovery.getWithRequest(req) { os, err in
             if let err = err {
                 Log.error("failed to get cluster info err=\(err)")
             } else {
                 Log.debug("got cluster info \(os)")
             }
-            handler(cnf: os?.clientConfig)
+            if let cluster = os {
+                Otsimo.sharedInstance.cluster.store(cluster)
+                handler(cnf: cluster.clientConfig)
+            } else {
+                if let cc = Otsimo.sharedInstance.cluster.storedData() {
+                    handler(cnf: cc.clientConfig)
+                } else {
+                    handler(cnf: nil)
+                }
+            }
+        }
+    }
+
+    internal func isReady(notReady: (OtsimoError) -> Void, onReady: (Connection, Session) -> Void) {
+        if let c = connection {
+            if let s = session {
+                onReady(c, s)
+            } else {
+                notReady(.NotLoggedIn(message: "not logged in, session is nil"))
+            }
+        } else {
+            if cluster.hasValue {
+                Log.info("Otsimo sdk is not not initialized but trying again")
+
+                Otsimo.configFromDiscoveryService(cluster.discoveryUrl, env: cluster.env) { cc in
+                    if let config = cc {
+                        Otsimo.config(config)
+                        if let c = self.connection {
+                            if let s = self.session {
+                                onReady(c, s)
+                            } else {
+                                notReady(.NotLoggedIn(message: "not logged in, session is nil"))
+                            }
+                        } else {
+                            notReady(OtsimoError.NotInitialized)
+                        }
+                    } else {
+                        Log.error("failed to get cluster info, Again!!")
+                        notReady(OtsimoError.NotInitialized)
+                    }
+                }
+            } else {
+                notReady(OtsimoError.NotInitialized)
+            }
         }
     }
 }

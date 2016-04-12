@@ -10,7 +10,7 @@ import Foundation
 import OtsimoApiGrpc
 
 public class Otsimo {
-    public static let sdkVersion: String = "0.1.0"
+    public static let sdkVersion: String = "0.21.0"
     public static let sharedInstance = Otsimo()
     public var session: Session? {
         didSet {
@@ -31,6 +31,7 @@ public class Otsimo {
     internal let cache: CacheProtocol
     public var sessionStatusChanged: ((Session?) -> Void)?
     public var analytics: OtsimoAnalyticsProtocol!
+    internal var cluster: ClusterConfig = ClusterConfig()
 
     public init() {
         cache = OtsimoCache()
@@ -50,26 +51,6 @@ public class Otsimo {
         }
     }
 
-    public static func config(discovery: String, env: String) {
-        self.configFromDiscoveryService(discovery, env: env) { cc in
-            if let config = cc {
-                sharedInstance.onlyProduction = config.onlyProduction
-                sharedInstance.readLanguages()
-
-                sharedInstance.connection = Connection(config: config)
-                sharedInstance.analytics = Analytics(connection: sharedInstance.connection!)
-
-                sharedInstance.recoverOldSessionIfExist(config)
-
-                if isFirstLaunch() {
-                    sharedInstance.analytics.appEvent("start", payload: [String: AnyObject]())
-                }
-            } else {
-                Log.error("failed to get cluster info")
-            }
-        }
-    }
-
     public func handleOpenURL(url: NSURL) {
         Log.info("handleURL: \(url)")
         analytics.appEvent("deeplink", payload: ["url": url.absoluteString])
@@ -78,26 +59,6 @@ public class Otsimo {
     private func recoverOldSessionIfExist(config: ClientConfig) {
         Session.loadLastSession(config) { ses in
             self.session = ses
-        }
-    }
-
-    public var gamesDir: String {
-        let root = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
-        let libraryDirectoryPath: String = root[0]
-        return libraryDirectoryPath.stringByAppendingString("/Games")
-    }
-
-    internal func isLocallyAvailable(gameID: String, version: String) -> Bool {
-        let path = gamesDir.stringByAppendingString("/\(gameID)/\(version)/otsimo.json")
-        return NSFileManager.defaultManager().fileExistsAtPath(path)
-    }
-
-    public func fixGameAssetUrl(id: String, version: String, rawUrl: String, nolocal: Bool = false) -> String {
-        if !nolocal && isLocallyAvailable(id, version: version) {
-            return gamesDir.stringByAppendingString("/\(id)/\(version)/\(rawUrl)")
-        } else {
-            let v = versionToUrl(version)
-            return "\(connection!.config.publicContentUrl)/\(id)/\(v)/\(rawUrl)"
         }
     }
 
@@ -119,17 +80,5 @@ public class Otsimo {
             return true
         }
         return false
-    }
-
-    internal func isReady(notReady: (OtsimoError) -> Void, onReady: (Connection, Session) -> Void) {
-        if let c = connection {
-            if let s = session {
-                onReady(c, s)
-            } else {
-                notReady(.NotLoggedIn(message: "not logged in, session is nil"))
-            }
-        } else {
-            notReady(OtsimoError.NotInitialized)
-        }
     }
 }
