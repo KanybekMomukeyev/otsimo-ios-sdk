@@ -12,27 +12,15 @@ import OtsimoApiGrpc
 extension Otsimo: ProfileApi {
 
     public func updateProfile(profile: OTSProfile, handler: (error: OtsimoError) -> Void) {
-        if let connection = connection {
-            if let ses = session {
-                connection.updateProfile(ses, profile: profile, handler: handler)
-            } else {
-                handler(error: .NotLoggedIn(message: "not logged in, session is nil"))
-            }
-        } else {
-            handler(error: OtsimoError.NotInitialized)
+        self.isReady(handler) { c, s in
+            c.updateProfile(s, profile: profile, handler: handler)
         }
     }
 
     // Profile
     public func getProfile(handler: (OTSProfile?, OtsimoError) -> Void) {
-        if let connection = connection {
-            if let ses = session {
-                connection.getProfile(ses, handler: handler)
-            } else {
-                handler(nil, .NotLoggedIn(message: "not logged in, session is nil"))
-            }
-        } else {
-            handler(nil, OtsimoError.NotInitialized)
+        self.isReady({ handler(nil, $0)}) { c, s in
+            c.getProfile(s, handler: handler)
         }
     }
 }
