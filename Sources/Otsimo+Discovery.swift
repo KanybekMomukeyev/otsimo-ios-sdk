@@ -34,13 +34,13 @@ extension OtsimoServices {
 
 extension Otsimo {
 
-    internal static func configFromDiscoveryService(serviceUrl: String, env: String, handler: (cnf: ClientConfig?) -> Void) {
+    public static func configFromDiscoveryService(serviceUrl: String, env: String, handler: (cnf: ClientConfig?) -> Void) {
         let url = NSURL(string: serviceUrl)!
-
+        let host: String = (url.port != nil) ? "\(url.host!):\(url.port!)" : url.host!
         if (url.scheme == "http") {
-            GRPCCall.useInsecureConnectionsForHost(url.host)
+            GRPCCall.useInsecureConnectionsForHost(host)
         }
-        let discovery = Discovery(host: url.host)
+        let discovery = Discovery(host: host)
         let req = DiscoveryRequest()
         req.osName = "ios"
         req.sdkVersion = Otsimo.sdkVersion

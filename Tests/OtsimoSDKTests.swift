@@ -21,6 +21,22 @@ class OtsimoSDKTests: XCTestCase {
         super.tearDown()
     }
 
+    func testDiscovery() {
+        let readyExpectation = expectationWithDescription("ready")
+
+        Otsimo.configFromDiscoveryService("https://services.sercand.com:30862", env: "production") { cc in
+            print("\(cc?.onlyProduction)")
+            // Perform our tests...
+
+            // And fulfill the expectation...
+            readyExpectation.fulfill()
+            // Loop until the expectation is fulfilled
+        }
+        waitForExpectationsWithTimeout(5, handler: { error in
+            XCTAssertNil(error, "Error")
+        })
+    }
+
     func testOtsimoAccount() {
         struct OtsimoAccount: ReadableSecureStorable, CreateableSecureStorable, DeleteableSecureStorable, GenericPasswordSecureStorable {
             let email: String

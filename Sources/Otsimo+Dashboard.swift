@@ -10,7 +10,7 @@ import Foundation
 import OtsimoApiGrpc
 
 extension Otsimo : DashboardApi {
-    public func dashboard(childID: String, handler: (Dashboard?, OtsimoError) -> Void) {
+    public func dashboard(childID: String, handler: (DashboardItems?, OtsimoError) -> Void) {
         if let connection = connection {
             if let ses = session {
                 connection.getDashboard(ses, childID: childID, handler: handler)

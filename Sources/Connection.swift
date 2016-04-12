@@ -378,7 +378,7 @@ internal final class Connection {
         }
     }
 
-    func getDashboard(session: Session, childID: String, handler: (dashboard: Dashboard?, err: OtsimoError) -> Void) {
+    func getDashboard(session: Session, childID: String, handler: (dashboard: DashboardItems?, err: OtsimoError) -> Void) {
         let req = DashboardGetRequest()
 
         req.profileId = session.profileID
