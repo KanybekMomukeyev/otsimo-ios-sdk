@@ -64,6 +64,8 @@ public class Otsimo {
                 if isFirstLaunch() {
                     sharedInstance.analytics.appEvent("start", payload: [String: AnyObject]())
                 }
+            } else {
+                Log.error("failed to get cluster info")
             }
         }
     }
@@ -117,5 +119,17 @@ public class Otsimo {
             return true
         }
         return false
+    }
+
+    internal func isReady(notReady: (OtsimoError) -> Void, onReady: (Connection, Session) -> Void) {
+        if let c = connection {
+            if let s = session {
+                onReady(c, s)
+            } else {
+                notReady(.NotLoggedIn(message: "not logged in, session is nil"))
+            }
+        } else {
+            notReady(OtsimoError.NotInitialized)
+        }
     }
 }
