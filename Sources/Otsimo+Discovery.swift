@@ -47,6 +47,11 @@ extension Otsimo {
         req.environment = env
         req.countryCode = NSLocale.currentLocale().objectForKey(NSLocaleCountryCode) as! String
         discovery.getWithRequest(req) { os, err in
+            if let err = err {
+                Log.error("failed to get cluster info err=\(err)")
+            } else {
+                Log.debug("got cluster info \(os)")
+            }
             handler(cnf: os?.clientConfig)
         }
     }

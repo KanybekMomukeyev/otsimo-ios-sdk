@@ -70,7 +70,7 @@ public protocol WatchApi {
 }
 
 public protocol DashboardApi {
-    func dashboard(childID: String, handler: (DashboardItems?, OtsimoError) -> Void)
+    func dashboard(childID: String, lang: String, cacheTime: Int64?, handler: (DashboardItems?, OtsimoError) -> Void)
 }
 
 public enum ContentSort {
