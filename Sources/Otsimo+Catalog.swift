@@ -35,23 +35,17 @@ extension Otsimo: CatalogApi {
     }
 
     private func getCatalogFromRemote(handler: (OTSCatalog?, OtsimoError) -> Void) {
-        if let connection = connection {
+        self.isReady({ handler(nil, $0)}) { c, s in
             let req = OTSCatalogPullRequest()
-            if let ses = session {
-                req.profileId = ses.profileID
-                connection.getCurrentCatalog(ses, req: req) { res, err in
-                    if let catalog = res {
-                        Otsimo.sharedInstance.cache.cacheCatalog(catalog)
-                        handler(catalog, OtsimoError.None)
-                    } else {
-                        handler(nil, err)
-                    }
+            req.profileId = s.profileID
+            c.getCurrentCatalog(s, req: req) { res, err in
+                if let catalog = res {
+                    Otsimo.sharedInstance.cache.cacheCatalog(catalog)
+                    handler(catalog, OtsimoError.None)
+                } else {
+                    handler(nil, err)
                 }
-            } else {
-                handler(nil, .NotLoggedIn(message: "not logged in, session is nil"))
             }
-        } else {
-            handler(nil, OtsimoError.NotInitialized)
         }
     }
 }
