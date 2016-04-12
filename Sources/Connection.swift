@@ -378,12 +378,18 @@ internal final class Connection {
         }
     }
 
-    func getDashboard(session: Session, childID: String, handler: (dashboard: DashboardItems?, err: OtsimoError) -> Void) {
+    func getDashboard(session: Session, childID: String, lang: String, time: Int64?, handler: (dashboard: DashboardItems?, err: OtsimoError) -> Void) {
         let req = DashboardGetRequest()
-
         req.profileId = session.profileID
-        req.appVersion = NSBundle.mainBundle().infoDictionary!["CFBundleVersion"] as! String
         req.childId = childID
+        req.language = lang
+        req.appVersion = NSBundle.mainBundle().infoDictionary!["CFBundleVersion"] as! String
+        req.countryCode = NSLocale.currentLocale().objectForKey(NSLocaleCountryCode) as! String
+        if let t = time {
+            req.lastTimeDataFetched = t
+        } else {
+            req.lastTimeDataFetched = 0
+        }
 
         let RPC = dashboardService.RPCToGetWithRequest(req) { response, error in
             if let response = response {
