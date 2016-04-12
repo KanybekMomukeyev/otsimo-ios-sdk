@@ -35,54 +35,36 @@ extension Otsimo: GameApi {
     }
 
     public func getGameRelease(id: String, version: String?, onlyProduction: Bool?, handler: (OTSGameRelease?, error: OtsimoError) -> Void) {
-        if let connection = connection {
-            if let ses = session {
-                connection.getGameRelease(ses, gameID: id, version: version, onlyProduction: onlyProduction, handler: handler)
-            } else {
-                handler(nil, error: .NotLoggedIn(message: "not logged in, session is nil"))
-            }
-        } else {
-            handler(nil, error: OtsimoError.NotInitialized)
+        self.isReady({ handler(nil, error: $0)}) { c, s in
+            c.getGameRelease(s, gameID: id, version: version, onlyProduction: onlyProduction, handler: handler)
         }
     }
 
     public func getAllGames(handler: (Game?, done: Bool, error: OtsimoError) -> Void) {
-        if let connection = connection {
-            if let ses = session {
-                connection.getAllGamesStream(ses) { li, done, error in
-                    if let item = li {
-                        Otsimo.sharedInstance.cache.fetchGame(item.gameId) { game, isExpired in
-                            if let game = game {
-                                if game.productionVersion == item.productionVersion {
-                                    handler(game, done: done, error: error)
-                                } else {
-                                    handler(Game(listItem: item), done: done, error: error)
-                                }
+        self.isReady({ handler(nil, done: true, error: $0)}) { c, s in
+            c.getAllGamesStream(s) { li, done, error in
+                if let item = li {
+                    Otsimo.sharedInstance.cache.fetchGame(item.gameId) { game, isExpired in
+                        if let game = game {
+                            if game.productionVersion == item.productionVersion {
+                                handler(game, done: done, error: error)
                             } else {
                                 handler(Game(listItem: item), done: done, error: error)
                             }
+                        } else {
+                            handler(Game(listItem: item), done: done, error: error)
                         }
-                    } else {
-                        handler(nil, done: done, error: error)
                     }
+                } else {
+                    handler(nil, done: done, error: error)
                 }
-            } else {
-                handler(nil, done: true, error: .NotLoggedIn(message: "not logged in, session is nil"))
             }
-        } else {
-            handler(nil, done: true, error: OtsimoError.NotInitialized)
         }
     }
 
     public func gamesLatestVersions(gameIDs: [String], handler: (result: [OTSGameAndVersion], error: OtsimoError) -> Void) {
-        if let connection = connection {
-            if let ses = session {
-                connection.gamesLatestVersions(ses, gameIDs: gameIDs, handler: handler)
-            } else {
-                handler(result: [], error: .NotLoggedIn(message: "not logged in, session is nil"))
-            }
-        } else {
-            handler(result: [], error: OtsimoError.NotInitialized)
+        self.isReady({ handler(result: [], error: $0)}) { c, s in
+            c.gamesLatestVersions(s, gameIDs: gameIDs, handler: handler)
         }
     }
 }
