@@ -53,26 +53,14 @@ extension Otsimo: AccountApi {
     }
 
     public func changeEmail(newEmail: String, handler: (OtsimoError) -> Void) {
-        if let connection = connection {
-            if let ses = session {
-                connection.changeEmail(ses, old: ses.email, new: newEmail, handler: handler)
-            } else {
-                handler(.NotLoggedIn(message: "not logged in, session is nil"))
-            }
-        } else {
-            handler(OtsimoError.NotInitialized)
+        self.isReady(handler) { c, s in
+            c.changeEmail(s, old: s.email, new: newEmail, handler: handler)
         }
     }
 
     public func changePassword(old: String, newPassword: String, handler: (OtsimoError) -> Void) {
-        if let connection = connection {
-            if let ses = session {
-                connection.changePassword(ses, old: old, new: newPassword, handler: handler)
-            } else {
-                handler(.NotLoggedIn(message: "not logged in, session is nil"))
-            }
-        } else {
-            handler(OtsimoError.NotInitialized)
+        self.isReady(handler) { c, s in
+            c.changePassword(s, old: old, new: newPassword, handler: handler)
         }
     }
 
