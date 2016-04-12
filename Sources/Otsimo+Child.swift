@@ -12,81 +12,49 @@ import OtsimoApiGrpc
 extension Otsimo: ChildApi {
 
     public func updateChild(childID: String, child: OTSChild, handler: (error: OtsimoError) -> Void) {
-        if let connection = connection {
-            if let ses = session {
-                connection.updateChild(ses, id: childID, parentID: ses.profileID, child: child, handler: handler)
-            } else {
-                handler(error: .NotLoggedIn(message: "not logged in, session is nil"))
-            }
-        } else {
-            handler(error: OtsimoError.NotInitialized)
+        self.isReady(handler) { c, s in
+            c.updateChild(s, id: childID, parentID: s.profileID, child: child, handler: handler)
         }
     }
 
     public func addChild(firstName: String, lastName: String, gender: OTSGender, birthDay: NSDate, language: String, handler: (res: OtsimoError) -> Void) {
-        if let connection = connection {
+        self.isReady(handler) { c, s in
             let child: OTSChild = OTSChild()
             child.firstName = firstName
             child.lastName = lastName
             child.gender = gender
             child.language = language
             child.birthDay = Int64(birthDay.timeIntervalSince1970)
-
-            if let ses = session {
-                connection.addChild(ses, child: child, handler: handler)
-            } else {
-                handler(res: .NotLoggedIn(message: "not logged in, session is nil"))
-            }
-        } else {
-            handler(res: OtsimoError.NotInitialized)
+            c.addChild(s, child: child, handler: handler)
         }
     }
 
     public func getChild(id: String, handler: (res: OTSChild?, err: OtsimoError) -> Void) {
-        if let connection = connection {
-            if let ses = session {
-                connection.getChild(ses, childId: id, handler: handler)
-            } else {
-                handler(res: nil, err: .NotLoggedIn(message: "not logged in, session is nil"))
-            }
-        } else {
-            handler(res: nil, err: OtsimoError.NotInitialized)
+        self.isReady({ handler(res: nil, err: $0)}) { c, s in
+            c.getChild(s, childId: id, handler: handler)
         }
     }
 
     public func getChildren(handler: (res: [OTSChild], err: OtsimoError) -> Void) {
-        if let connection = connection {
-            if let ses = session {
-                connection.getChildren(ses, handler: handler)
-            } else {
-                handler(res: [], err: .NotLoggedIn(message: "not logged in, session is nil"))
-            }
-        } else {
-            handler(res: [], err: .NotInitialized)
+        self.isReady({ handler(res: [], err: $0)}) { c, s in
+            c.getChildren(s, handler: handler)
         }
     }
 
     public func addGameToChild(gameID: String, childID: String, index: Int32, settings: NSData, handler: (error: OtsimoError) -> Void) {
-        if let connection = connection {
-
+        self.isReady(handler) { c, s in
             let req = OTSGameEntryRequest()
             req.gameId = gameID
             req.childId = childID
             req.index = index
             req.settings = settings
             req.type = OTSGameEntryRequest_RequestType.Add
-            if let ses = session {
-                connection.updateGameEntry(ses, req: req, handler: handler)
-            } else {
-                handler(error: .NotLoggedIn(message: "not logged in, session is nil"))
-            }
-        } else {
-            handler(error: .NotInitialized)
+            c.updateGameEntry(s, req: req, handler: handler)
         }
     }
 
     public func updateActivationGame(gameID: String, childID: String, activate: Bool, handler: (error: OtsimoError) -> Void) {
-        if let connection = connection {
+        self.isReady(handler) { c, s in
             let req = OTSGameEntryRequest()
             req.gameId = gameID
             req.childId = childID
@@ -95,63 +63,39 @@ extension Otsimo: ChildApi {
             } else {
                 req.type = OTSGameEntryRequest_RequestType.Deactivate
             }
-            if let ses = session {
-                connection.updateGameEntry(ses, req: req, handler: handler)
-            } else {
-                handler(error: .NotLoggedIn(message: "not logged in, session is nil"))
-            }
-        } else {
-            handler(error: .NotInitialized)
+            c.updateGameEntry(s, req: req, handler: handler)
         }
     }
 
     public func updateSettings(gameID: String, childID: String, settings: NSData, handler: (error: OtsimoError) -> Void) {
-        if let connection = connection {
+        self.isReady(handler) { c, s in
             let req = OTSGameEntryRequest()
             req.gameId = gameID
             req.childId = childID
             req.settings = settings
             req.type = OTSGameEntryRequest_RequestType.Settings
-            if let ses = session {
-                connection.updateGameEntry(ses, req: req, handler: handler)
-            } else {
-                handler(error: .NotLoggedIn(message: "not logged in, session is nil"))
-            }
-        } else {
-            handler(error: .NotInitialized)
+            c.updateGameEntry(s, req: req, handler: handler)
         }
     }
 
     public func updateDashboardIndex(gameID: String, childID: String, index: Int32, handler: (error: OtsimoError) -> Void) {
-        if let connection = connection {
+        self.isReady(handler) { c, s in
             let req = OTSGameEntryRequest()
             req.gameId = gameID
             req.childId = childID
             req.index = index
             req.type = OTSGameEntryRequest_RequestType.Index
-            if let ses = session {
-                connection.updateGameEntry(ses, req: req, handler: handler)
-            } else {
-                handler(error: .NotLoggedIn(message: "not logged in, session is nil"))
-            }
-        } else {
-            handler(error: .NotInitialized)
+            c.updateGameEntry(s, req: req, handler: handler)
         }
     }
 
     public func enableSound(childID: String, enable: Bool, handler: (error: OtsimoError) -> Void) {
-        if let connection = connection {
+        self.isReady(handler) { c, s in
             let req = OTSSoundEnableRequest()
             req.childId = childID
             req.enable = enable
-            if let ses = session {
-                req.profileId = ses.profileID
-                connection.updateChildAppSound(ses, req: req, handler: handler)
-            } else {
-                handler(error: .NotLoggedIn(message: "not logged in, session is nil"))
-            }
-        } else {
-            handler(error: .NotInitialized)
+            req.profileId = s.profileID
+            c.updateChildAppSound(s, req: req, handler: handler)
         }
     }
 }
