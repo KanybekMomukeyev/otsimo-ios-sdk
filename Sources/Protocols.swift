@@ -81,11 +81,7 @@ public enum ContentSort {
 }
 
 public protocol WikiApi {
-    func featuredContents(callback: (Int, [OTSContent], OtsimoError) -> Void)
-
-    func contentsByDate(callback: (Int, [OTSContent], OtsimoError) -> Void)
-
-    func contentsByCategory(category: String, sort: ContentSort, limit: Int32?, offset: Int32?, callback: (Int, [OTSContent], OtsimoError) -> Void)
+    func contentsByCategory(category: String, sort: ContentSort, limit: Int32?, offset: Int32?, language: String, callback: (Int, [OTSContent], OtsimoError) -> Void)
 }
 
 public protocol CacheProtocol {
