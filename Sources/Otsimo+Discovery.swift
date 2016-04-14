@@ -110,8 +110,8 @@ extension Otsimo {
             }
         }
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(NSEC_PER_SEC) * 5), dispatch_get_main_queue()) {
-            Log.error("Timeout to discovery.RPCToGetWithRequest")
             if !isCompleted {
+                Log.error("Timeout to discovery.RPCToGetWithRequest")
                 RPC.cancel()
             }
         }
