@@ -21,51 +21,6 @@ class OtsimoSDKTests: XCTestCase {
         super.tearDown()
     }
 
-    func testDiscovery() {
-        let readyExpectation = expectationWithDescription("ready")
-
-        Otsimo.configFromDiscoveryService("https://services.sercand.com:30862", env: "production") { cc in
-            print("\(cc?.onlyProduction)")
-            // Perform our tests...
-
-            // And fulfill the expectation...
-            readyExpectation.fulfill()
-            // Loop until the expectation is fulfilled
-        }
-        waitForExpectationsWithTimeout(5, handler: { error in
-            XCTAssertNil(error, "Error")
-        })
-    }
-
-    func testOtsimoAccount() {
-        struct OtsimoAccount: ReadableSecureStorable, CreateableSecureStorable, DeleteableSecureStorable, GenericPasswordSecureStorable {
-            let email: String
-            let password: String
-            let service = "Otsimo"
-            let jwt = "hellyeah"
-            var account: String { return email }
-
-            var data: [String: AnyObject] {
-                return ["password": password, "jwt": jwt]
-            }
-        }
-
-        let account = OtsimoAccount(email: "kl@otsimo.com", password: "my_password")
-
-        // CreateableSecureStorable lets us create the account in the keychain
-        try! account.createInSecureStore()
-        try! account.createInSecureStore()
-
-        // ReadableSecureStorable lets us read the account from the keychain
-        let account2 = OtsimoAccount(email: "kl@otsimo.com", password: "fuck")
-        let result = account2.readFromSecureStore()
-
-        print("iOS app: \(result),", "\ndata:\n", "\(result?.data)", "\n")
-
-        // DeleteableSecureStorable lets us delete the account from the keychain
-        try! account.deleteFromSecureStore()
-    }
-
     /*
      func testPerformanceExample() {
      // This is an example of a performance test case.

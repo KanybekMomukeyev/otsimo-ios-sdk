@@ -88,10 +88,13 @@ extension Otsimo {
         req.sdkVersion = Otsimo.sdkVersion
         req.environment = env
         req.countryCode = NSLocale.currentLocale().objectForKey(NSLocaleCountryCode) as! String
-        
-        discovery.getWithRequest(req) { os, err in
-            if let err = err {
-                Log.error("failed to get cluster info err=\(err)")
+
+        var isCompleted = false
+
+        let RPC = discovery.RPCToGetWithRequest(req) { os, err in
+            isCompleted = true
+            if let e = err {
+                Log.error("failed to get cluster info err=\(e)")
             } else {
                 Log.debug("got cluster info \(os)")
             }
@@ -106,6 +109,13 @@ extension Otsimo {
                 }
             }
         }
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(NSEC_PER_SEC) * 5), dispatch_get_main_queue()) {
+            Log.error("Timeout to discovery.RPCToGetWithRequest")
+            if !isCompleted {
+                RPC.cancel()
+            }
+        }
+        RPC.start()
     }
 
     internal func isReady(notReady: (OtsimoError) -> Void, onReady: (Connection, Session) -> Void) {
