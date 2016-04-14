@@ -27,17 +27,17 @@ public class Otsimo {
     internal var connection: Connection?
     internal var onlyProduction: Bool = true
     internal var preferredLanguage: String?
-    public var languages: [String] = []
+    private(set) public var languages: [String] = []
     internal let cache: CacheProtocol
-    public var sessionStatusChanged: ((Session?) -> Void)?
-    public var analytics: OtsimoAnalyticsProtocol!
-    internal var cluster: ClusterConfig = ClusterConfig()
+    private(set) public var sessionStatusChanged: ((Session?) -> Void)?
+    private(set) public var analytics: OtsimoAnalyticsProtocol!
+    private(set) public var cluster: ClusterConfig = ClusterConfig()
 
     public init() {
         cache = OtsimoCache()
     }
 
-    public static func config(config: ClientConfig) {
+    internal static func config(config: ClientConfig) {
         sharedInstance.onlyProduction = config.onlyProduction
         sharedInstance.readLanguages()
 

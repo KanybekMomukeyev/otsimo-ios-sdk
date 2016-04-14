@@ -31,10 +31,14 @@ extension OtsimoServices {
     }
 }
 
-class ClusterConfig {
-    internal var discoveryUrl: String = ""
-    internal var env: String = ""
-    internal var configSet: Bool = false
+public class ClusterConfig {
+    private(set) public var discoveryUrl: String = ""
+    private(set) public var env: String = ""
+    private(set) public var config: OtsimoServices?
+
+    internal var configSet: Bool {
+        return config != nil
+    }
 
     var hasValue: Bool {
         return discoveryUrl != "" && env != ""
@@ -53,7 +57,7 @@ class ClusterConfig {
     }
 
     func store(svc: OtsimoServices) {
-        configSet = true
+        config = svc
         if let d = svc.data() {
             NSUserDefaults.standardUserDefaults().setObject(d, forKey: "OtsimoClusterConfig")
             NSUserDefaults.standardUserDefaults().synchronize()
@@ -76,7 +80,7 @@ extension Otsimo {
         }
     }
 
-    internal static func configFromDiscoveryService(serviceUrl: String, env: String, handler: (cnf: ClientConfig?) -> Void) {
+    public static func configFromDiscoveryService(serviceUrl: String, env: String, handler: (cnf: ClientConfig?) -> Void) {
         let url = NSURL(string: serviceUrl)!
         let host: String = (url.port != nil) ? "\(url.host!):\(url.port!)" : url.host!
         if (url.scheme == "http") {

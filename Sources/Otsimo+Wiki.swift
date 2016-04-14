@@ -51,4 +51,24 @@ extension Otsimo: WikiApi {
             c.getContents(s, req: req, handler: callback)
         }
     }
+
+    public func wikiSegments() -> [SelfLearningSegment] {
+        let data = self.cluster.config != nil ? self.cluster.config : self.cluster.storedData()
+        if let d = data {
+            if let lang = Otsimo.sharedInstance.preferredLanguage {
+                if let a = d.selfLearningConfigs[lang] as? SelfLearningConfig {
+                    let aa = a.segmentsArray as [AnyObject] as! [SelfLearningSegment]
+                    return aa
+                }
+            } else {
+                for l in Otsimo.sharedInstance.languages {
+                    if let a = d.selfLearningConfigs[l] as? SelfLearningConfig {
+                        let aa = a.segmentsArray as [AnyObject] as! [SelfLearningSegment]
+                        return aa
+                    }
+                }
+            }
+        }
+        return []
+    }
 }
