@@ -29,7 +29,7 @@ public class Otsimo {
     internal var preferredLanguage: String?
     private(set) public var languages: [String] = []
     internal let cache: CacheProtocol
-    private(set) public var sessionStatusChanged: ((Session?) -> Void)?
+    public var sessionStatusChanged: ((Session?) -> Void)?
     private(set) public var analytics: OtsimoAnalyticsProtocol!
     private(set) public var cluster: ClusterConfig = ClusterConfig()
 
