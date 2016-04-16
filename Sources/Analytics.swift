@@ -274,6 +274,7 @@ internal class Analytics : OtsimoAnalyticsProtocol {
                     AppEventCache.add(aed)
                 }
             }
+            RPC.requestHeaders.setValue(self.connection.config.clientID, forKey: "client_id")
             RPC.start()
         }
     }
