@@ -26,7 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         otsimo.sessionStatusChanged = onSessionStatusChanged
 
-        Otsimo.config("https://services.sercand.com:30862", env: "production")
+        Otsimo.config("https://services.sercand.com:30862", env: "production", clientID: "", clientSecret: "")
 
         Log.setLevel(LogLevel.Debug)
         return true

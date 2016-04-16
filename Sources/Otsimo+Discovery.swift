@@ -67,12 +67,14 @@ public class ClusterConfig {
 
 extension Otsimo {
 
-    public static func config(discovery: String, env: String) {
+    public static func config(discovery: String, env: String, clientID: String, clientSecret: String) {
         Otsimo.sharedInstance.cluster.discoveryUrl = discovery
         Otsimo.sharedInstance.cluster.env = env
 
         self.configFromDiscoveryService(discovery, env: env) { cc in
             if let config = cc {
+                config.clientID = clientID
+                config.clientSecret = clientSecret
                 Otsimo.config(config)
             } else {
                 Log.error("failed to get cluster info")

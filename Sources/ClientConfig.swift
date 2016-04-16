@@ -11,6 +11,7 @@ import Foundation
 public class ClientConfig {
     internal var issuer = ""
     public var clientID = ""
+    public var clientSecret = ""
     public var onlyProduction: Bool = true
     internal var apiGrpcUrl = ""
     internal var registryGrpcUrl = ""
@@ -28,7 +29,7 @@ public class ClientConfig {
     internal var caCert = ""
     internal var useKeychain = false
 
-    public static func development(clientID: String, host: String?) -> ClientConfig {
+    public static func development(clientID: String, clientSecret: String, host: String?) -> ClientConfig {
         var ip = "192.168.2.200"
         if host != nil {
             ip = host!
@@ -38,6 +39,7 @@ public class ClientConfig {
         cc.issuer = "http://\(ip):18848"
         cc.apiGrpcUrl = "\(ip):18854"
         cc.clientID = clientID
+        cc.clientSecret = clientSecret
         cc.registryGrpcUrl = "\(ip):18852"
         cc.watchGrpcUrl = "\(ip):18858"
         cc.catalogGrpcUrl = "\(ip):18857"
@@ -51,52 +53,6 @@ public class ClientConfig {
         cc.useTls = false
         cc.onlyProduction = false
         Log.setLevel(LogLevel.Debug)
-        return cc
-    }
-
-    public static func sandbox(clientID: String) -> ClientConfig {
-        let cc = ClientConfig()
-
-        cc.clientID = clientID
-
-        cc.issuer = "https://connect.otsimo.xyz"
-
-        cc.apiGrpcUrl = "services.otsimo.xyz:18854"
-        cc.registryGrpcUrl = "services.otsimo.xyz:18852"
-        cc.watchGrpcUrl = "services.otsimo.xyz:18858"
-        cc.catalogGrpcUrl = "services.otsimo.xyz:18857"
-        cc.listenerGrpcUrl = "services.otsimo.xyz:18847"
-        cc.contentGrpcUrl = "wiki.otsimo.xyz:18859"
-        cc.publicContentUrl = "https://registry.otsimo.xyz:18851/public"
-        cc.authorizationEndpoint = "https://connect.otsimo.xyz/auth"
-        cc.tokenEndpoint = "https://connect.otsimo.xyz/token"
-        cc.accountsServiceUrl = "https://accounts.otsimo.xyz"
-
-        cc.useTls = true
-        cc.onlyProduction = true
-        return cc
-    }
-
-    public static func production(clientID: String) -> ClientConfig {
-        let cc = ClientConfig()
-
-        cc.clientID = clientID
-
-        cc.issuer = "https://connect.otsimo.com"
-
-        cc.apiGrpcUrl = "api.otsimo.com"
-        cc.registryGrpcUrl = "registry.otsimo.com"
-        cc.watchGrpcUrl = "watch.otsimo.com"
-        cc.catalogGrpcUrl = "catalog.otsimo.com"
-        cc.listenerGrpcUrl = "listener.otsimo.com"
-        cc.contentGrpcUrl = "content.otsimo.com"
-        cc.publicContentUrl = "https://games.otsimo.com/public"
-        cc.authorizationEndpoint = "https://connect.otsimo.com/auth"
-        cc.tokenEndpoint = "https://connect.otsimo.com/token"
-        cc.accountsServiceUrl = "https://accounts.otsimo.com"
-
-        cc.useTls = true
-        cc.onlyProduction = true
         return cc
     }
 }
