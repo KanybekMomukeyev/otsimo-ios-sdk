@@ -21,6 +21,23 @@ class OtsimoSDKTests: XCTestCase {
         super.tearDown()
     }
 
+    func testDiscovery() {
+        let readyExpectation = expectationWithDescription("ready")
+
+        Otsimo.configFromDiscoveryService("https://services.otsimo.com:30862", env: "production") { cc in
+            XCTAssertNotNil(cc, "Error")
+            print("Otsimo.sharedInstance.cluster=\(Otsimo.sharedInstance.cluster.config)")
+            Otsimo.sharedInstance.wikiSegments()
+            // Perform our tests...
+            // And fulfill the expectation...
+            readyExpectation.fulfill()
+            // Loop until the expectation is fulfilled
+        }
+        waitForExpectationsWithTimeout(5, handler: { error in
+            XCTAssertNil(error, "Error")
+        })
+    }
+
     /*
      func testPerformanceExample() {
      // This is an example of a performance test case.
