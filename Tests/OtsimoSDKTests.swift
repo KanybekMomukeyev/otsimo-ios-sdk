@@ -37,7 +37,22 @@ class OtsimoSDKTests: XCTestCase {
             XCTAssertNil(error, "Error")
         })
     }
+    func testDiskStorageUrl() {
+        let readyExpectation = expectationWithDescription("ready")
 
+        Otsimo.configFromDiscoveryService("https://services.otsimo.com:30862", env: "production") { cc in
+            XCTAssertNotNil(cc, "Error")
+            XCTAssertNotEqual(Otsimo.sharedInstance.cluster.getDiskStorageUrl(), "")
+            let correct = "https://services.sercand.com:30851/public/1234/0_1_2/otsimo.json"
+            XCTAssertEqual(Otsimo.sharedInstance.fixGameAssetUrl("1234", version: "0.1.2", rawUrl: "/otsimo.json"), correct)
+            XCTAssertEqual(Otsimo.sharedInstance.fixGameAssetUrl("1234", version: "0.1.2", rawUrl: "otsimo.json"), correct)
+
+            readyExpectation.fulfill()
+        }
+        waitForExpectationsWithTimeout(5, handler: { error in
+            XCTAssertNil(error, "Error")
+        })
+    }
     /*
      func testPerformanceExample() {
      // This is an example of a performance test case.

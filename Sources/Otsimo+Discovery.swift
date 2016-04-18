@@ -63,6 +63,21 @@ public class ClusterConfig {
             NSUserDefaults.standardUserDefaults().synchronize()
         }
     }
+
+    public func getDiskStorageUrl() -> String {
+        if config == nil {
+            config = storedData()
+        }
+        guard let cc = config else {
+            return "https://services.sercand.com:30851/public/{{.id}}/{{.version}}"
+        }
+        for (k, v) in cc.gameStorageProviders {
+            if k as! String == "disk" {
+                return v as! String
+            }
+        }
+        return "https://services.sercand.com:30851/public/{{.id}}/{{.version}}"
+    }
 }
 
 extension Otsimo {
