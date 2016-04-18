@@ -11,6 +11,25 @@ import Foundation
 import OtsimoApiGrpc
 
 extension Otsimo: WikiApi {
+
+    public func contentsByQuery(query: OTSContentListRequest, callback: (Int, [OTSContent], OtsimoError) -> Void) {
+        self.isReady({ callback(0, [], $0)}) { c, s in
+            query.onlyHtmlURL = true
+            if self.onlyProduction {
+                query.status = OTSContentListRequest_ListStatus.OnlyApproved
+            } else {
+                query.status = OTSContentListRequest_ListStatus.Both
+            }
+            c.getContents(s, req: query, handler: callback)
+        }
+    }
+
+    public func content(slug: String, handler: (OTSContent?, OtsimoError) -> Void) {
+        self.isReady({ handler(nil, $0)}) { c, s in
+            c.getContent(s, slug: slug, handler: handler)
+        }
+    }
+
     public func contentsByCategory(category: String,
         sort: ContentSort,
         limit: Int32?,

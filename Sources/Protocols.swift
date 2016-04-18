@@ -82,7 +82,9 @@ public enum ContentSort {
 
 public protocol WikiApi {
     func contentsByCategory(category: String, sort: ContentSort, limit: Int32?, offset: Int32?, language: String, callback: (Int, [OTSContent], OtsimoError) -> Void)
+    func contentsByQuery(query: OTSContentListRequest, callback: (Int, [OTSContent], OtsimoError) -> Void)
     func wikiSegments() -> [SelfLearningSegment]
+    func content(slug: String, handler: (OTSContent?, OtsimoError) -> Void)
 }
 
 public protocol CacheProtocol {

@@ -434,6 +434,20 @@ internal final class Connection {
         RPC.start()
     }
 
+    func getContent(session: Session, slug: String, handler: (res: OTSContent?, err: OtsimoError) -> Void) {
+        let req = OTSContentGetRequest()
+        req.slug = slug
+        let RPC = contentService.RPCToGetWithRequest(req) { response, error in
+            if let response = response {
+                onMainThread { handler(res: response, err: .None) }
+            } else {
+                onMainThread { handler(res: nil, err: OtsimoError.ServiceError(message: "\(error)")) }
+                Log.error("getContent, Finished with error: \(error!)")
+            }
+        }
+        RPC.start()
+    }
+
     func login(email: String, plainPassword: String, handler: (res: TokenResult, session: Session?) -> Void) {
         let grant_type = "password"
         let urlPath: String = "\(config.accountsServiceUrl)/login"
