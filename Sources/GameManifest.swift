@@ -169,21 +169,26 @@ public class GameManifest {
         if let k = keyvalue {
             handler(k)
         } else {
-            let suplangs = manifest.languagesArray as AnyObject as! [NSString]
-            if suplangs.count == 0 {
-                handler(nil)
-                return
-            }
             var lang: String = ""
-            for syslang in Otsimo.sharedInstance.languages {
-                if suplangs.contains(syslang) {
-                    lang = syslang
-                    break
+            let suplangs = manifest.languagesArray as AnyObject as! [NSString]
+
+            if let plang = Otsimo.sharedInstance.preferredLanguage {
+                if suplangs.contains(plang) {
+                    lang = plang
+                }
+            } else {
+                for syslang in Otsimo.sharedInstance.languages {
+                    if suplangs.contains(syslang) {
+                        lang = syslang
+                        break
+                    }
                 }
             }
+
             if lang == "" {
-                lang = "general"
+                lang = manifest.defaultLanguage
             }
+
             let rawUrl = "\(manifest.kvPath)/\(lang).json"
 
             GameKeyValueStore.fromIdAndVersion(gameId, version: version, language: lang, path: rawUrl) { k in
