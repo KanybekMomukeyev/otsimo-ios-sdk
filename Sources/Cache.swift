@@ -117,6 +117,8 @@ public class GameCache: Object {
 
     dynamic var releasedAt: Int64 = 0
 
+    dynamic var languages: String = ""
+
     public override class func primaryKey() -> String? {
         return "gameId"
     }
@@ -133,6 +135,7 @@ public class GameCache: Object {
             cache.storage = gm.storage
             cache.archiveFormat = gm.archiveFormat
             cache.releasedAt = game.releasedAt
+            cache.languages = game.languages.joinWithSeparator(",")
             if let fa = game.fetchedAt {
                 cache.fetchedAt = fa
             } else {
