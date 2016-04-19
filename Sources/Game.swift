@@ -18,6 +18,7 @@ public class Game {
     internal var fetchedAt: NSDate?
     internal var storage: String = ""
     internal var archiveFormat: String = ""
+    internal var releasedAt: Int64 = 0
     internal var gameManifest: GameManifest? {
         didSet {
             fetchedAt = NSDate()
@@ -37,6 +38,7 @@ public class Game {
         latestState = listItem.latestState
         storage = listItem.storage
         archiveFormat = listItem.archiveFormat
+        releasedAt = listItem.releasedAt
     }
 
     public convenience init(gameRelease: OTSGameRelease) {
@@ -48,6 +50,7 @@ public class Game {
         latestState = gameRelease.releaseState
         storage = gameRelease.storage
         archiveFormat = gameRelease.archiveFormat
+        releasedAt = gameRelease.releasedAt
 
         if gameRelease.hasGameManifest {
             uniqueName = gameRelease.gameManifest.uniqueName
@@ -63,7 +66,7 @@ public class Game {
         productionVersion = cache.productionVersion
         storage = cache.storage
         archiveFormat = cache.archiveFormat
-
+        releasedAt = cache.releasedAt
         latestState = OTSReleaseState(rawValue: cache.latestState)!
         gameManifest = GameManifest(id: id, version: cache.manifestVersion, storage: cache.storage, archive: cache.archiveFormat, gameManifest: manifest)
     }
