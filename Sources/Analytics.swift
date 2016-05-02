@@ -200,21 +200,19 @@ internal class Analytics : OtsimoAnalyticsProtocol {
         }
     }
 
-    private func resendAppEvent(o: AppEventCache, realm: Realm) {
-        let ev = o.event()
+    private func resendAppEvent(ev: OTSAppEventData) {
         Log.debug("resendAppEvent:\(ev.event)")
         if ev.event != "" {
             ev.isResend = true
             let RPC = self.connection.listenerService.RPCToAppEventWithRequest(ev) { r, e in
-                if e == nil {
+                if e != nil {
                     dispatch_async(analyticsQueue) {
-                        AppEventCache.removeEvent(o, realm: realm)
+                        AppEventCache.add(ev)
                     }
                 }
             }
+            RPC.requestHeaders.setValue(self.connection.config.clientID, forKey: "client_id")
             RPC.start()
-        } else {
-            AppEventCache.removeEvent(o, realm: realm)
         }
     }
 
@@ -244,7 +242,10 @@ internal class Analytics : OtsimoAnalyticsProtocol {
             }
             let aobjs = eventRealm.objects(AppEventCache).filter("time <= %@", end)
             for o in aobjs {
-                self.resendAppEvent(o, realm: eventRealm)
+                let ev = o.event()
+                Log.debug("sendStoredEvents->>\(ev.eventId) is sending again")
+                AppEventCache.removeEvent(o, realm: eventRealm)
+                self.resendAppEvent(ev)
             }
         }
     }

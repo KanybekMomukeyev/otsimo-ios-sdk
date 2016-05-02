@@ -10,7 +10,7 @@ import Foundation
 import OtsimoApiGrpc
 
 public class Otsimo {
-    public static let sdkVersion: String = "0.25.4"
+    public static let sdkVersion: String = "0.25.5"
     public static let sharedInstance = Otsimo()
     public var session: Session? {
         didSet {
