@@ -69,14 +69,14 @@ public class ClusterConfig {
             config = storedData()
         }
         guard let cc = config else {
-            return "https://services.sercand.com:30851/public/{{.id}}/{{.version}}"
+            return "https://services.otsimo.com:30851/public/{{.id}}/{{.version}}"
         }
         for (k, v) in cc.gameStorageProviders {
             if k as! String == "disk" {
                 return v as! String
             }
         }
-        return "https://services.sercand.com:30851/public/{{.id}}/{{.version}}"
+        return "https://services.otsimo.com:30851/public/{{.id}}/{{.version}}"
     }
 }
 
@@ -112,7 +112,7 @@ extension Otsimo {
         req.appBundleId = NSBundle.mainBundle().bundleIdentifier
         req.appBundleVersion = NSBundle.mainBundle().infoDictionary!["CFBundleVersion"] as! String
         var isCompleted = false
-        
+
         let RPC = discovery.RPCToGetWithRequest(req) { os, err in
             isCompleted = true
             if let e = err {
