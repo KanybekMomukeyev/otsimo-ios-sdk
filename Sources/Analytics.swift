@@ -36,12 +36,11 @@ class AppEventCache: Object {
         }
     }
 
-    static func removeEvent(event: AppEventCache) {
+    static func removeEvent(event: AppEventCache, realm: Realm) {
         do {
-            let r = try Realm()
-            r.beginWrite()
-            r.delete(event)
-            try r.commitWrite()
+            realm.beginWrite()
+            realm.delete(event)
+            try realm.commitWrite()
         } catch(let error) {
             Log.error("failed to delete AppEvent from db: \(error)")
         }
@@ -80,12 +79,11 @@ class EventCache: Object {
             Log.error("failed to get data from EventData")
         }
     }
-    static func removeEvent(event: EventCache) {
+    static func removeEvent(event: EventCache, realm: Realm) {
         do {
-            let r = try Realm()
-            r.beginWrite()
-            r.delete(event)
-            try r.commitWrite()
+            realm.beginWrite()
+            realm.delete(event)
+            try realm.commitWrite()
         } catch(let error) {
             Log.error("failed to delete Event from db: \(error)")
         }
@@ -202,7 +200,7 @@ internal class Analytics : OtsimoAnalyticsProtocol {
         }
     }
 
-    private func resendAppEvent(o: AppEventCache) {
+    private func resendAppEvent(o: AppEventCache, realm: Realm) {
         let ev = o.event()
         Log.debug("resendAppEvent:\(ev.event)")
         if ev.event != "" {
@@ -210,13 +208,13 @@ internal class Analytics : OtsimoAnalyticsProtocol {
             let RPC = self.connection.listenerService.RPCToAppEventWithRequest(ev) { r, e in
                 if e == nil {
                     dispatch_async(analyticsQueue) {
-                        AppEventCache.removeEvent(o)
+                        AppEventCache.removeEvent(o, realm: realm)
                     }
                 }
             }
             RPC.start()
         } else {
-            AppEventCache.removeEvent(o)
+            AppEventCache.removeEvent(o, realm: realm)
         }
     }
 
@@ -224,7 +222,13 @@ internal class Analytics : OtsimoAnalyticsProtocol {
         Log.debug("sendStoredEvents called")
         dispatch_async(analyticsQueue) {
             let end = NSDate(timeIntervalSince1970: NSDate().timeIntervalSince1970 - 15)
-            let eventRealm = try! Realm()
+            var eventRealm: Realm
+            do {
+                eventRealm = try Realm()
+            } catch {
+                Log.error("failed to create Realm instance inside sendStoredEvents")
+                return
+            }
 
             let objs = eventRealm.objects(EventCache).filter("time <= %@", end)
 
@@ -235,12 +239,12 @@ internal class Analytics : OtsimoAnalyticsProtocol {
                     ev.isResend = true
                     self.internalWriter.writeValue(ev)
                 } else {
-                    EventCache.removeEvent(o)
+                    EventCache.removeEvent(o, realm: eventRealm)
                 }
             }
             let aobjs = eventRealm.objects(AppEventCache).filter("time <= %@", end)
             for o in aobjs {
-                self.resendAppEvent(o)
+                self.resendAppEvent(o, realm: eventRealm)
             }
         }
     }
@@ -281,7 +285,9 @@ internal class Analytics : OtsimoAnalyticsProtocol {
             aed.isResend = false
             let RPC = self.connection.listenerService.RPCToAppEventWithRequest(aed) { r, e in
                 if e != nil {
-                    AppEventCache.add(aed)
+                    dispatch_async(analyticsQueue) {
+                        AppEventCache.add(aed)
+                    }
                 }
             }
             RPC.requestHeaders.setValue(self.connection.config.clientID, forKey: "client_id")
