@@ -209,7 +209,9 @@ internal class Analytics : OtsimoAnalyticsProtocol {
             ev.isResend = true
             let RPC = self.connection.listenerService.RPCToAppEventWithRequest(ev) { r, e in
                 if e == nil {
-                    AppEventCache.removeEvent(o)
+                    dispatch_async(analyticsQueue) {
+                        AppEventCache.removeEvent(o)
+                    }
                 }
             }
             RPC.start()
