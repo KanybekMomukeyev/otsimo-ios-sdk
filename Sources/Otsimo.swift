@@ -10,7 +10,7 @@ import Foundation
 import OtsimoApiGrpc
 
 public class Otsimo {
-    public static let sdkVersion: String = "0.25.1"
+    public static let sdkVersion: String = "0.25.2"
     public static let sharedInstance = Otsimo()
     public var session: Session? {
         didSet {
@@ -39,6 +39,8 @@ public class Otsimo {
     }
 
     internal static func config(config: ClientConfig) {
+        print("[Otsimo_IOS_SDK_\(Otsimo.sdkVersion)]")
+
         sharedInstance.onlyProduction = config.onlyProduction
         sharedInstance.readLanguages()
 

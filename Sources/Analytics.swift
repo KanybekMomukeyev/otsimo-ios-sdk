@@ -25,9 +25,9 @@ class AppEventCache: Object {
             c.data = data
             do {
                 let eventRealm = try Realm()
-                try eventRealm.write {
-                    eventRealm.add(c)
-                }
+                eventRealm.beginWrite()
+                eventRealm.add(c)
+                try eventRealm.commitWrite()
             } catch(let error) {
                 Log.error("failed to delete AppEvent to db: \(error)")
             }
@@ -39,9 +39,9 @@ class AppEventCache: Object {
     static func removeEvent(event: AppEventCache) {
         do {
             let r = try Realm()
-            try r.write {
-                r.delete(event)
-            }
+            r.beginWrite()
+            r.delete(event)
+            try r.commitWrite()
         } catch(let error) {
             Log.error("failed to delete AppEvent from db: \(error)")
         }
@@ -70,9 +70,9 @@ class EventCache: Object {
             c.id = d.eventId
             do {
                 let eventRealm = try Realm()
-                try eventRealm.write {
-                    eventRealm.add(c)
-                }
+                eventRealm.beginWrite()
+                eventRealm.add(c)
+                try eventRealm.commitWrite()
             } catch(let error) {
                 Log.error("failed to add Event to db: \(error)")
             }
@@ -83,9 +83,9 @@ class EventCache: Object {
     static func removeEvent(event: EventCache) {
         do {
             let r = try Realm()
-            try r.write {
-                r.delete(event)
-            }
+            r.beginWrite()
+            r.delete(event)
+            try r.commitWrite()
         } catch(let error) {
             Log.error("failed to delete Event from db: \(error)")
         }
@@ -96,9 +96,9 @@ class EventCache: Object {
             let r = try Realm()
             let objs = r.objects(EventCache)
             if let a = objs.filter("id = %@", id).first {
-                try r.write {
-                    r.delete(a)
-                }
+                r.beginWrite()
+                r.delete(a)
+                try r.commitWrite()
             }
         } catch(let error) {
             Log.error("failed to add Event to db: \(error)")
