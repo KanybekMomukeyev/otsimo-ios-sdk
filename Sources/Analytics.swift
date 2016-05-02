@@ -29,10 +29,21 @@ class AppEventCache: Object {
                     eventRealm.add(c)
                 }
             } catch(let error) {
-                Log.error("failed to add AppEvent to db: \(error)")
+                Log.error("failed to delete AppEvent to db: \(error)")
             }
         } else {
             Log.error("failed to get data from AppEventData")
+        }
+    }
+
+    static func removeEvent(event: AppEventCache) {
+        do {
+            let r = try Realm()
+            try r.write {
+                r.delete(event)
+            }
+        } catch(let error) {
+            Log.error("failed to delete AppEvent from db: \(error)")
         }
     }
 }
@@ -69,11 +80,20 @@ class EventCache: Object {
             Log.error("failed to get data from EventData")
         }
     }
+    static func removeEvent(event: EventCache) {
+        do {
+            let r = try Realm()
+            try r.write {
+                r.delete(event)
+            }
+        } catch(let error) {
+            Log.error("failed to delete Event from db: \(error)")
+        }
+    }
 
     static func remove(id: String) {
         do {
-            let r = try! Realm()
-
+            let r = try Realm()
             let objs = r.objects(EventCache)
             if let a = objs.filter("id = %@", id).first {
                 try r.write {
@@ -189,22 +209,12 @@ internal class Analytics : OtsimoAnalyticsProtocol {
             ev.isResend = true
             let RPC = self.connection.listenerService.RPCToAppEventWithRequest(ev) { r, e in
                 if e == nil {
-                    dispatch_async(analyticsQueue) {
-                        let eventRealm = try! Realm()
-                        try! eventRealm.write {
-                            eventRealm.delete(o)
-                        }
-                    }
+                    AppEventCache.removeEvent(o)
                 }
             }
             RPC.start()
         } else {
-            dispatch_async(analyticsQueue) {
-                let eventRealm = try! Realm()
-                try! eventRealm.write {
-                    eventRealm.delete(o)
-                }
-            }
+            AppEventCache.removeEvent(o)
         }
     }
 
@@ -223,9 +233,7 @@ internal class Analytics : OtsimoAnalyticsProtocol {
                     ev.isResend = true
                     self.internalWriter.writeValue(ev)
                 } else {
-                    try! eventRealm.write {
-                        eventRealm.delete(o)
-                    }
+                    EventCache.removeEvent(o)
                 }
             }
             let aobjs = eventRealm.objects(AppEventCache).filter("time <= %@", end)
