@@ -141,7 +141,10 @@ public class ChildGame {
                 case .None:
                     Log.debug("updated dashboard index of \(self.gameID)")
                 default:
-                    Log.error("failed update dashboard index of \(self.gameID) error:\(e)")
+                    if let d = Otsimo.sharedInstance.silentErrorDelegate {
+                        Log.error("failed update dashboard index of \(self.gameID) error:\(e)")
+                        d.silentError("child:index", err: e)
+                    }
                 }
             }
         }
@@ -156,7 +159,10 @@ public class ChildGame {
                 case .None:
                     Log.debug("updated activation of \(self.gameID)")
                 default:
-                    Log.error("failed update activation of \(self.gameID) error:\(e)")
+                    if let d = Otsimo.sharedInstance.silentErrorDelegate {
+                        Log.error("failed update activation of \(self.gameID) error:\(e)")
+                        d.silentError("child:activate", err: e)
+                    }
                 }
             }
         }

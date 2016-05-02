@@ -10,7 +10,7 @@ import Foundation
 import OtsimoApiGrpc
 
 public class Otsimo {
-    public static let sdkVersion: String = "0.24.0"
+    public static let sdkVersion: String = "0.25.0"
     public static let sharedInstance = Otsimo()
     public var session: Session? {
         didSet {
@@ -32,6 +32,7 @@ public class Otsimo {
     public var sessionStatusChanged: ((Session?) -> Void)?
     private(set) public var analytics: OtsimoAnalyticsProtocol!
     private(set) public var cluster: ClusterConfig = ClusterConfig()
+    public var silentErrorDelegate: OtsimoErrorProtocol?
 
     public init() {
         cache = OtsimoCache()

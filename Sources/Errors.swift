@@ -8,6 +8,10 @@
 
 import Foundation
 
+public protocol OtsimoErrorProtocol {
+    func silentError(src: String, err: OtsimoError)
+}
+
 public enum TokenResult {
     case Success
     case Error(error: OtsimoError)

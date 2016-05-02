@@ -112,7 +112,7 @@ extension Otsimo {
         req.appBundleId = NSBundle.mainBundle().bundleIdentifier
         req.appBundleVersion = NSBundle.mainBundle().infoDictionary!["CFBundleVersion"] as! String
         var isCompleted = false
-
+        
         let RPC = discovery.RPCToGetWithRequest(req) { os, err in
             isCompleted = true
             if let e = err {
