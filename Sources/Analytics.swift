@@ -201,7 +201,7 @@ internal class Analytics : OtsimoAnalyticsProtocol {
     }
 
     private func resendAppEvent(ev: OTSAppEventData) {
-        Log.debug("resendAppEvent:\(ev.event)")
+        Log.debug("resendAppEvent:\(ev.event) \(ev.eventId)")
         if ev.event != "" {
             ev.isResend = true
             let RPC = self.connection.listenerService.RPCToAppEventWithRequest(ev) { r, e in
@@ -243,7 +243,6 @@ internal class Analytics : OtsimoAnalyticsProtocol {
             let aobjs = eventRealm.objects(AppEventCache).filter("time <= %@", end)
             for o in aobjs {
                 let ev = o.event()
-                Log.debug("sendStoredEvents->>\(ev.eventId) is sending again")
                 AppEventCache.removeEvent(o, realm: eventRealm)
                 self.resendAppEvent(ev)
             }
