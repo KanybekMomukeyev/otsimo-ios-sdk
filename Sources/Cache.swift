@@ -162,17 +162,16 @@ public class GameCache: Object {
 final class OtsimoCache: CacheProtocol {
     static let catalogKey = "catalog"
     static let sessionKey = "session"
-    static let gameTTL: Double = 3600 * 24
+    static let gameTTL: Double = 3600 * 24 * 14
 
     // Game
     func fetchGame(id: String, handler: (game: Game?, isExpired: Bool) -> Void) {
         let cached = store.objects(GameCache).filter(NSPredicate(format: "gameId = %@", id)).first
-
         if let gc = cached {
             let now: Double = NSDate().timeIntervalSince1970
             let fetched = gc.fetchedAt.timeIntervalSince1970
             if (now - fetched) > OtsimoCache.gameTTL {
-                handler(game: nil, isExpired: true)
+                handler(game: gc.getGame(), isExpired: true)
             } else {
                 handler(game: gc.getGame(), isExpired: false)
             }

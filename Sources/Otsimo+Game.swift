@@ -13,11 +13,14 @@ extension Otsimo: GameApi {
     // Game
     public func getGame(id: String, handler: (Game?, error: OtsimoError) -> Void) {
         Otsimo.sharedInstance.cache.fetchGame(id) { game, isExpired in
-            if game != nil && !isExpired {
+            if game != nil {
+                if isExpired{
+                    Log.debug("GameApi:getGame: found game but it expired")
+                }
                 handler(game, error: .None)
                 return
             }
-
+            
             self.getGameRelease(id, version: nil, onlyProduction: Otsimo.sharedInstance.onlyProduction) { resp, error in
                 if let gr = resp {
                     let game = Game(gameRelease: gr)
@@ -25,8 +28,10 @@ extension Otsimo: GameApi {
                     handler(game, error: .None)
                 } else {
                     if let game = game {
+                        Log.debug("GameApi:getGame: failed to get game, using cached value")
                         handler(game, error: OtsimoError.ExpiredValue)
                     } else {
+                        Log.debug("GameApi:getGame: failed to get game and no cache data")
                         handler(nil, error: error)
                     }
                 }
