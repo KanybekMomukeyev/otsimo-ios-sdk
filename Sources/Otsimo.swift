@@ -10,7 +10,8 @@ import Foundation
 import OtsimoApiGrpc
 
 public class Otsimo {
-    public static let sdkVersion: String = "0.25.5"
+    public static let sdkVersion: String = "0.26.0"
+    public static let oauthSchema:String = "otsimoauth"
     public static let sharedInstance = Otsimo()
     public var session: Session? {
         didSet {
@@ -54,9 +55,13 @@ public class Otsimo {
         }
     }
 
-    public func handleOpenURL(url: NSURL) {
-        Log.info("handleURL: \(url)")
+    public func handleOpenURL(url: NSURL)->Bool {
+        Log.debug("handleURL: \(url)")
         analytics.appEvent("deeplink", payload: ["url": url.absoluteString])
+        if url.scheme == Otsimo.oauthSchema{
+            return true
+        }
+        return false
     }
 
     private func recoverOldSessionIfExist(config: ClientConfig) {
