@@ -28,10 +28,10 @@ extension Otsimo: GameApi {
                     handler(game, error: .None)
                 } else {
                     if let game = game {
-                        Log.debug("GameApi:getGame: failed to get game, using cached value")
+                        Log.debug("GameApi:getGame: failed to get game, using cached value,err=\(error)")
                         handler(game, error: OtsimoError.ExpiredValue)
                     } else {
-                        Log.debug("GameApi:getGame: failed to get game and no cache data")
+                        Log.debug("GameApi:getGame: failed to get game and no cache data,err=\(error)")
                         handler(nil, error: error)
                     }
                 }
