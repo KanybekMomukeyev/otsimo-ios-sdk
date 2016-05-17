@@ -458,7 +458,7 @@ internal final class Connection {
 
     func register(data: RegistrationData, handler: (res: TokenResult, session: Session?) -> Void) {
         let urlPath: String = "\(config.accountsServiceUrl)/register"
-        let postString = "username=\(data.email)&password=\(data.password)&first_name=\(data.firstName)&last_name=\(data.lastName)&language=\(data.language)&client_id=\(config.clientID)"
+        let postString = "username=\(data.email)&password=\(data.password)&first_name=\(data.firstName)&last_name=\(data.lastName)&language=\(data.language)&client_id=\(config.clientID)&connector=local"
         httpRequestWithTokenResult(urlPath, postString: postString, handler: handler)
     }
 
