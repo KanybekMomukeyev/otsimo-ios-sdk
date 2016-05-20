@@ -28,6 +28,23 @@ extension Otsimo: AccountApi {
         }
     }
 
+    public func login(connector: String, accessToken: String, handler: (res: TokenResult) -> Void){
+        if let connection = connection {
+            connection.login(connector, accessToken: accessToken) { res, ses in
+                switch (res) {
+                case .Success:
+                    self.session = ses
+                    self.session?.save()
+                default:
+                    Log.error("login failed error:\(res)")
+                }
+                handler(res: res)
+            }
+        } else {
+            handler(res: TokenResult.Error(error: OtsimoError.NotInitialized))
+        }
+    }
+    
     public func register(data: RegistrationData, handler: (res: TokenResult) -> Void) {
         if let connection = connection {
             connection.register(data) { res, ses in

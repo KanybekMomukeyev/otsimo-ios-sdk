@@ -455,7 +455,14 @@ internal final class Connection {
         let postString = "username=\(emailTrimmed)&password=\(plainPassword)&grant_type=\(grant_type)&client_id=\(config.clientID)"
         httpRequestWithTokenResult(urlPath, postString: postString, handler: handler)
     }
-
+    
+    func login(connector: String, accessToken: String, handler: (res: TokenResult, session: Session?) -> Void) {
+        let grant_type = "password"
+        let urlPath: String = "\(config.accountsServiceUrl)/remote"
+        let postString = "connector=\(connector)&access_token=\(accessToken)&grant_type=\(grant_type)&client_id=\(config.clientID)"
+        httpRequestWithTokenResult(urlPath, postString: postString, handler: handler)
+    }
+    
     func register(data: RegistrationData, handler: (res: TokenResult, session: Session?) -> Void) {
         let urlPath: String = "\(config.accountsServiceUrl)/register"
         let postString = "username=\(data.email)&password=\(data.password)&first_name=\(data.firstName)&last_name=\(data.lastName)&language=\(data.language)&client_id=\(config.clientID)&connector=local"

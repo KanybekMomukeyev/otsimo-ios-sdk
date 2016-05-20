@@ -11,6 +11,8 @@ import OtsimoApiGrpc
 public protocol AccountApi {
 
     func login(email: String, password: String, handler: (res: TokenResult) -> Void)
+    
+    func login(connector: String, accessToken: String, handler: (res: TokenResult) -> Void)
 
     func register(data: RegistrationData, handler: (res: TokenResult) -> Void)
 
