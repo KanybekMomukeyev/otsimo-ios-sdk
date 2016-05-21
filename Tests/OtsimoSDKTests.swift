@@ -6,7 +6,7 @@
 
 import XCTest
 import OtsimoApiGrpc
-import OtsimoSDK
+@testable import OtsimoSDK
 import Locksmith
 
 class OtsimoSDKTests: XCTestCase {

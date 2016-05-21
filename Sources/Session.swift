@@ -10,15 +10,28 @@ import Foundation
 import OtsimoApiGrpc
 import Locksmith
 
-struct OtsimoAccount: ReadableSecureStorable, CreateableSecureStorable, DeleteableSecureStorable, GenericPasswordSecureStorable {
+struct OtsimoAccountOLD: ReadableSecureStorable, CreateableSecureStorable,
+                         DeleteableSecureStorable, GenericPasswordSecureStorable {
     let email: String
     let jwt: String
     let refresh: String
     let tokentype: String
     let service = "Otsimo"
-
     var account: String { return email }
 
+    var data: [String: AnyObject] {
+        return ["jwt": jwt, "refresh": refresh, "tokentype": tokentype]
+    }
+}
+struct OtsimoAccount: ReadableSecureStorable, CreateableSecureStorable,
+                       DeleteableSecureStorable, GenericPasswordSecureStorable {
+    let email: String
+    let jwt: String
+    let refresh: String
+    let tokentype: String
+    let service = "Otsimo"
+    var account: String { return email }
+    
     var data: [String: AnyObject] {
         return ["jwt": jwt, "refresh": refresh, "tokentype": tokentype]
     }
@@ -57,7 +70,7 @@ public class Session {
     internal init(config: ClientConfig) {
         self.config = config
     }
-
+    
     public func logout() {
         accessToken = ""
         profileID = ""
@@ -69,7 +82,7 @@ public class Session {
             Log.error("failed to clear account information: \(error)")
         }
     }
-
+    
     internal func save() {
         if isAuthenticated {
             let sc = SessionCache()
@@ -100,7 +113,7 @@ public class Session {
             Log.error("session is not saved because user is not authenticated")
         }
     }
-
+    
     internal func loadToken() -> LoadResult {
         let res = loadJwt(accessToken)
         switch (res) {
@@ -198,19 +211,21 @@ public class Session {
             handler("", OtsimoError.NotLoggedIn(message: "not logged in"))
         }
     }
-
+    
     internal static func loadLastSession(config: ClientConfig, handler: (Session?) -> Void) {
+        
+        
         if let sc = Otsimo.sharedInstance.cache.fetchSession() {
             let account = OtsimoAccount(email: sc.email, jwt: "", refresh: "", tokentype: "")
             if let result = account.readFromSecureStore() {
                 let session = Session(config: config)
-
+                
                 session.profileID = sc.profileId
                 session.email = sc.email
                 session.accessToken = result.data?["jwt"] as! String
                 session.refreshToken = result.data?["refresh"] as! String
                 session.tokenType = result.data?["tokentype"] as! String
-
+                
                 if session.refreshToken == "" {
                     Log.error("there is no 'refresh' data at account information")
                     handler(nil)
@@ -235,7 +250,7 @@ public class Session {
                 handler(nil)
             }
         } else {
-            Log.error("could not find any previous session")
+            Log.info("could not find any previous session, need to login")
             handler(nil)
         }
     }
@@ -315,4 +330,9 @@ public class Session {
         }
         task.resume()
     }
+    
+    internal static func migrageToSharedKeyChain(){
+        
+    }
+    
 }

@@ -10,7 +10,8 @@ import Foundation
 import OtsimoApiGrpc
 
 public class Otsimo {
-    public static let sdkVersion: String = "0.27.0"
+    private static let storageVersion = 28
+    public static let sdkVersion: String = "0.28.0"
     public static let oauthSchema:String = "otsimoauth"
     public static let sharedInstance = Otsimo()
     public var session: Session? {
@@ -52,11 +53,12 @@ public class Otsimo {
 
         if isFirstLaunch() {
             sharedInstance.analytics.appEvent("start", payload: [String: AnyObject]())
+        }else{
+            sharedInstance.migrate()
         }
     }
 
     public func handleOpenURL(url: NSURL)->Bool {
-        Log.debug("handleURL: \(url)")
         analytics.appEvent("deeplink", payload: ["url": url.absoluteString])
         if url.scheme == Otsimo.oauthSchema{
             return true
@@ -73,7 +75,6 @@ public class Otsimo {
     public func setUserLanguage(lang: String?) {
         preferredLanguage = lang
     }
-
     func readLanguages() {
         languages.removeAll()
         for l in NSLocale.preferredLanguages() {
@@ -84,9 +85,23 @@ public class Otsimo {
     private static func isFirstLaunch() -> Bool {
         if !NSUserDefaults.standardUserDefaults().boolForKey("OtsimoSDKHasLaunchedOnce") {
             NSUserDefaults.standardUserDefaults().setBool(true, forKey: "OtsimoSDKHasLaunchedOnce")
+            NSUserDefaults.standardUserDefaults().setInteger(Otsimo.storageVersion, forKey: "OtsimoSDKStorageVersion")
             NSUserDefaults.standardUserDefaults().synchronize()
             return true
         }
         return false
     }
+    
+    public func migrate(){
+        let old = NSUserDefaults.standardUserDefaults().integerForKey("OtsimoSDKStorageVersion")
+        if old == Otsimo.storageVersion{
+            return
+        }
+        if old == 0 {
+            Session.migrageToSharedKeyChain()
+        }
+        NSUserDefaults.standardUserDefaults().setInteger(Otsimo.storageVersion, forKey: "OtsimoSDKStorageVersion")
+        NSUserDefaults.standardUserDefaults().synchronize()
+    }
+    
 }

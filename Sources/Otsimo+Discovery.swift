@@ -82,14 +82,16 @@ public class ClusterConfig {
 
 extension Otsimo {
 
-    public static func config(discovery: String, env: String, clientID: String, clientSecret: String) {
-        Otsimo.sharedInstance.cluster.discoveryUrl = discovery
-        Otsimo.sharedInstance.cluster.env = env
+    public static func config(options: Configuration) {
+        Otsimo.sharedInstance.cluster.discoveryUrl = options.discovery
+        Otsimo.sharedInstance.cluster.env = options.environment
 
-        self.configFromDiscoveryService(discovery, env: env) { cc in
+        self.configFromDiscoveryService(options.discovery, env: options.environment) { cc in
             if let config = cc {
-                config.clientID = clientID
-                config.clientSecret = clientSecret
+                config.clientID = options.clientID
+                config.clientSecret = options.clientSecret
+                config.appGroup = options.appGroupName
+                config.sharedKeyChain = options.keychainName
                 Otsimo.config(config)
             } else {
                 Log.error("failed to get cluster info")
@@ -97,7 +99,7 @@ extension Otsimo {
         }
     }
 
-    public static func configFromDiscoveryService(serviceUrl: String, env: String, handler: (cnf: ClientConfig?) -> Void) {
+    static func configFromDiscoveryService(serviceUrl: String, env: String, handler: (cnf: ClientConfig?) -> Void) {
         let url = NSURL(string: serviceUrl)!
         let host: String = (url.port != nil) ? "\(url.host!):\(url.port!)" : url.host!
         if (url.scheme == "http") {
