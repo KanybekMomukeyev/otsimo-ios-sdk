@@ -97,7 +97,9 @@ public protocol CacheProtocol {
     func fetchCatalog(handler: (OTSCatalog?) -> Void)
     func cacheCatalog(catalog: OTSCatalog)
     // Session
+    @available( *, deprecated = 1.1)
     func fetchSession() -> SessionCache?
+    @available( *, deprecated = 1.1)
     func cacheSession(session: SessionCache)
     func clearSession()
 }

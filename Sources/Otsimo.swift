@@ -49,13 +49,12 @@ public class Otsimo {
         sharedInstance.connection = Connection(config: config)
         sharedInstance.analytics = Analytics(connection: sharedInstance.connection!)
 
-        sharedInstance.recoverOldSessionIfExist(config)
-
         if isFirstLaunch() {
             sharedInstance.analytics.appEvent("start", payload: [String: AnyObject]())
         }else{
-            sharedInstance.migrate()
+            sharedInstance.migrate(config)
         }
+        sharedInstance.recoverOldSessionIfExist(config)
     }
 
     public func handleOpenURL(url: NSURL)->Bool {
@@ -75,6 +74,7 @@ public class Otsimo {
     public func setUserLanguage(lang: String?) {
         preferredLanguage = lang
     }
+    
     func readLanguages() {
         languages.removeAll()
         for l in NSLocale.preferredLanguages() {
@@ -92,13 +92,13 @@ public class Otsimo {
         return false
     }
     
-    public func migrate(){
+    private func migrate(config: ClientConfig){
         let old = NSUserDefaults.standardUserDefaults().integerForKey("OtsimoSDKStorageVersion")
         if old == Otsimo.storageVersion{
             return
         }
         if old == 0 {
-            Session.migrageToSharedKeyChain()
+            Session.migrateToSharedKeyChain(config)
         }
         NSUserDefaults.standardUserDefaults().setInteger(Otsimo.storageVersion, forKey: "OtsimoSDKStorageVersion")
         NSUserDefaults.standardUserDefaults().synchronize()

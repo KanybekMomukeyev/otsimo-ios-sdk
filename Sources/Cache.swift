@@ -87,6 +87,7 @@ public class KeyValueStoreCache: Object {
     }
 }
 
+@available( *, deprecated = 1.1)
 public class SessionCache : Object {
     dynamic var id: String = "session"
     dynamic var profileId: String = ""
