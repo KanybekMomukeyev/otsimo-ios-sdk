@@ -20,20 +20,6 @@
                ReferencedContainer = "container:OtsimoSDK.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "NO"
-            buildForAnalyzing = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0D333A6D1C158D3200968DDA"
-               BuildableName = "OtsimoSDKTests.xctest"
-               BlueprintName = "OtsimoSDKTests"
-               ReferencedContainer = "container:OtsimoSDK.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -42,16 +28,6 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0D333A6D1C158D3200968DDA"
-               BuildableName = "OtsimoSDKTests.xctest"
-               BlueprintName = "OtsimoSDKTests"
-               ReferencedContainer = "container:OtsimoSDK.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
