@@ -9,16 +9,16 @@
 import Foundation
 
 public struct Configuration{
-    var discovery: String
-    var environment: String
-    var clientID: String
-    var clientSecret: String
-    var appGroupName: String
-    var keychainName: String
+    public var discovery: String
+    public var environment: String
+    public var clientID: String
+    public var clientSecret: String
+    public var appGroupName: String
+    public var keychainName: String
 }
 
 internal class ClientConfig {
-    internal var issuer = ""
+    var issuer = ""
     var clientID = ""
     var clientSecret = ""
     var onlyProduction: Bool = true
