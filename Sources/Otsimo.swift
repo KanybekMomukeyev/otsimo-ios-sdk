@@ -11,8 +11,8 @@ import OtsimoApiGrpc
 
 public class Otsimo {
     private static let storageVersion = 28
-    public static let sdkVersion: String = "0.28.2"
-    public static let oauthSchema:String = "otsimoauth"
+    public static let sdkVersion: String = "0.28.3"
+    public static let oauthSchema: String = "otsimoauth"
     public static let sharedInstance = Otsimo()
     public var session: Session? {
         didSet {
@@ -51,15 +51,15 @@ public class Otsimo {
 
         if isFirstLaunch() {
             sharedInstance.analytics.appEvent("start", payload: [String: AnyObject]())
-        }else{
+        } else {
             sharedInstance.migrate(config)
         }
         sharedInstance.recoverOldSessionIfExist(config)
     }
 
-    public func handleOpenURL(url: NSURL)->Bool {
+    public func handleOpenURL(url: NSURL) -> Bool {
         analytics.appEvent("deeplink", payload: ["url": url.absoluteString])
-        if url.scheme == Otsimo.oauthSchema{
+        if url.scheme == Otsimo.oauthSchema {
             return true
         }
         return false
@@ -74,7 +74,7 @@ public class Otsimo {
     public func setUserLanguage(lang: String?) {
         preferredLanguage = lang
     }
-    
+
     func readLanguages() {
         languages.removeAll()
         for l in NSLocale.preferredLanguages() {
@@ -91,10 +91,10 @@ public class Otsimo {
         }
         return false
     }
-    
-    private func migrate(config: ClientConfig){
+
+    private func migrate(config: ClientConfig) {
         let old = NSUserDefaults.standardUserDefaults().integerForKey("OtsimoSDKStorageVersion")
-        if old == Otsimo.storageVersion{
+        if old == Otsimo.storageVersion {
             return
         }
         if old == 0 {
@@ -103,5 +103,4 @@ public class Otsimo {
         NSUserDefaults.standardUserDefaults().setInteger(Otsimo.storageVersion, forKey: "OtsimoSDKStorageVersion")
         NSUserDefaults.standardUserDefaults().synchronize()
     }
-    
 }

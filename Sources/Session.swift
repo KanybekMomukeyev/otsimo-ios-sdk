@@ -14,7 +14,7 @@ let userIDKey = "OtsimoSDK-Session-UserID"
 let emailKey = "OtsimoSDK-Session-Email"
 
 struct OtsimoAccount: ReadableSecureStorable, CreateableSecureStorable,
-                       DeleteableSecureStorable, GenericPasswordSecureStorable {
+DeleteableSecureStorable, GenericPasswordSecureStorable {
     let email: String
     let jwt: String
     let refresh: String
@@ -22,7 +22,7 @@ struct OtsimoAccount: ReadableSecureStorable, CreateableSecureStorable,
     let service = "Otsimo"
     let sharedKeyChain: String?
     var account: String { return email }
-    var accessGroup : String? { return sharedKeyChain}
+    var accessGroup : String? { return sharedKeyChain }
 
     var data: [String: AnyObject] {
         return ["jwt": jwt, "refresh": refresh, "tokentype": tokentype]
@@ -62,26 +62,33 @@ public class Session {
     internal init(config: ClientConfig) {
         self.config = config
     }
-    
+
     public func logout() {
         accessToken = ""
         profileID = ""
         Otsimo.sharedInstance.cache.clearSession()
         let account = OtsimoAccount(email: email,
-                                    jwt: accessToken,
-                                    refresh: refreshToken,
-                                    tokentype: tokenType,
-                                    sharedKeyChain: config.sharedKeyChain)
+            jwt: accessToken,
+            refresh: refreshToken,
+            tokentype: tokenType,
+            sharedKeyChain: config.sharedKeyChain)
         do {
             try account.deleteFromSecureStore()
         } catch {
             Log.error("failed to clear account information: \(error)")
         }
+        guard let defaults = NSUserDefaults(suiteName: config.appGroup) else {
+            Log.error("could not get shared nsuserdefaults with suitename")
+            return
+        }
+        defaults.removeObjectForKey(emailKey)
+        defaults.removeObjectForKey(userIDKey)
+        defaults.synchronize()
     }
-    
+
     internal func save() {
         if isAuthenticated {
-            guard let defaults = NSUserDefaults(suiteName: config.appGroup) else{
+            guard let defaults = NSUserDefaults(suiteName: config.appGroup) else {
                 Log.error("could not get shared nsuserdefaults with suitename")
                 return
             }
@@ -89,10 +96,10 @@ public class Session {
             defaults.setValue(profileID, forKey: userIDKey)
             defaults.synchronize()
             let account = OtsimoAccount(email: email,
-                                        jwt: accessToken,
-                                        refresh: refreshToken,
-                                        tokentype: tokenType,
-                                        sharedKeyChain: config.sharedKeyChain)
+                jwt: accessToken,
+                refresh: refreshToken,
+                tokentype: tokenType,
+                sharedKeyChain: config.sharedKeyChain)
             do {
                 try account.updateInSecureStore()
                 Log.info("session is saved")
@@ -103,7 +110,7 @@ public class Session {
             Log.error("session is not saved because user is not authenticated")
         }
     }
-    
+
     internal func loadToken() -> LoadResult {
         let res = loadJwt(accessToken)
         switch (res) {
@@ -201,9 +208,9 @@ public class Session {
             handler("", OtsimoError.NotLoggedIn(message: "not logged in"))
         }
     }
-    
+
     internal static func loadLastSession(config: ClientConfig, handler: (Session?) -> Void) {
-        guard let defaults = NSUserDefaults(suiteName: config.appGroup) else{
+        guard let defaults = NSUserDefaults(suiteName: config.appGroup) else {
             Log.error("could not get shared nsuserdefaults with suitename")
             handler(nil)
             return
@@ -218,16 +225,16 @@ public class Session {
             handler(nil)
             return
         }
-        let account = OtsimoAccount(email: email, jwt: "", refresh: "", tokentype: "",sharedKeyChain: config.sharedKeyChain)
+        let account = OtsimoAccount(email: email, jwt: "", refresh: "", tokentype: "", sharedKeyChain: config.sharedKeyChain)
         if let result = account.readFromSecureStore() {
             let session = Session(config: config)
-            
+
             session.profileID = user
             session.email = email
             session.accessToken = result.data?["jwt"] as! String
             session.refreshToken = result.data?["refresh"] as! String
             session.tokenType = result.data?["tokentype"] as! String
-            
+
             if session.refreshToken == "" {
                 Log.error("there is no 'refresh' data at account information")
                 handler(nil)
@@ -328,29 +335,29 @@ public class Session {
         }
         task.resume()
     }
-    
-    internal static func migrateToSharedKeyChain(config: ClientConfig){
-        guard let defaults = NSUserDefaults(suiteName: config.appGroup) else{
+
+    internal static func migrateToSharedKeyChain(config: ClientConfig) {
+        guard let defaults = NSUserDefaults(suiteName: config.appGroup) else {
             Log.error("could not get shared nsuserdefaults with suitename")
             return
         }
-        if let s = Otsimo.sharedInstance.cache.fetchSession(){
+        if let s = Otsimo.sharedInstance.cache.fetchSession() {
             defaults.setValue(s.email, forKey: emailKey)
             defaults.setValue(s.profileId, forKey: userIDKey)
             defaults.synchronize()
-            
-            let account = OtsimoAccount(email: s.email, jwt: "", refresh: "", tokentype: "",sharedKeyChain: nil)
-            
+
+            let account = OtsimoAccount(email: s.email, jwt: "", refresh: "", tokentype: "", sharedKeyChain: nil)
+
             if let result = account.readFromSecureStore() {
                 let accessToken = result.data?["jwt"] as! String
                 let refreshToken = result.data?["refresh"] as! String
                 let tokenType = result.data?["tokentype"] as! String
                 let sharedAccount = OtsimoAccount(email: s.email,
-                                                  jwt: accessToken,
-                                                  refresh: refreshToken,
-                                                  tokentype: tokenType,
-                                                  sharedKeyChain: config.sharedKeyChain)
-                
+                    jwt: accessToken,
+                    refresh: refreshToken,
+                    tokentype: tokenType,
+                    sharedKeyChain: config.sharedKeyChain)
+
                 do {
                     try sharedAccount.createInSecureStore()
                     Log.info("session is migrated")
