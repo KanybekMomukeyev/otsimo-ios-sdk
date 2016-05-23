@@ -23,6 +23,8 @@ public protocol AccountApi {
     func changePassword(old: String, newPassword: String, handler: (OtsimoError) -> Void)
 
     func resetPassword(email: String, handler: (res: OtsimoError) -> Void)
+
+    func userIdentities(handler: ([String: String], OtsimoError) -> Void)
 }
 
 public protocol ProfileApi {

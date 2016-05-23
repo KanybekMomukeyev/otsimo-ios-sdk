@@ -28,7 +28,7 @@ extension Otsimo: AccountApi {
         }
     }
 
-    public func login(connector: String, accessToken: String, handler: (res: TokenResult) -> Void){
+    public func login(connector: String, accessToken: String, handler: (res: TokenResult) -> Void) {
         if let connection = connection {
             connection.login(connector, accessToken: accessToken) { res, ses in
                 switch (res) {
@@ -44,7 +44,7 @@ extension Otsimo: AccountApi {
             handler(res: TokenResult.Error(error: OtsimoError.NotInitialized))
         }
     }
-    
+
     public func register(data: RegistrationData, handler: (res: TokenResult) -> Void) {
         if let connection = connection {
             connection.register(data) { res, ses in
@@ -83,9 +83,15 @@ extension Otsimo: AccountApi {
 
     public func resetPassword(email: String, handler: (res: OtsimoError) -> Void) {
         if let connection = connection {
-            connection.resetPasswrod(email, handler: handler)
+            connection.resetPassword(email, handler: handler)
         } else {
             handler(res: OtsimoError.NotInitialized)
+        }
+    }
+
+    public func userIdentities(handler: ([String: String], OtsimoError) -> Void) {
+        self.isReady({ handler([String: String](), $0)}) { (c, s) in
+            c.getIdentities(s, handler: handler)
         }
     }
 }
