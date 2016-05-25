@@ -50,7 +50,9 @@ internal class Watch: WatchProtocol {
                 }
             }
         }
-
+        if RPC != nil {
+            RPC.cancel()
+        }
         let req = OTSWatchRequest()
         req.profileId = session!.profileID
         RPC = connection.watchService.RPCToWatchWithRequest(req, eventHandler: rpcHandler)
