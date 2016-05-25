@@ -19,6 +19,8 @@
 		0D60A9071C55921500115500 /* CatalogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D60A9061C55921500115500 /* CatalogViewController.swift */; };
 		0D60A9091C55931A00115500 /* AllGamesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D60A9081C55931A00115500 /* AllGamesViewController.swift */; };
 		0D60A90B1C563FFA00115500 /* GameTableCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D60A90A1C563FFA00115500 /* GameTableCellView.swift */; };
+		0D7585D51CF5BCAD00970C4A /* OtsimoSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D7585D41CF5BCAD00970C4A /* OtsimoSDK.framework */; };
+		0D7585D71CF5C0E400970C4A /* OtsimoSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0D7585D61CF5C0E400970C4A /* OtsimoSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0D9044071C3B339C00F51C8D /* ApiTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9044061C3B339C00F51C8D /* ApiTest.swift */; };
 		0D90440B1C3B36CA00F51C8D /* TestHomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D90440A1C3B36CA00F51C8D /* TestHomeController.swift */; };
 		0D90441B1C3BF85000F51C8D /* Root.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D90441A1C3BF85000F51C8D /* Root.swift */; };
@@ -50,7 +52,6 @@
 		0DE35B2A1C949FFE00788260 /* RealmSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0DE35B1A1C949FFE00788260 /* RealmSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0DE35B2F1C94A1EE00788260 /* gRPCCertificates.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0DE35B2E1C94A1ED00788260 /* gRPCCertificates.bundle */; };
 		0DE9425A1C65F47A008DEB7E /* SettingsPropertyViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE942591C65F47A008DEB7E /* SettingsPropertyViewCell.swift */; };
-		0DF20D821CBFD6C2006FA283 /* OtsimoSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0DF20D811CBFD6C2006FA283 /* OtsimoSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0DF845B71C69111B00C28F67 /* BooleanCellViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DF845B61C69111B00C28F67 /* BooleanCellViewCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -61,7 +62,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				0DF20D821CBFD6C2006FA283 /* OtsimoSDK.framework in Embed Frameworks */,
+				0D7585D71CF5C0E400970C4A /* OtsimoSDK.framework in Embed Frameworks */,
 				0DE35B1E1C949FFE00788260 /* gRPC.framework in Embed Frameworks */,
 				0DE35B221C949FFE00788260 /* Locksmith.framework in Embed Frameworks */,
 				0DE35B241C949FFE00788260 /* OtsimoApiGrpc.framework in Embed Frameworks */,
@@ -93,6 +94,8 @@
 		0D60A90A1C563FFA00115500 /* GameTableCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameTableCellView.swift; sourceTree = "<group>"; };
 		0D60A9201C57AB0100115500 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/Main.strings; sourceTree = "<group>"; };
 		0D60A9211C57AB0100115500 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		0D7585D41CF5BCAD00970C4A /* OtsimoSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OtsimoSDK.framework; path = "../Build/Products/Debug-iphonesimulator/OtsimoSDK.framework"; sourceTree = "<group>"; };
+		0D7585D61CF5C0E400970C4A /* OtsimoSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = OtsimoSDK.framework; path = "/Users/sercand/Developer/Otsimo/OtsimoSDK/Build/Products/Debug-iphoneos/OtsimoSDK.framework"; sourceTree = "<absolute>"; };
 		0D9044061C3B339C00F51C8D /* ApiTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiTest.swift; sourceTree = "<group>"; };
 		0D90440A1C3B36CA00F51C8D /* TestHomeController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestHomeController.swift; sourceTree = "<group>"; };
 		0D90441A1C3BF85000F51C8D /* Root.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Root.swift; sourceTree = "<group>"; };
@@ -120,7 +123,6 @@
 		0DE942531C6516D7008DEB7E /* Haneke.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Haneke.framework; path = ../Carthage/Build/iOS/Haneke.framework; sourceTree = "<group>"; };
 		0DE942591C65F47A008DEB7E /* SettingsPropertyViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsPropertyViewCell.swift; sourceTree = "<group>"; };
 		0DF20D751CBFD652006FA283 /* OtsimoSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OtsimoSDK.framework; path = "../Build/Products/Debug-iphoneos/OtsimoSDK.framework"; sourceTree = "<group>"; };
-		0DF20D811CBFD6C2006FA283 /* OtsimoSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = OtsimoSDK.framework; path = "/Users/sercand/Developer/Otsimo/OtsimoSDK/Build/Products/Debug-iphoneos/OtsimoSDK.framework"; sourceTree = "<absolute>"; };
 		0DF845B61C69111B00C28F67 /* BooleanCellViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BooleanCellViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -129,6 +131,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0D7585D51CF5BCAD00970C4A /* OtsimoSDK.framework in Frameworks */,
 				0DE35B211C949FFE00788260 /* Locksmith.framework in Frameworks */,
 				0DE35B1F1C949FFE00788260 /* Haneke.framework in Frameworks */,
 				0DE35B291C949FFE00788260 /* RealmSwift.framework in Frameworks */,
@@ -146,7 +149,7 @@
 		0D36E27B1C15C8EF00B4B549 = {
 			isa = PBXGroup;
 			children = (
-				0DF20D811CBFD6C2006FA283 /* OtsimoSDK.framework */,
+				0D7585D61CF5C0E400970C4A /* OtsimoSDK.framework */,
 				0DE35B2E1C94A1ED00788260 /* gRPCCertificates.bundle */,
 				0DE35B131C949FFE00788260 /* BoringSSL.framework */,
 				0DE35B141C949FFE00788260 /* gRPC.framework */,
@@ -233,6 +236,7 @@
 		C1E4904BBA118E6E10B7BDD5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0D7585D41CF5BCAD00970C4A /* OtsimoSDK.framework */,
 				0DF20D751CBFD652006FA283 /* OtsimoSDK.framework */,
 				0DE942531C6516D7008DEB7E /* Haneke.framework */,
 				0D9044281C3C862600F51C8D /* Locksmith.framework */,

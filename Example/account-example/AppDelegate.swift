@@ -16,10 +16,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         var keys: NSDictionary?
-        if let path = NSBundle.mainBundle().pathForResource("keys", ofType: "plist") {
+        if let path = NSBundle.mainBundle().pathForResource("key", ofType: "plist") {
             keys = NSDictionary(contentsOfFile: path)
         }
-        var clusterDiscoveryUrl = ""
+        var clusterDiscoveryUrl = "https://services.otsimo.xyz:30862"
         var clientSecret = ""
         Log.setLevel(LogLevel.Debug)
 
