@@ -14,21 +14,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
+    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         var keys: NSDictionary?
-
         if let path = NSBundle.mainBundle().pathForResource("keys", ofType: "plist") {
             keys = NSDictionary(contentsOfFile: path)
         }
+        var clusterDiscoveryUrl = ""
+        var clientSecret = ""
+        Log.setLevel(LogLevel.Debug)
+
         if let dict = keys {
             clientID = dict["OtsimoClientID"] as! String
+            clientSecret = dict["OtsimoClientSecret"] as! String
+            clusterDiscoveryUrl = dict["OtsimoClusterDiscoveryURL"] as! String
         }
+
+        let options = Configuration(
+            discovery: clusterDiscoveryUrl,
+            environment: "staging",
+            clientID: clientID,
+            clientSecret: clientSecret,
+            appGroupName: "",
+            keychainName: ""
+        )
 
         otsimo.sessionStatusChanged = onSessionStatusChanged
 
-        Otsimo.config("https://services.sercand.com:30862", env: "production", clientID: "", clientSecret: "")
+        Otsimo.config(options)
 
-        Log.setLevel(LogLevel.Debug)
         return true
     }
 

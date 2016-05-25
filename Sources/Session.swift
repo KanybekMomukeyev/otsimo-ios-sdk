@@ -22,7 +22,7 @@ DeleteableSecureStorable, GenericPasswordSecureStorable {
     let service = "Otsimo"
     let sharedKeyChain: String?
     var account: String { return email }
-    var accessGroup : String? { return sharedKeyChain }
+    var accessGroup: String? { return sharedKeyChain }
 
     var data: [String: AnyObject] {
         return ["jwt": jwt, "refresh": refresh, "tokentype": tokentype]
@@ -30,7 +30,7 @@ DeleteableSecureStorable, GenericPasswordSecureStorable {
 }
 
 public class Session {
-    internal let config : ClientConfig
+    internal let config: ClientConfig
     internal var accessToken: String = ""
     internal var refreshToken: String = ""
     internal var tokenType: String = ""
@@ -77,10 +77,7 @@ public class Session {
         } catch {
             Log.error("failed to clear account information: \(error)")
         }
-        guard let defaults = NSUserDefaults(suiteName: config.appGroup) else {
-            Log.error("could not get shared nsuserdefaults with suitename")
-            return
-        }
+        let defaults = Session.userDefaults(config.appGroup)
         defaults.removeObjectForKey(emailKey)
         defaults.removeObjectForKey(userIDKey)
         defaults.synchronize()
@@ -88,10 +85,8 @@ public class Session {
 
     internal func save() {
         if isAuthenticated {
-            guard let defaults = NSUserDefaults(suiteName: config.appGroup) else {
-                Log.error("could not get shared nsuserdefaults with suitename")
-                return
-            }
+            let defaults = Session.userDefaults(config.appGroup)
+
             defaults.setValue(email, forKey: emailKey)
             defaults.setValue(profileID, forKey: userIDKey)
             defaults.synchronize()
@@ -166,6 +161,12 @@ public class Session {
             displayName = ""
         }
 
+        if let n = payload["aud"] as? String {
+            clientID = n
+        } else {
+            clientID = ""
+        }
+
         if let e = payload["exp"] as? Int {
             expiresAt = e
         } else {
@@ -210,11 +211,7 @@ public class Session {
     }
 
     internal static func loadLastSession(config: ClientConfig, handler: (Session?) -> Void) {
-        guard let defaults = NSUserDefaults(suiteName: config.appGroup) else {
-            Log.error("could not get shared nsuserdefaults with suitename")
-            handler(nil)
-            return
-        }
+        let defaults = Session.userDefaults(config.appGroup)
         guard let user = defaults.stringForKey(userIDKey) else {
             Log.error("could not find any previous session userid, need to login")
             handler(nil)
@@ -263,7 +260,7 @@ public class Session {
     private func refreshCurrentToken(handler: (error: OtsimoError) -> Void) {
         let grant_type = "refresh_token"
         let urlPath: String = "\(config.accountsServiceUrl)/refresh"
-        let postString = "grant_type=\(grant_type)&refresh_token=\(refreshToken)&client_id=\(config.clientID)"
+        let postString = "grant_type=\(grant_type)&refresh_token=\(refreshToken)&client_id=\(clientID)"
 
         let request = NSMutableURLRequest(URL: NSURL(string: urlPath)!)
         request.HTTPMethod = "POST"
@@ -284,7 +281,7 @@ public class Session {
 
             do {
                 let JSON = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions(rawValue: 0))
-                guard let JSONDictionary : NSDictionary = JSON as? NSDictionary else {
+                guard let JSONDictionary: NSDictionary = JSON as? NSDictionary else {
                     handler(error: .InvalidResponse(message: "invalid response:not a dictionary"))
                     return
                 }
@@ -336,11 +333,20 @@ public class Session {
         task.resume()
     }
 
-    internal static func migrateToSharedKeyChain(config: ClientConfig) {
-        guard let defaults = NSUserDefaults(suiteName: config.appGroup) else {
-            Log.error("could not get shared nsuserdefaults with suitename")
-            return
+    static func userDefaults(appGroup: String) -> NSUserDefaults {
+        if appGroup == "" {
+            return NSUserDefaults.standardUserDefaults()
         }
+        if let d = NSUserDefaults(suiteName: appGroup) {
+            return d
+        }
+        Log.error("could not get shared nsuserdefaults with suitename")
+        return NSUserDefaults.standardUserDefaults()
+    }
+
+    internal static func migrateToSharedKeyChain(config: ClientConfig) {
+        let defaults = Session.userDefaults(config.appGroup)
+
         if let s = Otsimo.sharedInstance.cache.fetchSession() {
             defaults.setValue(s.email, forKey: emailKey)
             defaults.setValue(s.profileId, forKey: userIDKey)

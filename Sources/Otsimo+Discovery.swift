@@ -91,7 +91,9 @@ extension Otsimo {
                 config.clientID = options.clientID
                 config.clientSecret = options.clientSecret
                 config.appGroup = options.appGroupName
-                config.sharedKeyChain = options.keychainName
+                if options.keychainName != "" {
+                    config.sharedKeyChain = options.keychainName
+                }
                 Otsimo.config(config)
             } else {
                 Log.error("failed to get cluster info")
@@ -110,9 +112,9 @@ extension Otsimo {
         req.osName = "ios"
         req.sdkVersion = Otsimo.sdkVersion
         req.environment = env
-        req.countryCode = "tr"
-        req.appBundleId = "testing"
-        req.appBundleVersion = "testing"
+        req.countryCode = NSLocale.currentLocale().objectForKey(NSLocaleCountryCode) as! String
+        req.appBundleId = NSBundle.mainBundle().bundleIdentifier
+        req.appBundleVersion = NSBundle.mainBundle().infoDictionary!["CFBundleVersion"] as! String
         var isCompleted = false
 
         let RPC = discovery.RPCToGetWithRequest(req) { os, err in

@@ -1,666 +1,1672 @@
-// !$*UTF8*$!
-{
-	archiveVersion = 1;
-	classes = {
-	};
-	objectVersion = 46;
-	objects = {
-
-/* Begin PBXBuildFile section */
-		0D137FA91C3A7C280006BB8E /* ClientConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D137FA81C3A7C280006BB8E /* ClientConfig.swift */; };
-		0D1C47D11CBD3F0200D4834B /* Otsimo+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1C47D01CBD3F0200D4834B /* Otsimo+Utils.swift */; };
-		0D1E09601C7B8A010084A990 /* Otsimo+Wiki.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1E095F1C7B8A010084A990 /* Otsimo+Wiki.swift */; };
-		0D2C465C1C76FA9900B9DEC8 /* Watch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D2C465B1C76FA9900B9DEC8 /* Watch.swift */; };
-		0D2C465F1C7700F800B9DEC8 /* Otsimo+Watch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D2C465E1C7700F800B9DEC8 /* Otsimo+Watch.swift */; };
-		0D3053741C3AAAB0000FE8B1 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3053731C3AAAB0000FE8B1 /* Errors.swift */; };
-		0D333A681C158D3200968DDA /* OtsimoSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 0D333A671C158D3200968DDA /* OtsimoSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0D333A6F1C158D3200968DDA /* OtsimoSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D333A641C158D3200968DDA /* OtsimoSDK.framework */; };
-		0D333A741C158D3200968DDA /* OtsimoSDKTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D333A731C158D3200968DDA /* OtsimoSDKTests.swift */; };
-		0D3D0FF91C3AA3F00049A72F /* Connection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3D0FF81C3AA3F00049A72F /* Connection.swift */; };
-		0D4D7CDD1C5A415C000BFEC5 /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D4D7CDC1C5A415C000BFEC5 /* Cache.swift */; };
-		0D5395A51C60D8DF00DBB19C /* GameManifest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5395A41C60D8DF00DBB19C /* GameManifest.swift */; };
-		0D5395AD1C62AD4600DBB19C /* GameSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5395AC1C62AD4600DBB19C /* GameSettings.swift */; };
-		0D54BB901C158FAA006A9382 /* Otsimo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D54BB8F1C158FAA006A9382 /* Otsimo.swift */; };
-		0D5624AA1C898738006FA311 /* NetworkFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5624A91C898738006FA311 /* NetworkFetcher.swift */; };
-		0D60A90D1C5652DF00115500 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D60A90C1C5652DF00115500 /* Game.swift */; };
-		0D60A9101C566E6B00115500 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D60A90F1C566E6B00115500 /* Log.swift */; };
-		0D60A9151C5692E200115500 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D60A9141C5692E200115500 /* Protocols.swift */; };
-		0D60A9171C5692FC00115500 /* Otsimo+Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D60A9161C5692FC00115500 /* Otsimo+Account.swift */; };
-		0D60A9191C56938C00115500 /* Otsimo+Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D60A9181C56938C00115500 /* Otsimo+Profile.swift */; };
-		0D60A91B1C5693DB00115500 /* Otsimo+Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D60A91A1C5693DB00115500 /* Otsimo+Game.swift */; };
-		0D60A91D1C5693F200115500 /* Otsimo+Child.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D60A91C1C5693F200115500 /* Otsimo+Child.swift */; };
-		0D60A91F1C56940700115500 /* Otsimo+Catalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D60A91E1C56940700115500 /* Otsimo+Catalog.swift */; };
-		0D8214A11C38755100DC246F /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D8214A01C38755100DC246F /* Session.swift */; };
-		0D9044021C3AD68B00F51C8D /* JWT.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9044011C3AD68B00F51C8D /* JWT.swift */; };
-		0DA301891C7338E6000F28CE /* Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DA301881C7338E6000F28CE /* Analytics.swift */; };
-		0DA3018B1C73B912000F28CE /* DeviceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DA3018A1C73B912000F28CE /* DeviceInfo.swift */; };
-		0DC2841E1C4EE8B30075FE63 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DC2841D1C4EE8B30075FE63 /* Utils.swift */; };
-		0DCD07AB1C8F8BDF00138D4D /* Otsimo+Discovery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DCD07AA1C8F8BDF00138D4D /* Otsimo+Discovery.swift */; };
-		0DCD07AE1C8F928100138D4D /* Otsimo+Dashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DCD07AD1C8F928100138D4D /* Otsimo+Dashboard.swift */; };
-		0DE9425C1C66902E008DEB7E /* GameKeyValueStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE9425B1C66902E008DEB7E /* GameKeyValueStore.swift */; };
-		0DE9425E1C67D8BD008DEB7E /* ChildGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE9425D1C67D8BD008DEB7E /* ChildGame.swift */; };
-/* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		0D333A701C158D3200968DDA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0D333A5B1C158D3200968DDA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 0D333A631C158D3200968DDA;
-			remoteInfo = OtsimoSDK;
-		};
-		0D52FFB31C38A6420052C750 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0D36E2991C15C8EF00B4B549 /* OtsimoSDK_Example.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 0D36E2841C15C8EF00B4B549;
-			remoteInfo = OtsimoSDK_Example;
-		};
-/* End PBXContainerItemProxy section */
-
-/* Begin PBXFileReference section */
-		0D137FA81C3A7C280006BB8E /* ClientConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ClientConfig.swift; path = Sources/ClientConfig.swift; sourceTree = "<group>"; };
-		0D1C47D01CBD3F0200D4834B /* Otsimo+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Otsimo+Utils.swift"; path = "Sources/Otsimo+Utils.swift"; sourceTree = "<group>"; };
-		0D1E095F1C7B8A010084A990 /* Otsimo+Wiki.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Otsimo+Wiki.swift"; path = "Sources/Otsimo+Wiki.swift"; sourceTree = "<group>"; };
-		0D2C465B1C76FA9900B9DEC8 /* Watch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Watch.swift; path = Sources/Watch.swift; sourceTree = "<group>"; };
-		0D2C465E1C7700F800B9DEC8 /* Otsimo+Watch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Otsimo+Watch.swift"; path = "Sources/Otsimo+Watch.swift"; sourceTree = "<group>"; };
-		0D3053731C3AAAB0000FE8B1 /* Errors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Errors.swift; path = Sources/Errors.swift; sourceTree = "<group>"; };
-		0D333A641C158D3200968DDA /* OtsimoSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OtsimoSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		0D333A671C158D3200968DDA /* OtsimoSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = OtsimoSDK.h; path = Sources/OtsimoSDK.h; sourceTree = "<group>"; };
-		0D333A691C158D3200968DDA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = Sources/Info.plist; sourceTree = "<group>"; };
-		0D333A6E1C158D3200968DDA /* OtsimoSDKTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OtsimoSDKTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		0D333A731C158D3200968DDA /* OtsimoSDKTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtsimoSDKTests.swift; sourceTree = "<group>"; };
-		0D333A751C158D3200968DDA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		0D36E2991C15C8EF00B4B549 /* OtsimoSDK_Example.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OtsimoSDK_Example.xcodeproj; path = Example/OtsimoSDK_Example.xcodeproj; sourceTree = "<group>"; };
-		0D3D0FF81C3AA3F00049A72F /* Connection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Connection.swift; path = Sources/Connection.swift; sourceTree = "<group>"; };
-		0D4D7CDC1C5A415C000BFEC5 /* Cache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Cache.swift; path = Sources/Cache.swift; sourceTree = "<group>"; };
-		0D5395A41C60D8DF00DBB19C /* GameManifest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameManifest.swift; path = Sources/GameManifest.swift; sourceTree = "<group>"; };
-		0D5395AC1C62AD4600DBB19C /* GameSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameSettings.swift; path = Sources/GameSettings.swift; sourceTree = "<group>"; };
-		0D54BB8F1C158FAA006A9382 /* Otsimo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Otsimo.swift; path = Sources/Otsimo.swift; sourceTree = "<group>"; };
-		0D5624A91C898738006FA311 /* NetworkFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetworkFetcher.swift; path = Sources/NetworkFetcher.swift; sourceTree = "<group>"; };
-		0D60A90C1C5652DF00115500 /* Game.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Game.swift; path = Sources/Game.swift; sourceTree = "<group>"; };
-		0D60A90F1C566E6B00115500 /* Log.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Log.swift; path = Sources/Log.swift; sourceTree = "<group>"; };
-		0D60A9141C5692E200115500 /* Protocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Protocols.swift; path = Sources/Protocols.swift; sourceTree = "<group>"; };
-		0D60A9161C5692FC00115500 /* Otsimo+Account.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Otsimo+Account.swift"; path = "Sources/Otsimo+Account.swift"; sourceTree = "<group>"; };
-		0D60A9181C56938C00115500 /* Otsimo+Profile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Otsimo+Profile.swift"; path = "Sources/Otsimo+Profile.swift"; sourceTree = "<group>"; };
-		0D60A91A1C5693DB00115500 /* Otsimo+Game.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Otsimo+Game.swift"; path = "Sources/Otsimo+Game.swift"; sourceTree = "<group>"; };
-		0D60A91C1C5693F200115500 /* Otsimo+Child.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Otsimo+Child.swift"; path = "Sources/Otsimo+Child.swift"; sourceTree = "<group>"; };
-		0D60A91E1C56940700115500 /* Otsimo+Catalog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Otsimo+Catalog.swift"; path = "Sources/Otsimo+Catalog.swift"; sourceTree = "<group>"; };
-		0D8214A01C38755100DC246F /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Session.swift; path = Sources/Session.swift; sourceTree = "<group>"; };
-		0D9044011C3AD68B00F51C8D /* JWT.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JWT.swift; path = Sources/JWT.swift; sourceTree = "<group>"; };
-		0DA301881C7338E6000F28CE /* Analytics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Analytics.swift; path = Sources/Analytics.swift; sourceTree = "<group>"; };
-		0DA3018A1C73B912000F28CE /* DeviceInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeviceInfo.swift; path = Sources/DeviceInfo.swift; sourceTree = "<group>"; };
-		0DC2841D1C4EE8B30075FE63 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Utils.swift; path = Sources/Utils.swift; sourceTree = "<group>"; };
-		0DCD07AA1C8F8BDF00138D4D /* Otsimo+Discovery.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Otsimo+Discovery.swift"; path = "Sources/Otsimo+Discovery.swift"; sourceTree = "<group>"; };
-		0DCD07AD1C8F928100138D4D /* Otsimo+Dashboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Otsimo+Dashboard.swift"; path = "Sources/Otsimo+Dashboard.swift"; sourceTree = "<group>"; };
-		0DE9425B1C66902E008DEB7E /* GameKeyValueStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameKeyValueStore.swift; path = Sources/GameKeyValueStore.swift; sourceTree = "<group>"; };
-		0DE9425D1C67D8BD008DEB7E /* ChildGame.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChildGame.swift; path = Sources/ChildGame.swift; sourceTree = "<group>"; };
-/* End PBXFileReference section */
-
-/* Begin PBXFrameworksBuildPhase section */
-		0D333A601C158D3200968DDA /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		0D333A6B1C158D3200968DDA /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				0D333A6F1C158D3200968DDA /* OtsimoSDK.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXFrameworksBuildPhase section */
-
-/* Begin PBXGroup section */
-		0D333A5A1C158D3200968DDA = {
-			isa = PBXGroup;
-			children = (
-				0DE680D11C1728CF00FA8CF6 /* Sources */,
-				0D36E27A1C15C8A100B4B549 /* Example */,
-				0D333A721C158D3200968DDA /* Tests */,
-				0D333A651C158D3200968DDA /* Products */,
-				0D54BB8E1C158F8B006A9382 /* Frameworks */,
-			);
-			sourceTree = "<group>";
-		};
-		0D333A651C158D3200968DDA /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				0D333A641C158D3200968DDA /* OtsimoSDK.framework */,
-				0D333A6E1C158D3200968DDA /* OtsimoSDKTests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		0D333A721C158D3200968DDA /* Tests */ = {
-			isa = PBXGroup;
-			children = (
-				0D333A731C158D3200968DDA /* OtsimoSDKTests.swift */,
-				0D333A751C158D3200968DDA /* Info.plist */,
-			);
-			path = Tests;
-			sourceTree = "<group>";
-		};
-		0D36E27A1C15C8A100B4B549 /* Example */ = {
-			isa = PBXGroup;
-			children = (
-				0D36E2991C15C8EF00B4B549 /* OtsimoSDK_Example.xcodeproj */,
-			);
-			name = Example;
-			sourceTree = "<group>";
-		};
-		0D52FFB01C38A6400052C750 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				0D52FFB41C38A6420052C750 /* Example.app */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		0D54BB8E1C158F8B006A9382 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		0DA301831C733840000F28CE /* Otsimo */ = {
-			isa = PBXGroup;
-			children = (
-				0D4D7CDC1C5A415C000BFEC5 /* Cache.swift */,
-				0D54BB8F1C158FAA006A9382 /* Otsimo.swift */,
-				0D60A9161C5692FC00115500 /* Otsimo+Account.swift */,
-				0D60A91E1C56940700115500 /* Otsimo+Catalog.swift */,
-				0D60A91C1C5693F200115500 /* Otsimo+Child.swift */,
-				0DCD07AD1C8F928100138D4D /* Otsimo+Dashboard.swift */,
-				0DCD07AA1C8F8BDF00138D4D /* Otsimo+Discovery.swift */,
-				0D60A91A1C5693DB00115500 /* Otsimo+Game.swift */,
-				0D60A9181C56938C00115500 /* Otsimo+Profile.swift */,
-				0D2C465E1C7700F800B9DEC8 /* Otsimo+Watch.swift */,
-				0D1E095F1C7B8A010084A990 /* Otsimo+Wiki.swift */,
-				0D60A9141C5692E200115500 /* Protocols.swift */,
-				0D1C47D01CBD3F0200D4834B /* Otsimo+Utils.swift */,
-			);
-			name = Otsimo;
-			sourceTree = "<group>";
-		};
-		0DA301841C73384A000F28CE /* Game */ = {
-			isa = PBXGroup;
-			children = (
-				0DE9425D1C67D8BD008DEB7E /* ChildGame.swift */,
-				0D60A90C1C5652DF00115500 /* Game.swift */,
-				0DE9425B1C66902E008DEB7E /* GameKeyValueStore.swift */,
-				0D5395A41C60D8DF00DBB19C /* GameManifest.swift */,
-				0D5395AC1C62AD4600DBB19C /* GameSettings.swift */,
-			);
-			name = Game;
-			sourceTree = "<group>";
-		};
-		0DA301851C73385B000F28CE /* Utils */ = {
-			isa = PBXGroup;
-			children = (
-				0D3053731C3AAAB0000FE8B1 /* Errors.swift */,
-				0DC2841D1C4EE8B30075FE63 /* Utils.swift */,
-				0D9044011C3AD68B00F51C8D /* JWT.swift */,
-				0D60A90F1C566E6B00115500 /* Log.swift */,
-				0D5624A91C898738006FA311 /* NetworkFetcher.swift */,
-			);
-			name = Utils;
-			sourceTree = "<group>";
-		};
-		0DA301861C73386C000F28CE /* Others */ = {
-			isa = PBXGroup;
-			children = (
-				0D333A671C158D3200968DDA /* OtsimoSDK.h */,
-				0D333A691C158D3200968DDA /* Info.plist */,
-			);
-			name = Others;
-			sourceTree = "<group>";
-		};
-		0DA301871C73387A000F28CE /* Api */ = {
-			isa = PBXGroup;
-			children = (
-				0DA301881C7338E6000F28CE /* Analytics.swift */,
-				0D137FA81C3A7C280006BB8E /* ClientConfig.swift */,
-				0D3D0FF81C3AA3F00049A72F /* Connection.swift */,
-				0DA3018A1C73B912000F28CE /* DeviceInfo.swift */,
-				0D8214A01C38755100DC246F /* Session.swift */,
-				0D2C465B1C76FA9900B9DEC8 /* Watch.swift */,
-			);
-			name = Api;
-			sourceTree = "<group>";
-		};
-		0DE680D11C1728CF00FA8CF6 /* Sources */ = {
-			isa = PBXGroup;
-			children = (
-				0DA301871C73387A000F28CE /* Api */,
-				0DA301841C73384A000F28CE /* Game */,
-				0DA301831C733840000F28CE /* Otsimo */,
-				0DA301851C73385B000F28CE /* Utils */,
-				0DA301861C73386C000F28CE /* Others */,
-			);
-			name = Sources;
-			sourceTree = "<group>";
-		};
-/* End PBXGroup section */
-
-/* Begin PBXHeadersBuildPhase section */
-		0D333A611C158D3200968DDA /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				0D333A681C158D3200968DDA /* OtsimoSDK.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXHeadersBuildPhase section */
-
-/* Begin PBXNativeTarget section */
-		0D333A631C158D3200968DDA /* OtsimoSDK */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 0D333A781C158D3200968DDA /* Build configuration list for PBXNativeTarget "OtsimoSDK" */;
-			buildPhases = (
-				0D333A5F1C158D3200968DDA /* Sources */,
-				0D333A601C158D3200968DDA /* Frameworks */,
-				0D333A611C158D3200968DDA /* Headers */,
-				0D333A621C158D3200968DDA /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = OtsimoSDK;
-			productName = OtsimoSDK;
-			productReference = 0D333A641C158D3200968DDA /* OtsimoSDK.framework */;
-			productType = "com.apple.product-type.framework";
-		};
-		0D333A6D1C158D3200968DDA /* OtsimoSDKTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 0D333A7B1C158D3200968DDA /* Build configuration list for PBXNativeTarget "OtsimoSDKTests" */;
-			buildPhases = (
-				0D333A6A1C158D3200968DDA /* Sources */,
-				0D333A6B1C158D3200968DDA /* Frameworks */,
-				0D333A6C1C158D3200968DDA /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				0D333A711C158D3200968DDA /* PBXTargetDependency */,
-			);
-			name = OtsimoSDKTests;
-			productName = OtsimoSDKTests;
-			productReference = 0D333A6E1C158D3200968DDA /* OtsimoSDKTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-/* End PBXNativeTarget section */
-
-/* Begin PBXProject section */
-		0D333A5B1C158D3200968DDA /* Project object */ = {
-			isa = PBXProject;
-			attributes = {
-				LastSwiftUpdateCheck = 0720;
-				LastUpgradeCheck = 0710;
-				ORGANIZATIONNAME = Otsimo;
-				TargetAttributes = {
-					0D333A631C158D3200968DDA = {
-						CreatedOnToolsVersion = 7.1.1;
-						DevelopmentTeam = LUBGWANK4N;
-					};
-					0D333A6D1C158D3200968DDA = {
-						CreatedOnToolsVersion = 7.1.1;
-					};
-				};
-			};
-			buildConfigurationList = 0D333A5E1C158D3200968DDA /* Build configuration list for PBXProject "OtsimoSDK" */;
-			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
-			hasScannedForEncodings = 0;
-			knownRegions = (
-				en,
-			);
-			mainGroup = 0D333A5A1C158D3200968DDA;
-			productRefGroup = 0D333A651C158D3200968DDA /* Products */;
-			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 0D52FFB01C38A6400052C750 /* Products */;
-					ProjectRef = 0D36E2991C15C8EF00B4B549 /* OtsimoSDK_Example.xcodeproj */;
-				},
-			);
-			projectRoot = "";
-			targets = (
-				0D333A631C158D3200968DDA /* OtsimoSDK */,
-				0D333A6D1C158D3200968DDA /* OtsimoSDKTests */,
-			);
-		};
-/* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		0D52FFB41C38A6420052C750 /* Example.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = Example.app;
-			remoteRef = 0D52FFB31C38A6420052C750 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
-
-/* Begin PBXResourcesBuildPhase section */
-		0D333A621C158D3200968DDA /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		0D333A6C1C158D3200968DDA /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXResourcesBuildPhase section */
-
-/* Begin PBXSourcesBuildPhase section */
-		0D333A5F1C158D3200968DDA /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				0D8214A11C38755100DC246F /* Session.swift in Sources */,
-				0D5395AD1C62AD4600DBB19C /* GameSettings.swift in Sources */,
-				0D1C47D11CBD3F0200D4834B /* Otsimo+Utils.swift in Sources */,
-				0DCD07AB1C8F8BDF00138D4D /* Otsimo+Discovery.swift in Sources */,
-				0D5624AA1C898738006FA311 /* NetworkFetcher.swift in Sources */,
-				0D2C465F1C7700F800B9DEC8 /* Otsimo+Watch.swift in Sources */,
-				0D3D0FF91C3AA3F00049A72F /* Connection.swift in Sources */,
-				0D60A91B1C5693DB00115500 /* Otsimo+Game.swift in Sources */,
-				0DA301891C7338E6000F28CE /* Analytics.swift in Sources */,
-				0D60A9191C56938C00115500 /* Otsimo+Profile.swift in Sources */,
-				0DE9425C1C66902E008DEB7E /* GameKeyValueStore.swift in Sources */,
-				0DE9425E1C67D8BD008DEB7E /* ChildGame.swift in Sources */,
-				0D60A9101C566E6B00115500 /* Log.swift in Sources */,
-				0D60A9151C5692E200115500 /* Protocols.swift in Sources */,
-				0D60A91F1C56940700115500 /* Otsimo+Catalog.swift in Sources */,
-				0D137FA91C3A7C280006BB8E /* ClientConfig.swift in Sources */,
-				0DC2841E1C4EE8B30075FE63 /* Utils.swift in Sources */,
-				0D9044021C3AD68B00F51C8D /* JWT.swift in Sources */,
-				0D2C465C1C76FA9900B9DEC8 /* Watch.swift in Sources */,
-				0D4D7CDD1C5A415C000BFEC5 /* Cache.swift in Sources */,
-				0D5395A51C60D8DF00DBB19C /* GameManifest.swift in Sources */,
-				0D1E09601C7B8A010084A990 /* Otsimo+Wiki.swift in Sources */,
-				0DA3018B1C73B912000F28CE /* DeviceInfo.swift in Sources */,
-				0D60A91D1C5693F200115500 /* Otsimo+Child.swift in Sources */,
-				0DCD07AE1C8F928100138D4D /* Otsimo+Dashboard.swift in Sources */,
-				0D3053741C3AAAB0000FE8B1 /* Errors.swift in Sources */,
-				0D54BB901C158FAA006A9382 /* Otsimo.swift in Sources */,
-				0D60A9171C5692FC00115500 /* Otsimo+Account.swift in Sources */,
-				0D60A90D1C5652DF00115500 /* Game.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		0D333A6A1C158D3200968DDA /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				0D333A741C158D3200968DDA /* OtsimoSDKTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		0D333A711C158D3200968DDA /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 0D333A631C158D3200968DDA /* OtsimoSDK */;
-			targetProxy = 0D333A701C158D3200968DDA /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
-/* Begin XCBuildConfiguration section */
-		0D333A761C158D3200968DDA /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/Carthage/Build/iOS\"";
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				MTL_ENABLE_DEBUG_INFO = YES;
-				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = iphoneos;
-				SWIFT_INCLUDE_PATHS = "";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		0D333A771C158D3200968DDA /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_NS_ASSERTIONS = NO;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/Carthage/Build/iOS\"";
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				SDKROOT = iphoneos;
-				SWIFT_INCLUDE_PATHS = "";
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		0D333A791C158D3200968DDA /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
-				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_BITCODE = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
-				);
-				GCC_PREFIX_HEADER = "";
-				HEADER_SEARCH_PATHS = (
-					"\"$(SRCROOT)/Carthage/Build/iOS/Realm.framework/Headers\"",
-					"\"$(SRCROOT)/Carthage/Build/iOS/BoringSSL.framework/Headers\"",
-					"\"$(SRCROOT)/Carthage/Build/iOS/Protobuf.framework/Headers\"",
-					"\"$(SRCROOT)/Carthage/Build/iOS/gRPC.framework/Headers\"",
-					"\"$(SRCROOT)/Carthage/Build/iOS/OtsimoApiGrpc.framework/Headers\"",
-				);
-				INFOPLIST_FILE = "$(SRCROOT)/Sources/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.otsimo.otsimo-sdk";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-			};
-			name = Debug;
-		};
-		0D333A7A1C158D3200968DDA /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
-				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_BITCODE = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
-				);
-				GCC_PREFIX_HEADER = "";
-				HEADER_SEARCH_PATHS = (
-					"\"$(SRCROOT)/Carthage/Build/iOS/Realm.framework/Headers\"",
-					"\"$(SRCROOT)/Carthage/Build/iOS/BoringSSL.framework/Headers\"",
-					"\"$(SRCROOT)/Carthage/Build/iOS/Protobuf.framework/Headers\"",
-					"\"$(SRCROOT)/Carthage/Build/iOS/gRPC.framework/Headers\"",
-					"\"$(SRCROOT)/Carthage/Build/iOS/OtsimoApiGrpc.framework/Headers\"",
-				);
-				INFOPLIST_FILE = "$(SRCROOT)/Sources/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.otsimo.otsimo-sdk";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-			};
-			name = Release;
-		};
-		0D333A7C1C158D3200968DDA /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
-				);
-				HEADER_SEARCH_PATHS = (
-					"\"$(SRCROOT)/Carthage/Build/iOS/Protobuf.framework/Headers\"",
-					"\"$(SRCROOT)/Carthage/Build/iOS/BoringSSL.framework/Headers\"",
-					"\"$(SRCROOT)/Carthage/Build/iOS/gRPC.framework/Headers\"",
-					"\"$(SRCROOT)/Carthage/Build/iOS/OtsimoApiGrpc.framework/Headers\"",
-				);
-				INFOPLIST_FILE = Tests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(PROJECT_DIR)/Carthage/Build/iOS";
-				PRODUCT_BUNDLE_IDENTIFIER = com.otsimo.OtsimoSDKTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Debug;
-		};
-		0D333A7D1C158D3200968DDA /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
-				);
-				HEADER_SEARCH_PATHS = (
-					"\"$(SRCROOT)/Carthage/Build/iOS/Protobuf.framework/Headers\"",
-					"\"$(SRCROOT)/Carthage/Build/iOS/BoringSSL.framework/Headers\"",
-					"\"$(SRCROOT)/Carthage/Build/iOS/gRPC.framework/Headers\"",
-					"\"$(SRCROOT)/Carthage/Build/iOS/OtsimoApiGrpc.framework/Headers\"",
-				);
-				INFOPLIST_FILE = Tests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(PROJECT_DIR)/Carthage/Build/iOS";
-				PRODUCT_BUNDLE_IDENTIFIER = com.otsimo.OtsimoSDKTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
-/* End XCBuildConfiguration section */
-
-/* Begin XCConfigurationList section */
-		0D333A5E1C158D3200968DDA /* Build configuration list for PBXProject "OtsimoSDK" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				0D333A761C158D3200968DDA /* Debug */,
-				0D333A771C158D3200968DDA /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		0D333A781C158D3200968DDA /* Build configuration list for PBXNativeTarget "OtsimoSDK" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				0D333A791C158D3200968DDA /* Debug */,
-				0D333A7A1C158D3200968DDA /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		0D333A7B1C158D3200968DDA /* Build configuration list for PBXNativeTarget "OtsimoSDKTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				0D333A7C1C158D3200968DDA /* Debug */,
-				0D333A7D1C158D3200968DDA /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-/* End XCConfigurationList section */
-	};
-	rootObject = 0D333A5B1C158D3200968DDA /* Project object */;
-}
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>archiveVersion</key>
+	<string>1</string>
+	<key>classes</key>
+	<dict/>
+	<key>objectVersion</key>
+	<string>46</string>
+	<key>objects</key>
+	<dict>
+		<key>0D137FA81C3A7C280006BB8E</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.swift</string>
+			<key>name</key>
+			<string>ClientConfig.swift</string>
+			<key>path</key>
+			<string>Sources/ClientConfig.swift</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0D137FA91C3A7C280006BB8E</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0D137FA81C3A7C280006BB8E</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0D1C47D01CBD3F0200D4834B</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.swift</string>
+			<key>name</key>
+			<string>Otsimo+Utils.swift</string>
+			<key>path</key>
+			<string>Sources/Otsimo+Utils.swift</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0D1C47D11CBD3F0200D4834B</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0D1C47D01CBD3F0200D4834B</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0D1E095F1C7B8A010084A990</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.swift</string>
+			<key>name</key>
+			<string>Otsimo+Wiki.swift</string>
+			<key>path</key>
+			<string>Sources/Otsimo+Wiki.swift</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0D1E09601C7B8A010084A990</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0D1E095F1C7B8A010084A990</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0D2C465B1C76FA9900B9DEC8</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.swift</string>
+			<key>name</key>
+			<string>Watch.swift</string>
+			<key>path</key>
+			<string>Sources/Watch.swift</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0D2C465C1C76FA9900B9DEC8</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0D2C465B1C76FA9900B9DEC8</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0D2C465E1C7700F800B9DEC8</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.swift</string>
+			<key>name</key>
+			<string>Otsimo+Watch.swift</string>
+			<key>path</key>
+			<string>Sources/Otsimo+Watch.swift</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0D2C465F1C7700F800B9DEC8</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0D2C465E1C7700F800B9DEC8</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0D3053731C3AAAB0000FE8B1</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.swift</string>
+			<key>name</key>
+			<string>Errors.swift</string>
+			<key>path</key>
+			<string>Sources/Errors.swift</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0D3053741C3AAAB0000FE8B1</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0D3053731C3AAAB0000FE8B1</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0D333A5A1C158D3200968DDA</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>0DE680D11C1728CF00FA8CF6</string>
+				<string>0D36E27A1C15C8A100B4B549</string>
+				<string>0D333A721C158D3200968DDA</string>
+				<string>0D333A651C158D3200968DDA</string>
+				<string>0D54BB8E1C158F8B006A9382</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0D333A5B1C158D3200968DDA</key>
+		<dict>
+			<key>attributes</key>
+			<dict>
+				<key>LastSwiftUpdateCheck</key>
+				<string>0720</string>
+				<key>LastUpgradeCheck</key>
+				<string>0710</string>
+				<key>ORGANIZATIONNAME</key>
+				<string>Otsimo</string>
+				<key>TargetAttributes</key>
+				<dict>
+					<key>0D333A631C158D3200968DDA</key>
+					<dict>
+						<key>CreatedOnToolsVersion</key>
+						<string>7.1.1</string>
+						<key>DevelopmentTeam</key>
+						<string>LUBGWANK4N</string>
+					</dict>
+					<key>0D333A6D1C158D3200968DDA</key>
+					<dict>
+						<key>CreatedOnToolsVersion</key>
+						<string>7.1.1</string>
+					</dict>
+				</dict>
+			</dict>
+			<key>buildConfigurationList</key>
+			<string>0D333A5E1C158D3200968DDA</string>
+			<key>compatibilityVersion</key>
+			<string>Xcode 3.2</string>
+			<key>developmentRegion</key>
+			<string>English</string>
+			<key>hasScannedForEncodings</key>
+			<string>0</string>
+			<key>isa</key>
+			<string>PBXProject</string>
+			<key>knownRegions</key>
+			<array>
+				<string>en</string>
+			</array>
+			<key>mainGroup</key>
+			<string>0D333A5A1C158D3200968DDA</string>
+			<key>productRefGroup</key>
+			<string>0D333A651C158D3200968DDA</string>
+			<key>projectDirPath</key>
+			<string></string>
+			<key>projectReferences</key>
+			<array>
+				<dict>
+					<key>ProductGroup</key>
+					<string>0D52FFB01C38A6400052C750</string>
+					<key>ProjectRef</key>
+					<string>0D36E2991C15C8EF00B4B549</string>
+				</dict>
+			</array>
+			<key>projectRoot</key>
+			<string></string>
+			<key>targets</key>
+			<array>
+				<string>0D333A631C158D3200968DDA</string>
+				<string>0D333A6D1C158D3200968DDA</string>
+			</array>
+		</dict>
+		<key>0D333A5E1C158D3200968DDA</key>
+		<dict>
+			<key>buildConfigurations</key>
+			<array>
+				<string>0D333A761C158D3200968DDA</string>
+				<string>0D333A771C158D3200968DDA</string>
+			</array>
+			<key>defaultConfigurationIsVisible</key>
+			<string>0</string>
+			<key>defaultConfigurationName</key>
+			<string>Release</string>
+			<key>isa</key>
+			<string>XCConfigurationList</string>
+		</dict>
+		<key>0D333A5F1C158D3200968DDA</key>
+		<dict>
+			<key>buildActionMask</key>
+			<string>2147483647</string>
+			<key>files</key>
+			<array>
+				<string>0D8214A11C38755100DC246F</string>
+				<string>0D5395AD1C62AD4600DBB19C</string>
+				<string>0D1C47D11CBD3F0200D4834B</string>
+				<string>0DCD07AB1C8F8BDF00138D4D</string>
+				<string>0D5624AA1C898738006FA311</string>
+				<string>0D2C465F1C7700F800B9DEC8</string>
+				<string>0D3D0FF91C3AA3F00049A72F</string>
+				<string>0D60A91B1C5693DB00115500</string>
+				<string>0DA301891C7338E6000F28CE</string>
+				<string>0D60A9191C56938C00115500</string>
+				<string>0DE9425C1C66902E008DEB7E</string>
+				<string>0DE9425E1C67D8BD008DEB7E</string>
+				<string>0D60A9101C566E6B00115500</string>
+				<string>0D60A9151C5692E200115500</string>
+				<string>0D60A91F1C56940700115500</string>
+				<string>0D137FA91C3A7C280006BB8E</string>
+				<string>0DC2841E1C4EE8B30075FE63</string>
+				<string>0D9044021C3AD68B00F51C8D</string>
+				<string>0D2C465C1C76FA9900B9DEC8</string>
+				<string>0D4D7CDD1C5A415C000BFEC5</string>
+				<string>0D5395A51C60D8DF00DBB19C</string>
+				<string>0D1E09601C7B8A010084A990</string>
+				<string>0DA3018B1C73B912000F28CE</string>
+				<string>0D60A91D1C5693F200115500</string>
+				<string>0DCD07AE1C8F928100138D4D</string>
+				<string>0D3053741C3AAAB0000FE8B1</string>
+				<string>0D54BB901C158FAA006A9382</string>
+				<string>0D60A9171C5692FC00115500</string>
+				<string>0D60A90D1C5652DF00115500</string>
+			</array>
+			<key>isa</key>
+			<string>PBXSourcesBuildPhase</string>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<string>0</string>
+		</dict>
+		<key>0D333A601C158D3200968DDA</key>
+		<dict>
+			<key>buildActionMask</key>
+			<string>2147483647</string>
+			<key>files</key>
+			<array/>
+			<key>isa</key>
+			<string>PBXFrameworksBuildPhase</string>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<string>0</string>
+		</dict>
+		<key>0D333A611C158D3200968DDA</key>
+		<dict>
+			<key>buildActionMask</key>
+			<string>2147483647</string>
+			<key>files</key>
+			<array>
+				<string>0D333A681C158D3200968DDA</string>
+			</array>
+			<key>isa</key>
+			<string>PBXHeadersBuildPhase</string>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<string>0</string>
+		</dict>
+		<key>0D333A621C158D3200968DDA</key>
+		<dict>
+			<key>buildActionMask</key>
+			<string>2147483647</string>
+			<key>files</key>
+			<array/>
+			<key>isa</key>
+			<string>PBXResourcesBuildPhase</string>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<string>0</string>
+		</dict>
+		<key>0D333A631C158D3200968DDA</key>
+		<dict>
+			<key>buildConfigurationList</key>
+			<string>0D333A781C158D3200968DDA</string>
+			<key>buildPhases</key>
+			<array>
+				<string>0D333A5F1C158D3200968DDA</string>
+				<string>0D333A601C158D3200968DDA</string>
+				<string>0D333A611C158D3200968DDA</string>
+				<string>0D333A621C158D3200968DDA</string>
+				<string>F201BF89BA3DDD0640B768B1</string>
+			</array>
+			<key>buildRules</key>
+			<array/>
+			<key>dependencies</key>
+			<array/>
+			<key>isa</key>
+			<string>PBXNativeTarget</string>
+			<key>name</key>
+			<string>OtsimoSDK</string>
+			<key>productName</key>
+			<string>OtsimoSDK</string>
+			<key>productReference</key>
+			<string>0D333A641C158D3200968DDA</string>
+			<key>productType</key>
+			<string>com.apple.product-type.framework</string>
+		</dict>
+		<key>0D333A641C158D3200968DDA</key>
+		<dict>
+			<key>explicitFileType</key>
+			<string>wrapper.framework</string>
+			<key>includeInIndex</key>
+			<string>0</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>path</key>
+			<string>OtsimoSDK.framework</string>
+			<key>sourceTree</key>
+			<string>BUILT_PRODUCTS_DIR</string>
+		</dict>
+		<key>0D333A651C158D3200968DDA</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>0D333A641C158D3200968DDA</string>
+				<string>0D333A6E1C158D3200968DDA</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Products</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0D333A671C158D3200968DDA</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>name</key>
+			<string>OtsimoSDK.h</string>
+			<key>path</key>
+			<string>Sources/OtsimoSDK.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0D333A681C158D3200968DDA</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0D333A671C158D3200968DDA</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+			<key>settings</key>
+			<dict>
+				<key>ATTRIBUTES</key>
+				<array>
+					<string>Public</string>
+				</array>
+			</dict>
+		</dict>
+		<key>0D333A691C158D3200968DDA</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>text.plist.xml</string>
+			<key>name</key>
+			<string>Info.plist</string>
+			<key>path</key>
+			<string>Sources/Info.plist</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0D333A6A1C158D3200968DDA</key>
+		<dict>
+			<key>buildActionMask</key>
+			<string>2147483647</string>
+			<key>files</key>
+			<array>
+				<string>0D333A741C158D3200968DDA</string>
+			</array>
+			<key>isa</key>
+			<string>PBXSourcesBuildPhase</string>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<string>0</string>
+		</dict>
+		<key>0D333A6B1C158D3200968DDA</key>
+		<dict>
+			<key>buildActionMask</key>
+			<string>2147483647</string>
+			<key>files</key>
+			<array>
+				<string>0D333A6F1C158D3200968DDA</string>
+			</array>
+			<key>isa</key>
+			<string>PBXFrameworksBuildPhase</string>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<string>0</string>
+		</dict>
+		<key>0D333A6C1C158D3200968DDA</key>
+		<dict>
+			<key>buildActionMask</key>
+			<string>2147483647</string>
+			<key>files</key>
+			<array/>
+			<key>isa</key>
+			<string>PBXResourcesBuildPhase</string>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<string>0</string>
+		</dict>
+		<key>0D333A6D1C158D3200968DDA</key>
+		<dict>
+			<key>buildConfigurationList</key>
+			<string>0D333A7B1C158D3200968DDA</string>
+			<key>buildPhases</key>
+			<array>
+				<string>0D333A6A1C158D3200968DDA</string>
+				<string>0D333A6B1C158D3200968DDA</string>
+				<string>0D333A6C1C158D3200968DDA</string>
+			</array>
+			<key>buildRules</key>
+			<array/>
+			<key>dependencies</key>
+			<array>
+				<string>0D333A711C158D3200968DDA</string>
+			</array>
+			<key>isa</key>
+			<string>PBXNativeTarget</string>
+			<key>name</key>
+			<string>OtsimoSDKTests</string>
+			<key>productName</key>
+			<string>OtsimoSDKTests</string>
+			<key>productReference</key>
+			<string>0D333A6E1C158D3200968DDA</string>
+			<key>productType</key>
+			<string>com.apple.product-type.bundle.unit-test</string>
+		</dict>
+		<key>0D333A6E1C158D3200968DDA</key>
+		<dict>
+			<key>explicitFileType</key>
+			<string>wrapper.cfbundle</string>
+			<key>includeInIndex</key>
+			<string>0</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>path</key>
+			<string>OtsimoSDKTests.xctest</string>
+			<key>sourceTree</key>
+			<string>BUILT_PRODUCTS_DIR</string>
+		</dict>
+		<key>0D333A6F1C158D3200968DDA</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0D333A641C158D3200968DDA</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0D333A701C158D3200968DDA</key>
+		<dict>
+			<key>containerPortal</key>
+			<string>0D333A5B1C158D3200968DDA</string>
+			<key>isa</key>
+			<string>PBXContainerItemProxy</string>
+			<key>proxyType</key>
+			<string>1</string>
+			<key>remoteGlobalIDString</key>
+			<string>0D333A631C158D3200968DDA</string>
+			<key>remoteInfo</key>
+			<string>OtsimoSDK</string>
+		</dict>
+		<key>0D333A711C158D3200968DDA</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXTargetDependency</string>
+			<key>target</key>
+			<string>0D333A631C158D3200968DDA</string>
+			<key>targetProxy</key>
+			<string>0D333A701C158D3200968DDA</string>
+		</dict>
+		<key>0D333A721C158D3200968DDA</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>0D333A731C158D3200968DDA</string>
+				<string>0D333A751C158D3200968DDA</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>path</key>
+			<string>Tests</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0D333A731C158D3200968DDA</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.swift</string>
+			<key>path</key>
+			<string>OtsimoSDKTests.swift</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0D333A741C158D3200968DDA</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0D333A731C158D3200968DDA</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0D333A751C158D3200968DDA</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>text.plist.xml</string>
+			<key>path</key>
+			<string>Info.plist</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0D333A761C158D3200968DDA</key>
+		<dict>
+			<key>buildSettings</key>
+			<dict>
+				<key>ALWAYS_SEARCH_USER_PATHS</key>
+				<string>NO</string>
+				<key>CLANG_CXX_LANGUAGE_STANDARD</key>
+				<string>gnu++0x</string>
+				<key>CLANG_CXX_LIBRARY</key>
+				<string>libc++</string>
+				<key>CLANG_ENABLE_MODULES</key>
+				<string>YES</string>
+				<key>CLANG_ENABLE_OBJC_ARC</key>
+				<string>YES</string>
+				<key>CLANG_WARN_BOOL_CONVERSION</key>
+				<string>YES</string>
+				<key>CLANG_WARN_CONSTANT_CONVERSION</key>
+				<string>YES</string>
+				<key>CLANG_WARN_DIRECT_OBJC_ISA_USAGE</key>
+				<string>YES_ERROR</string>
+				<key>CLANG_WARN_EMPTY_BODY</key>
+				<string>YES</string>
+				<key>CLANG_WARN_ENUM_CONVERSION</key>
+				<string>YES</string>
+				<key>CLANG_WARN_INT_CONVERSION</key>
+				<string>YES</string>
+				<key>CLANG_WARN_OBJC_ROOT_CLASS</key>
+				<string>YES_ERROR</string>
+				<key>CLANG_WARN_UNREACHABLE_CODE</key>
+				<string>YES</string>
+				<key>CLANG_WARN__DUPLICATE_METHOD_MATCH</key>
+				<string>YES</string>
+				<key>CODE_SIGN_IDENTITY[sdk=iphoneos*]</key>
+				<string>iPhone Developer</string>
+				<key>COPY_PHASE_STRIP</key>
+				<string>NO</string>
+				<key>CURRENT_PROJECT_VERSION</key>
+				<string>1</string>
+				<key>DEBUG_INFORMATION_FORMAT</key>
+				<string>dwarf</string>
+				<key>ENABLE_STRICT_OBJC_MSGSEND</key>
+				<string>YES</string>
+				<key>ENABLE_TESTABILITY</key>
+				<string>YES</string>
+				<key>FRAMEWORK_SEARCH_PATHS</key>
+				<string>"$(SRCROOT)/Carthage/Build/iOS"</string>
+				<key>GCC_C_LANGUAGE_STANDARD</key>
+				<string>gnu99</string>
+				<key>GCC_DYNAMIC_NO_PIC</key>
+				<string>NO</string>
+				<key>GCC_NO_COMMON_BLOCKS</key>
+				<string>YES</string>
+				<key>GCC_OPTIMIZATION_LEVEL</key>
+				<string>0</string>
+				<key>GCC_PREPROCESSOR_DEFINITIONS</key>
+				<array>
+					<string>DEBUG=1</string>
+					<string>$(inherited)</string>
+				</array>
+				<key>GCC_WARN_64_TO_32_BIT_CONVERSION</key>
+				<string>YES</string>
+				<key>GCC_WARN_ABOUT_RETURN_TYPE</key>
+				<string>YES_ERROR</string>
+				<key>GCC_WARN_UNDECLARED_SELECTOR</key>
+				<string>YES</string>
+				<key>GCC_WARN_UNINITIALIZED_AUTOS</key>
+				<string>YES_AGGRESSIVE</string>
+				<key>GCC_WARN_UNUSED_FUNCTION</key>
+				<string>YES</string>
+				<key>GCC_WARN_UNUSED_VARIABLE</key>
+				<string>YES</string>
+				<key>HEADER_SEARCH_PATHS</key>
+				<string></string>
+				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
+				<string>9.0</string>
+				<key>MTL_ENABLE_DEBUG_INFO</key>
+				<string>YES</string>
+				<key>ONLY_ACTIVE_ARCH</key>
+				<string>YES</string>
+				<key>SDKROOT</key>
+				<string>iphoneos</string>
+				<key>SWIFT_INCLUDE_PATHS</key>
+				<string></string>
+				<key>SWIFT_OPTIMIZATION_LEVEL</key>
+				<string>-Onone</string>
+				<key>TARGETED_DEVICE_FAMILY</key>
+				<string>1,2</string>
+				<key>VERSIONING_SYSTEM</key>
+				<string>apple-generic</string>
+				<key>VERSION_INFO_PREFIX</key>
+				<string></string>
+			</dict>
+			<key>isa</key>
+			<string>XCBuildConfiguration</string>
+			<key>name</key>
+			<string>Debug</string>
+		</dict>
+		<key>0D333A771C158D3200968DDA</key>
+		<dict>
+			<key>buildSettings</key>
+			<dict>
+				<key>ALWAYS_SEARCH_USER_PATHS</key>
+				<string>NO</string>
+				<key>CLANG_CXX_LANGUAGE_STANDARD</key>
+				<string>gnu++0x</string>
+				<key>CLANG_CXX_LIBRARY</key>
+				<string>libc++</string>
+				<key>CLANG_ENABLE_MODULES</key>
+				<string>YES</string>
+				<key>CLANG_ENABLE_OBJC_ARC</key>
+				<string>YES</string>
+				<key>CLANG_WARN_BOOL_CONVERSION</key>
+				<string>YES</string>
+				<key>CLANG_WARN_CONSTANT_CONVERSION</key>
+				<string>YES</string>
+				<key>CLANG_WARN_DIRECT_OBJC_ISA_USAGE</key>
+				<string>YES_ERROR</string>
+				<key>CLANG_WARN_EMPTY_BODY</key>
+				<string>YES</string>
+				<key>CLANG_WARN_ENUM_CONVERSION</key>
+				<string>YES</string>
+				<key>CLANG_WARN_INT_CONVERSION</key>
+				<string>YES</string>
+				<key>CLANG_WARN_OBJC_ROOT_CLASS</key>
+				<string>YES_ERROR</string>
+				<key>CLANG_WARN_UNREACHABLE_CODE</key>
+				<string>YES</string>
+				<key>CLANG_WARN__DUPLICATE_METHOD_MATCH</key>
+				<string>YES</string>
+				<key>CODE_SIGN_IDENTITY[sdk=iphoneos*]</key>
+				<string>iPhone Developer</string>
+				<key>COPY_PHASE_STRIP</key>
+				<string>NO</string>
+				<key>CURRENT_PROJECT_VERSION</key>
+				<string>1</string>
+				<key>DEBUG_INFORMATION_FORMAT</key>
+				<string>dwarf-with-dsym</string>
+				<key>ENABLE_NS_ASSERTIONS</key>
+				<string>NO</string>
+				<key>ENABLE_STRICT_OBJC_MSGSEND</key>
+				<string>YES</string>
+				<key>FRAMEWORK_SEARCH_PATHS</key>
+				<string>"$(SRCROOT)/Carthage/Build/iOS"</string>
+				<key>GCC_C_LANGUAGE_STANDARD</key>
+				<string>gnu99</string>
+				<key>GCC_NO_COMMON_BLOCKS</key>
+				<string>YES</string>
+				<key>GCC_WARN_64_TO_32_BIT_CONVERSION</key>
+				<string>YES</string>
+				<key>GCC_WARN_ABOUT_RETURN_TYPE</key>
+				<string>YES_ERROR</string>
+				<key>GCC_WARN_UNDECLARED_SELECTOR</key>
+				<string>YES</string>
+				<key>GCC_WARN_UNINITIALIZED_AUTOS</key>
+				<string>YES_AGGRESSIVE</string>
+				<key>GCC_WARN_UNUSED_FUNCTION</key>
+				<string>YES</string>
+				<key>GCC_WARN_UNUSED_VARIABLE</key>
+				<string>YES</string>
+				<key>HEADER_SEARCH_PATHS</key>
+				<string></string>
+				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
+				<string>9.0</string>
+				<key>MTL_ENABLE_DEBUG_INFO</key>
+				<string>NO</string>
+				<key>SDKROOT</key>
+				<string>iphoneos</string>
+				<key>SWIFT_INCLUDE_PATHS</key>
+				<string></string>
+				<key>TARGETED_DEVICE_FAMILY</key>
+				<string>1,2</string>
+				<key>VALIDATE_PRODUCT</key>
+				<string>YES</string>
+				<key>VERSIONING_SYSTEM</key>
+				<string>apple-generic</string>
+				<key>VERSION_INFO_PREFIX</key>
+				<string></string>
+			</dict>
+			<key>isa</key>
+			<string>XCBuildConfiguration</string>
+			<key>name</key>
+			<string>Release</string>
+		</dict>
+		<key>0D333A781C158D3200968DDA</key>
+		<dict>
+			<key>buildConfigurations</key>
+			<array>
+				<string>0D333A791C158D3200968DDA</string>
+				<string>0D333A7A1C158D3200968DDA</string>
+			</array>
+			<key>defaultConfigurationIsVisible</key>
+			<string>0</string>
+			<key>defaultConfigurationName</key>
+			<string>Release</string>
+			<key>isa</key>
+			<string>XCConfigurationList</string>
+		</dict>
+		<key>0D333A791C158D3200968DDA</key>
+		<dict>
+			<key>buildSettings</key>
+			<dict>
+				<key>CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES</key>
+				<string>NO</string>
+				<key>CLANG_ENABLE_MODULES</key>
+				<string>YES</string>
+				<key>CODE_SIGN_IDENTITY</key>
+				<string>iPhone Developer</string>
+				<key>DEFINES_MODULE</key>
+				<string>YES</string>
+				<key>DYLIB_COMPATIBILITY_VERSION</key>
+				<string>1</string>
+				<key>DYLIB_CURRENT_VERSION</key>
+				<string>1</string>
+				<key>DYLIB_INSTALL_NAME_BASE</key>
+				<string>@rpath</string>
+				<key>ENABLE_BITCODE</key>
+				<string>YES</string>
+				<key>FRAMEWORK_SEARCH_PATHS</key>
+				<array>
+					<string>$(inherited)</string>
+					<string>$(PROJECT_DIR)/Carthage/Build/iOS</string>
+				</array>
+				<key>GCC_PREFIX_HEADER</key>
+				<string></string>
+				<key>HEADER_SEARCH_PATHS</key>
+				<array>
+					<string>"$(SRCROOT)/Carthage/Build/iOS/Realm.framework/Headers"</string>
+					<string>"$(SRCROOT)/Carthage/Build/iOS/BoringSSL.framework/Headers"</string>
+					<string>"$(SRCROOT)/Carthage/Build/iOS/Protobuf.framework/Headers"</string>
+					<string>"$(SRCROOT)/Carthage/Build/iOS/gRPC.framework/Headers"</string>
+					<string>"$(SRCROOT)/Carthage/Build/iOS/OtsimoApiGrpc.framework/Headers"</string>
+				</array>
+				<key>INFOPLIST_FILE</key>
+				<string>$(SRCROOT)/Sources/Info.plist</string>
+				<key>INSTALL_PATH</key>
+				<string>$(LOCAL_LIBRARY_DIR)/Frameworks</string>
+				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
+				<string>8.0</string>
+				<key>LD_RUNPATH_SEARCH_PATHS</key>
+				<string>$(inherited) @executable_path/Frameworks @loader_path/Frameworks</string>
+				<key>OTHER_CFLAGS</key>
+				<string></string>
+				<key>OTHER_LDFLAGS</key>
+				<string></string>
+				<key>PRODUCT_BUNDLE_IDENTIFIER</key>
+				<string>com.otsimo.otsimo-sdk</string>
+				<key>PRODUCT_NAME</key>
+				<string>$(TARGET_NAME)</string>
+				<key>SKIP_INSTALL</key>
+				<string>YES</string>
+				<key>SWIFT_OPTIMIZATION_LEVEL</key>
+				<string>-Onone</string>
+			</dict>
+			<key>isa</key>
+			<string>XCBuildConfiguration</string>
+			<key>name</key>
+			<string>Debug</string>
+		</dict>
+		<key>0D333A7A1C158D3200968DDA</key>
+		<dict>
+			<key>buildSettings</key>
+			<dict>
+				<key>CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES</key>
+				<string>NO</string>
+				<key>CLANG_ENABLE_MODULES</key>
+				<string>YES</string>
+				<key>CODE_SIGN_IDENTITY</key>
+				<string>iPhone Developer</string>
+				<key>DEFINES_MODULE</key>
+				<string>YES</string>
+				<key>DYLIB_COMPATIBILITY_VERSION</key>
+				<string>1</string>
+				<key>DYLIB_CURRENT_VERSION</key>
+				<string>1</string>
+				<key>DYLIB_INSTALL_NAME_BASE</key>
+				<string>@rpath</string>
+				<key>ENABLE_BITCODE</key>
+				<string>YES</string>
+				<key>FRAMEWORK_SEARCH_PATHS</key>
+				<array>
+					<string>$(inherited)</string>
+					<string>$(PROJECT_DIR)/Carthage/Build/iOS</string>
+				</array>
+				<key>GCC_PREFIX_HEADER</key>
+				<string></string>
+				<key>HEADER_SEARCH_PATHS</key>
+				<array>
+					<string>"$(SRCROOT)/Carthage/Build/iOS/Realm.framework/Headers"</string>
+					<string>"$(SRCROOT)/Carthage/Build/iOS/BoringSSL.framework/Headers"</string>
+					<string>"$(SRCROOT)/Carthage/Build/iOS/Protobuf.framework/Headers"</string>
+					<string>"$(SRCROOT)/Carthage/Build/iOS/gRPC.framework/Headers"</string>
+					<string>"$(SRCROOT)/Carthage/Build/iOS/OtsimoApiGrpc.framework/Headers"</string>
+				</array>
+				<key>INFOPLIST_FILE</key>
+				<string>$(SRCROOT)/Sources/Info.plist</string>
+				<key>INSTALL_PATH</key>
+				<string>$(LOCAL_LIBRARY_DIR)/Frameworks</string>
+				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
+				<string>8.0</string>
+				<key>LD_RUNPATH_SEARCH_PATHS</key>
+				<string>$(inherited) @executable_path/Frameworks @loader_path/Frameworks</string>
+				<key>OTHER_CFLAGS</key>
+				<string></string>
+				<key>OTHER_LDFLAGS</key>
+				<string></string>
+				<key>PRODUCT_BUNDLE_IDENTIFIER</key>
+				<string>com.otsimo.otsimo-sdk</string>
+				<key>PRODUCT_NAME</key>
+				<string>$(TARGET_NAME)</string>
+				<key>SKIP_INSTALL</key>
+				<string>YES</string>
+			</dict>
+			<key>isa</key>
+			<string>XCBuildConfiguration</string>
+			<key>name</key>
+			<string>Release</string>
+		</dict>
+		<key>0D333A7B1C158D3200968DDA</key>
+		<dict>
+			<key>buildConfigurations</key>
+			<array>
+				<string>0D333A7C1C158D3200968DDA</string>
+				<string>0D333A7D1C158D3200968DDA</string>
+			</array>
+			<key>defaultConfigurationIsVisible</key>
+			<string>0</string>
+			<key>defaultConfigurationName</key>
+			<string>Release</string>
+			<key>isa</key>
+			<string>XCConfigurationList</string>
+		</dict>
+		<key>0D333A7C1C158D3200968DDA</key>
+		<dict>
+			<key>buildSettings</key>
+			<dict>
+				<key>EMBEDDED_CONTENT_CONTAINS_SWIFT</key>
+				<string>YES</string>
+				<key>FRAMEWORK_SEARCH_PATHS</key>
+				<array>
+					<string>$(inherited)</string>
+					<string>$(PROJECT_DIR)/Carthage/Build/iOS</string>
+				</array>
+				<key>HEADER_SEARCH_PATHS</key>
+				<array>
+					<string>"$(SRCROOT)/Carthage/Build/iOS/Protobuf.framework/Headers"</string>
+					<string>"$(SRCROOT)/Carthage/Build/iOS/BoringSSL.framework/Headers"</string>
+					<string>"$(SRCROOT)/Carthage/Build/iOS/gRPC.framework/Headers"</string>
+					<string>"$(SRCROOT)/Carthage/Build/iOS/OtsimoApiGrpc.framework/Headers"</string>
+				</array>
+				<key>INFOPLIST_FILE</key>
+				<string>Tests/Info.plist</string>
+				<key>LD_RUNPATH_SEARCH_PATHS</key>
+				<string>$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(PROJECT_DIR)/Carthage/Build/iOS</string>
+				<key>PRODUCT_BUNDLE_IDENTIFIER</key>
+				<string>com.otsimo.OtsimoSDKTests</string>
+				<key>PRODUCT_NAME</key>
+				<string>$(TARGET_NAME)</string>
+			</dict>
+			<key>isa</key>
+			<string>XCBuildConfiguration</string>
+			<key>name</key>
+			<string>Debug</string>
+		</dict>
+		<key>0D333A7D1C158D3200968DDA</key>
+		<dict>
+			<key>buildSettings</key>
+			<dict>
+				<key>EMBEDDED_CONTENT_CONTAINS_SWIFT</key>
+				<string>YES</string>
+				<key>FRAMEWORK_SEARCH_PATHS</key>
+				<array>
+					<string>$(inherited)</string>
+					<string>$(PROJECT_DIR)/Carthage/Build/iOS</string>
+				</array>
+				<key>HEADER_SEARCH_PATHS</key>
+				<array>
+					<string>"$(SRCROOT)/Carthage/Build/iOS/Protobuf.framework/Headers"</string>
+					<string>"$(SRCROOT)/Carthage/Build/iOS/BoringSSL.framework/Headers"</string>
+					<string>"$(SRCROOT)/Carthage/Build/iOS/gRPC.framework/Headers"</string>
+					<string>"$(SRCROOT)/Carthage/Build/iOS/OtsimoApiGrpc.framework/Headers"</string>
+				</array>
+				<key>INFOPLIST_FILE</key>
+				<string>Tests/Info.plist</string>
+				<key>LD_RUNPATH_SEARCH_PATHS</key>
+				<string>$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(PROJECT_DIR)/Carthage/Build/iOS</string>
+				<key>PRODUCT_BUNDLE_IDENTIFIER</key>
+				<string>com.otsimo.OtsimoSDKTests</string>
+				<key>PRODUCT_NAME</key>
+				<string>$(TARGET_NAME)</string>
+			</dict>
+			<key>isa</key>
+			<string>XCBuildConfiguration</string>
+			<key>name</key>
+			<string>Release</string>
+		</dict>
+		<key>0D36E27A1C15C8A100B4B549</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>0D36E2991C15C8EF00B4B549</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Example</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0D36E2991C15C8EF00B4B549</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>wrapper.pb-project</string>
+			<key>name</key>
+			<string>OtsimoSDK_Example.xcodeproj</string>
+			<key>path</key>
+			<string>Example/OtsimoSDK_Example.xcodeproj</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0D3D0FF81C3AA3F00049A72F</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.swift</string>
+			<key>name</key>
+			<string>Connection.swift</string>
+			<key>path</key>
+			<string>Sources/Connection.swift</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0D3D0FF91C3AA3F00049A72F</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0D3D0FF81C3AA3F00049A72F</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0D4D7CDC1C5A415C000BFEC5</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.swift</string>
+			<key>name</key>
+			<string>Cache.swift</string>
+			<key>path</key>
+			<string>Sources/Cache.swift</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0D4D7CDD1C5A415C000BFEC5</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0D4D7CDC1C5A415C000BFEC5</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0D52FFB01C38A6400052C750</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>0D52FFB41C38A6420052C750</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Products</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0D52FFB31C38A6420052C750</key>
+		<dict>
+			<key>containerPortal</key>
+			<string>0D36E2991C15C8EF00B4B549</string>
+			<key>isa</key>
+			<string>PBXContainerItemProxy</string>
+			<key>proxyType</key>
+			<string>2</string>
+			<key>remoteGlobalIDString</key>
+			<string>0D36E2841C15C8EF00B4B549</string>
+			<key>remoteInfo</key>
+			<string>OtsimoSDK_Example</string>
+		</dict>
+		<key>0D52FFB41C38A6420052C750</key>
+		<dict>
+			<key>fileType</key>
+			<string>wrapper.application</string>
+			<key>isa</key>
+			<string>PBXReferenceProxy</string>
+			<key>path</key>
+			<string>Example.app</string>
+			<key>remoteRef</key>
+			<string>0D52FFB31C38A6420052C750</string>
+			<key>sourceTree</key>
+			<string>BUILT_PRODUCTS_DIR</string>
+		</dict>
+		<key>0D5395A41C60D8DF00DBB19C</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.swift</string>
+			<key>name</key>
+			<string>GameManifest.swift</string>
+			<key>path</key>
+			<string>Sources/GameManifest.swift</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0D5395A51C60D8DF00DBB19C</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0D5395A41C60D8DF00DBB19C</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0D5395AC1C62AD4600DBB19C</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.swift</string>
+			<key>name</key>
+			<string>GameSettings.swift</string>
+			<key>path</key>
+			<string>Sources/GameSettings.swift</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0D5395AD1C62AD4600DBB19C</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0D5395AC1C62AD4600DBB19C</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0D54BB8E1C158F8B006A9382</key>
+		<dict>
+			<key>children</key>
+			<array/>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Frameworks</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0D54BB8F1C158FAA006A9382</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.swift</string>
+			<key>name</key>
+			<string>Otsimo.swift</string>
+			<key>path</key>
+			<string>Sources/Otsimo.swift</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0D54BB901C158FAA006A9382</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0D54BB8F1C158FAA006A9382</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0D5624A91C898738006FA311</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.swift</string>
+			<key>name</key>
+			<string>NetworkFetcher.swift</string>
+			<key>path</key>
+			<string>Sources/NetworkFetcher.swift</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0D5624AA1C898738006FA311</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0D5624A91C898738006FA311</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0D60A90C1C5652DF00115500</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.swift</string>
+			<key>name</key>
+			<string>Game.swift</string>
+			<key>path</key>
+			<string>Sources/Game.swift</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0D60A90D1C5652DF00115500</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0D60A90C1C5652DF00115500</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0D60A90F1C566E6B00115500</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.swift</string>
+			<key>name</key>
+			<string>Log.swift</string>
+			<key>path</key>
+			<string>Sources/Log.swift</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0D60A9101C566E6B00115500</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0D60A90F1C566E6B00115500</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0D60A9141C5692E200115500</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.swift</string>
+			<key>name</key>
+			<string>Protocols.swift</string>
+			<key>path</key>
+			<string>Sources/Protocols.swift</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0D60A9151C5692E200115500</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0D60A9141C5692E200115500</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0D60A9161C5692FC00115500</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.swift</string>
+			<key>name</key>
+			<string>Otsimo+Account.swift</string>
+			<key>path</key>
+			<string>Sources/Otsimo+Account.swift</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0D60A9171C5692FC00115500</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0D60A9161C5692FC00115500</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0D60A9181C56938C00115500</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.swift</string>
+			<key>name</key>
+			<string>Otsimo+Profile.swift</string>
+			<key>path</key>
+			<string>Sources/Otsimo+Profile.swift</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0D60A9191C56938C00115500</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0D60A9181C56938C00115500</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0D60A91A1C5693DB00115500</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.swift</string>
+			<key>name</key>
+			<string>Otsimo+Game.swift</string>
+			<key>path</key>
+			<string>Sources/Otsimo+Game.swift</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0D60A91B1C5693DB00115500</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0D60A91A1C5693DB00115500</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0D60A91C1C5693F200115500</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.swift</string>
+			<key>name</key>
+			<string>Otsimo+Child.swift</string>
+			<key>path</key>
+			<string>Sources/Otsimo+Child.swift</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0D60A91D1C5693F200115500</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0D60A91C1C5693F200115500</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0D60A91E1C56940700115500</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.swift</string>
+			<key>name</key>
+			<string>Otsimo+Catalog.swift</string>
+			<key>path</key>
+			<string>Sources/Otsimo+Catalog.swift</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0D60A91F1C56940700115500</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0D60A91E1C56940700115500</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0D8214A01C38755100DC246F</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.swift</string>
+			<key>name</key>
+			<string>Session.swift</string>
+			<key>path</key>
+			<string>Sources/Session.swift</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0D8214A11C38755100DC246F</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0D8214A01C38755100DC246F</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0D9044011C3AD68B00F51C8D</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.swift</string>
+			<key>name</key>
+			<string>JWT.swift</string>
+			<key>path</key>
+			<string>Sources/JWT.swift</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0D9044021C3AD68B00F51C8D</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0D9044011C3AD68B00F51C8D</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0DA301831C733840000F28CE</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>0D4D7CDC1C5A415C000BFEC5</string>
+				<string>0D54BB8F1C158FAA006A9382</string>
+				<string>0D60A9161C5692FC00115500</string>
+				<string>0D60A91E1C56940700115500</string>
+				<string>0D60A91C1C5693F200115500</string>
+				<string>0DCD07AD1C8F928100138D4D</string>
+				<string>0DCD07AA1C8F8BDF00138D4D</string>
+				<string>0D60A91A1C5693DB00115500</string>
+				<string>0D60A9181C56938C00115500</string>
+				<string>0D2C465E1C7700F800B9DEC8</string>
+				<string>0D1E095F1C7B8A010084A990</string>
+				<string>0D60A9141C5692E200115500</string>
+				<string>0D1C47D01CBD3F0200D4834B</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Otsimo</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0DA301841C73384A000F28CE</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>0DE9425D1C67D8BD008DEB7E</string>
+				<string>0D60A90C1C5652DF00115500</string>
+				<string>0DE9425B1C66902E008DEB7E</string>
+				<string>0D5395A41C60D8DF00DBB19C</string>
+				<string>0D5395AC1C62AD4600DBB19C</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Game</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0DA301851C73385B000F28CE</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>0D3053731C3AAAB0000FE8B1</string>
+				<string>0DC2841D1C4EE8B30075FE63</string>
+				<string>0D9044011C3AD68B00F51C8D</string>
+				<string>0D60A90F1C566E6B00115500</string>
+				<string>0D5624A91C898738006FA311</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Utils</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0DA301861C73386C000F28CE</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>0D333A671C158D3200968DDA</string>
+				<string>0D333A691C158D3200968DDA</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Others</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0DA301871C73387A000F28CE</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>0DA301881C7338E6000F28CE</string>
+				<string>0D137FA81C3A7C280006BB8E</string>
+				<string>0D3D0FF81C3AA3F00049A72F</string>
+				<string>0DA3018A1C73B912000F28CE</string>
+				<string>0D8214A01C38755100DC246F</string>
+				<string>0D2C465B1C76FA9900B9DEC8</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Api</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0DA301881C7338E6000F28CE</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.swift</string>
+			<key>name</key>
+			<string>Analytics.swift</string>
+			<key>path</key>
+			<string>Sources/Analytics.swift</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0DA301891C7338E6000F28CE</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0DA301881C7338E6000F28CE</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0DA3018A1C73B912000F28CE</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.swift</string>
+			<key>name</key>
+			<string>DeviceInfo.swift</string>
+			<key>path</key>
+			<string>Sources/DeviceInfo.swift</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0DA3018B1C73B912000F28CE</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0DA3018A1C73B912000F28CE</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0DC2841D1C4EE8B30075FE63</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.swift</string>
+			<key>name</key>
+			<string>Utils.swift</string>
+			<key>path</key>
+			<string>Sources/Utils.swift</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0DC2841E1C4EE8B30075FE63</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0DC2841D1C4EE8B30075FE63</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0DCD07AA1C8F8BDF00138D4D</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.swift</string>
+			<key>name</key>
+			<string>Otsimo+Discovery.swift</string>
+			<key>path</key>
+			<string>Sources/Otsimo+Discovery.swift</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0DCD07AB1C8F8BDF00138D4D</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0DCD07AA1C8F8BDF00138D4D</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0DCD07AD1C8F928100138D4D</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.swift</string>
+			<key>name</key>
+			<string>Otsimo+Dashboard.swift</string>
+			<key>path</key>
+			<string>Sources/Otsimo+Dashboard.swift</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0DCD07AE1C8F928100138D4D</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0DCD07AD1C8F928100138D4D</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0DE680D11C1728CF00FA8CF6</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>0DA301871C73387A000F28CE</string>
+				<string>0DA301841C73384A000F28CE</string>
+				<string>0DA301831C733840000F28CE</string>
+				<string>0DA301851C73385B000F28CE</string>
+				<string>0DA301861C73386C000F28CE</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Sources</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0DE9425B1C66902E008DEB7E</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.swift</string>
+			<key>name</key>
+			<string>GameKeyValueStore.swift</string>
+			<key>path</key>
+			<string>Sources/GameKeyValueStore.swift</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0DE9425C1C66902E008DEB7E</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0DE9425B1C66902E008DEB7E</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0DE9425D1C67D8BD008DEB7E</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.swift</string>
+			<key>name</key>
+			<string>ChildGame.swift</string>
+			<key>path</key>
+			<string>Sources/ChildGame.swift</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0DE9425E1C67D8BD008DEB7E</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0DE9425D1C67D8BD008DEB7E</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>F201BF89BA3DDD0640B768B1</key>
+		<dict>
+			<key>buildActionMask</key>
+			<string>2147483647</string>
+			<key>files</key>
+			<array/>
+			<key>inputPaths</key>
+			<array/>
+			<key>isa</key>
+			<string>PBXShellScriptBuildPhase</string>
+			<key>name</key>
+			<string>Tailor</string>
+			<key>outputPaths</key>
+			<array/>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<string>0</string>
+			<key>shellPath</key>
+			<string>/bin/sh</string>
+			<key>shellScript</key>
+			<string>if hash tailor 2&gt;/dev/null; then
+  tailor
+else
+  echo "warning: Please install Tailor from https://tailor.sh"
+fi</string>
+			<key>showEnvVarsInLog</key>
+			<string>1</string>
+		</dict>
+	</dict>
+	<key>rootObject</key>
+	<string>0D333A5B1C158D3200968DDA</string>
+</dict>
+</plist>
