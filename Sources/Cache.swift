@@ -13,7 +13,7 @@ import RealmSwift
 let store = try! Realm()
 
 class CatalogCache: Object {
-    dynamic var id : String = "catalog"
+    dynamic var id: String = "catalog"
     dynamic var data = NSData()
     override class func primaryKey() -> String? {
         return "id"
@@ -88,7 +88,7 @@ public class KeyValueStoreCache: Object {
 }
 
 @available( *, deprecated = 1.1)
-public class SessionCache : Object {
+public class SessionCache: Object {
     dynamic var id: String = "session"
     dynamic var profileId: String = ""
     dynamic var email: String = ""
@@ -227,8 +227,9 @@ final class OtsimoCache: CacheProtocol {
         }
 
         do {
-            try store.write {
-                store.add(cc, update: true)
+            let localStore = try Realm()
+            try localStore.write {
+                localStore.add(cc, update: true)
             }
         } catch let error {
             Log.error("failed to cache catalog \(error)")

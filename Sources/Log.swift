@@ -44,7 +44,7 @@ public class Log {
 
     private static func log(level: LogLevel, message: String) {
         if level.rawValue >= logLevel.rawValue {
-            print("[\(level)] \(message)")
+            NSLog("[\(level)] \(message)")
         }
     }
 }
