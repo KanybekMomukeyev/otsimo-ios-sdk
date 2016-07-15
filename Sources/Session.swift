@@ -245,7 +245,7 @@ public class Session {
             let res = session.loadToken()
             switch (res) {
             case .Success:
-                Log.debug("old session loaded successfully")
+                Log.debug("previous session loaded successfully")
                 handler(session)
             case .Failure(let it):
                 Log.error("failed to load jwt token, error:\(it)")
@@ -365,8 +365,13 @@ public class Session {
                     sharedKeyChain: config.sharedKeyChain)
 
                 do {
-                    try sharedAccount.createInSecureStore()
-                    Log.info("session is migrated")
+                    if let ok = sharedAccount.readFromSecureStore() {
+                        try sharedAccount.updateInSecureStore()
+                        Log.info("session is migrated by update")
+                    } else {
+                        try sharedAccount.createInSecureStore()
+                        Log.info("session is migrated by create")
+                    }
                 } catch {
                     Log.error("failed to migrage account information: \(error)")
                 }
