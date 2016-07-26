@@ -35,9 +35,9 @@ extension Otsimo {
         if !nolocal && isLocallyAvailable(id, version: version) {
             return gamesDir.stringByAppendingString("/\(id)/\(version)/\(rawUrl)")
         } else {
-            var u = cluster.getDiskStorageUrl()
+            var u = cluster.diskStorageUrl()
             let v = versionToUrl(version)
-            let dict : Dictionary<String, String> = [
+            let dict: Dictionary<String, String> = [
                 "id": id,
                 "version": v
             ]

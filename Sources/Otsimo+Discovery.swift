@@ -65,7 +65,7 @@ public class ClusterConfig {
         }
     }
 
-    public func getDiskStorageUrl() -> String {
+    public func diskStorageUrl() -> String {
         if config == nil {
             config = storedData()
         }
@@ -78,6 +78,22 @@ public class ClusterConfig {
             }
         }
         return "https://services.otsimo.com:30851/public/{{.id}}/{{.version}}"
+    }
+
+    public func remoteConfigs() -> [String: String] {
+        if config == nil {
+            config = storedData()
+        }
+        var dict = [String: String]()
+        guard let cc = config else {
+            return dict
+        }
+        for (k, v) in cc.configs {
+            if let key = k as? String, val = v as? String {
+                dict[key] = val
+            }
+        }
+        return dict
     }
 }
 
