@@ -20,8 +20,13 @@ class CatalogCache: Object {
     }
 
     func getCatalog() -> OTSCatalog? {
-        var error: NSError? = nil
-        return OTSCatalog.parseFromData(data, error: &error)
+        do {
+            let cat = try OTSCatalog(data: data)
+            return cat
+        } catch {
+            Log.error("failed to parse catalog:\(error)")
+            return nil
+        }
     }
 }
 
@@ -149,13 +154,12 @@ public class GameCache: Object {
     }
 
     public func getGame() -> Game! {
-        var error: NSError? = nil
-        let manifest: OTSGameManifest = OTSGameManifest(data: self.manifest, error: &error)
-        if let te = error {
-            Log.error("failed to parse cache manifest data:\(te)")
-            return nil
-        } else {
+        do {
+            let manifest: OTSGameManifest = try OTSGameManifest(data: self.manifest)
             return Game(cache: self, manifest: manifest)
+        } catch {
+            Log.error("failed to parse cache manifest data:\(error)")
+            return nil
         }
     }
 }

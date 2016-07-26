@@ -8,10 +8,10 @@
 
 import Foundation
 import OtsimoApiGrpc
-import gRPC
+import grpc
 
 internal final class Connection {
-    internal let config : ClientConfig
+    internal let config: ClientConfig
     internal let apiService: OTSApiService
     internal let catalogService: OTSCatalogService
     internal let watchService: OTSWatchService
@@ -42,8 +42,7 @@ internal final class Connection {
     func getProfile(session: Session, handler: (OTSProfile?, OtsimoError) -> Void) {
         let request = OTSGetProfileRequest()
         request.id_p = session.profileID
-        var RPC : ProtoRPC!
-        RPC = apiService.RPCToGetProfileWithRequest(request) { response, error in
+        let RPC = apiService.RPCToGetProfileWithRequest(request) { response, error in
             if let response = response {
                 onMainThread { handler(response, OtsimoError.None) }
             } else {
@@ -66,8 +65,7 @@ internal final class Connection {
     func addChild(session: Session, child: OTSChild, handler: (OtsimoError) -> Void) {
         child.parentId = session.profileID
 
-        var RPC : ProtoRPC!
-        RPC = apiService.RPCToAddChildWithRequest(child) { response, error in
+        let RPC = apiService.RPCToAddChildWithRequest(child) { response, error in
             if let response = response {
                 if response.type == 0 {
                     onMainThread { handler(OtsimoError.None) }
@@ -94,9 +92,7 @@ internal final class Connection {
         let req = OTSGetChildRequest()
         req.childId = childId
 
-        var RPC : ProtoRPC!
-
-        RPC = apiService.RPCToGetChildWithRequest(req) { response, error in
+        let RPC = apiService.RPCToGetChildWithRequest(req) { response, error in
             if let response = response {
                 onMainThread { handler(res: response, err: .None) }
             } else {
@@ -120,9 +116,7 @@ internal final class Connection {
         let req = OTSGetChildrenFromProfileRequest()
         req.profileId = session.profileID
 
-        var RPC : ProtoRPC!
-
-        RPC = apiService.RPCToGetChildrenWithRequest(req) { response, error in
+        let RPC = apiService.RPCToGetChildrenWithRequest(req) { response, error in
             if let response = response {
                 var r: [OTSChild] = []
                 for i in 0 ..< Int(response.childrenArray_Count) {
@@ -150,8 +144,7 @@ internal final class Connection {
     }
 
     func updateGameEntry(session: Session, req: OTSGameEntryRequest, handler: (OtsimoError) -> Void) {
-        var RPC : ProtoRPC!
-        RPC = apiService.RPCToUpdateGameEntryWithRequest(req) { response, error in
+        let RPC = apiService.RPCToUpdateGameEntryWithRequest(req) { response, error in
             if let response = response {
                 if response.type == 0 {
                     onMainThread { handler(OtsimoError.None) }
@@ -176,8 +169,7 @@ internal final class Connection {
     }
 
     func updateChildAppSound(session: Session, req: OTSSoundEnableRequest, handler: (OtsimoError) -> Void) {
-        var RPC : ProtoRPC!
-        RPC = apiService.RPCToSoundEnableWithRequest(req) { response, error in
+        let RPC = apiService.RPCToSoundEnableWithRequest(req) { response, error in
             if let response = response {
                 if response.type == 0 {
                     onMainThread { handler(OtsimoError.None) }
@@ -204,8 +196,7 @@ internal final class Connection {
     func updateProfile(session: Session, profile: OTSProfile, handler: (OtsimoError) -> Void) {
         profile.id_p = session.profileID
 
-        var RPC : ProtoRPC!
-        RPC = apiService.RPCToUpdateProfileWithRequest(profile) { response, error in
+        let RPC = apiService.RPCToUpdateProfileWithRequest(profile) { response, error in
             if let response = response {
                 if response.type == 0 {
                     onMainThread { handler(OtsimoError.None) }
@@ -233,8 +224,7 @@ internal final class Connection {
         child.id_p = id
         child.parentId = parentID
 
-        var RPC : ProtoRPC!
-        RPC = apiService.RPCToUpdateChildWithRequest(child) { response, error in
+        let RPC = apiService.RPCToUpdateChildWithRequest(child) { response, error in
             if let response = response {
                 if response.type == 0 {
                     onMainThread { handler(OtsimoError.None) }
@@ -259,8 +249,7 @@ internal final class Connection {
     }
 
     func getCurrentCatalog(session: Session, req: OTSCatalogPullRequest, handler: (res: OTSCatalog?, err: OtsimoError) -> Void) {
-        var RPC : ProtoRPC!
-        RPC = catalogService.RPCToPullWithRequest(req) { response, error in
+        let RPC = catalogService.RPCToPullWithRequest(req) { response, error in
             if let response = response {
                 onMainThread { handler(res: response, err: OtsimoError.None) }
             } else {
@@ -293,9 +282,7 @@ internal final class Connection {
             req.state = OTSRequestReleaseState.ProductionState
         }
 
-        var RPC : ProtoRPC!
-
-        RPC = registryService.RPCToGetReleaseWithRequest(req) { response, error in
+        let RPC = registryService.RPCToGetReleaseWithRequest(req) { response, error in
             if let response = response {
                 onMainThread { handler(res: response, err: OtsimoError.None) }
             } else {
@@ -319,9 +306,7 @@ internal final class Connection {
         req.releaseState = OTSListGamesRequest_InnerState.Production
         req.limit = 32
 
-        var RPC : ProtoRPC!
-
-        RPC = registryService.RPCToListGamesWithRequest(req) { done, response, error in
+        let RPC = registryService.RPCToListGamesWithRequest(req) { done, response, error in
             if let response = response {
                 onMainThread { handler(response, done: false, err: OtsimoError.None) }
             } else if (!done) {
@@ -414,7 +399,7 @@ internal final class Connection {
         req.profileId = session.profileID
         req.clientVersion = Otsimo.sdkVersion
 
-        let RPC : ProtoRPC! = contentService.RPCToListWithRequest(req) { response, error in
+        let RPC: GRPCProtoCall = contentService.RPCToListWithRequest(req) { response, error in
             if let response = response {
                 var r: [OTSContent] = []
                 for i in 0 ..< Int(response.contentsArray_Count) {
@@ -552,7 +537,7 @@ internal final class Connection {
 
             do {
                 let JSON = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions(rawValue: 0))
-                guard let JSONDictionary : NSDictionary = JSON as? NSDictionary else {
+                guard let JSONDictionary: NSDictionary = JSON as? NSDictionary else {
                     onMainThread { handler(res: .Error(error: .InvalidResponse(message: "invalid response:not a dictionary")), session: nil) }
                     return
                 }
@@ -624,7 +609,7 @@ internal final class Connection {
 
             do {
                 let JSON = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions(rawValue: 0))
-                guard let JSONDictionary : NSDictionary = JSON as? NSDictionary else {
+                guard let JSONDictionary: NSDictionary = JSON as? NSDictionary else {
                     onMainThread { handler(error: .InvalidResponse(message: "invalid response:not a dictionary")) }
                     return
                 }
@@ -668,7 +653,7 @@ internal final class Connection {
                 }
                 do {
                     let JSON = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions(rawValue: 0))
-                    guard let JSONDictionary : NSDictionary = JSON as? NSDictionary else {
+                    guard let JSONDictionary: NSDictionary = JSON as? NSDictionary else {
                         onMainThread { handler(nil, error: .InvalidResponse(message: "invalid response:not a dictionary")) }
                         return
                     }

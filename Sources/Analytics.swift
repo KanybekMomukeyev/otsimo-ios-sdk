@@ -8,15 +8,14 @@
 import Foundation
 import RealmSwift
 import OtsimoApiGrpc
-import gRPC
+import grpc
 
 class AppEventCache: Object {
     dynamic var time: NSDate = NSDate()
     dynamic var data: NSData = NSData()
 
     func event() -> OTSAppEventData {
-        var error: NSError? = nil
-        return OTSAppEventData.parseFromData(self.data, error: &error)
+        return try! OTSAppEventData(data: self.data)
     }
 
     static func add(d: OTSAppEventData) {
@@ -57,8 +56,7 @@ class EventCache: Object {
     }
 
     func event() -> OTSEvent {
-        var error: NSError? = nil
-        return OTSEvent.parseFromData(self.data, error: &error)
+        return try! OTSEvent(data: self.data)
     }
 
     static func add(d: OTSEvent) {
@@ -111,7 +109,7 @@ internal class Analytics: OtsimoAnalyticsProtocol {
     private var device: OTSDeviceInfo
     private var session: Session?
     private var timer: dispatch_source_t?
-    private var RPC: ProtoRPC!
+    private var RPC: GRPCProtoCall!
 
     init(connection: Connection) {
         internalWriter = GRXBufferedPipe()
@@ -171,7 +169,7 @@ internal class Analytics: OtsimoAnalyticsProtocol {
         stopTimer()
     }
 
-    func rpcHandler(done: Bool, response: OTSEventResponse!, err: NSError!) {
+    func rpcHandler(done: Bool, response: OTSEventResponse?, err: NSError?) {
         if let resp = response {
             if resp.success {
                 Log.debug("rpcHandler: \(resp.eventId) sent")

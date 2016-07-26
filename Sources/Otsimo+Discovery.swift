@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import gRPC
+import grpc
 import OtsimoApiGrpc
 
 extension OtsimoServices {
@@ -47,10 +47,11 @@ public class ClusterConfig {
     func storedData() -> OtsimoServices? {
         let data = NSUserDefaults.standardUserDefaults().dataForKey("OtsimoClusterConfig")
         if let d = data {
-            var error: NSError? = nil
-            let svc = OtsimoServices(data: d, error: &error)
-            if error == nil {
-                return svc
+            do {
+                return try OtsimoServices(data: d)
+            } catch {
+                Log.error("failed to convert data to OtsimoServices object err=\(error)")
+                return nil
             }
         }
         return nil

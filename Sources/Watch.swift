@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import gRPC
+import grpc
 import OtsimoApiGrpc
 
 internal class Watch: WatchProtocol {
@@ -15,7 +15,8 @@ internal class Watch: WatchProtocol {
     private var connection: Connection
     private var session: Session?
     private var handler: ((watch: OTSWatchEvent) -> Void)?
-    private var RPC: ProtoRPC!
+    private var RPC: GRPCProtoCall!
+
     private var timer: dispatch_source_t?
 
     init(connection: Connection) {
@@ -75,7 +76,7 @@ internal class Watch: WatchProtocol {
         }
     }
 
-    func rpcHandler(done: Bool, response: OTSWatchResponse!, error: NSError!) {
+    func rpcHandler(done: Bool, response: OTSWatchResponse?, error: NSError?) {
         Log.debug("Watch RpcHandler: done=\(done), error=\(error), event=\(response)")
         if let r = response {
             if r.hasEvent {
