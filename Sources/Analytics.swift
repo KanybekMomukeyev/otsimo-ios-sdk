@@ -120,11 +120,9 @@ internal class Analytics: OtsimoAnalyticsProtocol {
 
     func start(session: Session) {
         internalWriter = GRXBufferedPipe()
-
         self.session = session
-
+        Log.debug("start Analytics \(self.isStartedBefore)")
         RPC = connection.listenerService.RPCToCustomEventWithRequestsWriter(internalWriter, eventHandler: rpcHandler)
-
         session.getAuthorizationHeader() { h, e in
             switch (e) {
             case .None:
