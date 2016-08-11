@@ -122,13 +122,14 @@ internal class Analytics: OtsimoAnalyticsProtocol {
         internalWriter = GRXBufferedPipe()
         self.session = session
         Log.debug("start Analytics \(self.isStartedBefore)")
-        RPC = connection.listenerService.RPCToCustomEventWithRequestsWriter(internalWriter, eventHandler: rpcHandler)
+        let RPClocal = connection.listenerService.RPCToCustomEventWithRequestsWriter(internalWriter, eventHandler: rpcHandler)
         session.getAuthorizationHeader() { h, e in
             switch (e) {
             case .None:
-                self.RPC.oauth2AccessToken = h
-                self.RPC.requestHeaders.setValue(self.device.data()!.base64EncodedStringWithOptions(.EncodingEndLineWithCarriageReturn), forKey: "device")
-                self.RPC.start()
+                RPClocal.oauth2AccessToken = h
+                RPClocal.requestHeaders.setValue(self.device.data()!.base64EncodedStringWithOptions(.EncodingEndLineWithCarriageReturn), forKey: "device")
+                RPClocal.start()
+                self.RPC = RPClocal
                 self.isStartedBefore = true
             default:
                 Log.error("failed to get authorization header, \(e)")
