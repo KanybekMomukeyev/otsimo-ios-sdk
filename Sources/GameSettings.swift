@@ -209,7 +209,7 @@ public class GameSettings {
     }
 
     private func readDictionary(dict: [String: AnyObject]) -> Bool {
-        if let prop = dict["properties"] as? [String : [String : AnyObject]] {
+        if let prop = dict["properties"] as? [String: [String: AnyObject]] {
             for (k, v) in prop {
                 addProperty(k, prop: v)
             }

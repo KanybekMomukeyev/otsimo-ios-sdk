@@ -30,13 +30,13 @@ extension Otsimo: ChildApi {
     }
 
     public func getChild(id: String, handler: (res: OTSChild?, err: OtsimoError) -> Void) {
-        self.isReady({ handler(res: nil, err: $0)}) { c, s in
+        self.isReady({ handler(res: nil, err: $0) }) { c, s in
             c.getChild(s, childId: id, handler: handler)
         }
     }
 
     public func getChildren(handler: (res: [OTSChild], err: OtsimoError) -> Void) {
-        self.isReady({ handler(res: [], err: $0)}) { c, s in
+        self.isReady({ handler(res: [], err: $0) }) { c, s in
             c.getChildren(s, handler: handler)
         }
     }

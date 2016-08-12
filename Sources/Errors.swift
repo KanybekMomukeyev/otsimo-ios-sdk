@@ -27,7 +27,7 @@ enum PayloadLoadResult {
     case Failure(InvalidToken)
 }
 
-public enum InvalidToken : CustomStringConvertible, ErrorType {
+public enum InvalidToken: CustomStringConvertible, ErrorType {
     // / Decoding the JWT itself failed
     case DecodeError(String)
 

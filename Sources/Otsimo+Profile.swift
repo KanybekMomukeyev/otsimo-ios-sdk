@@ -19,7 +19,7 @@ extension Otsimo: ProfileApi {
 
     // Profile
     public func getProfile(handler: (OTSProfile?, OtsimoError) -> Void) {
-        self.isReady({ handler(nil, $0)}) { c, s in
+        self.isReady({ handler(nil, $0) }) { c, s in
             c.getProfile(s, handler: handler)
         }
     }

@@ -47,7 +47,7 @@ class ChildGameInitializer {
     private func next() {
         if isCanceled { return }
 
-        var call : (() -> Void)?
+        var call: (() -> Void)?
 
         switch (lastError) {
         case OtsimoError.None:
@@ -213,7 +213,7 @@ public class ChildGame {
         do {
             var sv = SettingsValues()
             if data.length > 0 {
-                let object : AnyObject = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers)
+                let object: AnyObject = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers)
                 if let o = object as? [String: AnyObject] {
                     for (k, v) in o {
                         switch (v) {

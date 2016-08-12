@@ -13,7 +13,7 @@ import OtsimoApiGrpc
 extension Otsimo: WikiApi {
 
     public func contentsByQuery(query: OTSContentListRequest, callback: (Int, [OTSContent], OtsimoError) -> Void) {
-        self.isReady({ callback(0, [], $0)}) { c, s in
+        self.isReady({ callback(0, [], $0) }) { c, s in
             query.onlyHtmlURL = true
             if self.onlyProduction {
                 query.status = OTSContentListRequest_ListStatus.OnlyApproved
@@ -25,7 +25,7 @@ extension Otsimo: WikiApi {
     }
 
     public func content(slug: String, handler: (OTSContent?, OtsimoError) -> Void) {
-        self.isReady({ handler(nil, $0)}) { c, s in
+        self.isReady({ handler(nil, $0) }) { c, s in
             c.getContent(s, slug: slug, handler: handler)
         }
     }
@@ -37,7 +37,7 @@ extension Otsimo: WikiApi {
         language: String,
         callback: (Int, [OTSContent], OtsimoError) -> Void)
     {
-        self.isReady({ callback(0, [], $0)}) { c, s in
+        self.isReady({ callback(0, [], $0) }) { c, s in
             let req = OTSContentListRequest()
             req.language = language
             req.category = category

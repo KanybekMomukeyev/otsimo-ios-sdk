@@ -108,9 +108,9 @@ public protocol CacheProtocol {
 }
 
 public protocol OtsimoAnalyticsProtocol {
-    func customEvent(event: String, payload: [String : AnyObject])
+    func customEvent(event: String, payload: [String: AnyObject])
     func customEvent(event: String, childID: String?, game: OTSGameInfo?, payload: [String: AnyObject])
-    func appEvent(event: String, payload: [String : AnyObject])
+    func appEvent(event: String, payload: [String: AnyObject])
     func start(session: Session)
     func stop(error: NSError?)
 }

@@ -90,7 +90,7 @@ extension Otsimo: AccountApi {
     }
 
     public func userIdentities(handler: ([String: String], OtsimoError) -> Void) {
-        self.isReady({ handler([String: String](), $0)}) { (c, s) in
+        self.isReady({ handler([String: String](), $0) }) { (c, s) in
             c.getIdentities(s, handler: handler)
         }
     }

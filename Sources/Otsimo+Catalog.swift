@@ -35,7 +35,7 @@ extension Otsimo: CatalogApi {
     }
 
     private func getCatalogFromRemote(handler: (OTSCatalog?, OtsimoError) -> Void) {
-        self.isReady({ handler(nil, $0)}) { c, s in
+        self.isReady({ handler(nil, $0) }) { c, s in
             let req = OTSCatalogPullRequest()
             req.profileId = s.profileID
             c.getCurrentCatalog(s, req: req) { res, err in

@@ -11,7 +11,7 @@ import OtsimoApiGrpc
 
 extension OTSDeviceInfo {
     static func platform() -> String {
-        var size : Int = 0
+        var size: Int = 0
         sysctlbyname("hw.machine", nil, &size, nil, 0)
         var machine = [CChar](count: Int(size), repeatedValue: 0)
         sysctlbyname("hw.machine", &machine, &size, nil, 0)
