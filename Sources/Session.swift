@@ -198,7 +198,7 @@ public class Session {
                         }
                         dispatch_group_wait(refreshGroup, DISPATCH_TIME_FOREVER) // Wait completing the group
                     } else {
-                        Log.debug("new token is got, sending it")
+                        Log.debug("new token is before got, sending it")
                         onMainThread { handler(self.accessToken, OtsimoError.None) }
                     }
                 }

@@ -22,7 +22,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         var clusterDiscoveryUrl = "https://services.otsimo.xyz:30862"
         var clientSecret = ""
         Log.setLevel(LogLevel.Debug)
-
         if let dict = keys {
             clientID = dict["OtsimoClientID"] as! String
             clientSecret = dict["OtsimoClientSecret"] as! String
@@ -39,7 +38,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         )
 
         otsimo.sessionStatusChanged = onSessionStatusChanged
-
+        fakeToken(options)
         Otsimo.config(options)
 
         return true

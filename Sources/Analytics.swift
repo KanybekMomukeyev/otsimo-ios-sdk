@@ -77,6 +77,7 @@ class EventCache: Object {
             Log.error("failed to get data from EventData")
         }
     }
+
     static func removeEvent(event: EventCache, realm: Realm) {
         do {
             realm.beginWrite()
@@ -193,13 +194,15 @@ internal class Analytics: OtsimoAnalyticsProtocol {
         case .Started:
             self.sendStoredEvents()
         case .NotStarted:
-            if session != nil {
+            if session != nil && self.isStartedBefore {
                 restart()
             }
         case .Paused:
             Log.debug("Analytics Paused")
         case .Finished:
-            restart()
+            if isStartedBefore {
+                restart()
+            }
         }
     }
 

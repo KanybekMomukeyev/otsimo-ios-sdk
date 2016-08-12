@@ -3,8 +3,12 @@
 <plist version="1.0">
 <dict>
 	<key>OtsimoClientID</key>
-	<string>OdvHPcsgTcTnmYnvxJMVRDA4ifTy6a2zPTN6cnTUQ8g=@com.otsimo.sdk-example</string>
+	<string>ZaIthLAoobBYiJc-eH7PG_z5RWKok1ipjqF7cjkIc74=@otsimochild</string>
+	<key>OtsimoClusterDiscoveryURL</key>
+	<string>https://services.otsimo.xyz:30862</string>
+	<key>OtsimoEnvironment</key>
+	<string>staging</string>
 	<key>OtsimoClientSecret</key>
-	<string>asdasdasdasdasdasd</string>
+	<string>we_are_hiring_otsimo_com</string>
 </dict>
 </plist>

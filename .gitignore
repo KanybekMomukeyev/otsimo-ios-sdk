@@ -33,3 +33,4 @@ Carthage/Build
 .idea
 OtsimoSDK.framework.zip
 .DS_Store
+.vscode
