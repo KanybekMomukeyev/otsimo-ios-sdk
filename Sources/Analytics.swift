@@ -122,14 +122,16 @@ internal class Analytics: OtsimoAnalyticsProtocol {
         internalWriter = GRXBufferedPipe()
         self.session = session
         Log.debug("start Analytics \(self.isStartedBefore)")
-        let RPClocal = connection.listenerService.RPCToCustomEventWithRequestsWriter(internalWriter, eventHandler: rpcHandler)
         session.getAuthorizationHeader() { h, e in
             switch (e) {
             case .None:
-                RPClocal.oauth2AccessToken = h
-                RPClocal.requestHeaders.setValue(self.device.data()!.base64EncodedStringWithOptions(.EncodingEndLineWithCarriageReturn), forKey: "device")
-                RPClocal.start()
-                self.RPC = RPClocal
+                let l = self.connection.listenerService.RPCToCustomEventWithRequestsWriter(self.internalWriter, eventHandler: self.rpcHandler)
+                if l.state != .Started {
+                    l.oauth2AccessToken = h
+                    l.requestHeaders.setValue(self.device.data()!.base64EncodedStringWithOptions(.EncodingEndLineWithCarriageReturn), forKey: "device")
+                }
+                l.start()
+                self.RPC = l
                 self.isStartedBefore = true
             default:
                 Log.error("failed to get authorization header, \(e)")
@@ -142,15 +144,16 @@ internal class Analytics: OtsimoAnalyticsProtocol {
         if RPC != nil {
             RPC.cancel()
         }
+        Log.debug("restart Analytics \(self.isStartedBefore)")
         internalWriter = GRXBufferedPipe()
-        let RPC2 = connection.listenerService.RPCToCustomEventWithRequestsWriter(internalWriter, eventHandler: rpcHandler)
         self.session!.getAuthorizationHeader() { h, e in
             switch (e) {
             case .None:
-                RPC2.oauth2AccessToken = h
-                RPC2.requestHeaders.setValue(self.device.data()!.base64EncodedStringWithOptions(.EncodingEndLineWithCarriageReturn), forKey: "device")
-                RPC2.start()
-                self.RPC = RPC2
+                let l = self.connection.listenerService.RPCToCustomEventWithRequestsWriter(self.internalWriter, eventHandler: self.rpcHandler)
+                l.oauth2AccessToken = h
+                l.requestHeaders.setValue(self.device.data()!.base64EncodedStringWithOptions(.EncodingEndLineWithCarriageReturn), forKey: "device")
+                l.start()
+                self.RPC = l
             default:
                 Log.error("failed to get authorization header, \(e)")
             }
@@ -204,15 +207,15 @@ internal class Analytics: OtsimoAnalyticsProtocol {
         Log.debug("resendAppEvent:\(ev.event) \(ev.eventId)")
         if ev.event != "" {
             ev.isResend = true
-            let RPC = self.connection.listenerService.RPCToAppEventWithRequest(ev) { r, e in
+            let r = self.connection.listenerService.RPCToAppEventWithRequest(ev) { r, e in
                 if e != nil {
                     dispatch_async(analyticsQueue) {
                         AppEventCache.add(ev)
                     }
                 }
             }
-            RPC.requestHeaders.setValue(self.connection.config.clientID, forKey: "client_id")
-            RPC.start()
+            r.requestHeaders.setValue(self.connection.config.clientID, forKey: "client_id")
+            r.start()
         }
     }
 
