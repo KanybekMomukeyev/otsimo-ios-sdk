@@ -17,14 +17,8 @@ extension Otsimo: ChildApi {
         }
     }
 
-    public func addChild(firstName: String, lastName: String, gender: OTSGender, birthDay: NSDate, language: String, handler: (res: OtsimoError) -> Void) {
+    public func addChild(child:OTSChild, handler: (res: OtsimoError) -> Void) {
         self.isReady(handler) { c, s in
-            let child: OTSChild = OTSChild()
-            child.firstName = firstName
-            child.lastName = lastName
-            child.gender = gender
-            child.language = language
-            child.birthDay = Int64(birthDay.timeIntervalSince1970)
             c.addChild(s, child: child, handler: handler)
         }
     }

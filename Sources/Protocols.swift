@@ -35,8 +35,7 @@ public protocol ProfileApi {
 }
 
 public protocol ChildApi {
-    func addChild(firstName: String, lastName: String, gender: OTSGender,
-        birthDay: NSDate, language: String, handler: (res: OtsimoError) -> Void)
+    func addChild(child:OTSChild, handler: (res: OtsimoError) -> Void)
 
     func getChild(id: String, handler: (res: OTSChild?, err: OtsimoError) -> Void)
 
