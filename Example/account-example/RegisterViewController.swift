@@ -89,14 +89,14 @@ class RegisterViewController: UITableViewController {
             return
         }
         
-        let language : String = NSBundle.mainBundle().preferredLocalizations.first!
+        let language : String = NSLocale.currentLocale().localeIdentifier
         
         SwiftSpinner.show("registering...", animated: true)
         otsimo.register(RegistrationData(email: emailText.text!,
                 password: passwordText.text!,
                 firstName: firstNameText.text!,
                 lastName: lastNameText.text!,
-                language: language)) {repo in
+                locale: language)) {repo in
             print("register finished")
             delay(seconds: 1.0) {SwiftSpinner.hide()}
             switch (repo) {

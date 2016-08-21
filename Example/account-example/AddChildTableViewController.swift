@@ -82,12 +82,12 @@ class AddChildTableViewController: UITableViewController {
         child.lastName = lastNameText.text!
         child.gender = gender
         child.language = language
+        child.locale = NSLocale.currentLocale().localeIdentifier
         child.birthDay = Int64(birthDate!.timeIntervalSince1970)
-
+        
         SwiftSpinner.show("adding...", animated: true)
 
-        otsimo.addChild(firstNameText.text!, lastName: lastNameText.text!,
-            gender: gender, birthDay: birthDate!, language: language) { err in
+        otsimo.addChild(child) { err in
                 delay(seconds: 1.5) { SwiftSpinner.hide() }
                 switch (err) {
                 case .None:

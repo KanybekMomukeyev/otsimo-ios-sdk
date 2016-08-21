@@ -444,13 +444,16 @@ internal final class Connection {
     func login(connector: String, accessToken: String, handler: (res: TokenResult, session: Session?) -> Void) {
         let grant_type = "password"
         let urlPath: String = "\(config.accountsServiceUrl)/remote"
-        let postString = "connector=\(connector)&access_token=\(accessToken)&grant_type=\(grant_type)&client_id=\(config.clientID)"
+        let locale = NSLocale.currentLocale().objectForKey(NSLocaleIdentifier) as! String
+        let tz = NSTimeZone.localTimeZone().secondsFromGMT / 3600
+        let postString = "connector=\(connector)&access_token=\(accessToken)&grant_type=\(grant_type)&client_id=\(config.clientID)&locale=\(locale)&timezone=\(tz)"
         httpRequestWithTokenResult(urlPath, postString: postString, handler: handler)
     }
 
     func register(data: RegistrationData, handler: (res: TokenResult, session: Session?) -> Void) {
         let urlPath: String = "\(config.accountsServiceUrl)/register"
-        let postString = "username=\(data.email)&password=\(data.password)&first_name=\(data.firstName)&last_name=\(data.lastName)&language=\(data.language)&client_id=\(config.clientID)&connector=local"
+        let tz = NSTimeZone.localTimeZone().secondsFromGMT / 3600
+        let postString = "username=\(data.email)&password=\(data.password)&first_name=\(data.firstName)&last_name=\(data.lastName)&locale=\(data.locale)&client_id=\(config.clientID)&connector=local&timezone=\(tz)"
         httpRequestWithTokenResult(urlPath, postString: postString, handler: handler)
     }
 
