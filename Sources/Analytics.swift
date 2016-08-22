@@ -289,6 +289,9 @@ internal class Analytics: OtsimoAnalyticsProtocol {
             aed.payload = try? NSJSONSerialization.dataWithJSONObject(payload, options: NSJSONWritingOptions())
             aed.eventId = NSUUID().UUIDString
             aed.isResend = false
+            if let session = self.session {
+                aed.userId = session.profileID
+            }
             let RPC = self.connection.listenerService.RPCToAppEventWithRequest(aed) { r, e in
                 if e != nil {
                     dispatch_async(analyticsQueue) {
