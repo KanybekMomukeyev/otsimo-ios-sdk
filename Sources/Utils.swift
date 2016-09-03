@@ -26,12 +26,14 @@ public struct RegistrationData {
     let firstName: String
     let lastName: String
     let locale: String
-    public init(email: String, password: String, firstName: String, lastName: String, locale: String) {
+    let country:String
+    public init(email: String, password: String, firstName: String, lastName: String, locale: String,country:String) {
         self.email = email
         self.password = password
         self.firstName = firstName
         self.lastName = lastName
         self.locale = locale
+        self.country = country
     }
 }
 
