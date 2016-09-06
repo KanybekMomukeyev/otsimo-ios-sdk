@@ -301,11 +301,12 @@ internal final class Connection {
         }
     }
 
-    func getAllGamesStream(session: Session, handler: (OTSListItem?, done: Bool, err: OtsimoError) -> Void) {
+    func getAllGamesStream(language:String?,session: Session, handler: (OTSListItem?, done: Bool, err: OtsimoError) -> Void) {
         let req = OTSListGamesRequest()
         req.releaseState = OTSListGamesRequest_InnerState.Production
         req.limit = 32
-
+        req.language = language
+        
         let RPC = registryService.RPCToListGamesWithRequest(req) { done, response, error in
             if let response = response {
                 onMainThread { handler(response, done: false, err: OtsimoError.None) }

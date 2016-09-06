@@ -45,9 +45,9 @@ extension Otsimo: GameApi {
         }
     }
 
-    public func getAllGames(handler: (Game?, done: Bool, error: OtsimoError) -> Void) {
+    public func getAllGames(language:String?, handler: (Game?, done: Bool, error: OtsimoError) -> Void) {
         self.isReady({ handler(nil, done: true, error: $0) }) { c, s in
-            c.getAllGamesStream(s) { li, done, error in
+            c.getAllGamesStream(language, session: s) { li, done, error in
                 if let item = li {
                     Otsimo.sharedInstance.cache.fetchGame(item.gameId) { game, isExpired in
                         if let game = game {

@@ -57,7 +57,7 @@ public protocol ChildApi {
 public protocol GameApi {
     func getGame(id: String, handler: (Game?, error: OtsimoError) -> Void)
 
-    func getAllGames(handler: (Game?, done: Bool, error: OtsimoError) -> Void)
+    func getAllGames(language:String?, handler: (Game?, done: Bool, error: OtsimoError) -> Void)
 
     func getGameRelease(id: String, version: String?, onlyProduction: Bool?, handler: (OTSGameRelease?, error: OtsimoError) -> Void)
 
