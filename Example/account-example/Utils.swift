@@ -9,17 +9,17 @@
 import Foundation
 import UIKit
 
-func showAlertWithText(text: String, onViewController vc: UIViewController, completion: (() -> Void)? = nil) {
-    let controller = UIAlertController(title: "Oops", message: text, preferredStyle: UIAlertControllerStyle.Alert)
-    let cancelAction = UIAlertAction(title: "Okay", style: .Cancel, handler: nil)
+func showAlertWithText(_ text: String, onViewController vc: UIViewController, completion: (() -> Void)? = nil) {
+    let controller = UIAlertController(title: "Oops", message: text, preferredStyle: UIAlertControllerStyle.alert)
+    let cancelAction = UIAlertAction(title: "Okay", style: .cancel, handler: nil)
     controller.addAction(cancelAction)
-    vc.presentViewController(controller, animated: true, completion: completion)
+    vc.present(controller, animated: true, completion: completion)
 }
 
-func delay(seconds seconds: Double, completion: () -> ()) {
-    let popTime = dispatch_time(DISPATCH_TIME_NOW, Int64(Double(NSEC_PER_SEC) * seconds))
+func delay(seconds: Double, completion: @escaping () -> ()) {
+    let popTime = DispatchTime.now() + Double(Int64(Double(NSEC_PER_SEC) * seconds)) / Double(NSEC_PER_SEC)
     
-    dispatch_after(popTime, dispatch_get_main_queue()) {
+    DispatchQueue.main.asyncAfter(deadline: popTime) {
         completion()
     }
 }

@@ -11,8 +11,8 @@ import OtsimoSDK
 import OtsimoApiGrpc
 
 public protocol SettingsPropertyDelegate {
-    func propertyValueChanged(value: SettingsPropertyValue)
-    func activationValueChanged(value: Bool)
+    func propertyValueChanged(_ value: SettingsPropertyValue)
+    func activationValueChanged(_ value: Bool)
 }
 
 final class SettingsPropertyViewCell: UITableViewCell, UIPickerViewDataSource, UIPickerViewDelegate {
@@ -37,7 +37,7 @@ final class SettingsPropertyViewCell: UITableViewCell, UIPickerViewDataSource, U
         enumLabel.inputView = pickerView
     }
 
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         // Configure the view for the selected state
     }
@@ -46,15 +46,15 @@ final class SettingsPropertyViewCell: UITableViewCell, UIPickerViewDataSource, U
         super.layoutSubviews()
     }
 
-    @IBAction func onNumberEditingEnded(sender: UITextField) {
+    @IBAction func onNumberEditingEnded(_ sender: UITextField) {
         switch (setProp!) {
-        case .Integer(_, _):
+        case .integer(_, _):
             if let val = Int(sender.text!) {
                 delegate.propertyValueChanged(.Integer(key: key, value: val))
             } else {
                 print("wrong integer format")
             }
-        case .Float(_, _):
+        case .float(_, _):
             if let val = Float64(sender.text!) {
                 delegate.propertyValueChanged(.Float(key: key, value: val))
             } else {
@@ -65,35 +65,35 @@ final class SettingsPropertyViewCell: UITableViewCell, UIPickerViewDataSource, U
         }
     }
 
-    @IBAction func booleanChanged(sender: UISwitch) {
-        delegate.propertyValueChanged(.Boolean(key: key, value: sender.on))
+    @IBAction func booleanChanged(_ sender: UISwitch) {
+        delegate.propertyValueChanged(.Boolean(key: key, value: sender.isOn))
     }
 
-    @IBAction func onStringEditingEnded(sender: UITextField) {
-        delegate.propertyValueChanged(.Text(key: key, value: sender.text!))
+    @IBAction func onStringEditingEnded(_ sender: UITextField) {
+        delegate.propertyValueChanged(.text(key: key, value: sender.text!))
     }
     // number of column
-    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
     // number of row
-    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return enumValues.count
     }
 
     // Title
-    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return game.keyvalue!.settingsTitle(key, enumKey: enumValues[row])
     }
 
     // update enum label when value changed
-    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         enumLabel.text = game.keyvalue!.settingsTitle(key, enumKey: enumValues[row])
         enumLabel.resignFirstResponder()
-        delegate.propertyValueChanged(.Text(key: key, value: enumValues[row]))
+        delegate.propertyValueChanged(.text(key: key, value: enumValues[row]))
     }
 
-    func initFromProperty(key: String, childGame: ChildGame, delegate: SettingsPropertyDelegate) {
+    func initFromProperty(_ key: String, childGame: ChildGame, delegate: SettingsPropertyDelegate) {
         self.key = key
         self.game = childGame
         self.setProp = childGame.settings!.getFromKey(key)!
@@ -101,63 +101,63 @@ final class SettingsPropertyViewCell: UITableViewCell, UIPickerViewDataSource, U
 
         let vp = childGame.valueFor(key)
 
-        self.booleanSwitch.enabled = false
-        self.booleanSwitch.hidden = true
+        self.booleanSwitch.isEnabled = false
+        self.booleanSwitch.isHidden = true
 
-        self.numberText.enabled = false
-        self.numberText.hidden = true
+        self.numberText.isEnabled = false
+        self.numberText.isHidden = true
 
-        self.stringText.enabled = false
-        self.stringText.hidden = true
+        self.stringText.isEnabled = false
+        self.stringText.isHidden = true
 
-        self.enumLabel.enabled = false
-        self.enumLabel.hidden = true
+        self.enumLabel.isEnabled = false
+        self.enumLabel.isHidden = true
 
         self.titleLabel.text = childGame.keyvalue!.settingsTitle(key)
         self.descriptionText.text = childGame.keyvalue!.settingsDescription(key)
 
         switch (setProp!) {
-        case .Boolean(_, let defaultValue):
-            self.booleanSwitch.enabled = true
-            self.booleanSwitch.hidden = false
+        case .boolean(_, let defaultValue):
+            self.booleanSwitch.isEnabled = true
+            self.booleanSwitch.isHidden = false
 
             if let v = vp {
-                booleanSwitch.on = v.boolean
+                booleanSwitch.isOn = v.boolean
             } else {
-                booleanSwitch.on = defaultValue
+                booleanSwitch.isOn = defaultValue
             }
-        case .Integer(_, let defaultValue):
-            self.numberText.enabled = true
-            self.numberText.hidden = false
+        case .integer(_, let defaultValue):
+            self.numberText.isEnabled = true
+            self.numberText.isHidden = false
 
             if let v = vp {
                 numberText.text = "\(v.integer)"
             } else {
                 numberText.text = "\(defaultValue)"
             }
-        case .Float(_, let defaultValue):
-            self.numberText.enabled = true
-            self.numberText.hidden = false
+        case .float(_, let defaultValue):
+            self.numberText.isEnabled = true
+            self.numberText.isHidden = false
 
             if let v = vp {
                 numberText.text = "\(v.float)"
             } else {
                 numberText.text = "\(defaultValue)"
             }
-        case .Text(_, let defaultValue):
-            self.stringText.enabled = true
-            self.stringText.hidden = false
+        case .text(_, let defaultValue):
+            self.stringText.isEnabled = true
+            self.stringText.isHidden = false
 
             if let v = vp {
                 stringText.text = "\(v.string)"
             } else {
                 stringText.text = "\(defaultValue)"
             }
-        case .Enum(_, let defaultValue, let values):
-            self.enumLabel.enabled = true
-            self.enumLabel.hidden = false
+        case .enum(_, let defaultValue, let values):
+            self.enumLabel.isEnabled = true
+            self.enumLabel.isHidden = false
             enumValues.removeAll()
-            enumValues.appendContentsOf(values)
+            enumValues.append(contentsOf: values)
             if let v = vp {
                 enumLabel.text = game.keyvalue!.settingsTitle(key, enumKey: v.string)
             } else {

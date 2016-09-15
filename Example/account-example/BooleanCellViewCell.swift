@@ -16,8 +16,8 @@ class BooleanCellViewCell: UITableViewCell {
     
     var delegate: SettingsPropertyDelegate!
     
-    @IBAction func onBooleanValueChanged(sender: UISwitch) {
-        delegate.activationValueChanged(sender.on)
+    @IBAction func onBooleanValueChanged(_ sender: UISwitch) {
+        delegate.activationValueChanged(sender.isOn)
     }
 }
 

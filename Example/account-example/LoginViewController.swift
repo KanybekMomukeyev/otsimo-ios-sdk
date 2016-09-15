@@ -23,17 +23,17 @@ class LoginViewController: UIViewController {
         super.didReceiveMemoryWarning()
     }
     
-    @IBAction func loginTouched(sender: UIButton) {
+    @IBAction func loginTouched(_ sender: UIButton) {
         SwiftSpinner.show("logging in...", animated: true)
-        otsimo.login(emailText.text!, password: passwordText.text!) {repo in
+        otsimo.login(email: emailText.text!, password: passwordText.text!) {repo in
             Log.debug("login finished")
             delay(seconds: 1.0) {SwiftSpinner.hide()}
             switch (repo) {
-            case .Success:
+            case .success:
                 Log.info("successfully logged in")
                 SwiftSpinner.show("successful", animated: false)
                 self.footerText.text = "ID: \(otsimo.session!.profileID)"
-            case .Error(let error):
+            case .error(let error):
                 Log.error("login error: \(error)")
                 SwiftSpinner.show("failed", animated: false)
                 self.footerText.text = "ERROR: \(error)"

@@ -9,7 +9,7 @@
 import UIKit
 import OtsimoApiGrpc
 import OtsimoSDK
-import Haneke
+import Kingfisher
 
 class ChildViewController: UITableViewController {
     
@@ -25,7 +25,7 @@ class ChildViewController: UITableViewController {
         otsimo.getChild(childIdWillFetch, handler: getChildHandler)
     }
     
-    func getChildHandler(child: OTSChild?, err: OtsimoError) {
+    func getChildHandler(_ child: OTSChild?, err: OtsimoError) {
         infos.removeAll()
         targetChild = child
         if let child = child {
@@ -33,9 +33,9 @@ class ChildViewController: UITableViewController {
             infos.append("id: \(child.id_p)")
             infos.append("parent: \(child.parentId)")
             infos.append("language: \(child.language)")
-            if child.gender == OTSGender.Male {
+            if child.gender == OTSGender.male {
                 infos.append("gender: Male")
-            } else if child.gender == OTSGender.Female {
+            } else if child.gender == OTSGender.female {
                 infos.append("gender: Female")
             }
             infos.append("active: \(child.active)")
@@ -50,9 +50,9 @@ class ChildViewController: UITableViewController {
         }
     }
     
-    func getGameHandler(game: ChildGame, error: OtsimoError) {
+    func getGameHandler(_ game: ChildGame, error: OtsimoError) {
         switch (error) {
-        case .None:
+        case .none:
             fetchedGames.append(game)
             tableView.reloadData()
         default:
@@ -62,11 +62,11 @@ class ChildViewController: UITableViewController {
     
     // MARK: - Table view data source
     
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
             return infos.count
         } else {
@@ -74,28 +74,28 @@ class ChildViewController: UITableViewController {
         }
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        if indexPath.section == 0 {
-            let cell = tableView.dequeueReusableCellWithIdentifier("child_info_cell", forIndexPath: indexPath)
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if (indexPath as NSIndexPath).section == 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "child_info_cell", for: indexPath)
             
-            cell.textLabel?.text = infos[indexPath.row]
+            cell.textLabel?.text = infos[(indexPath as NSIndexPath).row]
             
             return cell
         } else {
-            let cell = tableView.dequeueReusableCellWithIdentifier("child_game_cell", forIndexPath: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: "child_game_cell", for: indexPath as IndexPath)
             cell.textLabel?.text = "loading..."
             let game = fetchedGames[indexPath.row]
             if let man = game.manifest {
                 cell.textLabel?.text = man.localVisibleName
-                if let url = NSURL(string: man.localIcon) {
-                    cell.imageView!.hnk_setImageFromURL(url)
+                if let url = URL(string: man.localIcon) {
+                    cell.imageView!.kf_setImage(with: url)
                 }
             }
             return cell
         }
     }
     
-    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String?
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String?
     {
         if section == 0 {
             return "info"
@@ -104,20 +104,20 @@ class ChildViewController: UITableViewController {
         }
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if indexPath.section == 0 {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if (indexPath as NSIndexPath).section == 0 {
             return
         }
         selectedGameEntry = fetchedGames[indexPath.row]
-        performSegueWithIdentifier("show_child_game_entry", sender: self)
+        performSegue(withIdentifier: "show_child_game_entry", sender: self)
     }
     
     // MARK: - Navigation
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "show_child_game_entry" {
-            let cgc = segue.destinationViewController as! ChildGameController
+            let cgc = segue.destination as! ChildGameController
             cgc.childGame = selectedGameEntry
         }
     }
