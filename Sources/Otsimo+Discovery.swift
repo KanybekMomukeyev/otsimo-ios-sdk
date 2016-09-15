@@ -103,7 +103,7 @@ extension Otsimo {
         Otsimo.sharedInstance.cluster.discoveryUrl = options.discovery
         Otsimo.sharedInstance.cluster.env = options.environment
 
-        self.configFromDiscoveryService(options.discovery, env: options.environment) { cc in
+        self.configFromDiscoveryService(options.discovery, env: options.environment, timeout: options.discoveryTimout) { cc in
             if let config = cc {
                 config.clientID = options.clientID
                 config.clientSecret = options.clientSecret
@@ -118,7 +118,7 @@ extension Otsimo {
         }
     }
 
-    static func configFromDiscoveryService(_ serviceUrl: String, env: String, handler: @escaping (_ cnf: ClientConfig?) -> Void) {
+    static func configFromDiscoveryService(_ serviceUrl: String, env: String, timeout: Double, handler: @escaping (_ cnf: ClientConfig?) -> Void) {
         let url = URL(string: serviceUrl)!
         let host: String = ((url as NSURL).port != nil) ? "\(url.host!):\((url as NSURL).port!)" : url.host!
         if (url.scheme == "http") {
@@ -152,7 +152,7 @@ extension Otsimo {
                 }
             }
         }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + timeout) {
             if !isCompleted {
                 Log.error("Timeout to discovery.RPCToGetWithRequest")
                 RPC.cancel()
@@ -172,7 +172,7 @@ extension Otsimo {
             if cluster.hasValue {
                 Log.info("Otsimo sdk is not not initialized but trying again")
 
-                Otsimo.configFromDiscoveryService(cluster.discoveryUrl, env: cluster.env) { cc in
+                Otsimo.configFromDiscoveryService(cluster.discoveryUrl, env: cluster.env, timeout: 5) { cc in
                     if let config = cc {
                         Otsimo.config(config)
                         if let c = self.connection {
@@ -182,15 +182,15 @@ extension Otsimo {
                                 notReady(.notLoggedIn(message: "not logged in, session is nil"))
                             }
                         } else {
-                            notReady(OtsimoError.notInitialized)
+                            notReady(.notInitialized)
                         }
                     } else {
                         Log.error("failed to get cluster info, Again!!")
-                        notReady(OtsimoError.notInitialized)
+                        notReady(.notInitialized)
                     }
                 }
             } else {
-                notReady(OtsimoError.notInitialized)
+                notReady(.notInitialized)
             }
         }
     }

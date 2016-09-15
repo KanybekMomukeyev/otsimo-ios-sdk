@@ -15,7 +15,7 @@ public struct Configuration {
     public var clientSecret: String
     public var appGroupName: String
     public var keychainName: String
-
+    public var discoveryTimout:Double = 10
     public init(discovery: String,
         environment: String,
         clientID: String,
