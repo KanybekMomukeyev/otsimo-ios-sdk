@@ -155,7 +155,7 @@ open class GameSettings {
 
     open static func fromIdAndVersion(_ gameID: String, version: String, path: String, handler: @escaping (GameSettings?) -> Void) {
         let id = SettingsCache.createID(gameID, version: version)
-        if let sc = SettingsCache.storage.filter("id = %@", id).first {
+        if let sc = SettingsCache.storage.filter(using:"id = %@", id).first {
             handler(sc.gameSettings())
             return
         }

@@ -10,20 +10,20 @@ import Foundation
 
 class NetworkFetcher {
     static func get(_ urlPath: String, handler: @escaping (_ data: Data, _ error: OtsimoError) -> Void) {
-        let request = NSMutableURLRequest(url: URL(string: urlPath)!)
+        var request = URLRequest(url: URL(string: urlPath)!)
         request.httpMethod = "GET"
         request.timeoutInterval = 5
 
         let task = URLSession.shared.dataTask(with: request, completionHandler: { data, response, error in
             guard error == nil && data != nil else { // check for fundamental networking error
-                onMainThread { handler(data: Data(), error: .networkError(message: "\(error)")) }
+                onMainThread { handler(Data(), .networkError(message: "\(error)")) }
                 return
             }
             if let httpStatus = response as? HTTPURLResponse , httpStatus.statusCode != 200 { // check for http errors
-                onMainThread { handler(data: Data(), error: .networkError(message: "\(error)")) }
+                onMainThread { handler(Data(), .networkError(message: "\(error)")) }
                 return
             }
-            onMainThread { handler(data: data!, error: .none) }
+            onMainThread { handler(data!, .none) }
         }) 
         task.resume()
     }

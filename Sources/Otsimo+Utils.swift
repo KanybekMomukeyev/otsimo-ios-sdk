@@ -36,7 +36,7 @@ extension Otsimo {
             return gamesDir + "/\(id)/\(version)/\(rawUrl)"
         } else {
             var u = cluster.diskStorageUrl()
-            let v = versionToUrl(version)
+            let v = versionToUrl(version: version)
             let dict: Dictionary<String, String> = [
                 "id": id,
                 "version": v

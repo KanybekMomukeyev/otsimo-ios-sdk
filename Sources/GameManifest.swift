@@ -48,7 +48,6 @@ open class GameManifest {
                     }
                 }
             } else {
-
                 for l in Otsimo.sharedInstance.languages {
                     for md in metadatas {
                         if md.language == l {

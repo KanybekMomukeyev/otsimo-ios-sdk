@@ -24,13 +24,13 @@ extension Otsimo: ChildApi {
     }
 
     public func getChild(_ id: String, handler: @escaping (_ res: OTSChild?, _ err: OtsimoError) -> Void) {
-        self.isReady({ handler(res: nil, err: $0) }) { c, s in
+        self.isReady({ handler(nil, $0) }) { c, s in
             c.getChild(s, childId: id, handler: handler)
         }
     }
 
     public func getChildren(_ handler: @escaping (_ res: [OTSChild], _ err: OtsimoError) -> Void) {
-        self.isReady({ handler(res: [], err: $0) }) { c, s in
+        self.isReady({ handler([], $0) }) { c, s in
             c.getChildren(s, handler: handler)
         }
     }

@@ -91,8 +91,10 @@ class EventCache: Object {
     static func remove(_ id: String) {
         do {
             let r = try Realm()
-            let objs = r.objects(EventCache)
-            if let a = objs.filter("id = %@", id).first {
+            let objs = r.allObjects(ofType: EventCache.self)
+            
+            
+            if let a = objs.filter(using:"id = %@", id).first {
                 r.beginWrite()
                 r.delete(a)
                 try r.commitWrite()
@@ -109,7 +111,7 @@ internal class Analytics: OtsimoAnalyticsProtocol {
     fileprivate var isStartedBefore: Bool
     fileprivate var device: OTSDeviceInfo
     fileprivate var session: Session?
-    fileprivate var timer: DispatchSource?
+    fileprivate var timer: DispatchSourceTimer?
     fileprivate var RPC: GRPCProtoCall!
 
     init(connection: Connection) {
@@ -119,14 +121,14 @@ internal class Analytics: OtsimoAnalyticsProtocol {
         device = OTSDeviceInfo(os: "ios")
     }
 
-    func start(_ session: Session) {
+    func start(session: Session) {
         internalWriter = GRXBufferedPipe()
         self.session = session
         Log.debug("start Analytics \(self.isStartedBefore)")
         session.getAuthorizationHeader() { h, e in
             switch (e) {
             case .none:
-                let l = self.connection.listenerService.rpcToCustomEvent(withRequestsWriter: self.internalWriter, eventHandler: self.rpcHandler as! (Bool, OTSEventResponse?, Error?) -> Void)
+                let l = self.connection.listenerService.rpcToCustomEvent(withRequestsWriter: self.internalWriter, eventHandler: self.rpcHandler)
                 if l.state != .started {
                     l.oauth2AccessToken = h
                     l.requestHeaders.setValue(self.device.data()!.base64EncodedString(options: .endLineWithCarriageReturn), forKey: "device")
@@ -138,7 +140,7 @@ internal class Analytics: OtsimoAnalyticsProtocol {
                 Log.error("failed to get authorization header, \(e)")
             }
         }
-        timer = createDispatchTimer(60, queue: analyticsQueue, handler: checkState)
+        timer = createDispatchTimer(interval: 60, queue: analyticsQueue, handler: checkState)
     }
 
     func restart() {
@@ -150,7 +152,7 @@ internal class Analytics: OtsimoAnalyticsProtocol {
         self.session!.getAuthorizationHeader() { h, e in
             switch (e) {
             case .none:
-                let l = self.connection.listenerService.rpcToCustomEvent(withRequestsWriter: self.internalWriter, eventHandler: self.rpcHandler as! (Bool, OTSEventResponse?, Error?) -> Void)
+                let l = self.connection.listenerService.rpcToCustomEvent(withRequestsWriter: self.internalWriter, eventHandler: self.rpcHandler)
                 l.oauth2AccessToken = h
                 l.requestHeaders.setValue(self.device.data()!.base64EncodedString(options: .endLineWithCarriageReturn), forKey: "device")
                 l.start()
@@ -168,12 +170,12 @@ internal class Analytics: OtsimoAnalyticsProtocol {
         timer = nil
     }
 
-    func stop(_ error: NSError?) {
+    func stop(error: Swift.Error?) {
         internalWriter.writesFinishedWithError(error)
         stopTimer()
     }
 
-    func rpcHandler(_ done: Bool, response: OTSEventResponse?, err: NSError?) {
+    func rpcHandler(done: Bool, response: OTSEventResponse?, error: Swift.Error?) {
         if let resp = response {
             if resp.success {
                 Log.debug("rpcHandler: \(resp.eventId) sent")
@@ -185,7 +187,7 @@ internal class Analytics: OtsimoAnalyticsProtocol {
             }
         }
         if done {
-            Log.info("Done Listening, err=\(err)")
+            Log.info("Done Listening, err=\(error)")
         }
     }
 
@@ -234,7 +236,7 @@ internal class Analytics: OtsimoAnalyticsProtocol {
                 return
             }
 
-            let objs = eventRealm.objects(EventCache).filter("time <= %@", end)
+            let objs = eventRealm.allObjects(ofType: EventCache.self).filter(using:"time <= %@", end)
 
             for o in objs {
                 Log.debug("sendStoredEvents->>\(o.id) is sending again")
@@ -246,7 +248,7 @@ internal class Analytics: OtsimoAnalyticsProtocol {
                     EventCache.removeEvent(o, realm: eventRealm)
                 }
             }
-            let aobjs = eventRealm.objects(AppEventCache).filter("time <= %@", end)
+            let aobjs = eventRealm.allObjects(ofType: AppEventCache.self).filter(using:"time <= %@", end)
             for o in aobjs {
                 let ev = o.event()
                 AppEventCache.removeEvent(o, realm: eventRealm)
@@ -255,11 +257,11 @@ internal class Analytics: OtsimoAnalyticsProtocol {
         }
     }
 
-    func customEvent(_ event: String, payload: [String: AnyObject]) {
-        customEvent(event, childID: nil, game: nil, payload: payload)
+    func customEvent(event: String, payload: [String: AnyObject]) {
+        customEvent(event: event, childID: nil, game: nil, payload: payload)
     }
 
-    func customEvent(_ event: String, childID: String?, game: OTSGameInfo?, payload: [String: AnyObject]) {
+    func customEvent(event: String, childID: String?, game: OTSGameInfo?, payload: [String: AnyObject]) {
         analyticsQueue.async(flags: .barrier, execute: {
             if let session = self.session {
                 let e = OTSEvent()
@@ -279,7 +281,7 @@ internal class Analytics: OtsimoAnalyticsProtocol {
         }) 
     }
 
-    func appEvent(_ event: String, payload: [String: AnyObject]) {
+    func appEvent(event: String, payload: [String: AnyObject]) {
         analyticsQueue.async {
             let aed = OTSAppEventData()
             aed.event = event

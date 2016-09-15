@@ -20,9 +20,9 @@ open class Otsimo {
                 ssc(self.session)
             }
             if let ses = session {
-                analytics.start(ses)
+                analytics.start(session: ses)
             } else {
-                analytics.stop(nil)
+                analytics.stop(error: nil)
             }
         }
     }
@@ -50,7 +50,7 @@ open class Otsimo {
         sharedInstance.analytics = Analytics(connection: sharedInstance.connection!)
 
         if isFirstLaunch() {
-            sharedInstance.analytics.appEvent("start", payload: [String: AnyObject]())
+            sharedInstance.analytics.appEvent(event: "start", payload: [String: AnyObject]())
         } else {
             sharedInstance.migrate(config)
         }
@@ -58,7 +58,7 @@ open class Otsimo {
     }
 
     open func handleOpenURL(_ url: URL) -> Bool {
-        analytics.appEvent("deeplink", payload: ["url": url.absoluteString])
+        analytics.appEvent(event: "deeplink", payload: ["url": url.absoluteString as AnyObject])
         if url.scheme == Otsimo.oauthSchema {
             return true
         }

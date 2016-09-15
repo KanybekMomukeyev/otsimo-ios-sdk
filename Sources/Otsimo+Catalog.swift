@@ -12,7 +12,7 @@ import OtsimoApiGrpc
 extension Otsimo: CatalogApi {
 
     // Catalog
-    public func getCatalog(_ handler: @escaping (OTSCatalog?, OtsimoError) -> Void) {
+    public func getCatalog(handler: @escaping (OTSCatalog?, OtsimoError) -> Void) {
         self.getCatalogFromRemote { c, e in
             switch (e) {
             case .none:

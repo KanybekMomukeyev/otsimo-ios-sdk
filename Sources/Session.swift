@@ -15,8 +15,13 @@ let emailKey = "OtsimoSDK-Session-Email"
 
 struct OtsimoAccount: ReadableSecureStorable, CreateableSecureStorable,
 DeleteableSecureStorable, GenericPasswordSecureStorable {
+
+    
+    
+    
     let email: String
     let jwt: String
+
     let refresh: String
     let tokentype: String
     let service = "Otsimo"
@@ -24,7 +29,7 @@ DeleteableSecureStorable, GenericPasswordSecureStorable {
     var account: String { return email }
     var accessGroup: String? { return sharedKeyChain }
 
-    var data: [String: AnyObject] {
+    var data: [String: Any] {
         return ["jwt": jwt as AnyObject, "refresh": refresh as AnyObject, "tokentype": tokentype as AnyObject]
     }
 }
@@ -262,16 +267,18 @@ open class Session {
         let urlPath: String = "\(config.accountsServiceUrl)/refresh"
         let postString = "grant_type=\(grant_type)&refresh_token=\(refreshToken)&client_id=\(clientID)"
 
-        let request = NSMutableURLRequest(url: URL(string: urlPath)!)
+        var request = URLRequest(url: URL(string: urlPath)!)
         request.httpMethod = "POST"
         request.setValue("application/x-www-form-urlencoded; charset=utf-8", forHTTPHeaderField: "Content-Type")
         request.httpBody = postString.data(using: String.Encoding.utf8)
         request.timeoutInterval = 20
         request.cachePolicy = .reloadIgnoringLocalAndRemoteCacheData
 
-        let task = URLSession.shared.dataTask(with: request, completionHandler: { data, response, error in
+        let s=URLSession.shared
+        
+        s.dataTask(with: request, completionHandler: { data, response, error in
             guard error == nil && data != nil else { // check for fundamental networking error
-                handler(error: .networkError(message: "\(error)"))
+                handler(.networkError(message: "\(error)"))
                 return
             }
             var isOK = true
@@ -282,7 +289,7 @@ open class Session {
             do {
                 let JSON = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions(rawValue: 0))
                 guard let JSONDictionary: NSDictionary = JSON as? NSDictionary else {
-                    handler(error: .invalidResponse(message: "invalid response:not a dictionary"))
+                    handler(.invalidResponse(message: "invalid response:not a dictionary"))
                     return
                 }
                 if isOK && JSONDictionary["error"] == nil {
@@ -293,14 +300,14 @@ open class Session {
                     if let at = accessToken {
                         self.accessToken = at
                     } else {
-                        handler(error: .invalidResponse(message: "invalid response: access_token is missing"))
+                        handler(.invalidResponse(message: "invalid response: access_token is missing"))
                         return
                     }
 
                     if let rt = refreshToken {
                         self.refreshToken = rt
                     } else {
-                        handler(error: .invalidResponse(message: "invalid response: refresh_token is missing"))
+                        handler(.invalidResponse(message: "invalid response: refresh_token is missing"))
                         return
                     }
 
@@ -313,24 +320,23 @@ open class Session {
                     switch (lr) {
                     case .success(_, _, _, _):
                         onMainThread { self.save() }
-                        handler(error: .none)
+                        handler(.none)
                     case .failure(let it):
-                        handler(error: OtsimoError.invalidTokenError(error: it))
+                        handler(OtsimoError.invalidTokenError(error: it))
                     }
                 } else {
                     let e = JSONDictionary["error"]
                     if e != nil {
-                        handler(error: .invalidResponse(message: "request failed: error= \(e)"))
+                        handler(.invalidResponse(message: "request failed: error= \(e)"))
                     } else {
-                        handler(error: .invalidResponse(message: "request failed: \(data)"))
+                        handler(.invalidResponse(message: "request failed: \(data)"))
                     }
                 }
             }
             catch let JSONError as NSError {
-                handler(error: .invalidResponse(message: "invalid response: \(JSONError)"))
+                handler(.invalidResponse(message: "invalid response: \(JSONError)"))
             }
-        }) 
-        task.resume()
+        }).resume()
     }
 
     static func userDefaults(_ appGroup: String) -> UserDefaults {
@@ -365,7 +371,7 @@ open class Session {
                     sharedKeyChain: config.sharedKeyChain)
 
                 do {
-                    if let ok = sharedAccount.readFromSecureStore() {
+                    if sharedAccount.readFromSecureStore() != nil {
                         try sharedAccount.updateInSecureStore()
                         Log.info("session is migrated by update")
                     } else {

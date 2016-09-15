@@ -17,19 +17,19 @@ internal class Watch: WatchProtocol {
     fileprivate var handler: ((_ watch: OTSWatchEvent) -> Void)?
     fileprivate var RPC: GRPCProtoCall!
 
-    fileprivate var timer: DispatchSource?
+    fileprivate var timer: DispatchSourceTimer?
 
     init(connection: Connection) {
         self.connection = connection
     }
 
-    func start(_ session: Session, handler: @escaping (_ watch: OTSWatchEvent) -> Void) {
+    func start(session: Session, handler: @escaping (_ watch: OTSWatchEvent) -> Void) {
         self.handler = handler
         let req = OTSWatchRequest()
         req.profileId = session.profileID
 
         self.session = session
-        RPC = connection.watchService.rpcToWatch(with: req, eventHandler: rpcHandler as! (Bool, OTSWatchResponse?, Error?) -> Void)
+        RPC = connection.watchService.rpcToWatch(with: req, eventHandler: rpcHandler )
         session.getAuthorizationHeader() { h, e in
             switch (e) {
             case .none:
@@ -56,7 +56,7 @@ internal class Watch: WatchProtocol {
         }
         let req = OTSWatchRequest()
         req.profileId = session!.profileID
-        RPC = connection.watchService.rpcToWatch(with: req, eventHandler: rpcHandler as! (Bool, OTSWatchResponse?, Error?) -> Void)
+        RPC = connection.watchService.rpcToWatch(with: req, eventHandler: rpcHandler)
         session?.getAuthorizationHeader() { h, e in
             switch (e) {
             case .none:
@@ -68,7 +68,7 @@ internal class Watch: WatchProtocol {
         }
     }
 
-    func stop(_ error: NSError?) {
+    func stop(error: Error?) {
         if let rpc = RPC {
             if rpc.state == GRXWriterState.started {
                 rpc.cancel()
@@ -76,7 +76,7 @@ internal class Watch: WatchProtocol {
         }
     }
 
-    func rpcHandler(_ done: Bool, response: OTSWatchResponse?, error: NSError?) {
+    func rpcHandler(done: Bool, response: OTSWatchResponse?, error: Error?) {
         Log.debug("Watch RpcHandler: done=\(done), error=\(error), event=\(response)")
         if let r = response {
             if r.hasEvent {
@@ -87,7 +87,7 @@ internal class Watch: WatchProtocol {
         }
         if done {
             if timer == nil {
-                timer = createDispatchTimer(30, queue: analyticsQueue, handler: self.restart)
+                timer = createDispatchTimer(interval: 30, queue: analyticsQueue, handler: self.restart)
             }
         }
     }

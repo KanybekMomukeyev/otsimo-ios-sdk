@@ -37,17 +37,20 @@ public struct RegistrationData {
     }
 }
 
-func versionToUrl(_ version: String) -> String {
+func versionToUrl(version: String) -> String {
     return version.replacingOccurrences(of: ".", with: "_")
 }
 
-func createDispatchTimer(_ interval: UInt64, queue: DispatchQueue, handler: () -> Void) -> DispatchSource {
-    let t = DispatchSource.makeTimerSource(flags: DispatchSource.TimerFlags(rawValue: UInt(0)), queue: queue)
-
-    if let timer = t {
-        timer.setTimer(start: DispatchTime.now(), interval: interval * NSEC_PER_SEC, leeway: 1 * NSEC_PER_SEC) // every 60 seconds, with leeway of 1 second
-        timer.setEventHandler(handler: handler)
+func createDispatchTimer(interval: Int, queue: DispatchQueue, handler: @escaping () -> Void) -> DispatchSourceTimer {
+    let timer = DispatchSource.makeTimerSource(flags: .strict, queue: queue)
+    timer.scheduleRepeating(deadline: .now(), interval: .seconds(interval), leeway: .seconds(1))
+    timer.setEventHandler { 
+        handler()
+    }
+    if #available(iOS 10.0, *) {
+        timer.activate()
+    } else {
         timer.resume()
     }
-    return t as! DispatchSource;
+    return timer;
 }

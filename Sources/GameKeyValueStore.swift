@@ -100,7 +100,7 @@ open class GameKeyValueStore {
     open static func fromIdAndVersion(_ gameID: String, version: String, language: String, path: String, handler: @escaping (GameKeyValueStore?) -> Void) {
 
         let id = KeyValueStoreCache.createID(gameID, version: version, language: language)
-        if let sc = KeyValueStoreCache.storage.filter("id = %@", id).first {
+        if let sc = KeyValueStoreCache.storage.filter(using:"id = %@", id).first {
             handler(sc.keyvalueStore())
             return
         }

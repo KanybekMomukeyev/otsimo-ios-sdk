@@ -17,7 +17,7 @@ extension Otsimo: GameApi {
                 if isExpired {
                     Log.debug("GameApi:getGame: found game but it expired")
                 }
-                handler(game, error: .none)
+                handler(game, .none)
                 return
             }
 
@@ -25,14 +25,14 @@ extension Otsimo: GameApi {
                 if let gr = resp {
                     let game = Game(gameRelease: gr)
                     game.cache()
-                    handler(game, error: .none)
+                    handler(game, .none)
                 } else {
                     if let game = game {
                         Log.debug("GameApi:getGame: failed to get game, using cached value,err=\(error)")
-                        handler(game, error: OtsimoError.expiredValue)
+                        handler(game, OtsimoError.expiredValue)
                     } else {
                         Log.debug("GameApi:getGame: failed to get game and no cache data,err=\(error)")
-                        handler(nil, error: error)
+                        handler(nil, error)
                     }
                 }
             }
@@ -40,35 +40,35 @@ extension Otsimo: GameApi {
     }
 
     public func getGameRelease(_ id: String, version: String?, onlyProduction: Bool?, handler: @escaping (OTSGameRelease?, _ error: OtsimoError) -> Void) {
-        self.isReady({ handler(nil, error: $0) }) { c, s in
+        self.isReady({ handler(nil, $0) }) { c, s in
             c.getGameRelease(s, gameID: id, version: version, onlyProduction: onlyProduction, handler: handler)
         }
     }
 
     public func getAllGames(_ language:String?, handler: @escaping (Game?, _ done: Bool, _ error: OtsimoError) -> Void) {
-        self.isReady({ handler(nil, done: true, error: $0) }) { c, s in
+        self.isReady({ handler(nil, true, $0) }) { c, s in
             c.getAllGamesStream(language, session: s) { li, done, error in
                 if let item = li {
                     Otsimo.sharedInstance.cache.fetchGame(item.gameId) { game, isExpired in
                         if let game = game {
                             if game.productionVersion == item.productionVersion {
-                                handler(game, done: done, error: error)
+                                handler(game, done, error)
                             } else {
-                                handler(Game(listItem: item), done: done, error: error)
+                                handler(Game(listItem: item), done, error)
                             }
                         } else {
-                            handler(Game(listItem: item), done: done, error: error)
+                            handler(Game(listItem: item), done, error)
                         }
                     }
                 } else {
-                    handler(nil, done: done, error: error)
+                    handler(nil, done, error)
                 }
             }
         }
     }
 
     public func gamesLatestVersions(_ gameIDs: [String], handler: @escaping (_ result: [OTSGameAndVersion], _ error: OtsimoError) -> Void) {
-        self.isReady({ handler(result: [], error: $0) }) { c, s in
+        self.isReady({ handler( [],  $0) }) { c, s in
             c.gamesLatestVersions(s, gameIDs: gameIDs, handler: handler)
         }
     }

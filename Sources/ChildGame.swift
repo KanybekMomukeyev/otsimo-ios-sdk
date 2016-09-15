@@ -204,16 +204,17 @@ open class ChildGame {
         settingsValues[value.key] = value
     }
 
-    open func saveSettings(_ handler: (OtsimoError) -> Void) {
-        let data = ChildGame.DataOfSettingsValues(self.settingsValues)
-        Otsimo.sharedInstance.updateSettings(gameID, childID: childID, settings: data, handler: handler)
+    open func saveSettings(_ handler:@escaping (OtsimoError) -> Void) {
+        if let data = ChildGame.DataOfSettingsValues(self.settingsValues){
+            Otsimo.sharedInstance.updateSettings(gameID, childID: childID, settings: data, handler: handler)
+        }
     }
 
     open static func InitSettingsValues(_ data: Data) -> SettingsValues {
         do {
             var sv = SettingsValues()
             if data.count > 0 {
-                let object: AnyObject = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableContainers)
+                let object = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableContainers)
                 if let o = object as? [String: AnyObject] {
                     for (k, v) in o {
                         switch (v) {
