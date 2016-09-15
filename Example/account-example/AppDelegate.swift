@@ -39,7 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         otsimo.sessionStatusChanged = onSessionStatusChanged
         fakeToken(options)
-        Otsimo.config(options)
+        Otsimo.config(options: options)
 
         return true
     }

@@ -99,7 +99,7 @@ open class ClusterConfig {
 
 extension Otsimo {
 
-    public static func config(_ options: Configuration) {
+    public static func config(options: Configuration) {
         Otsimo.sharedInstance.cluster.discoveryUrl = options.discovery
         Otsimo.sharedInstance.cluster.env = options.environment
 
@@ -152,7 +152,7 @@ extension Otsimo {
                 }
             }
         }
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int64(NSEC_PER_SEC) * 5) / Double(NSEC_PER_SEC)) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
             if !isCompleted {
                 Log.error("Timeout to discovery.RPCToGetWithRequest")
                 RPC.cancel()

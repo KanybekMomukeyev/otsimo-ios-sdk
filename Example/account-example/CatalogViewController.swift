@@ -79,7 +79,7 @@ class CatalogViewController: UITableViewController {
 
     func updateCell(_ cell: GameTableCellView, ci: OTSCatalogItem?) {
         if let item = ci {
-            otsimo.getGame(item.gameId) { g, e in
+            otsimo.getGame(id: item.gameId) { g, e in
                 if let game = g {
                     game.getManifest() { man, error in
                         if let m = man {

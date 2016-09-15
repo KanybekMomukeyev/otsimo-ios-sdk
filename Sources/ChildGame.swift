@@ -75,7 +75,7 @@ class ChildGameInitializer {
     }
 
     fileprivate func prepareGame() {
-        Otsimo.sharedInstance.getGame(childGame.entry.id_p, handler: handleGetGame)
+        Otsimo.sharedInstance.getGame(id: childGame.entry.id_p, handler: handleGetGame)
     }
 
     fileprivate func prepareManifest() {
@@ -136,7 +136,7 @@ open class ChildGame {
         }
         set(value) {
             entry.dashboardIndex = Int32(value)
-            Otsimo.sharedInstance.updateDashboardIndex(gameID, childID: childID, index: entry.dashboardIndex) { e in
+            Otsimo.sharedInstance.updateDashboardIndex(gameID: gameID, childID: childID, index: entry.dashboardIndex) { e in
                 switch (e) {
                 case .none:
                     Log.debug("updated dashboard index of \(self.gameID)")
@@ -154,7 +154,7 @@ open class ChildGame {
         get { return entry.active }
         set(value) {
             entry.active = value
-            Otsimo.sharedInstance.updateActivationGame(gameID, childID: childID, activate: value) { e in
+            Otsimo.sharedInstance.updateActivationGame(gameID: gameID, childID: childID, activate: value) { e in
                 switch (e) {
                 case .none:
                     Log.debug("updated activation of \(self.gameID)")
@@ -206,7 +206,7 @@ open class ChildGame {
 
     open func saveSettings(_ handler:@escaping (OtsimoError) -> Void) {
         if let data = ChildGame.DataOfSettingsValues(self.settingsValues){
-            Otsimo.sharedInstance.updateSettings(gameID, childID: childID, settings: data, handler: handler)
+            Otsimo.sharedInstance.updateSettings(gameID: gameID, childID: childID, settings: data, handler: handler)
         }
     }
 

@@ -88,7 +88,7 @@ open class Game {
         } else {
             if Otsimo.sharedInstance.onlyProduction {
                 Log.debug("Game:getManifest-> going to fetch game='\(id)' version='\(productionVersion)' as production version")
-                Otsimo.sharedInstance.getGameRelease(id, version: productionVersion, onlyProduction: true) { resp, err in
+                Otsimo.sharedInstance.getGameRelease(id: id, version: productionVersion, onlyProduction: true) { resp, err in
                     if let r = resp {
                         self.gameManifest = GameManifest(id: self.id, gameRelease: r)
                         self.productionVersion = r.version
@@ -103,7 +103,7 @@ open class Game {
                 }
             } else {
                 Log.debug("Game:getManifest-> going to fetch game='\(id)' version='\(latestVersion)' as latestVersion version")
-                Otsimo.sharedInstance.getGameRelease(id, version: latestVersion, onlyProduction: false) { resp, err in
+                Otsimo.sharedInstance.getGameRelease(id: id, version: latestVersion, onlyProduction: false) { resp, err in
                     if let r = resp {
                         self.gameManifest = GameManifest(id: self.id, gameRelease: r)
                         self.productionVersion = r.version

@@ -17,7 +17,7 @@ class AllGamesViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        otsimo.getAllGames("") {game, done, error in
+        otsimo.getAllGames(language: "") {game, done, error in
             if let f = game {
                 self.games.append(f)
                 self.tableView.reloadData()

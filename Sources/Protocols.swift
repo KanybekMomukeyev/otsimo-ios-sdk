@@ -35,33 +35,33 @@ public protocol ProfileApi {
 }
 
 public protocol ChildApi {
-    func addChild(_ child:OTSChild, handler: @escaping(_ res: OtsimoError) -> Void)
+    func addChild(child:OTSChild, handler: @escaping(_ res: OtsimoError) -> Void)
 
-    func getChild(_ id: String, handler: @escaping(_ res: OTSChild?, _ err: OtsimoError) -> Void)
+    func getChild(childID: String, handler: @escaping(_ res: OTSChild?, _ err: OtsimoError) -> Void)
 
-    func getChildren(_ handler: @escaping(_ res: [OTSChild], _ err: OtsimoError) -> Void)
+    func getChildren(handler: @escaping(_ res: [OTSChild], _ err: OtsimoError) -> Void)
 
-    func addGameToChild(_ gameID: String, childID: String, index: Int32, settings: Data, handler: @escaping(_ error: OtsimoError) -> Void)
+    func addGameToChild(gameID: String, childID: String, index: Int32, settings: Data, handler: @escaping(_ error: OtsimoError) -> Void)
 
-    func updateActivationGame(_ gameID: String, childID: String, activate: Bool, handler:@escaping (_ error: OtsimoError) -> Void)
+    func updateActivationGame(gameID: String, childID: String, activate: Bool, handler:@escaping (_ error: OtsimoError) -> Void)
 
-    func updateSettings(_ gameID: String, childID: String, settings: Data, handler:@escaping (_ error: OtsimoError) -> Void)
+    func updateSettings(gameID: String, childID: String, settings: Data, handler:@escaping (_ error: OtsimoError) -> Void)
 
-    func updateDashboardIndex(_ gameID: String, childID: String, index: Int32, handler:@escaping (_ error: OtsimoError) -> Void)
+    func updateDashboardIndex(gameID: String, childID: String, index: Int32, handler:@escaping (_ error: OtsimoError) -> Void)
 
-    func updateChild(_ childID: String, child: OTSChild, handler: @escaping(_ error: OtsimoError) -> Void)
+    func updateChild(childID: String, child: OTSChild, handler: @escaping(_ error: OtsimoError) -> Void)
 
-    func enableSound(_ childID: String, enable: Bool, handler:@escaping (_ error: OtsimoError) -> Void)
+    func enableSound(childID: String, enable: Bool, handler:@escaping (_ error: OtsimoError) -> Void)
 }
 
 public protocol GameApi {
-    func getGame(_ id: String, handler: @escaping(Game?, _ error: OtsimoError) -> Void)
+    func getGame(id: String, handler: @escaping(Game?, _ error: OtsimoError) -> Void)
 
-    func getAllGames(_ language:String?, handler: @escaping(Game?, _ done: Bool, _ error: OtsimoError) -> Void)
+    func getAllGames(language:String?, handler: @escaping(Game?, _ done: Bool, _ error: OtsimoError) -> Void)
 
-    func getGameRelease(_ id: String, version: String?, onlyProduction: Bool?, handler: @escaping(OTSGameRelease?, _ error: OtsimoError) -> Void)
+    func getGameRelease(id: String, version: String?, onlyProduction: Bool?, handler: @escaping(OTSGameRelease?, _ error: OtsimoError) -> Void)
 
-    func gamesLatestVersions(_ gameIDs: [String], handler: @escaping(_ result: [OTSGameAndVersion], _ error: OtsimoError) -> Void)
+    func gamesLatestVersions(gameIDs: [String], handler: @escaping(_ result: [OTSGameAndVersion], _ error: OtsimoError) -> Void)
 }
 
 public protocol CatalogApi {

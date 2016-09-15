@@ -53,7 +53,7 @@ class AddGameToChildViewController: UIViewController {
     }
     
     func addGameToChild(_ child: OTSChild) {
-        otsimo.addGameToChild(game!.id, childID: child.id_p,
+        otsimo.addGameToChild(gameID: game!.id, childID: child.id_p,
             index: Int32(child.gamesArray.count),
             settings: game!.defaultSettings()) {res in
             print("add game finished with \(res)")

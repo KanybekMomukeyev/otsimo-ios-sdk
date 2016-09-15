@@ -22,7 +22,7 @@ class ChildViewController: UITableViewController {
     var selectedGameEntry: ChildGame?
     override func viewDidLoad() {
         super.viewDidLoad()
-        otsimo.getChild(childIdWillFetch, handler: getChildHandler)
+        otsimo.getChild(childID: childIdWillFetch, handler: getChildHandler)
     }
     
     func getChildHandler(_ child: OTSChild?, err: OtsimoError) {

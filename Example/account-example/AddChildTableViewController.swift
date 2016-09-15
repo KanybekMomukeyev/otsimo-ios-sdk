@@ -87,7 +87,7 @@ class AddChildTableViewController: UITableViewController {
         
         let _=SwiftSpinner.show("adding...", animated: true)
 
-        otsimo.addChild(child) { err in
+        otsimo.addChild(child: child) { err in
                 delay(seconds: 1.5) { SwiftSpinner.hide() }
                 switch (err) {
                 case .none:
