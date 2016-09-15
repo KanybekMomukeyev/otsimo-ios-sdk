@@ -9,89 +9,89 @@
 import Foundation
 
 public protocol OtsimoErrorProtocol {
-    func silentError(src: String, err: OtsimoError)
+    func silentError(_ src: String, err: OtsimoError)
 }
 
 public enum TokenResult {
-    case Success
-    case Error(error: OtsimoError)
+    case success
+    case error(error: OtsimoError)
 }
 
 enum LoadResult {
-    case Success(header: Payload, payload: Payload, signature: NSData, signatureInput: String)
-    case Failure(InvalidToken)
+    case success(header: Payload, payload: Payload, signature: Data, signatureInput: String)
+    case failure(InvalidToken)
 }
 
 enum PayloadLoadResult {
-    case Success
-    case Failure(InvalidToken)
+    case success
+    case failure(InvalidToken)
 }
 
-public enum InvalidToken: CustomStringConvertible, ErrorType {
+public enum InvalidToken: CustomStringConvertible, Error {
     // / Decoding the JWT itself failed
-    case DecodeError(String)
+    case decodeError(String)
 
     // / The JWT uses an unsupported algorithm
-    case InvalidAlgorithm
+    case invalidAlgorithm
 
     // / The issued claim has expired
-    case ExpiredSignature
+    case expiredSignature
 
     // / The issued claim is for the future
-    case ImmatureSignature
+    case immatureSignature
 
     // / The claim is for the future
-    case InvalidIssuedAt
+    case invalidIssuedAt
 
     // / The audience of the claim doesn't match
-    case InvalidAudience
+    case invalidAudience
 
     // / The issuer claim failed to verify
-    case InvalidIssuer
+    case invalidIssuer
 
     // The issuer claim failed to verify
-    case MissingSub
+    case missingSub
 
     // The issuer claim failed to verify
-    case MissingEmail
+    case missingEmail
 
-    case MissingExp
+    case missingExp
 
     // / Returns a readable description of the error
     public var description: String {
         switch self {
-        case .DecodeError(let error):
+        case .decodeError(let error):
             return "Decode Error: \(error)"
-        case .InvalidIssuer:
+        case .invalidIssuer:
             return "Invalid Issuer"
-        case .ExpiredSignature:
+        case .expiredSignature:
             return "Expired Signature"
-        case .ImmatureSignature:
+        case .immatureSignature:
             return "The token is not yet valid (not before claim)"
-        case .InvalidIssuedAt:
+        case .invalidIssuedAt:
             return "Issued at claim (iat) is in the future"
-        case InvalidAudience:
+        case .invalidAudience:
             return "Invalid Audience"
-        case InvalidAlgorithm:
+        case .invalidAlgorithm:
             return "Unsupported algorithm or incorrect key"
-        case MissingSub:
+        case .missingSub:
             return "Sub is missing"
-        case MissingEmail:
+        case .missingEmail:
             return "Email is missing"
-        case .MissingExp:
+        case .missingExp:
             return "Expire time is missing"
         }
     }
 }
 
 public enum OtsimoError {
-    case None
-    case NotInitialized
-    case ExpiredValue
-    case General(message: String)
-    case NotLoggedIn(message: String)
-    case ServiceError(message: String)
-    case NetworkError(message: String)
-    case InvalidResponse(message: String)
-    case InvalidTokenError(error: InvalidToken)
+    case none
+    case notInitialized
+    case expiredValue
+    case general(message: String)
+    case notLoggedIn(message: String)
+    case serviceError(message: String)
+    case networkError(message: String)
+    case invalidResponse(message: String)
+    case invalidTokenError(error: InvalidToken)
 }

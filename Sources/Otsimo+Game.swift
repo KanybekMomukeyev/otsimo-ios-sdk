@@ -11,13 +11,13 @@ import OtsimoApiGrpc
 
 extension Otsimo: GameApi {
     // Game
-    public func getGame(id: String, handler: (Game?, error: OtsimoError) -> Void) {
+    public func getGame(_ id: String, handler: @escaping (Game?, _ error: OtsimoError) -> Void) {
         Otsimo.sharedInstance.cache.fetchGame(id) { game, isExpired in
             if game != nil {
                 if isExpired {
                     Log.debug("GameApi:getGame: found game but it expired")
                 }
-                handler(game, error: .None)
+                handler(game, error: .none)
                 return
             }
 
@@ -25,11 +25,11 @@ extension Otsimo: GameApi {
                 if let gr = resp {
                     let game = Game(gameRelease: gr)
                     game.cache()
-                    handler(game, error: .None)
+                    handler(game, error: .none)
                 } else {
                     if let game = game {
                         Log.debug("GameApi:getGame: failed to get game, using cached value,err=\(error)")
-                        handler(game, error: OtsimoError.ExpiredValue)
+                        handler(game, error: OtsimoError.expiredValue)
                     } else {
                         Log.debug("GameApi:getGame: failed to get game and no cache data,err=\(error)")
                         handler(nil, error: error)
@@ -39,13 +39,13 @@ extension Otsimo: GameApi {
         }
     }
 
-    public func getGameRelease(id: String, version: String?, onlyProduction: Bool?, handler: (OTSGameRelease?, error: OtsimoError) -> Void) {
+    public func getGameRelease(_ id: String, version: String?, onlyProduction: Bool?, handler: @escaping (OTSGameRelease?, _ error: OtsimoError) -> Void) {
         self.isReady({ handler(nil, error: $0) }) { c, s in
             c.getGameRelease(s, gameID: id, version: version, onlyProduction: onlyProduction, handler: handler)
         }
     }
 
-    public func getAllGames(language:String?, handler: (Game?, done: Bool, error: OtsimoError) -> Void) {
+    public func getAllGames(_ language:String?, handler: @escaping (Game?, _ done: Bool, _ error: OtsimoError) -> Void) {
         self.isReady({ handler(nil, done: true, error: $0) }) { c, s in
             c.getAllGamesStream(language, session: s) { li, done, error in
                 if let item = li {
@@ -67,7 +67,7 @@ extension Otsimo: GameApi {
         }
     }
 
-    public func gamesLatestVersions(gameIDs: [String], handler: (result: [OTSGameAndVersion], error: OtsimoError) -> Void) {
+    public func gamesLatestVersions(_ gameIDs: [String], handler: @escaping (_ result: [OTSGameAndVersion], _ error: OtsimoError) -> Void) {
         self.isReady({ handler(result: [], error: $0) }) { c, s in
             c.gamesLatestVersions(s, gameIDs: gameIDs, handler: handler)
         }

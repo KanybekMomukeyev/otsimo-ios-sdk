@@ -11,11 +11,11 @@ import Foundation
 extension Otsimo: AccountApi {
     // Account API
     // login with given email and password. handler wil call on main queue
-    public func login(email: String, password: String, handler: (res: TokenResult) -> Void) {
+    public func login(_ email: String, password: String, handler: @escaping (_ res: TokenResult) -> Void) {
         if let connection = connection {
             connection.login(email, plainPassword: password) { res, ses in
                 switch (res) {
-                case .Success:
+                case .success:
                     self.session = ses
                     self.session?.save()
                 default:
@@ -24,15 +24,15 @@ extension Otsimo: AccountApi {
                 handler(res: res)
             }
         } else {
-            handler(res: TokenResult.Error(error: OtsimoError.NotInitialized))
+            handler(TokenResult.error(error: OtsimoError.notInitialized))
         }
     }
 
-    public func login(connector: String, accessToken: String, handler: (res: TokenResult) -> Void) {
+    public func login(_ connector: String, accessToken: String, handler: @escaping (_ res: TokenResult) -> Void) {
         if let connection = connection {
             connection.login(connector, accessToken: accessToken) { res, ses in
                 switch (res) {
-                case .Success:
+                case .success:
                     self.session = ses
                     self.session?.save()
                 default:
@@ -41,15 +41,15 @@ extension Otsimo: AccountApi {
                 handler(res: res)
             }
         } else {
-            handler(res: TokenResult.Error(error: OtsimoError.NotInitialized))
+            handler(TokenResult.error(error: OtsimoError.notInitialized))
         }
     }
 
-    public func register(data: RegistrationData, handler: (res: TokenResult) -> Void) {
+    public func register(_ data: RegistrationData, handler: @escaping (_ res: TokenResult) -> Void) {
         if let connection = connection {
             connection.register(data) { res, ses in
                 switch (res) {
-                case .Success:
+                case .success:
                     self.session = ses
                     self.session?.save()
                 default:
@@ -58,7 +58,7 @@ extension Otsimo: AccountApi {
                 handler(res: res)
             }
         } else {
-            handler(res: TokenResult.Error(error: OtsimoError.NotInitialized))
+            handler(TokenResult.error(error: OtsimoError.notInitialized))
         }
     }
 
@@ -69,27 +69,27 @@ extension Otsimo: AccountApi {
         }
     }
 
-    public func changeEmail(newEmail: String, handler: (OtsimoError) -> Void) {
+    public func changeEmail(_ newEmail: String, handler: @escaping (OtsimoError) -> Void) {
         self.isReady(handler) { c, s in
             c.changeEmail(s, old: s.email, new: newEmail, handler: handler)
         }
     }
 
-    public func changePassword(old: String, newPassword: String, handler: (OtsimoError) -> Void) {
+    public func changePassword(_ old: String, newPassword: String, handler: @escaping (OtsimoError) -> Void) {
         self.isReady(handler) { c, s in
             c.changePassword(s, old: old, new: newPassword, handler: handler)
         }
     }
 
-    public func resetPassword(email: String, handler: (res: OtsimoError) -> Void) {
+    public func resetPassword(_ email: String, handler: (_ res: OtsimoError) -> Void) {
         if let connection = connection {
             connection.resetPassword(email, handler: handler)
         } else {
-            handler(res: OtsimoError.NotInitialized)
+            handler(OtsimoError.notInitialized)
         }
     }
 
-    public func userIdentities(handler: ([String: String], OtsimoError) -> Void) {
+    public func userIdentities(_ handler: @escaping ([String: String], OtsimoError) -> Void) {
         self.isReady({ handler([String: String](), $0) }) { (c, s) in
             c.getIdentities(s, handler: handler)
         }

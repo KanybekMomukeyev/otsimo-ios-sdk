@@ -12,27 +12,27 @@ import OtsimoApiGrpc
 
 internal class Watch: WatchProtocol {
 
-    private var connection: Connection
-    private var session: Session?
-    private var handler: ((watch: OTSWatchEvent) -> Void)?
-    private var RPC: GRPCProtoCall!
+    fileprivate var connection: Connection
+    fileprivate var session: Session?
+    fileprivate var handler: ((_ watch: OTSWatchEvent) -> Void)?
+    fileprivate var RPC: GRPCProtoCall!
 
-    private var timer: dispatch_source_t?
+    fileprivate var timer: DispatchSource?
 
     init(connection: Connection) {
         self.connection = connection
     }
 
-    func start(session: Session, handler: (watch: OTSWatchEvent) -> Void) {
+    func start(_ session: Session, handler: @escaping (_ watch: OTSWatchEvent) -> Void) {
         self.handler = handler
         let req = OTSWatchRequest()
         req.profileId = session.profileID
 
         self.session = session
-        RPC = connection.watchService.RPCToWatchWithRequest(req, eventHandler: rpcHandler)
+        RPC = connection.watchService.rpcToWatch(with: req, eventHandler: rpcHandler as! (Bool, OTSWatchResponse?, Error?) -> Void)
         session.getAuthorizationHeader() { h, e in
             switch (e) {
-            case .None:
+            case .none:
                 self.RPC.oauth2AccessToken = h
                 self.RPC.start()
             default:
@@ -43,9 +43,9 @@ internal class Watch: WatchProtocol {
 
     func restart() {
         if let rpc = RPC {
-            if rpc.state == GRXWriterState.Started {
+            if rpc.state == GRXWriterState.started {
                 if let t = timer {
-                    dispatch_source_cancel(t)
+                    t.cancel()
                     timer = nil
                     return
                 }
@@ -56,10 +56,10 @@ internal class Watch: WatchProtocol {
         }
         let req = OTSWatchRequest()
         req.profileId = session!.profileID
-        RPC = connection.watchService.RPCToWatchWithRequest(req, eventHandler: rpcHandler)
+        RPC = connection.watchService.rpcToWatch(with: req, eventHandler: rpcHandler as! (Bool, OTSWatchResponse?, Error?) -> Void)
         session?.getAuthorizationHeader() { h, e in
             switch (e) {
-            case .None:
+            case .none:
                 self.RPC.oauth2AccessToken = h
                 self.RPC.start()
             default:
@@ -68,20 +68,20 @@ internal class Watch: WatchProtocol {
         }
     }
 
-    func stop(error: NSError?) {
+    func stop(_ error: NSError?) {
         if let rpc = RPC {
-            if rpc.state == GRXWriterState.Started {
+            if rpc.state == GRXWriterState.started {
                 rpc.cancel()
             }
         }
     }
 
-    func rpcHandler(done: Bool, response: OTSWatchResponse?, error: NSError?) {
+    func rpcHandler(_ done: Bool, response: OTSWatchResponse?, error: NSError?) {
         Log.debug("Watch RpcHandler: done=\(done), error=\(error), event=\(response)")
         if let r = response {
             if r.hasEvent {
                 if let h = handler {
-                    h(watch: r.event)
+                    h(r.event)
                 }
             }
         }

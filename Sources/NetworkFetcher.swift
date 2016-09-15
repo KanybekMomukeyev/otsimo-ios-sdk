@@ -9,22 +9,22 @@
 import Foundation
 
 class NetworkFetcher {
-    static func get(urlPath: String, handler: (data: NSData, error: OtsimoError) -> Void) {
-        let request = NSMutableURLRequest(URL: NSURL(string: urlPath)!)
-        request.HTTPMethod = "GET"
+    static func get(_ urlPath: String, handler: @escaping (_ data: Data, _ error: OtsimoError) -> Void) {
+        let request = NSMutableURLRequest(url: URL(string: urlPath)!)
+        request.httpMethod = "GET"
         request.timeoutInterval = 5
 
-        let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { data, response, error in
+        let task = URLSession.shared.dataTask(with: request, completionHandler: { data, response, error in
             guard error == nil && data != nil else { // check for fundamental networking error
-                onMainThread { handler(data: NSData(), error: .NetworkError(message: "\(error)")) }
+                onMainThread { handler(data: Data(), error: .networkError(message: "\(error)")) }
                 return
             }
-            if let httpStatus = response as? NSHTTPURLResponse where httpStatus.statusCode != 200 { // check for http errors
-                onMainThread { handler(data: NSData(), error: .NetworkError(message: "\(error)")) }
+            if let httpStatus = response as? HTTPURLResponse , httpStatus.statusCode != 200 { // check for http errors
+                onMainThread { handler(data: Data(), error: .networkError(message: "\(error)")) }
                 return
             }
-            onMainThread { handler(data: data!, error: .None) }
-        }
+            onMainThread { handler(data: data!, error: .none) }
+        }) 
         task.resume()
     }
 }

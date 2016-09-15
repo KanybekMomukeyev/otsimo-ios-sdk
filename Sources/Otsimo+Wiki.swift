@@ -12,30 +12,30 @@ import OtsimoApiGrpc
 
 extension Otsimo: WikiApi {
 
-    public func contentsByQuery(query: OTSContentListRequest, callback: (Int, [OTSContent], OtsimoError) -> Void) {
+    public func contentsByQuery(_ query: OTSContentListRequest, callback: @escaping (Int, [OTSContent], OtsimoError) -> Void) {
         self.isReady({ callback(0, [], $0) }) { c, s in
             query.onlyHtmlURL = true
             if self.onlyProduction {
-                query.status = OTSContentListRequest_ListStatus.OnlyApproved
+                query.status = OTSContentListRequest_ListStatus.onlyApproved
             } else {
-                query.status = OTSContentListRequest_ListStatus.Both
+                query.status = OTSContentListRequest_ListStatus.both
             }
             c.getContents(s, req: query, handler: callback)
         }
     }
 
-    public func content(slug: String, handler: (OTSContent?, OtsimoError) -> Void) {
+    public func content(_ slug: String, handler: @escaping (OTSContent?, OtsimoError) -> Void) {
         self.isReady({ handler(nil, $0) }) { c, s in
             c.getContent(s, slug: slug, handler: handler)
         }
     }
 
-    public func contentsByCategory(category: String,
+    public func contentsByCategory(_ category: String,
         sort: ContentSort,
         limit: Int32?,
         offset: Int32?,
         language: String,
-        callback: (Int, [OTSContent], OtsimoError) -> Void)
+        callback: @escaping (Int, [OTSContent], OtsimoError) -> Void)
     {
         self.isReady({ callback(0, [], $0) }) { c, s in
             let req = OTSContentListRequest()
@@ -43,23 +43,23 @@ extension Otsimo: WikiApi {
             req.category = category
             req.onlyHtmlURL = true
             if self.onlyProduction {
-                req.status = OTSContentListRequest_ListStatus.OnlyApproved
+                req.status = OTSContentListRequest_ListStatus.onlyApproved
             } else {
-                req.status = OTSContentListRequest_ListStatus.Both
+                req.status = OTSContentListRequest_ListStatus.both
             }
             switch (sort) {
-            case .DateAsc:
-                req.sort = OTSContentListRequest_SortBy.Time
-                req.order = OTSContentListRequest_SortOrder.Asc
-            case .DateDsc:
-                req.sort = OTSContentListRequest_SortBy.Time
-                req.order = OTSContentListRequest_SortOrder.Dsc
-            case .WeightAsc:
-                req.sort = OTSContentListRequest_SortBy.Weight
-                req.order = OTSContentListRequest_SortOrder.Asc
-            case .WeightDsc:
-                req.sort = OTSContentListRequest_SortBy.Weight
-                req.order = OTSContentListRequest_SortOrder.Dsc
+            case .dateAsc:
+                req.sort = OTSContentListRequest_SortBy.time
+                req.order = OTSContentListRequest_SortOrder.asc
+            case .dateDsc:
+                req.sort = OTSContentListRequest_SortBy.time
+                req.order = OTSContentListRequest_SortOrder.dsc
+            case .weightAsc:
+                req.sort = OTSContentListRequest_SortBy.weight
+                req.order = OTSContentListRequest_SortOrder.asc
+            case .weightDsc:
+                req.sort = OTSContentListRequest_SortBy.weight
+                req.order = OTSContentListRequest_SortOrder.dsc
             }
             if let l = limit {
                 req.limit = l

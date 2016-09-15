@@ -9,20 +9,20 @@
 import Foundation
 import OtsimoApiGrpc
 
-public class Game {
-    public let id: String
-    public var uniqueName: String = ""
-    public var productionVersion: String = ""
+open class Game {
+    open let id: String
+    open var uniqueName: String = ""
+    open var productionVersion: String = ""
     internal var latestVersion: String = ""
-    internal var latestState: OTSReleaseState = OTSReleaseState.Created
-    internal var fetchedAt: NSDate?
+    internal var latestState: OTSReleaseState = OTSReleaseState.created
+    internal var fetchedAt: Date?
     internal var storage: String = ""
     internal var archiveFormat: String = ""
     internal var releasedAt: Int64 = 0
     internal var languages: [String] = []
     internal var gameManifest: GameManifest? {
         didSet {
-            fetchedAt = NSDate()
+            fetchedAt = Date()
         }
     }
 
@@ -47,7 +47,7 @@ public class Game {
 
     public convenience init(gameRelease: OTSGameRelease) {
         self.init(gameId: gameRelease.gameId)
-        if (gameRelease.releaseState == OTSReleaseState.Production) {
+        if (gameRelease.releaseState == OTSReleaseState.production) {
             productionVersion = gameRelease.version
         }
         latestVersion = gameRelease.version
@@ -66,7 +66,7 @@ public class Game {
 
     internal convenience init(cache: GameCache, manifest: OTSGameManifest) {
         self.init(gameId: cache.gameId)
-        fetchedAt = cache.fetchedAt
+        fetchedAt = cache.fetchedAt as Date
         uniqueName = manifest.uniqueName
         latestVersion = cache.latestVersion
         productionVersion = cache.productionVersion
@@ -80,11 +80,11 @@ public class Game {
         gameManifest = GameManifest(id: id, version: cache.manifestVersion, storage: cache.storage, archive: cache.archiveFormat, gameManifest: manifest)
     }
 
-    public func getManifest(handler: (GameManifest?, OtsimoError) -> Void) {
+    open func getManifest(_ handler: @escaping (GameManifest?, OtsimoError) -> Void) {
         if let gm = gameManifest {
             Log.debug("Manifest already fetched for \(id), using it")
             // TODO(sercand) there could be a bug if previously get dev release and now want to production
-            handler(gm, OtsimoError.None)
+            handler(gm, OtsimoError.none)
         } else {
             if Otsimo.sharedInstance.onlyProduction {
                 Log.debug("Game:getManifest-> going to fetch game='\(id)' version='\(productionVersion)' as production version")
@@ -95,7 +95,7 @@ public class Game {
                         self.storage = r.storage
                         self.archiveFormat = r.archiveFormat
                         self.cache()
-                        handler(self.gameManifest, .None)
+                        handler(self.gameManifest, .none)
                     } else {
                         Log.error("failed to get getManifest \(err)")
                         handler(nil, err)
@@ -110,7 +110,7 @@ public class Game {
                         self.storage = r.storage
                         self.archiveFormat = r.archiveFormat
                         self.cache()
-                        handler(self.gameManifest, .None)
+                        handler(self.gameManifest, .none)
                     } else {
                         Log.error("failed to get getManifest \(err)")
                         handler(nil, err)
@@ -120,12 +120,12 @@ public class Game {
         }
     }
 
-    public func cache() {
+    open func cache() {
         assert(id != "", "id is empty")
         Otsimo.sharedInstance.cache.cacheGame(self)
     }
 
-    public func defaultSettings() -> NSData {
-        return NSData()
+    open func defaultSettings() -> Data {
+        return Data()
     }
 }

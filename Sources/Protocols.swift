@@ -10,111 +10,111 @@ import OtsimoApiGrpc
 
 public protocol AccountApi {
 
-    func login(email: String, password: String, handler: (res: TokenResult) -> Void)
+    func login(_ email: String, password: String, handler: (_ res: TokenResult) -> Void)
 
-    func login(connector: String, accessToken: String, handler: (res: TokenResult) -> Void)
+    func login(_ connector: String, accessToken: String, handler: (_ res: TokenResult) -> Void)
 
-    func register(data: RegistrationData, handler: (res: TokenResult) -> Void)
+    func register(_ data: RegistrationData, handler: (_ res: TokenResult) -> Void)
 
     func logout()
 
-    func changeEmail(newEmail: String, handler: (OtsimoError) -> Void)
+    func changeEmail(_ newEmail: String, handler: (OtsimoError) -> Void)
 
-    func changePassword(old: String, newPassword: String, handler: (OtsimoError) -> Void)
+    func changePassword(_ old: String, newPassword: String, handler: (OtsimoError) -> Void)
 
-    func resetPassword(email: String, handler: (res: OtsimoError) -> Void)
+    func resetPassword(_ email: String, handler: (_ res: OtsimoError) -> Void)
 
-    func userIdentities(handler: ([String: String], OtsimoError) -> Void)
+    func userIdentities(_ handler: ([String: String], OtsimoError) -> Void)
 }
 
 public protocol ProfileApi {
 
-    func getProfile(handler: (OTSProfile?, OtsimoError) -> Void)
+    func getProfile(_ handler: (OTSProfile?, OtsimoError) -> Void)
 
-    func updateProfile(profile: OTSProfile, handler: (error: OtsimoError) -> Void)
+    func updateProfile(_ profile: OTSProfile, handler: (_ error: OtsimoError) -> Void)
 }
 
 public protocol ChildApi {
-    func addChild(child:OTSChild, handler: (res: OtsimoError) -> Void)
+    func addChild(_ child:OTSChild, handler: (_ res: OtsimoError) -> Void)
 
-    func getChild(id: String, handler: (res: OTSChild?, err: OtsimoError) -> Void)
+    func getChild(_ id: String, handler: (_ res: OTSChild?, _ err: OtsimoError) -> Void)
 
-    func getChildren(handler: (res: [OTSChild], err: OtsimoError) -> Void)
+    func getChildren(_ handler: (_ res: [OTSChild], _ err: OtsimoError) -> Void)
 
-    func addGameToChild(gameID: String, childID: String, index: Int32, settings: NSData, handler: (error: OtsimoError) -> Void)
+    func addGameToChild(_ gameID: String, childID: String, index: Int32, settings: Data, handler: (_ error: OtsimoError) -> Void)
 
-    func updateActivationGame(gameID: String, childID: String, activate: Bool, handler: (error: OtsimoError) -> Void)
+    func updateActivationGame(_ gameID: String, childID: String, activate: Bool, handler: (_ error: OtsimoError) -> Void)
 
-    func updateSettings(gameID: String, childID: String, settings: NSData, handler: (error: OtsimoError) -> Void)
+    func updateSettings(_ gameID: String, childID: String, settings: Data, handler: (_ error: OtsimoError) -> Void)
 
-    func updateDashboardIndex(gameID: String, childID: String, index: Int32, handler: (error: OtsimoError) -> Void)
+    func updateDashboardIndex(_ gameID: String, childID: String, index: Int32, handler: (_ error: OtsimoError) -> Void)
 
-    func updateChild(childID: String, child: OTSChild, handler: (error: OtsimoError) -> Void)
+    func updateChild(_ childID: String, child: OTSChild, handler: (_ error: OtsimoError) -> Void)
 
-    func enableSound(childID: String, enable: Bool, handler: (error: OtsimoError) -> Void)
+    func enableSound(_ childID: String, enable: Bool, handler: (_ error: OtsimoError) -> Void)
 }
 
 public protocol GameApi {
-    func getGame(id: String, handler: (Game?, error: OtsimoError) -> Void)
+    func getGame(_ id: String, handler: (Game?, _ error: OtsimoError) -> Void)
 
-    func getAllGames(language:String?, handler: (Game?, done: Bool, error: OtsimoError) -> Void)
+    func getAllGames(_ language:String?, handler: (Game?, _ done: Bool, _ error: OtsimoError) -> Void)
 
-    func getGameRelease(id: String, version: String?, onlyProduction: Bool?, handler: (OTSGameRelease?, error: OtsimoError) -> Void)
+    func getGameRelease(_ id: String, version: String?, onlyProduction: Bool?, handler: (OTSGameRelease?, _ error: OtsimoError) -> Void)
 
-    func gamesLatestVersions(gameIDs: [String], handler: (result: [OTSGameAndVersion], error: OtsimoError) -> Void)
+    func gamesLatestVersions(_ gameIDs: [String], handler: (_ result: [OTSGameAndVersion], _ error: OtsimoError) -> Void)
 }
 
 public protocol CatalogApi {
-    func getCatalog(handler: (OTSCatalog?, OtsimoError) -> Void)
+    func getCatalog(_ handler: (OTSCatalog?, OtsimoError) -> Void)
 }
 
 public protocol WatchApi {
-    func startWatch(callback: (OTSWatchEvent) -> Void) -> (watch: WatchProtocol?, error: OtsimoError)
+    func startWatch(_ callback: (OTSWatchEvent) -> Void) -> (watch: WatchProtocol?, error: OtsimoError)
 }
 
 public protocol DashboardApi {
-    func dashboard(childID: String, lang: String, cacheTime: Int64?, handler: (DashboardItems?, OtsimoError) -> Void)
+    func dashboard(_ childID: String, lang: String, cacheTime: Int64?, handler: (DashboardItems?, OtsimoError) -> Void)
 }
 
 public enum ContentSort {
-    case WeightAsc
-    case WeightDsc
-    case DateAsc
-    case DateDsc
+    case weightAsc
+    case weightDsc
+    case dateAsc
+    case dateDsc
 }
 
 public protocol WikiApi {
-    func contentsByCategory(category: String, sort: ContentSort, limit: Int32?, offset: Int32?, language: String, callback: (Int, [OTSContent], OtsimoError) -> Void)
-    func contentsByQuery(query: OTSContentListRequest, callback: (Int, [OTSContent], OtsimoError) -> Void)
+    func contentsByCategory(_ category: String, sort: ContentSort, limit: Int32?, offset: Int32?, language: String, callback: (Int, [OTSContent], OtsimoError) -> Void)
+    func contentsByQuery(_ query: OTSContentListRequest, callback: (Int, [OTSContent], OtsimoError) -> Void)
     func wikiSegments() -> [SelfLearningSegment]
-    func content(slug: String, handler: (OTSContent?, OtsimoError) -> Void)
+    func content(_ slug: String, handler: (OTSContent?, OtsimoError) -> Void)
 }
 
 public protocol CacheProtocol {
     // Game
-    func fetchGame(id: String, handler: (game: Game?, isExpired: Bool) -> Void)
-    func cacheGame(game: Game)
+    func fetchGame(_ id: String, handler: (_ game: Game?, _ isExpired: Bool) -> Void)
+    func cacheGame(_ game: Game)
     // Catalog
-    func fetchCatalog(handler: (OTSCatalog?) -> Void)
-    func cacheCatalog(catalog: OTSCatalog)
+    func fetchCatalog(_ handler: (OTSCatalog?) -> Void)
+    func cacheCatalog(_ catalog: OTSCatalog)
     // Session
-    @available( *, deprecated = 1.1)
+    @available( *, deprecated : 1.1)
     func fetchSession() -> SessionCache?
-    @available( *, deprecated = 1.1)
-    func cacheSession(session: SessionCache)
-    @available( *, deprecated = 1.1)
+    @available( *, deprecated : 1.1)
+    func cacheSession(_ session: SessionCache)
+    @available( *, deprecated : 1.1)
     func clearSession()
 }
 
 public protocol OtsimoAnalyticsProtocol {
-    func customEvent(event: String, payload: [String: AnyObject])
-    func customEvent(event: String, childID: String?, game: OTSGameInfo?, payload: [String: AnyObject])
-    func appEvent(event: String, payload: [String: AnyObject])
-    func start(session: Session)
-    func stop(error: NSError?)
+    func customEvent(_ event: String, payload: [String: AnyObject])
+    func customEvent(_ event: String, childID: String?, game: OTSGameInfo?, payload: [String: AnyObject])
+    func appEvent(_ event: String, payload: [String: AnyObject])
+    func start(_ session: Session)
+    func stop(_ error: NSError?)
 }
 
 public protocol WatchProtocol {
-    func stop(error: NSError?)
+    func stop(_ error: NSError?)
     func restart()
 }

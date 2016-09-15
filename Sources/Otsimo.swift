@@ -9,12 +9,12 @@
 import Foundation
 import OtsimoApiGrpc
 
-public class Otsimo {
-    private static let storageVersion = 28
-    public static let sdkVersion: String = "1.2.0"
-    public static let oauthSchema: String = "otsimoauth"
-    public static let sharedInstance = Otsimo()
-    public var session: Session? {
+open class Otsimo {
+    fileprivate static let storageVersion = 28
+    open static let sdkVersion: String = "1.2.0"
+    open static let oauthSchema: String = "otsimoauth"
+    open static let sharedInstance = Otsimo()
+    open var session: Session? {
         didSet {
             if let ssc = self.sessionStatusChanged {
                 ssc(self.session)
@@ -29,18 +29,18 @@ public class Otsimo {
     internal var connection: Connection?
     internal var onlyProduction: Bool = true
     internal var preferredLanguage: String?
-    private(set) public var languages: [String] = []
+    fileprivate(set) open var languages: [String] = []
     internal let cache: CacheProtocol
-    public var sessionStatusChanged: ((Session?) -> Void)?
-    private(set) public var analytics: OtsimoAnalyticsProtocol!
-    private(set) public var cluster: ClusterConfig = ClusterConfig()
-    public var silentErrorDelegate: OtsimoErrorProtocol?
+    open var sessionStatusChanged: ((Session?) -> Void)?
+    fileprivate(set) open var analytics: OtsimoAnalyticsProtocol!
+    fileprivate(set) open var cluster: ClusterConfig = ClusterConfig()
+    open var silentErrorDelegate: OtsimoErrorProtocol?
 
     public init() {
         cache = OtsimoCache()
     }
 
-    internal static func config(config: ClientConfig) {
+    internal static func config(_ config: ClientConfig) {
         print("[Otsimo_IOS_SDK_\(Otsimo.sdkVersion)]")
 
         sharedInstance.onlyProduction = config.onlyProduction
@@ -57,7 +57,7 @@ public class Otsimo {
         sharedInstance.recoverOldSessionIfExist(config)
     }
 
-    public func handleOpenURL(url: NSURL) -> Bool {
+    open func handleOpenURL(_ url: URL) -> Bool {
         analytics.appEvent("deeplink", payload: ["url": url.absoluteString])
         if url.scheme == Otsimo.oauthSchema {
             return true
@@ -65,42 +65,42 @@ public class Otsimo {
         return false
     }
 
-    private func recoverOldSessionIfExist(config: ClientConfig) {
+    fileprivate func recoverOldSessionIfExist(_ config: ClientConfig) {
         Session.loadLastSession(config) { ses in
             self.session = ses
         }
     }
 
-    public func setUserLanguage(lang: String?) {
+    open func setUserLanguage(_ lang: String?) {
         preferredLanguage = lang
     }
 
     func readLanguages() {
         languages.removeAll()
-        for l in NSLocale.preferredLanguages() {
-            languages.append(l.substringToIndex(l.startIndex.advancedBy(2)))
+        for l in Locale.preferredLanguages {
+            languages.append(l.substring(to: l.characters.index(l.startIndex, offsetBy: 2)))
         }
     }
 
-    private static func isFirstLaunch() -> Bool {
-        if !NSUserDefaults.standardUserDefaults().boolForKey("OtsimoSDKHasLaunchedOnce") {
-            NSUserDefaults.standardUserDefaults().setBool(true, forKey: "OtsimoSDKHasLaunchedOnce")
-            NSUserDefaults.standardUserDefaults().setInteger(Otsimo.storageVersion, forKey: "OtsimoSDKStorageVersion")
-            NSUserDefaults.standardUserDefaults().synchronize()
+    fileprivate static func isFirstLaunch() -> Bool {
+        if !UserDefaults.standard.bool(forKey: "OtsimoSDKHasLaunchedOnce") {
+            UserDefaults.standard.set(true, forKey: "OtsimoSDKHasLaunchedOnce")
+            UserDefaults.standard.set(Otsimo.storageVersion, forKey: "OtsimoSDKStorageVersion")
+            UserDefaults.standard.synchronize()
             return true
         }
         return false
     }
 
-    private func migrate(config: ClientConfig) {
-        let old = NSUserDefaults.standardUserDefaults().integerForKey("OtsimoSDKStorageVersion")
+    fileprivate func migrate(_ config: ClientConfig) {
+        let old = UserDefaults.standard.integer(forKey: "OtsimoSDKStorageVersion")
         if old == Otsimo.storageVersion {
             return
         }
         if old == 0 {
             Session.migrateToSharedKeyChain(config)
         }
-        NSUserDefaults.standardUserDefaults().setInteger(Otsimo.storageVersion, forKey: "OtsimoSDKStorageVersion")
-        NSUserDefaults.standardUserDefaults().synchronize()
+        UserDefaults.standard.set(Otsimo.storageVersion, forKey: "OtsimoSDKStorageVersion")
+        UserDefaults.standard.synchronize()
     }
 }
