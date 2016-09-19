@@ -129,9 +129,10 @@ extension Otsimo {
         req.osName = "ios"
         req.sdkVersion = Otsimo.sdkVersion
         req.environment = env
-        req.countryCode = (Locale.current as NSLocale).object(forKey: NSLocale.Key.countryCode) as! String
+        req.countryCode = Locale.current.regionCode
         req.appBundleId = Bundle.main.bundleIdentifier
         req.appBundleVersion = Bundle.main.infoDictionary!["CFBundleVersion"] as! String
+        
         var isCompleted = false
 
         let RPC = discovery.rpcToGet(with: req) { os, err in

@@ -39,13 +39,17 @@ open class SettingsCache: Object {
     }
 
     static var storage: Results<SettingsCache> {
-        return store.allObjects(ofType: SettingsCache.self)
+        return store.objects(SettingsCache.self)
     }
 
     open func gameSettings() -> GameSettings? {
         return GameSettings.fromData(data)
     }
 
+    static func settings(id:String) -> SettingsCache? {
+        return store.object(ofType: SettingsCache.self, forPrimaryKey: id)
+    }
+    
     open func save() {
         do {
             try store.write {
@@ -70,9 +74,13 @@ open class KeyValueStoreCache: Object {
     }
 
     static var storage: Results<KeyValueStoreCache> {
-        return store.allObjects(ofType: KeyValueStoreCache.self)
+        return store.objects(KeyValueStoreCache.self)
     }
 
+    static func object(id:String) -> KeyValueStoreCache? {
+        return store.object(ofType: KeyValueStoreCache.self, forPrimaryKey: id)
+    }
+    
     open func keyvalueStore() -> GameKeyValueStore? {
         return GameKeyValueStore.fromData(data)
     }
@@ -171,8 +179,7 @@ final class OtsimoCache: CacheProtocol {
 
     // Game
     func fetchGame(_ id: String, handler: (_ game: Game?, _ isExpired: Bool) -> Void) {
-        let cached = store.allObjects(ofType: GameCache.self).filter(using:"gameId = %@", id).first
-        if let gc = cached {
+        if let gc = store.object(ofType: GameCache.self, forPrimaryKey: id) {
             let now: Double = Date().timeIntervalSince1970
             let fetched = gc.fetchedAt.timeIntervalSince1970
             if (now - fetched) > OtsimoCache.gameTTL {
@@ -201,7 +208,7 @@ final class OtsimoCache: CacheProtocol {
 
 // Catalog
     func fetchCatalog(_ handler: (OTSCatalog?) -> Void) {
-        let c = store.allObjects(ofType: CatalogCache.self).first
+        let c = store.objects(CatalogCache.self).first
 
         if let cat = c?.getCatalog() {
             handler(cat)
@@ -243,7 +250,7 @@ final class OtsimoCache: CacheProtocol {
 // Session
     func fetchSession() -> SessionCache? {
         let s = try! Realm()
-        return s.allObjects(ofType: SessionCache.self).first
+        return s.objects(SessionCache.self).first
     }
 
     func cacheSession(_ session: SessionCache) {
@@ -259,7 +266,7 @@ final class OtsimoCache: CacheProtocol {
 
     func clearSession() {
         do {
-            let objs = store.allObjects(ofType: SessionCache.self)
+            let objs = store.objects(SessionCache.self)
             try store.write {
                 store.delete(objs)
             }

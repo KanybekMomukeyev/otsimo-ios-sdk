@@ -91,10 +91,7 @@ class EventCache: Object {
     static func remove(_ id: String) {
         do {
             let r = try Realm()
-            let objs = r.allObjects(ofType: EventCache.self)
-            
-            
-            if let a = objs.filter(using:"id = %@", id).first {
+            if let a = r.object(ofType: EventCache.self, forPrimaryKey: id) {
                 r.beginWrite()
                 r.delete(a)
                 try r.commitWrite()
@@ -227,7 +224,7 @@ internal class Analytics: OtsimoAnalyticsProtocol {
     fileprivate func sendStoredEvents() {
         Log.debug("sendStoredEvents called")
         analyticsQueue.async {
-            let end = Date(timeIntervalSince1970: Date().timeIntervalSince1970 - 15)
+            let end = NSDate(timeIntervalSince1970: Date().timeIntervalSince1970 - 15)
             var eventRealm: Realm
             do {
                 eventRealm = try Realm()
@@ -236,7 +233,7 @@ internal class Analytics: OtsimoAnalyticsProtocol {
                 return
             }
 
-            let objs = eventRealm.allObjects(ofType: EventCache.self).filter(using:"time <= %@", end)
+            let objs = eventRealm.objects(EventCache.self).filter(NSPredicate(format:"time <= %@", end))
 
             for o in objs {
                 Log.debug("sendStoredEvents->>\(o.id) is sending again")
@@ -248,7 +245,7 @@ internal class Analytics: OtsimoAnalyticsProtocol {
                     EventCache.removeEvent(o, realm: eventRealm)
                 }
             }
-            let aobjs = eventRealm.allObjects(ofType: AppEventCache.self).filter(using:"time <= %@", end)
+            let aobjs = eventRealm.objects(AppEventCache.self).filter(NSPredicate(format:"time <= %@", end))
             for o in aobjs {
                 let ev = o.event()
                 AppEventCache.removeEvent(o, realm: eventRealm)
