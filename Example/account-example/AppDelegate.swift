@@ -8,6 +8,9 @@
 
 import UIKit
 import OtsimoSDK
+import Cronet
+import grpc
+import GRPCClient
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -36,7 +39,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             appGroupName: "",
             keychainName: ""
         )
-
+        Cronet.setHttp2Enabled(true)
+        Cronet.start()
+        GRPCCall.useCronet(with: Cronet.getGlobalEngine())
         otsimo.sessionStatusChanged = onSessionStatusChanged
         fakeToken(options)
         Otsimo.config(options: options)

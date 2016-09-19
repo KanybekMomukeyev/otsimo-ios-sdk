@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		0D04B18D1D8AEE4B00B8D93A /* Kingfisher.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0D04B18C1D8AEE4B00B8D93A /* Kingfisher.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		0D0B30461D903B8200FC8263 /* Cronet.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0D0B30441D903B7F00FC8263 /* Cronet.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		0D0B30471D903EA400FC8263 /* Cronet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D0B30441D903B7F00FC8263 /* Cronet.framework */; };
 		0D2299A61D47D1F90000140C /* grpc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D2299A51D47D1F90000140C /* grpc.framework */; };
 		0D2299A81D47D1FB0000140C /* GRPCClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D2299A71D47D1FB0000140C /* GRPCClient.framework */; };
 		0D2299AA1D47D1FE0000140C /* openssl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D2299A91D47D1FE0000140C /* openssl.framework */; };
@@ -17,8 +19,6 @@
 		0D2299B01D47D2540000140C /* RxLibrary.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0D2299AD1D47D2060000140C /* RxLibrary.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0D2299B11D47D2570000140C /* openssl.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0D2299A91D47D1FE0000140C /* openssl.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0D2299B21D47D25B0000140C /* GRPCClient.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0D2299A71D47D1FB0000140C /* GRPCClient.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		0D3370601D8AF5A900F69240 /* OtsimoSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D33705F1D8AF5A900F69240 /* OtsimoSDK.framework */; };
-		0D3370631D8AF5BA00F69240 /* OtsimoSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0D33705F1D8AF5A900F69240 /* OtsimoSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0D36E2881C15C8EF00B4B549 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D36E2871C15C8EF00B4B549 /* AppDelegate.swift */; };
 		0D36E28A1C15C8EF00B4B549 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D36E2891C15C8EF00B4B549 /* LoginViewController.swift */; };
 		0D36E28D1C15C8EF00B4B549 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0D36E28B1C15C8EF00B4B549 /* Main.storyboard */; };
@@ -31,7 +31,6 @@
 		0D60A9071C55921500115500 /* CatalogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D60A9061C55921500115500 /* CatalogViewController.swift */; };
 		0D60A9091C55931A00115500 /* AllGamesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D60A9081C55931A00115500 /* AllGamesViewController.swift */; };
 		0D60A90B1C563FFA00115500 /* GameTableCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D60A90A1C563FFA00115500 /* GameTableCellView.swift */; };
-		0D7585D71CF5C0E400970C4A /* OtsimoSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0D7585D61CF5C0E400970C4A /* OtsimoSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0D9044071C3B339C00F51C8D /* ApiTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9044061C3B339C00F51C8D /* ApiTest.swift */; };
 		0D90440B1C3B36CA00F51C8D /* TestHomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D90440A1C3B36CA00F51C8D /* TestHomeController.swift */; };
 		0D90441B1C3BF85000F51C8D /* Root.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D90441A1C3BF85000F51C8D /* Root.swift */; };
@@ -44,7 +43,9 @@
 		0D9044321C3E188800F51C8D /* ChildListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9044311C3E188800F51C8D /* ChildListViewController.swift */; };
 		0DB0C1CE1C5F6E0500CBBB33 /* GameImageViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB0C1CD1C5F6E0500CBBB33 /* GameImageViewCell.swift */; };
 		0DB0C1D01C5FA57500CBBB33 /* AddGameToChildViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB0C1CF1C5FA57500CBBB33 /* AddGameToChildViewController.swift */; };
+		0DC1866B1D8FD54700615ACC /* ProtoRPC.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0D2299AB1D47D2030000140C /* ProtoRPC.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0DC284211C4EE98F0075FE63 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DC284201C4EE98F0075FE63 /* Utils.swift */; };
+		0DDFAD931D90418C00FA7D6E /* OtsimoSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0DDFAD921D90418C00FA7D6E /* OtsimoSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0DE35B211C949FFE00788260 /* Locksmith.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DE35B161C949FFE00788260 /* Locksmith.framework */; };
 		0DE35B221C949FFE00788260 /* Locksmith.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0DE35B161C949FFE00788260 /* Locksmith.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0DE35B231C949FFE00788260 /* OtsimoApiGrpc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DE35B171C949FFE00788260 /* OtsimoApiGrpc.framework */; };
@@ -66,9 +67,9 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				0D3370631D8AF5BA00F69240 /* OtsimoSDK.framework in Embed Frameworks */,
 				0D04B18D1D8AEE4B00B8D93A /* Kingfisher.framework in Embed Frameworks */,
-				0D7585D71CF5C0E400970C4A /* OtsimoSDK.framework in Embed Frameworks */,
+				0DDFAD931D90418C00FA7D6E /* OtsimoSDK.framework in Embed Frameworks */,
+				0D0B30461D903B8200FC8263 /* Cronet.framework in Embed Frameworks */,
 				0D2299B01D47D2540000140C /* RxLibrary.framework in Embed Frameworks */,
 				0DE35B221C949FFE00788260 /* Locksmith.framework in Embed Frameworks */,
 				0D2299B11D47D2570000140C /* openssl.framework in Embed Frameworks */,
@@ -77,6 +78,7 @@
 				0D2299AF1D47D24F0000140C /* grpc.framework in Embed Frameworks */,
 				0DE35B281C949FFE00788260 /* Realm.framework in Embed Frameworks */,
 				0DE35B2A1C949FFE00788260 /* RealmSwift.framework in Embed Frameworks */,
+				0DC1866B1D8FD54700615ACC /* ProtoRPC.framework in Embed Frameworks */,
 				0DE35B261C949FFE00788260 /* Protobuf.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -86,12 +88,13 @@
 
 /* Begin PBXFileReference section */
 		0D04B18C1D8AEE4B00B8D93A /* Kingfisher.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Kingfisher.framework; path = ../Carthage/Build/iOS/Kingfisher.framework; sourceTree = "<group>"; };
+		0D0B30441D903B7F00FC8263 /* Cronet.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cronet.framework; path = ../third_party/Cronet.framework; sourceTree = "<group>"; };
+		0D0B30481D90400E00FC8263 /* OtsimoSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = OtsimoSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0D2299A51D47D1F90000140C /* grpc.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = grpc.framework; path = ../Carthage/Build/iOS/grpc.framework; sourceTree = "<group>"; };
 		0D2299A71D47D1FB0000140C /* GRPCClient.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GRPCClient.framework; path = ../Carthage/Build/iOS/GRPCClient.framework; sourceTree = "<group>"; };
 		0D2299A91D47D1FE0000140C /* openssl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = openssl.framework; path = ../Carthage/Build/iOS/openssl.framework; sourceTree = "<group>"; };
 		0D2299AB1D47D2030000140C /* ProtoRPC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ProtoRPC.framework; path = ../Carthage/Build/iOS/ProtoRPC.framework; sourceTree = "<group>"; };
 		0D2299AD1D47D2060000140C /* RxLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxLibrary.framework; path = ../Carthage/Build/iOS/RxLibrary.framework; sourceTree = "<group>"; };
-		0D33705F1D8AF5A900F69240 /* OtsimoSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OtsimoSDK.framework; path = "../../../../Library/Developer/Xcode/DerivedData/OtsimoSDK-exietrbmafntdpfboftcudyweopo/Build/Products/Debug-iphoneos/OtsimoSDK.framework"; sourceTree = "<group>"; };
 		0D36E2841C15C8EF00B4B549 /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0D36E2871C15C8EF00B4B549 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0D36E2891C15C8EF00B4B549 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -108,7 +111,6 @@
 		0D60A90A1C563FFA00115500 /* GameTableCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameTableCellView.swift; sourceTree = "<group>"; };
 		0D60A9201C57AB0100115500 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/Main.strings; sourceTree = "<group>"; };
 		0D60A9211C57AB0100115500 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
-		0D7585D61CF5C0E400970C4A /* OtsimoSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = OtsimoSDK.framework; path = "/Users/sercand/Developer/Otsimo/OtsimoSDK/Build/Products/Debug-iphoneos/OtsimoSDK.framework"; sourceTree = "<absolute>"; };
 		0D9044061C3B339C00F51C8D /* ApiTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiTest.swift; sourceTree = "<group>"; };
 		0D90440A1C3B36CA00F51C8D /* TestHomeController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestHomeController.swift; sourceTree = "<group>"; };
 		0D90441A1C3BF85000F51C8D /* Root.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Root.swift; sourceTree = "<group>"; };
@@ -123,6 +125,7 @@
 		0DB0C1CF1C5FA57500CBBB33 /* AddGameToChildViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddGameToChildViewController.swift; sourceTree = "<group>"; };
 		0DB65F1B1C38AAD700C5B1AD /* Bridigin-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridigin-Header.h"; sourceTree = "<group>"; };
 		0DC284201C4EE98F0075FE63 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		0DDFAD921D90418C00FA7D6E /* OtsimoSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = OtsimoSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0DE35B161C949FFE00788260 /* Locksmith.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Locksmith.framework; path = ../Carthage/Build/iOS/Locksmith.framework; sourceTree = "<group>"; };
 		0DE35B171C949FFE00788260 /* OtsimoApiGrpc.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OtsimoApiGrpc.framework; path = ../Carthage/Build/iOS/OtsimoApiGrpc.framework; sourceTree = "<group>"; };
 		0DE35B181C949FFE00788260 /* Protobuf.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Protobuf.framework; path = ../Carthage/Build/iOS/Protobuf.framework; sourceTree = "<group>"; };
@@ -138,6 +141,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0DE35B211C949FFE00788260 /* Locksmith.framework in Frameworks */,
+				0D0B30471D903EA400FC8263 /* Cronet.framework in Frameworks */,
 				0D2299A81D47D1FB0000140C /* GRPCClient.framework in Frameworks */,
 				0D2299A61D47D1F90000140C /* grpc.framework in Frameworks */,
 				0D2299AA1D47D1FE0000140C /* openssl.framework in Frameworks */,
@@ -147,7 +151,6 @@
 				0DE35B291C949FFE00788260 /* RealmSwift.framework in Frameworks */,
 				0DE35B231C949FFE00788260 /* OtsimoApiGrpc.framework in Frameworks */,
 				0DE35B271C949FFE00788260 /* Realm.framework in Frameworks */,
-				0D3370601D8AF5A900F69240 /* OtsimoSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -157,6 +160,8 @@
 		0D36E27B1C15C8EF00B4B549 = {
 			isa = PBXGroup;
 			children = (
+				0DDFAD921D90418C00FA7D6E /* OtsimoSDK.framework */,
+				0D0B30481D90400E00FC8263 /* OtsimoSDK.framework */,
 				0D36E2861C15C8EF00B4B549 /* account-example */,
 				0D36E2851C15C8EF00B4B549 /* Products */,
 				C1E4904BBA118E6E10B7BDD5 /* Frameworks */,
@@ -234,9 +239,8 @@
 		C1E4904BBA118E6E10B7BDD5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				0D33705F1D8AF5A900F69240 /* OtsimoSDK.framework */,
+				0D0B30441D903B7F00FC8263 /* Cronet.framework */,
 				0D04B18C1D8AEE4B00B8D93A /* Kingfisher.framework */,
-				0D7585D61CF5C0E400970C4A /* OtsimoSDK.framework */,
 				0DE35B161C949FFE00788260 /* Locksmith.framework */,
 				0DE35B171C949FFE00788260 /* OtsimoApiGrpc.framework */,
 				0DE35B181C949FFE00788260 /* Protobuf.framework */,
@@ -473,11 +477,14 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = LUBGWANK4N;
 				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Carthage/Build/iOS\"";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../Carthage/Build/iOS\"",
+					"\"$(SRCROOT)/../third_party",
+				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
 					"$(inherited)",
 					"GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS=1",
+					"GRPC_COMPILE_WITH_CRONET=1",
 				);
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../Carthage/Build/iOS/BoringSSL.framework/Headers\"",
@@ -505,8 +512,14 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = LUBGWANK4N;
 				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Carthage/Build/iOS\"";
-				GCC_PREPROCESSOR_DEFINITIONS = "GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS=1";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../Carthage/Build/iOS\"",
+					"\"$(SRCROOT)/../third_party",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS=1",
+					"GRPC_COMPILE_WITH_CRONET=1",
+				);
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../Carthage/Build/iOS/BoringSSL.framework/Headers\"",
 					"\"$(SRCROOT)/../Carthage/Build/iOS/Protobuf.framework/Headers\"",

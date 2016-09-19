@@ -34,3 +34,4 @@ Carthage/Build
 OtsimoSDK.framework.zip
 .DS_Store
 .vscode
+third_party
