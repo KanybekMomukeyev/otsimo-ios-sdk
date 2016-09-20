@@ -11,7 +11,7 @@ import Foundation
 extension Otsimo: AccountApi {
     // Account API
     // login with given email and password. handler wil call on main queue
-    public func login(email: String, password: String, handler: @escaping (TokenResult) -> Void) {
+    open func login(email: String, password: String, handler: @escaping (TokenResult) -> Void) {
         if let connection = connection {
             connection.login(email, plainPassword: password) { res, ses in
                 switch (res) {
@@ -28,7 +28,7 @@ extension Otsimo: AccountApi {
         }
     }
 
-    public func login(connector: String, accessToken: String, handler: @escaping (TokenResult) -> Void) {
+    open func login(connector: String, accessToken: String, handler: @escaping (TokenResult) -> Void) {
         if let connection = connection {
             connection.login(connector, accessToken: accessToken) { res, ses in
                 switch (res) {
@@ -45,7 +45,7 @@ extension Otsimo: AccountApi {
         }
     }
 
-    public func register(data: RegistrationData, handler: @escaping (TokenResult) -> Void) {
+    open func register(data: RegistrationData, handler: @escaping (TokenResult) -> Void) {
         if let connection = connection {
             connection.register(data) { res, ses in
                 switch (res) {
@@ -62,20 +62,20 @@ extension Otsimo: AccountApi {
         }
     }
 
-    public func logout() {
+    open func logout() {
         if let ses = session {
             ses.logout()
             self.session = nil
         }
     }
 
-    public func changeEmail(newEmail: String, handler: @escaping (OtsimoError) -> Void) {
+    open func changeEmail(newEmail: String, handler: @escaping (OtsimoError) -> Void) {
         self.isReady(handler) { c, s in
             c.changeEmail(s, old: s.email, new: newEmail, handler: handler)
         }
     }
 
-    public func changePassword(old: String, newPassword: String, handler: @escaping (OtsimoError) -> Void) {
+    open func changePassword(old: String, newPassword: String, handler: @escaping (OtsimoError) -> Void) {
         self.isReady(handler) { c, s in
             c.changePassword(s, old: old, new: newPassword, handler: handler)
         }
