@@ -10,6 +10,7 @@ import Foundation
 
 class NetworkFetcher {
     static func get(_ urlPath: String, handler: @escaping (_ data: Data, _ error: OtsimoError) -> Void) {
+        Log.debug("NetworkFetcher:get url=\(urlPath)")
         var request = URLRequest(url: URL(string: urlPath)!)
         request.httpMethod = "GET"
         request.timeoutInterval = 5
