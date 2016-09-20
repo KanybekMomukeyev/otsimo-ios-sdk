@@ -44,7 +44,7 @@ class ChildViewController: UITableViewController {
             
             gameEntries = child.getGames()
             for e in gameEntries {
-                print("getting the game", e.gameID)
+                Log.debug("getting the game", e.gameID)
                 e.initialize(true, initKeyValueStorage: true, handler: getGameHandler)
             }
         }
@@ -56,7 +56,7 @@ class ChildViewController: UITableViewController {
             fetchedGames.append(game)
             tableView.reloadData()
         default:
-            print("failed to fetch \(game.gameID) error:\(error)")
+            Log.error("failed to fetch \(game.gameID) error:\(error)")
         }
     }
     

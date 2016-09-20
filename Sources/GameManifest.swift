@@ -188,7 +188,7 @@ open class GameManifest {
                 lang = manifest.defaultLanguage
             }
 
-            let rawUrl = "\(manifest.kvPath)/\(lang).json"
+            let rawUrl = "\(manifest.kvPath!)/\(lang).json"
 
             GameKeyValueStore.fromIdAndVersion(gameId, version: version, language: lang, path: rawUrl) { k in
                 self.keyvalue = k
