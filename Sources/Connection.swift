@@ -268,7 +268,7 @@ internal final class Connection {
         }
     }
 
-    func getGameRelease(_ session: Session, gameID: String, version: String?, onlyProduction: Bool?, handler: @escaping (_ res: OTSGameRelease?, _ err: OtsimoError) -> Void) {
+    func getGameRelease(gameID: String, version: String?, onlyProduction: Bool?, handler: @escaping (_ res: OTSGameRelease?, _ err: OtsimoError) -> Void) {
         let req = OTSGetGameReleaseRequest()
         req.gameId = gameID
         req.version = version
@@ -290,18 +290,10 @@ internal final class Connection {
                 onMainThread { handler(nil, OtsimoError.serviceError(message: "\(error)")) }
             }
         }
-        session.getAuthorizationHeader { header, err in
-            switch (err) {
-            case .none:
-                RPC.oauth2AccessToken = header
-                RPC.start()
-            default:
-                handler(nil, err)
-            }
-        }
+        RPC.start()
     }
 
-    func getAllGamesStream(_ language:String?,session: Session, handler: @escaping (OTSListItem?, _ done: Bool, _ err: OtsimoError) -> Void) {
+    func getAllGamesStream(_ language:String?, handler: @escaping (OTSListItem?, _ done: Bool, _ err: OtsimoError) -> Void) {
         let req = OTSListGamesRequest()
         req.releaseState = OTSListGamesRequest_InnerState.production
         req.limit = 32
@@ -319,18 +311,10 @@ internal final class Connection {
                 onMainThread { handler(nil, true, OtsimoError.none) }
             }
         }
-        session.getAuthorizationHeader { header, err in
-            switch (err) {
-            case .none:
-                RPC.oauth2AccessToken = header
-                RPC.start()
-            default:
-                handler(nil, true, err)
-            }
-        }
+        RPC.start()
     }
 
-    func gamesLatestVersions(_ session: Session, gameIDs: [String], handler: @escaping ([OTSGameAndVersion], _ err: OtsimoError) -> Void) {
+    func gamesLatestVersions(gameIDs: [String], handler: @escaping ([OTSGameAndVersion], _ err: OtsimoError) -> Void) {
         let req: OTSGetLatestVersionsRequest = OTSGetLatestVersionsRequest()
         if config.onlyProduction {
             req.state = OTSRequestReleaseState.productionState
@@ -353,15 +337,7 @@ internal final class Connection {
                 onMainThread { handler([], OtsimoError.serviceError(message: "\(err)")) }
             }
         }
-        session.getAuthorizationHeader { header, err in
-            switch (err) {
-            case .none:
-                RPC.oauth2AccessToken = header
-                RPC.start()
-            default:
-                handler([], err)
-            }
-        }
+        RPC.start()
     }
 
     func getDashboard(_ session: Session, childID: String, lang: String, time: Int64?, handler: @escaping (_ dashboard: DashboardItems?, _ err: OtsimoError) -> Void) {

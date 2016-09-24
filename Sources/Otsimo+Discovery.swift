@@ -195,4 +195,31 @@ extension Otsimo {
             }
         }
     }
+    
+    internal func isReadyWithoutSession(_ notReady: @escaping (OtsimoError) -> Void, onReady: @escaping (Connection) -> Void) {
+        if let c = connection {
+            onReady(c)
+        } else {
+            if cluster.hasValue {
+                Log.info("Otsimo sdk is not not initialized but trying again")
+                
+                Otsimo.configFromDiscoveryService(cluster.discoveryUrl, env: cluster.env, timeout: 5) { cc in
+                    if let config = cc {
+                        Otsimo.config(config)
+                        if let c = self.connection {
+                            onReady(c)
+                        } else {
+                            notReady(.notInitialized)
+                        }
+                    } else {
+                        Log.error("failed to get cluster info, Again!!")
+                        notReady(.notInitialized)
+                    }
+                }
+            } else {
+                notReady(.notInitialized)
+            }
+        }
+    }
+    
 }
