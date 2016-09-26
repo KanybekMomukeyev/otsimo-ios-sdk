@@ -179,7 +179,8 @@ final class OtsimoCache: CacheProtocol {
 
     // Game
     func fetchGame(_ id: String, handler: (_ game: Game?, _ isExpired: Bool) -> Void) {
-        if let gc = store.object(ofType: GameCache.self, forPrimaryKey: id) {
+        let s = try! Realm()
+        if let gc = s.object(ofType: GameCache.self, forPrimaryKey: id) {
             let now: Double = Date().timeIntervalSince1970
             let fetched = gc.fetchedAt.timeIntervalSince1970
             if (now - fetched) > OtsimoCache.gameTTL {
@@ -194,9 +195,10 @@ final class OtsimoCache: CacheProtocol {
 
     func cacheGame(_ game: Game) {
         do {
+            let s = try Realm()
             if let gc = GameCache.fromGame(game) {
-                try store.write {
-                    store.add(gc, update: true)
+                try s.write {
+                    s.add(gc, update: true)
                 }
             } else {
                 Log.error("failed to create GameCache object")
