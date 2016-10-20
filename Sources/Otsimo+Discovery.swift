@@ -114,6 +114,9 @@ extension Otsimo {
                 Otsimo.config(config)
             } else {
                 Log.error("failed to get cluster info")
+                if let si = Otsimo.sharedInstance.sdkInitializing{
+                    si(OtsimoError.notInitialized)
+                }
             }
         }
     }

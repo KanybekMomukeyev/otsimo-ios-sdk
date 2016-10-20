@@ -11,7 +11,7 @@ import OtsimoApiGrpc
 
 open class Otsimo {
     fileprivate static let storageVersion = 28
-    open static let sdkVersion: String = "1.3.0"
+    open static let sdkVersion: String = "1.4.0"
     open static let oauthSchema: String = "otsimoauth"
     open static let sharedInstance = Otsimo()
     open var session: Session? {
@@ -31,7 +31,10 @@ open class Otsimo {
     internal var preferredLanguage: String?
     fileprivate(set) open var languages: [String] = []
     internal let cache: CacheProtocol
+    
     open var sessionStatusChanged: ((Session?) -> Void)?
+    open var sdkInitializing: ((OtsimoError) -> Void)?
+    
     fileprivate(set) open var analytics: OtsimoAnalyticsProtocol!
     fileprivate(set) open var cluster: ClusterConfig = ClusterConfig()
     open var silentErrorDelegate: OtsimoErrorProtocol?
@@ -55,6 +58,9 @@ open class Otsimo {
             sharedInstance.migrate(config)
         }
         sharedInstance.recoverOldSessionIfExist(config)
+        if let it = sharedInstance.sdkInitializing{
+           it(.none)
+        }
     }
 
     open func handleOpenURL(_ url: URL) -> Bool {
