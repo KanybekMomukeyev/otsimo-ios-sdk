@@ -9,7 +9,7 @@
 import UIKit
 import OtsimoApiGrpc
 import OtsimoSDK
-import Haneke
+import Kingfisher
 
 class CatalogViewController: UITableViewController {
 
@@ -29,7 +29,7 @@ class CatalogViewController: UITableViewController {
                 if let item = item {
                     if let _ = items[item.category] {
                         items[item.category]?.append(item)
-                        items[item.category]?.sortInPlace({ $0.index < $1.index})
+                        items[item.category]?.sort(by: { $0.index < $1.index})
                     } else {
                         items[item.category] = [item]
                     }
@@ -44,7 +44,7 @@ class CatalogViewController: UITableViewController {
 
         otsimo.getCatalog() { cat, error in
             switch (error) {
-            case .None:
+            case .none:
                 if let c = cat {
                     self.catalog = c
                 }
@@ -56,36 +56,41 @@ class CatalogViewController: UITableViewController {
 
     // MARK: - Table view data source
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return items.count
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let index = items.startIndex.advancedBy(section) // index 1
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        let index = items.index(items.startIndex, offsetBy: section) // index 1
         let key = items.keys[index]
         if let arr = items[key] {
-            print("\(OTSCatalogCategory_EnumDescriptor().enumNameForValue(key.rawValue)!) has \(arr.count)")
+            print("\(OTSCatalogCategory_EnumDescriptor().enumName(forValue: key.rawValue)!) has \(arr.count)")
             return arr.count
         }
         return 0
     }
 
-    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String?
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String?
     {
-        let index = items.startIndex.advancedBy(section) // index 1
+        let index = items.index(items.startIndex, offsetBy: section) // index 1
         let key = items.keys[index]
-        return "\(OTSCatalogCategory_EnumDescriptor().enumNameForValue(key.rawValue)!)"
+        return "\(OTSCatalogCategory_EnumDescriptor().enumName(forValue: key.rawValue)!)"
     }
 
-    func updateCell(cell: GameTableCellView, ci: OTSCatalogItem?) {
+    func updateCell(_ cell: GameTableCellView, ci: OTSCatalogItem?) {
         if let item = ci {
-            otsimo.getGame(item.gameId) { g, e in
+            otsimo.getGame(id: item.gameId) { g, e in
                 if let game = g {
                     game.getManifest() { man, error in
                         if let m = man {
                             cell.titlLabel?.text = m.localVisibleName
                             cell.versionLabel?.text = m.version
-                            cell.imageLabel.hnk_setImageFromURL(NSURL(string: m.localIcon)!)
+                            let url = NSURL(string: m.localIcon)
+                            cell.imageLabel.kf_setImage(with: url as? Resource,
+                                                        placeholder: nil,
+                                                        options: [.transition(.fade(1))],
+                                                        progressBlock: nil,
+                                                        completionHandler: nil)
                         } else {
                             print("failed to get manifes")
                         }
@@ -96,32 +101,32 @@ class CatalogViewController: UITableViewController {
         }
     }
 
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("game_table_reuse_identifier", forIndexPath: indexPath) as! GameTableCellView
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "game_table_reuse_identifier", for: indexPath as IndexPath) as! GameTableCellView
 
-        let index = items.startIndex.advancedBy(indexPath.section) // index 1
+        let index = items.index(items.startIndex, offsetBy: (indexPath as NSIndexPath).section) // index 1
         let key = items.keys[index]
         var ci : OTSCatalogItem? = nil
         if let arr = items[key] {
-            ci = arr[indexPath.row]
+            ci = arr[(indexPath as NSIndexPath).row]
         }
         updateCell(cell, ci: ci)
         return cell
     }
 
-    private var selectedGame: Game?
+    fileprivate var selectedGame: Game?
 
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let index = items.startIndex.advancedBy(indexPath.section) // index 1
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let index = items.index(items.startIndex, offsetBy: (indexPath as NSIndexPath).section) // index 1
         let key = items.keys[index]
         if let arr = items[key] {
-            let ci = arr[indexPath.row]
+            let ci = arr[(indexPath as NSIndexPath).row]
             selectedGame = Game(gameId: ci.gameId)
-            performSegueWithIdentifier("gameinfotest", sender: tableView)
+            performSegue(withIdentifier: "gameinfotest", sender: tableView)
         }
     }
 
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         if let id = segue.identifier {
@@ -131,7 +136,7 @@ class CatalogViewController: UITableViewController {
         } else {
             return
         }
-        let gic = segue.destinationViewController as! GameInfoViewController
+        let gic = segue.destination as! GameInfoViewController
         gic.game = selectedGame
     }
 }

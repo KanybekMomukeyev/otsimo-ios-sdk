@@ -11,24 +11,24 @@ import OtsimoApiGrpc
 import RealmSwift
 
 public enum SettingsProperty {
-    case Integer(key: String, defaultValue: Int)
-    case Float(key: String, defaultValue: Float64)
-    case Text(key: String, defaultValue: String)
-    case Boolean(key: String, defaultValue: Bool)
-    case Enum(key: String, defaultValue: String, values: [String])
+    case integer(key: String, defaultValue: Int)
+    case float(key: String, defaultValue: Float64)
+    case text(key: String, defaultValue: String)
+    case boolean(key: String, defaultValue: Bool)
+    case `enum`(key: String, defaultValue: String, values: [String])
 
     public var defaultValue: SettingsPropertyValue {
         get {
             switch (self) {
-            case .Boolean(let key, let defaultValue):
+            case .boolean(let key, let defaultValue):
                 return SettingsPropertyValue.Boolean(key: key, value: defaultValue)
-            case .Integer(let key, let defaultValue):
+            case .integer(let key, let defaultValue):
                 return SettingsPropertyValue.Integer(key: key, value: defaultValue)
-            case .Enum(let key, let defaultValue, _):
-                return SettingsPropertyValue.Text(key: key, value: defaultValue)
-            case .Text(let key, let defaultValue):
-                return SettingsPropertyValue.Text(key: key, value: defaultValue)
-            case .Float(let key, let defaultValue):
+            case .enum(let key, let defaultValue, _):
+                return SettingsPropertyValue.text(key: key, value: defaultValue)
+            case .text(let key, let defaultValue):
+                return SettingsPropertyValue.text(key: key, value: defaultValue)
+            case .float(let key, let defaultValue):
                 return SettingsPropertyValue.Float(key: key, value: defaultValue)
             }
         }
@@ -37,15 +37,15 @@ public enum SettingsProperty {
     public var key: String {
         get {
             switch (self) {
-            case .Boolean(let key, _):
+            case .boolean(let key, _):
                 return key
-            case .Integer(let key, _):
+            case .integer(let key, _):
                 return key
-            case .Enum(let key, _, _):
+            case .enum(let key, _, _):
                 return key
-            case .Text(let key, _):
+            case .text(let key, _):
                 return key
-            case .Float(let key, _):
+            case .float(let key, _):
                 return key
             }
         }
@@ -55,20 +55,20 @@ public enum SettingsProperty {
 public enum SettingsPropertyValue {
     case Integer(key: String, value: Int)
     case Float(key: String, value: Float64)
-    case Text(key: String, value: String)
+    case text(key: String, value: String)
     case Boolean(key: String, value: Bool)
 
     public var value: AnyObject {
         get {
             switch (self) {
             case .Integer(_, let value):
-                return value
+                return value as AnyObject
             case .Boolean(_, let value):
-                return value
-            case .Text(_, let value):
-                return value
+                return value as AnyObject
+            case .text(_, let value):
+                return value as AnyObject
             case .Float(_, let value):
-                return value
+                return value as AnyObject
             }
         }
     }
@@ -86,7 +86,7 @@ public enum SettingsPropertyValue {
     public var string: String! {
         get {
             switch (self) {
-            case .Text(_, let value):
+            case .text(_, let value):
                 return value
             default:
                 return nil
@@ -120,7 +120,7 @@ public enum SettingsPropertyValue {
             switch (self) {
             case .Integer(let key, _):
                 return key
-            case .Text(let key, _):
+            case .text(let key, _):
                 return key
             case .Float(let key, _):
                 return key
@@ -133,10 +133,10 @@ public enum SettingsPropertyValue {
 
 public typealias SettingsValues = [String: SettingsPropertyValue]
 
-public class GameSettings {
-    public private(set) var properties: [SettingsProperty] = []
+open class GameSettings {
+    open fileprivate(set) var properties: [SettingsProperty] = []
 
-    public func getDefaultValues() -> SettingsValues {
+    open func getDefaultValues() -> SettingsValues {
         var v: SettingsValues = SettingsValues()
         for p in properties {
             v[p.key] = p.defaultValue
@@ -144,7 +144,7 @@ public class GameSettings {
         return v
     }
 
-    public func getFromKey(key: String) -> SettingsProperty? {
+    open func getFromKey(_ key: String) -> SettingsProperty? {
         for p in properties {
             if p.key == key {
                 return p
@@ -153,9 +153,9 @@ public class GameSettings {
         return nil
     }
 
-    public static func fromIdAndVersion(gameID: String, version: String, path: String, handler: (GameSettings?) -> Void) {
+    open static func fromIdAndVersion(_ gameID: String, version: String, path: String, handler: @escaping (GameSettings?) -> Void) {
         let id = SettingsCache.createID(gameID, version: version)
-        if let sc = SettingsCache.storage.filter("id = %@", id).first {
+        if let sc = SettingsCache.settings(id: id) {
             handler(sc.gameSettings())
             return
         }
@@ -188,9 +188,9 @@ public class GameSettings {
         }
     }
 
-    internal static func fromData(data: NSData) -> GameSettings? {
+    internal static func fromData(_ data: Data) -> GameSettings? {
         do {
-            let object = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions())
+            let object = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions())
             switch (object) {
             case let dictionary as [String: AnyObject]:
                 let gs = GameSettings()
@@ -208,7 +208,7 @@ public class GameSettings {
         }
     }
 
-    private func readDictionary(dict: [String: AnyObject]) -> Bool {
+    fileprivate func readDictionary(_ dict: [String: AnyObject]) -> Bool {
         if let prop = dict["properties"] as? [String: [String: AnyObject]] {
             for (k, v) in prop {
                 addProperty(k, prop: v)
@@ -220,36 +220,36 @@ public class GameSettings {
         }
     }
 
-    private static func fromFile(filepath: String, handler: (GameSettings?, NSData) -> Void) {
-        let man = NSFileManager.defaultManager()
-        if man.fileExistsAtPath(filepath) {
-            if let data = man.contentsAtPath(filepath) {
+    fileprivate static func fromFile(_ filepath: String, handler: (GameSettings?, Data) -> Void) {
+        let man = FileManager.default
+        if man.fileExists(atPath: filepath) {
+            if let data = man.contents(atPath: filepath) {
                 let gs = GameSettings.fromData(data)
                 handler(gs, data)
             } else {
                 Log.error("reding settings at path \(filepath) failed")
-                handler(nil, NSData())
+                handler(nil, Data())
             }
         } else {
             Log.error("settings at path \(filepath) does not exist")
-            handler(nil, NSData())
+            handler(nil, Data())
         }
     }
 
-    private static func fromUrl(url: String, handler: (GameSettings?, NSData) -> Void) {
-        NetworkFetcher.get(url) { (data: NSData, error: OtsimoError) in
+    fileprivate static func fromUrl(_ url: String, handler: @escaping (GameSettings?, Data) -> Void) {
+        NetworkFetcher.get(url) { (data: Data, error: OtsimoError) in
             switch (error) {
-            case .None:
+            case .none:
                 let gs = GameSettings.fromData(data)
                 handler(gs, data)
             default:
                 Log.error("failed to fetch gamesettings \(error)")
-                handler(nil, NSData())
+                handler(nil, Data())
             }
         }
     }
 
-    private func addProperty(key: String, prop: [String: AnyObject]) {
+    fileprivate func addProperty(_ key: String, prop: [String: AnyObject]) {
         if let t = prop["type"] as? String {
             switch (t) {
             case "string":
@@ -264,35 +264,35 @@ public class GameSettings {
         }
     }
 
-    private func addIntegerProperty(key: String, prop: [String: AnyObject]) {
+    fileprivate func addIntegerProperty(_ key: String, prop: [String: AnyObject]) {
         if let d = prop["default"] as? Int {
-            properties.append(SettingsProperty.Integer(key: key, defaultValue: d))
+            properties.append(SettingsProperty.integer(key: key, defaultValue: d))
         } else {
             Log.error("failed to get default value of \(key)")
         }
     }
 
-    private func addBooleanProperty(key: String, prop: [String: AnyObject]) {
+    fileprivate func addBooleanProperty(_ key: String, prop: [String: AnyObject]) {
         if let d = prop["default"] as? Bool {
-            properties.append(SettingsProperty.Boolean(key: key, defaultValue: d))
+            properties.append(SettingsProperty.boolean(key: key, defaultValue: d))
         } else {
             Log.error("failed to get default value of \(key)")
         }
     }
 
-    private func addStringProperty(key: String, prop: [String: AnyObject]) {
+    fileprivate func addStringProperty(_ key: String, prop: [String: AnyObject]) {
         if let vs = prop["enum"] as? [String] {
             addEnumProperty(key, prop: prop, values: vs)
         } else if let d = prop["default"] as? String {
-            properties.append(SettingsProperty.Text(key: key, defaultValue: d))
+            properties.append(SettingsProperty.text(key: key, defaultValue: d))
         } else {
             Log.error("failed to get default value of \(key)")
         }
     }
 
-    private func addEnumProperty(key: String, prop: [String: AnyObject], values: [String]) {
+    fileprivate func addEnumProperty(_ key: String, prop: [String: AnyObject], values: [String]) {
         if let d = prop["default"] as? String {
-            properties.append(SettingsProperty.Enum(key: key, defaultValue: d, values: values))
+            properties.append(SettingsProperty.enum(key: key, defaultValue: d, values: values))
         } else {
             Log.error("failed to get default value of \(key)")
         }

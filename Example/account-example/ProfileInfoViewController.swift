@@ -16,7 +16,7 @@ class ProfileInfoViewController: UIViewController {
         super.viewDidLoad()
         otsimo.getProfile() {profile, error in
             switch (error) {
-            case OtsimoError.None:
+            case OtsimoError.none:
                 self.outputLabel.text = "Profile: \(profile!)"
                 print("successfully get profile \(profile!)")
             default:

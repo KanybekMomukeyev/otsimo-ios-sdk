@@ -31,10 +31,10 @@ extension OtsimoServices {
     }
 }
 
-public class ClusterConfig {
-    private(set) public var discoveryUrl: String = ""
-    private(set) public var env: String = ""
-    private(set) public var config: OtsimoServices?
+open class ClusterConfig {
+    fileprivate(set) open var discoveryUrl: String = ""
+    fileprivate(set) open var env: String = ""
+    fileprivate(set) open var config: OtsimoServices?
 
     internal var configSet: Bool {
         return config != nil
@@ -45,7 +45,7 @@ public class ClusterConfig {
     }
 
     func storedData() -> OtsimoServices? {
-        let data = NSUserDefaults.standardUserDefaults().dataForKey("OtsimoClusterConfig")
+        let data = UserDefaults.standard.data(forKey: "OtsimoClusterConfig")
         if let d = data {
             do {
                 return try OtsimoServices(data: d)
@@ -57,15 +57,15 @@ public class ClusterConfig {
         return nil
     }
 
-    func store(svc: OtsimoServices) {
+    func store(_ svc: OtsimoServices) {
         config = svc
         if let d = svc.data() {
-            NSUserDefaults.standardUserDefaults().setObject(d, forKey: "OtsimoClusterConfig")
-            NSUserDefaults.standardUserDefaults().synchronize()
+            UserDefaults.standard.set(d, forKey: "OtsimoClusterConfig")
+            UserDefaults.standard.synchronize()
         }
     }
 
-    public func diskStorageUrl() -> String {
+    open func diskStorageUrl() -> String {
         if config == nil {
             config = storedData()
         }
@@ -80,7 +80,7 @@ public class ClusterConfig {
         return "https://services.otsimo.com:30851/public/{{.id}}/{{.version}}"
     }
 
-    public func remoteConfigs() -> [String: String] {
+    open func remoteConfigs() -> [String: String] {
         if config == nil {
             config = storedData()
         }
@@ -89,7 +89,7 @@ public class ClusterConfig {
             return dict
         }
         for (k, v) in cc.configs {
-            if let key = k as? String, val = v as? String {
+            if let key = k as? String, let val = v as? String {
                 dict[key] = val
             }
         }
@@ -103,7 +103,7 @@ extension Otsimo {
         Otsimo.sharedInstance.cluster.discoveryUrl = options.discovery
         Otsimo.sharedInstance.cluster.env = options.environment
 
-        self.configFromDiscoveryService(options.discovery, env: options.environment) { cc in
+        self.configFromDiscoveryService(options.discovery, env: options.environment, timeout: options.discoveryTimout) { cc in
             if let config = cc {
                 config.clientID = options.clientID
                 config.clientSecret = options.clientSecret
@@ -114,27 +114,31 @@ extension Otsimo {
                 Otsimo.config(config)
             } else {
                 Log.error("failed to get cluster info")
+                if let si = Otsimo.sharedInstance.sdkInitializing{
+                    si(OtsimoError.notInitialized)
+                }
             }
         }
     }
 
-    static func configFromDiscoveryService(serviceUrl: String, env: String, handler: (cnf: ClientConfig?) -> Void) {
-        let url = NSURL(string: serviceUrl)!
-        let host: String = (url.port != nil) ? "\(url.host!):\(url.port!)" : url.host!
+    static func configFromDiscoveryService(_ serviceUrl: String, env: String, timeout: Double, handler: @escaping (_ cnf: ClientConfig?) -> Void) {
+        let url = URL(string: serviceUrl)!
+        let host: String = ((url as NSURL).port != nil) ? "\(url.host!):\((url as NSURL).port!)" : url.host!
         if (url.scheme == "http") {
-            GRPCCall.useInsecureConnectionsForHost(host)
+            GRPCCall.useInsecureConnections(forHost: host)
         }
         let discovery = Discovery(host: host)
         let req = DiscoveryRequest()
         req.osName = "ios"
         req.sdkVersion = Otsimo.sdkVersion
         req.environment = env
-        req.countryCode = NSLocale.currentLocale().objectForKey(NSLocaleCountryCode) as! String
-        req.appBundleId = NSBundle.mainBundle().bundleIdentifier
-        req.appBundleVersion = NSBundle.mainBundle().infoDictionary!["CFBundleVersion"] as! String
+        req.countryCode = Locale.current.regionCode
+        req.appBundleId = Bundle.main.bundleIdentifier
+        req.appBundleVersion = Bundle.main.infoDictionary!["CFBundleVersion"] as! String
+        
         var isCompleted = false
 
-        let RPC = discovery.RPCToGetWithRequest(req) { os, err in
+        let RPC = discovery.rpcToGet(with: req) { os, err in
             isCompleted = true
             if let e = err {
                 Log.error("failed to get cluster info err=\(e)")
@@ -143,16 +147,16 @@ extension Otsimo {
             }
             if let cluster = os {
                 Otsimo.sharedInstance.cluster.store(cluster)
-                handler(cnf: cluster.clientConfig)
+                handler(cluster.clientConfig)
             } else {
                 if let cc = Otsimo.sharedInstance.cluster.storedData() {
-                    handler(cnf: cc.clientConfig)
+                    handler(cc.clientConfig)
                 } else {
-                    handler(cnf: nil)
+                    handler(nil)
                 }
             }
         }
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(NSEC_PER_SEC) * 5), dispatch_get_main_queue()) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + timeout) {
             if !isCompleted {
                 Log.error("Timeout to discovery.RPCToGetWithRequest")
                 RPC.cancel()
@@ -161,37 +165,64 @@ extension Otsimo {
         RPC.start()
     }
 
-    internal func isReady(notReady: (OtsimoError) -> Void, onReady: (Connection, Session) -> Void) {
+    internal func isReady(_ notReady: @escaping (OtsimoError) -> Void, onReady: @escaping (Connection, Session) -> Void) {
         if let c = connection {
             if let s = session {
                 onReady(c, s)
             } else {
-                notReady(.NotLoggedIn(message: "not logged in, session is nil"))
+                notReady(.notLoggedIn(message: "not logged in, session is nil"))
             }
         } else {
             if cluster.hasValue {
                 Log.info("Otsimo sdk is not not initialized but trying again")
 
-                Otsimo.configFromDiscoveryService(cluster.discoveryUrl, env: cluster.env) { cc in
+                Otsimo.configFromDiscoveryService(cluster.discoveryUrl, env: cluster.env, timeout: 5) { cc in
                     if let config = cc {
                         Otsimo.config(config)
                         if let c = self.connection {
                             if let s = self.session {
                                 onReady(c, s)
                             } else {
-                                notReady(.NotLoggedIn(message: "not logged in, session is nil"))
+                                notReady(.notLoggedIn(message: "not logged in, session is nil"))
                             }
                         } else {
-                            notReady(OtsimoError.NotInitialized)
+                            notReady(.notInitialized)
                         }
                     } else {
                         Log.error("failed to get cluster info, Again!!")
-                        notReady(OtsimoError.NotInitialized)
+                        notReady(.notInitialized)
                     }
                 }
             } else {
-                notReady(OtsimoError.NotInitialized)
+                notReady(.notInitialized)
             }
         }
     }
+    
+    internal func isReadyWithoutSession(_ notReady: @escaping (OtsimoError) -> Void, onReady: @escaping (Connection) -> Void) {
+        if let c = connection {
+            onReady(c)
+        } else {
+            if cluster.hasValue {
+                Log.info("Otsimo sdk is not not initialized but trying again")
+                
+                Otsimo.configFromDiscoveryService(cluster.discoveryUrl, env: cluster.env, timeout: 5) { cc in
+                    if let config = cc {
+                        Otsimo.config(config)
+                        if let c = self.connection {
+                            onReady(c)
+                        } else {
+                            notReady(.notInitialized)
+                        }
+                    } else {
+                        Log.error("failed to get cluster info, Again!!")
+                        notReady(.notInitialized)
+                    }
+                }
+            } else {
+                notReady(.notInitialized)
+            }
+        }
+    }
+    
 }

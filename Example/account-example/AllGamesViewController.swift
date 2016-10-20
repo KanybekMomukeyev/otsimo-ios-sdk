@@ -9,6 +9,7 @@
 import UIKit
 import OtsimoSDK
 import OtsimoApiGrpc
+import Kingfisher
 
 class AllGamesViewController: UITableViewController {
     
@@ -16,7 +17,7 @@ class AllGamesViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        otsimo.getAllGames() {game, done, error in
+        otsimo.getAllGames(language: "") {game, done, error in
             if let f = game {
                 self.games.append(f)
                 self.tableView.reloadData()
@@ -31,48 +32,48 @@ class AllGamesViewController: UITableViewController {
     
     // MARK: - Table view data source
     
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return games.count
     }
     
-    func updateCell(cell: GameTableCellView, game: Game) {
+    func updateCell(_ cell: GameTableCellView, game: Game) {
         game.getManifest() {man, error in
             if let m = man {
                 cell.titlLabel?.text = m.localVisibleName
                 cell.versionLabel?.text = m.version
-                cell.imageLabel.hnk_setImageFromURL(NSURL(string: m.localIcon)!)
+                cell.imageLabel.kf_setImage(with: NSURL(string: m.localIcon) as? Resource )
             } else {
                 print("failed to get manifes")
             }
         }
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("game_cell_reuse_identifier", forIndexPath: indexPath) as! GameTableCellView
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "game_cell_reuse_identifier", for: indexPath) as! GameTableCellView
         
         let game = games[indexPath.row]
         updateCell(cell, game: game)
         return cell
     }
     
-    private var selectedGame: Game?
+    fileprivate var selectedGame: Game?
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let game = games[indexPath.row]
         selectedGame = game
-        performSegueWithIdentifier("gameinfotest", sender: tableView)
+        performSegue(withIdentifier: "gameinfotest", sender: tableView)
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         if let id = segue.identifier {
             if id == "gameinfotest" {
-                let gic = segue.destinationViewController as! GameInfoViewController
+                let gic = segue.destination as! GameInfoViewController
                 gic.game = selectedGame
             }
         }

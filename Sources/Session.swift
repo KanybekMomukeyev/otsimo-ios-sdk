@@ -15,8 +15,13 @@ let emailKey = "OtsimoSDK-Session-Email"
 
 struct OtsimoAccount: ReadableSecureStorable, CreateableSecureStorable,
 DeleteableSecureStorable, GenericPasswordSecureStorable {
+
+    
+    
+    
     let email: String
     let jwt: String
+
     let refresh: String
     let tokentype: String
     let service = "Otsimo"
@@ -24,34 +29,34 @@ DeleteableSecureStorable, GenericPasswordSecureStorable {
     var account: String { return email }
     var accessGroup: String? { return sharedKeyChain }
 
-    var data: [String: AnyObject] {
-        return ["jwt": jwt, "refresh": refresh, "tokentype": tokentype]
+    var data: [String: Any] {
+        return ["jwt": jwt as AnyObject, "refresh": refresh as AnyObject, "tokentype": tokentype as AnyObject]
     }
 }
 
-public class Session {
+open class Session {
     internal let config: ClientConfig
     internal var accessToken: String = ""
     internal var refreshToken: String = ""
     internal var tokenType: String = ""
-    public var emailVerified: Bool = false
-    public var expiresAt: Int = 0
-    public var issuedAt: Int64 = 0
-    public var issuer: String = ""
-    public var clientID: String = ""
-    public var displayName: String = ""
-    public var profileID: String = ""
-    public var email: String = ""
+    open var emailVerified: Bool = false
+    open var expiresAt: Int = 0
+    open var issuedAt: Int64 = 0
+    open var issuer: String = ""
+    open var clientID: String = ""
+    open var displayName: String = ""
+    open var profileID: String = ""
+    open var email: String = ""
 
-    public var isAuthenticated: Bool {
+    open var isAuthenticated: Bool {
         get {
             return accessToken != ""
         }
     }
-    public var isTokenExpired: Bool {
+    open var isTokenExpired: Bool {
         get {
-            let exp = NSDate(timeIntervalSince1970: Double(expiresAt))
-            if exp.compare(NSDate()) == NSComparisonResult.OrderedDescending
+            let exp = Date(timeIntervalSince1970: Double(expiresAt))
+            if exp.compare(Date()) == ComparisonResult.orderedDescending
             {
                 return false
             }
@@ -63,7 +68,7 @@ public class Session {
         self.config = config
     }
 
-    public func logout() {
+    open func logout() {
         accessToken = ""
         profileID = ""
         Otsimo.sharedInstance.cache.clearSession()
@@ -78,8 +83,8 @@ public class Session {
             Log.error("failed to clear account information: \(error)")
         }
         let defaults = Session.userDefaults(config.appGroup)
-        defaults.removeObjectForKey(emailKey)
-        defaults.removeObjectForKey(userIDKey)
+        defaults.removeObject(forKey: emailKey)
+        defaults.removeObject(forKey: userIDKey)
         defaults.synchronize()
     }
 
@@ -109,31 +114,31 @@ public class Session {
     internal func loadToken() -> LoadResult {
         let res = loadJwt(accessToken)
         switch (res) {
-        case LoadResult.Success(_, let payload, _, _):
+        case LoadResult.success(_, let payload, _, _):
             let presult = loadPayload(payload)
             switch (presult) {
-            case PayloadLoadResult.Success:
+            case PayloadLoadResult.success:
                 return res
-            case PayloadLoadResult.Failure(let it):
-                return LoadResult.Failure(it)
+            case PayloadLoadResult.failure(let it):
+                return LoadResult.failure(it)
             }
         default:
             return res
         }
     }
 
-    internal func loadPayload(payload: Payload) -> PayloadLoadResult {
+    internal func loadPayload(_ payload: Payload) -> PayloadLoadResult {
 
         if let sub = payload["sub"] as? String {
             profileID = sub
         } else {
-            return PayloadLoadResult.Failure(InvalidToken.MissingSub)
+            return PayloadLoadResult.failure(InvalidToken.missingSub)
         }
 
         if let e = payload["email"] as? String {
             email = e
         } else {
-            return PayloadLoadResult.Failure(InvalidToken.MissingEmail)
+            return PayloadLoadResult.failure(InvalidToken.missingEmail)
         }
 
         if let e = payload["email_verified"] as? Bool {
@@ -145,14 +150,14 @@ public class Session {
         let it = validateIssuer(payload, issuer: self.config.issuer)
 
         if let i = it {
-            return PayloadLoadResult.Failure(i)
+            return PayloadLoadResult.failure(i)
         }
 
         if let i = payload["iss"] as? String {
             // todo look validate issuer
             issuer = i
         } else {
-            return PayloadLoadResult.Failure(InvalidToken.InvalidIssuer)
+            return PayloadLoadResult.failure(InvalidToken.invalidIssuer)
         }
 
         if let n = payload["name"] as? String {
@@ -170,54 +175,54 @@ public class Session {
         if let e = payload["exp"] as? Int {
             expiresAt = e
         } else {
-            return PayloadLoadResult.Failure(InvalidToken.MissingExp)
+            return PayloadLoadResult.failure(InvalidToken.missingExp)
         }
 
-        return .Success
+        return .success
     }
 
-    func getAuthorizationHeader(handler: (String, OtsimoError) -> Void) {
+    func getAuthorizationHeader(_ handler: @escaping (String, OtsimoError) -> Void) {
         if isAuthenticated {
             if isTokenExpired {
-                dispatch_barrier_async(sessionQueue) {
+                sessionQueue.async(flags: .barrier, execute: {
                     if self.isTokenExpired {
                         Log.debug("access token is expired")
-                        let refreshGroup = dispatch_group_create() // Create Group
-                        dispatch_group_enter(refreshGroup) // Enter Group
+                        let refreshGroup = DispatchGroup() // Create Group
+                        refreshGroup.enter() // Enter Group
                         self.refreshCurrentToken { err in
                             onMainThread {
                                 Log.debug("access token got \(err)")
                                 switch (err) {
-                                case .None:
-                                    handler(self.accessToken, OtsimoError.None)
+                                case .none:
+                                    handler(self.accessToken, OtsimoError.none)
                                 default:
                                     handler(self.accessToken, err)
                                 }
                             }
-                            dispatch_group_leave(refreshGroup) // Leave Group
+                            refreshGroup.leave() // Leave Group
                         }
-                        dispatch_group_wait(refreshGroup, DISPATCH_TIME_FOREVER) // Wait completing the group
+                        refreshGroup.wait(timeout: DispatchTime.distantFuture) // Wait completing the group
                     } else {
                         Log.debug("new token is before got, sending it")
-                        onMainThread { handler(self.accessToken, OtsimoError.None) }
+                        onMainThread { handler(self.accessToken, OtsimoError.none) }
                     }
-                }
+                }) 
             } else {
-                handler(accessToken, OtsimoError.None)
+                handler(accessToken, OtsimoError.none)
             }
         } else {
-            handler("", OtsimoError.NotLoggedIn(message: "not logged in"))
+            handler("", OtsimoError.notLoggedIn(message: "not logged in"))
         }
     }
 
-    internal static func loadLastSession(config: ClientConfig, handler: (Session?) -> Void) {
+    internal static func loadLastSession(_ config: ClientConfig, handler: (Session?) -> Void) {
         let defaults = Session.userDefaults(config.appGroup)
-        guard let user = defaults.stringForKey(userIDKey) else {
+        guard let user = defaults.string(forKey: userIDKey) else {
             Log.error("could not find any previous session userid, need to login")
             handler(nil)
             return
         }
-        guard let email = defaults.stringForKey(emailKey) else {
+        guard let email = defaults.string(forKey: emailKey) else {
             Log.error("could not find any previous session email, need to login")
             handler(nil)
             return
@@ -244,10 +249,10 @@ public class Session {
             }
             let res = session.loadToken()
             switch (res) {
-            case .Success:
+            case .success:
                 Log.debug("previous session loaded successfully")
                 handler(session)
-            case .Failure(let it):
+            case .failure(let it):
                 Log.error("failed to load jwt token, error:\(it)")
                 handler(nil)
             }
@@ -257,32 +262,34 @@ public class Session {
         }
     }
 
-    private func refreshCurrentToken(handler: (error: OtsimoError) -> Void) {
+    fileprivate func refreshCurrentToken(_ handler: @escaping (_ error: OtsimoError) -> Void) {
         let grant_type = "refresh_token"
         let urlPath: String = "\(config.accountsServiceUrl)/refresh"
         let postString = "grant_type=\(grant_type)&refresh_token=\(refreshToken)&client_id=\(clientID)"
 
-        let request = NSMutableURLRequest(URL: NSURL(string: urlPath)!)
-        request.HTTPMethod = "POST"
+        var request = URLRequest(url: URL(string: urlPath)!)
+        request.httpMethod = "POST"
         request.setValue("application/x-www-form-urlencoded; charset=utf-8", forHTTPHeaderField: "Content-Type")
-        request.HTTPBody = postString.dataUsingEncoding(NSUTF8StringEncoding)
+        request.httpBody = postString.data(using: String.Encoding.utf8)
         request.timeoutInterval = 20
-        request.cachePolicy = .ReloadIgnoringLocalAndRemoteCacheData
+        request.cachePolicy = .reloadIgnoringLocalAndRemoteCacheData
 
-        let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { data, response, error in
+        let s=URLSession.shared
+        
+        s.dataTask(with: request, completionHandler: { data, response, error in
             guard error == nil && data != nil else { // check for fundamental networking error
-                handler(error: .NetworkError(message: "\(error)"))
+                handler(.networkError(message: "\(error)"))
                 return
             }
             var isOK = true
-            if let httpStatus = response as? NSHTTPURLResponse where httpStatus.statusCode != 200 { // check for http errors
+            if let httpStatus = response as? HTTPURLResponse , httpStatus.statusCode != 200 { // check for http errors
                 isOK = false
             }
 
             do {
-                let JSON = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions(rawValue: 0))
+                let JSON = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions(rawValue: 0))
                 guard let JSONDictionary: NSDictionary = JSON as? NSDictionary else {
-                    handler(error: .InvalidResponse(message: "invalid response:not a dictionary"))
+                    handler(.invalidResponse(message: "invalid response:not a dictionary"))
                     return
                 }
                 if isOK && JSONDictionary["error"] == nil {
@@ -293,14 +300,14 @@ public class Session {
                     if let at = accessToken {
                         self.accessToken = at
                     } else {
-                        handler(error: .InvalidResponse(message: "invalid response: access_token is missing"))
+                        handler(.invalidResponse(message: "invalid response: access_token is missing"))
                         return
                     }
 
                     if let rt = refreshToken {
                         self.refreshToken = rt
                     } else {
-                        handler(error: .InvalidResponse(message: "invalid response: refresh_token is missing"))
+                        handler(.invalidResponse(message: "invalid response: refresh_token is missing"))
                         return
                     }
 
@@ -311,40 +318,39 @@ public class Session {
                     }
                     let lr = self.loadToken()
                     switch (lr) {
-                    case .Success(_, _, _, _):
+                    case .success(_, _, _, _):
                         onMainThread { self.save() }
-                        handler(error: .None)
-                    case .Failure(let it):
-                        handler(error: OtsimoError.InvalidTokenError(error: it))
+                        handler(.none)
+                    case .failure(let it):
+                        handler(OtsimoError.invalidTokenError(error: it))
                     }
                 } else {
                     let e = JSONDictionary["error"]
                     if e != nil {
-                        handler(error: .InvalidResponse(message: "request failed: error= \(e)"))
+                        handler(.invalidResponse(message: "request failed: error= \(e)"))
                     } else {
-                        handler(error: .InvalidResponse(message: "request failed: \(data)"))
+                        handler(.invalidResponse(message: "request failed: \(data)"))
                     }
                 }
             }
             catch let JSONError as NSError {
-                handler(error: .InvalidResponse(message: "invalid response: \(JSONError)"))
+                handler(.invalidResponse(message: "invalid response: \(JSONError)"))
             }
-        }
-        task.resume()
+        }).resume()
     }
 
-    static func userDefaults(appGroup: String) -> NSUserDefaults {
+    static func userDefaults(_ appGroup: String) -> UserDefaults {
         if appGroup == "" {
-            return NSUserDefaults.standardUserDefaults()
+            return UserDefaults.standard
         }
-        if let d = NSUserDefaults(suiteName: appGroup) {
+        if let d = UserDefaults(suiteName: appGroup) {
             return d
         }
         Log.error("could not get shared nsuserdefaults with suitename")
-        return NSUserDefaults.standardUserDefaults()
+        return UserDefaults.standard
     }
 
-    internal static func migrateToSharedKeyChain(config: ClientConfig) {
+    internal static func migrateToSharedKeyChain(_ config: ClientConfig) {
         let defaults = Session.userDefaults(config.appGroup)
 
         if let s = Otsimo.sharedInstance.cache.fetchSession() {
@@ -365,7 +371,7 @@ public class Session {
                     sharedKeyChain: config.sharedKeyChain)
 
                 do {
-                    if let ok = sharedAccount.readFromSecureStore() {
+                    if sharedAccount.readFromSecureStore() != nil {
                         try sharedAccount.updateInSecureStore()
                         Log.info("session is migrated by update")
                     } else {

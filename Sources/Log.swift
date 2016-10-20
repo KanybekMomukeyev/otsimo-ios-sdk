@@ -9,40 +9,40 @@
 import Foundation
 
 public enum LogLevel: Int {
-    case Debug = 1
-    case Info = 2
-    case Warning = 3
-    case Error = 4
-    case Severe = 5
+    case debug = 1
+    case info = 2
+    case warning = 3
+    case error = 4
+    case severe = 5
 }
 
-public class Log {
-    static var logLevel: LogLevel = LogLevel.Info
-    public static func setLevel(level: LogLevel) {
+open class Log {
+    static var logLevel: LogLevel = LogLevel.info
+    open static func setLevel(_ level: LogLevel) {
         logLevel = level
     }
 
-    public static func debug(message: String) {
-        log(.Debug, message: message)
+    open static func debug(_ message: String) {
+        log(.debug, message: message)
     }
 
-    public static func info(message: String) {
-        log(.Info, message: message)
+    open static func info(_ message: String) {
+        log(.info, message: message)
     }
 
-    public static func warm(message: String) {
-        log(.Warning, message: message)
+    open static func warm(_ message: String) {
+        log(.warning, message: message)
     }
 
-    public static func error(message: String) {
-        log(.Error, message: message)
+    open static func error(_ message: String) {
+        log(.error, message: message)
     }
 
-    public static func severe(message: String) {
-        log(.Severe, message: message)
+    open static func severe(_ message: String) {
+        log(.severe, message: message)
     }
 
-    private static func log(level: LogLevel, message: String) {
+    fileprivate static func log(_ level: LogLevel, message: String) {
         if level.rawValue >= logLevel.rawValue {
             NSLog("[\(level)] \(message)")
         }

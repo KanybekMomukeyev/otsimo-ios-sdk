@@ -8,80 +8,80 @@
 
 import Foundation
 
-public class GameKeyValueStore {
-    public let store: [String: AnyObject]
+open class GameKeyValueStore {
+    open let store: [String: AnyObject]
 
     public init(dict: [String: AnyObject]) {
         self.store = dict
     }
 
-    public func any(key: String) -> AnyObject? {
+    open func any(_ key: String) -> AnyObject? {
         return store[key]
     }
 
-    public func string(key: String) -> String? {
+    open func string(_ key: String) -> String? {
         return store[key] as? String
     }
 
-    public func string(key: String, defaultValue: String) -> String {
+    open func string(_ key: String, defaultValue: String) -> String {
         if let v = store[key] as? String {
             return v
         }
         return defaultValue
     }
 
-    public func integer(key: String) -> Int? {
+    open func integer(_ key: String) -> Int? {
         return store[key] as? Int
     }
 
-    public func integer(key: String, defaultValue: Int) -> Int {
+    open func integer(_ key: String, defaultValue: Int) -> Int {
         if let v = store[key] as? Int {
             return v
         }
         return defaultValue
     }
 
-    public func float(key: String) -> Float? {
+    open func float(_ key: String) -> Float? {
         return store[key] as? Float
     }
 
-    public func float(key: String, defaultValue: Float) -> Float {
+    open func float(_ key: String, defaultValue: Float) -> Float {
         if let v = store[key] as? Float {
             return v
         }
         return defaultValue
     }
 
-    public func boolean(key: String) -> Bool? {
+    open func boolean(_ key: String) -> Bool? {
         return store[key] as? Bool
     }
 
-    public func boolean(key: String, defaultValue: Bool) -> Bool {
+    open func boolean(_ key: String, defaultValue: Bool) -> Bool {
         if let v = store[key] as? Bool {
             return v
         }
         return defaultValue
     }
 
-    public func settingsTitle(key: String) -> String? {
+    open func settingsTitle(_ key: String) -> String? {
         return string("settings/\(key)/title")
     }
 
-    public func settingsDescription(key: String) -> String? {
+    open func settingsDescription(_ key: String) -> String? {
         return string("settings/\(key)/description")
     }
 
-    public func settingsTitle(key: String, enumKey: String) -> String? {
+    open func settingsTitle(_ key: String, enumKey: String) -> String? {
         return string("settings/\(key)/keys/\(enumKey)/title")
     }
 
-    public func settingsDescription(key: String, enumKey: String) -> String? {
+    open func settingsDescription(_ key: String, enumKey: String) -> String? {
         return string("settings/\(key)/keys/\(enumKey)/description")
     }
 
-    internal static func fromData(data: NSData) -> GameKeyValueStore? {
+    internal static func fromData(_ data: Data) -> GameKeyValueStore? {
         do {
-            let object = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions())
+            let object = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions())
             switch (object) {
             case let dictionary as [String: AnyObject]:
                 return GameKeyValueStore(dict: dictionary)
@@ -97,10 +97,10 @@ public class GameKeyValueStore {
         }
     }
 
-    public static func fromIdAndVersion(gameID: String, version: String, language: String, path: String, handler: (GameKeyValueStore?) -> Void) {
+    open static func fromIdAndVersion(_ gameID: String, version: String, language: String, path: String, handler: @escaping (GameKeyValueStore?) -> Void) {
 
         let id = KeyValueStoreCache.createID(gameID, version: version, language: language)
-        if let sc = KeyValueStoreCache.storage.filter("id = %@", id).first {
+        if let sc = KeyValueStoreCache.object(id: id) {
             handler(sc.keyvalueStore())
             return
         }
@@ -133,31 +133,31 @@ public class GameKeyValueStore {
         }
     }
 
-    private static func fromFile(filepath: String, handler: (GameKeyValueStore?, NSData) -> Void) {
-        let man = NSFileManager.defaultManager()
-        if man.fileExistsAtPath(filepath) {
-            if let data = man.contentsAtPath(filepath) {
+    fileprivate static func fromFile(_ filepath: String, handler: (GameKeyValueStore?, Data) -> Void) {
+        let man = FileManager.default
+        if man.fileExists(atPath: filepath) {
+            if let data = man.contents(atPath: filepath) {
                 let kv = GameKeyValueStore.fromData(data)
                 handler(kv, data)
             } else {
                 Log.error("reding KeyValueStore at path \(filepath) failed")
-                handler(nil, NSData())
+                handler(nil, Data())
             }
         } else {
             Log.error("settings at path \(filepath) does not exist")
-            handler(nil, NSData())
+            handler(nil, Data())
         }
     }
 
-    private static func fromUrl(url: String, handler: (GameKeyValueStore?, NSData) -> Void) {
-        NetworkFetcher.get(url) { (data: NSData, error: OtsimoError) in
+    fileprivate static func fromUrl(_ url: String, handler: @escaping (GameKeyValueStore?, Data) -> Void) {
+        NetworkFetcher.get(url) { (data: Data, error: OtsimoError) in
             switch (error) {
-            case .None:
+            case .none:
                 let kv = GameKeyValueStore.fromData(data)
                 handler(kv, data)
             default:
                 Log.error("failed to fetch GameKeyValueStore \(error)")
-                handler(nil, NSData())
+                handler(nil, Data())
             }
         }
     }

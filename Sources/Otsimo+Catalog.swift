@@ -12,10 +12,10 @@ import OtsimoApiGrpc
 extension Otsimo: CatalogApi {
 
     // Catalog
-    public func getCatalog(handler: (OTSCatalog?, OtsimoError) -> Void) {
+    public func getCatalog(handler: @escaping (OTSCatalog?, OtsimoError) -> Void) {
         self.getCatalogFromRemote { c, e in
             switch (e) {
-            case .None:
+            case .none:
                 if let catalog = c {
                     handler(catalog, e)
                     return
@@ -25,23 +25,23 @@ extension Otsimo: CatalogApi {
                 Otsimo.sharedInstance.cache.fetchCatalog() { cat in
                     Log.debug("fetched catalog result =\(cat)")
                     if let catalog = cat {
-                        handler(catalog, .None)
+                        handler(catalog, .none)
                     } else {
-                        handler(nil, .General(message: "Not Found"))
+                        handler(nil, .general(message: "Not Found"))
                     }
                 }
             }
         }
     }
 
-    private func getCatalogFromRemote(handler: (OTSCatalog?, OtsimoError) -> Void) {
+    fileprivate func getCatalogFromRemote(_ handler: @escaping (OTSCatalog?, OtsimoError) -> Void) {
         self.isReady({ handler(nil, $0) }) { c, s in
             let req = OTSCatalogPullRequest()
             req.profileId = s.profileID
             c.getCurrentCatalog(s, req: req) { res, err in
                 if let catalog = res {
                     Otsimo.sharedInstance.cache.cacheCatalog(catalog)
-                    handler(catalog, OtsimoError.None)
+                    handler(catalog, OtsimoError.none)
                 } else {
                     handler(nil, err)
                 }

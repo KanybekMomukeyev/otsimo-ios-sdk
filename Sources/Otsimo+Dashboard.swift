@@ -10,7 +10,7 @@ import Foundation
 import OtsimoApiGrpc
 
 extension Otsimo: DashboardApi {
-    public func dashboard(childID: String, lang: String, cacheTime: Int64?, handler: (DashboardItems?, OtsimoError) -> Void) {
+    public func dashboard(childID: String, lang: String, cacheTime: Int64?, handler: @escaping (DashboardItems?, OtsimoError) -> Void) {
         self.isReady({ handler(nil, $0) }) { c, s in
             c.getDashboard(s, childID: childID, lang: lang, time: cacheTime, handler: handler)
         }

@@ -9,11 +9,11 @@
 import UIKit
 
 enum ChangePasswordValidation {
-    case Success
-    case Mismatch
-    case Short
-    case InvalidOld
-    case SamePassword
+    case success
+    case mismatch
+    case short
+    case invalidOld
+    case samePassword
 }
 
 class ChangePasswordViewController: UITableViewController {
@@ -35,37 +35,37 @@ class ChangePasswordViewController: UITableViewController {
     
     func validateNewPassword() -> ChangePasswordValidation {
         if newPasswordText.text! != newPasswordRetypeText.text! {
-            return .Mismatch
+            return .mismatch
         }
         if let count = newPasswordText.text?.characters.count {
             if count < 6 {
-                return .Short
+                return .short
             }
         } else {
-            return .Short
+            return .short
         }
         if let count = oldPasswordText.text?.characters.count {
             if count == 0 {
-                return .InvalidOld
+                return .invalidOld
             }
         } else {
-            return .InvalidOld
+            return .invalidOld
         }
         
         if newPasswordText.text == oldPasswordText.text! {
-            return .SamePassword
+            return .samePassword
         }
-        return .Success
+        return .success
     }
     
-    @IBAction func changePasswordTouched(sender: UIButton) {
+    @IBAction func changePasswordTouched(_ sender: UIButton) {
         SwiftSpinner.show("changing...", animated: true)
         let res = validateNewPassword()
         switch (res) {
-        case .Success:
-            otsimo.changePassword(oldPasswordText.text!, newPassword: newPasswordText.text!) {resp in
+        case .success:
+            otsimo.changePassword(old: oldPasswordText.text!, newPassword: newPasswordText.text!) {resp in
                 switch (resp) {
-                case .None:
+                case .none:
                     print("change password sucess")
                     self.infoLabel.text = "success"
                     SwiftSpinner.show("success", animated: false)

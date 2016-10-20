@@ -8,7 +8,7 @@
 
 import UIKit
 import OtsimoSDK
-import Haneke
+import Kingfisher
 
 class GameInfoViewController: UIViewController {
 
@@ -31,7 +31,7 @@ class GameInfoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         imageCollectionView.dataSource = self
-        if let selectedLang = languagesSegmentedControl.titleForSegmentAtIndex(languagesSegmentedControl.selectedSegmentIndex) {
+        if let selectedLang = languagesSegmentedControl.titleForSegment(at: languagesSegmentedControl.selectedSegmentIndex) {
             renderForLanguage(selectedLang)
         }
     }
@@ -41,13 +41,13 @@ class GameInfoViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    @IBAction func languageChanged(sender: UISegmentedControl) {
-        if let selectedLang = languagesSegmentedControl.titleForSegmentAtIndex(languagesSegmentedControl.selectedSegmentIndex) {
+    @IBAction func languageChanged(_ sender: UISegmentedControl) {
+        if let selectedLang = languagesSegmentedControl.titleForSegment(at: languagesSegmentedControl.selectedSegmentIndex) {
             renderForLanguage(selectedLang)
         }
     }
 
-    func renderForLanguage(lang: String) {
+    func renderForLanguage(_ lang: String) {
         language = lang
         game?.getManifest() { manifest, error in
             if let man = manifest {
@@ -58,7 +58,7 @@ class GameInfoViewController: UIViewController {
         }
     }
 
-    func renderForLanguageAndManifest(lang: String, man: GameManifest) {
+    func renderForLanguageAndManifest(_ lang: String, man: GameManifest) {
         navigationItem.title = man.localVisibleName
         for md in man.metadatas {
             if md.language == lang {
@@ -66,7 +66,7 @@ class GameInfoViewController: UIViewController {
                 summaryLabel.text = md.summary
                 descriptionLabel.text = md.description_p
                 let url = otsimo.fixGameAssetUrl(man.gameId, version: man.version, rawUrl: md.icon)
-                iconImage.hnk_setImageFromURL(NSURL(string: url)!)
+                iconImage.kf_setImage(with:NSURL(string: url) as! Resource?)
                 images = md.imagesArray as AnyObject as![String]
                 images.removeAll()
                 for i in md.imagesArray {
@@ -80,42 +80,41 @@ class GameInfoViewController: UIViewController {
         }
     }
 
-    @IBAction func addTouched(sender: UIButton) {
+    @IBAction func addTouched(_ sender: UIButton) {
         let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewControllerWithIdentifier("AddGameToChildViewController") as! AddGameToChildViewController
-        vc.modalPresentationStyle = UIModalPresentationStyle.Popover
+        let vc = storyboard.instantiateViewController(withIdentifier: "AddGameToChildViewController") as! AddGameToChildViewController
+        vc.modalPresentationStyle = UIModalPresentationStyle.popover
         vc.game = self.game
-        vc.preferredContentSize = CGSizeMake(300, 300)
+        vc.preferredContentSize = CGSize(width: 300, height: 300)
 
         let popover: UIPopoverPresentationController = vc.popoverPresentationController!
         popover.sourceView = sender
         popover.delegate = self
-        popover.sourceRect = CGRectMake(0, 0, sender.frame.size.width, sender.frame.size.height)
+        popover.sourceRect = CGRect(x: 0, y: 0, width: sender.frame.size.width, height: sender.frame.size.height)
 
-        presentViewController(vc, animated: true, completion: nil)
+        present(vc, animated: true, completion: nil)
     }
 }
 
 extension GameInfoViewController: UICollectionViewDataSource {
-    internal func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    internal func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return images.count;
     }
 
-    internal func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    internal func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1;
     }
 
-    internal func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = self.imageCollectionView.dequeueReusableCellWithReuseIdentifier("game_image_cell", forIndexPath: indexPath) as! GameImageViewCell
-        cell.image.hnk_setImageFromURL(NSURL(string: images[indexPath.row])!)
-
+    internal func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = self.imageCollectionView.dequeueReusableCell(withReuseIdentifier: "game_image_cell", for: indexPath) as! GameImageViewCell
+        cell.image.kf_setImage(with: URL(string: images[indexPath.row])!)
         return cell
     }
 }
 
 extension GameInfoViewController: UIPopoverPresentationControllerDelegate {
-    func adaptivePresentationStyleForPresentationController(
-        controller: UIPresentationController) -> UIModalPresentationStyle {
-            return UIModalPresentationStyle.None
+    func adaptivePresentationStyle(
+        for controller: UIPresentationController) -> UIModalPresentationStyle {
+            return UIModalPresentationStyle.none
     }
 }

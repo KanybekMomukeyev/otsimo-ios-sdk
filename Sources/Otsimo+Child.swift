@@ -11,79 +11,79 @@ import OtsimoApiGrpc
 
 extension Otsimo: ChildApi {
 
-    public func updateChild(childID: String, child: OTSChild, handler: (error: OtsimoError) -> Void) {
+    public func updateChild(childID: String, child: OTSChild, handler: @escaping (_ error: OtsimoError) -> Void) {
         self.isReady(handler) { c, s in
             c.updateChild(s, id: childID, parentID: s.profileID, child: child, handler: handler)
         }
     }
 
-    public func addChild(child:OTSChild, handler: (res: OtsimoError) -> Void) {
+    public func addChild(child:OTSChild, handler: @escaping (_ res: OtsimoError) -> Void) {
         self.isReady(handler) { c, s in
             c.addChild(s, child: child, handler: handler)
         }
     }
 
-    public func getChild(id: String, handler: (res: OTSChild?, err: OtsimoError) -> Void) {
-        self.isReady({ handler(res: nil, err: $0) }) { c, s in
-            c.getChild(s, childId: id, handler: handler)
+    public func getChild(childID: String, handler: @escaping (_ res: OTSChild?, _ err: OtsimoError) -> Void) {
+        self.isReady({ handler(nil, $0) }) { c, s in
+            c.getChild(s, childId: childID, handler: handler)
         }
     }
 
-    public func getChildren(handler: (res: [OTSChild], err: OtsimoError) -> Void) {
-        self.isReady({ handler(res: [], err: $0) }) { c, s in
+    public func getChildren(handler: @escaping (_ res: [OTSChild], _ err: OtsimoError) -> Void) {
+        self.isReady({ handler([], $0) }) { c, s in
             c.getChildren(s, handler: handler)
         }
     }
 
-    public func addGameToChild(gameID: String, childID: String, index: Int32, settings: NSData, handler: (error: OtsimoError) -> Void) {
+    public func addGameToChild(gameID: String, childID: String, index: Int32, settings: Data, handler: @escaping (_ error: OtsimoError) -> Void) {
         self.isReady(handler) { c, s in
             let req = OTSGameEntryRequest()
             req.gameId = gameID
             req.childId = childID
             req.index = index
             req.settings = settings
-            req.type = OTSGameEntryRequest_RequestType.Add
+            req.type = OTSGameEntryRequest_RequestType.add
             c.updateGameEntry(s, req: req, handler: handler)
         }
     }
 
-    public func updateActivationGame(gameID: String, childID: String, activate: Bool, handler: (error: OtsimoError) -> Void) {
+    public func updateActivationGame(gameID: String, childID: String, activate: Bool, handler: @escaping (_ error: OtsimoError) -> Void) {
         self.isReady(handler) { c, s in
             let req = OTSGameEntryRequest()
             req.gameId = gameID
             req.childId = childID
             if activate {
-                req.type = OTSGameEntryRequest_RequestType.Activate
+                req.type = OTSGameEntryRequest_RequestType.activate
             } else {
-                req.type = OTSGameEntryRequest_RequestType.Deactivate
+                req.type = OTSGameEntryRequest_RequestType.deactivate
             }
             c.updateGameEntry(s, req: req, handler: handler)
         }
     }
 
-    public func updateSettings(gameID: String, childID: String, settings: NSData, handler: (error: OtsimoError) -> Void) {
+    public func updateSettings(gameID: String, childID: String, settings: Data, handler: @escaping (_ error: OtsimoError) -> Void) {
         self.isReady(handler) { c, s in
             let req = OTSGameEntryRequest()
             req.gameId = gameID
             req.childId = childID
             req.settings = settings
-            req.type = OTSGameEntryRequest_RequestType.Settings
+            req.type = OTSGameEntryRequest_RequestType.settings
             c.updateGameEntry(s, req: req, handler: handler)
         }
     }
 
-    public func updateDashboardIndex(gameID: String, childID: String, index: Int32, handler: (error: OtsimoError) -> Void) {
+    public func updateDashboardIndex(gameID: String, childID: String, index: Int32, handler: @escaping (_ error: OtsimoError) -> Void) {
         self.isReady(handler) { c, s in
             let req = OTSGameEntryRequest()
             req.gameId = gameID
             req.childId = childID
             req.index = index
-            req.type = OTSGameEntryRequest_RequestType.Index
+            req.type = OTSGameEntryRequest_RequestType.index
             c.updateGameEntry(s, req: req, handler: handler)
         }
     }
 
-    public func enableSound(childID: String, enable: Bool, handler: (error: OtsimoError) -> Void) {
+    public func enableSound(childID: String, enable: Bool, handler: @escaping (_ error: OtsimoError) -> Void) {
         self.isReady(handler) { c, s in
             let req = OTSSoundEnableRequest()
             req.childId = childID

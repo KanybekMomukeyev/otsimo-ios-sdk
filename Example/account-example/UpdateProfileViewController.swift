@@ -30,7 +30,7 @@ class UpdateProfileViewController: UITableViewController {
         SwiftSpinner.show("getting\ndata...", animated: true)
         otsimo.getProfile() {profile, error in
             switch (error) {
-            case OtsimoError.None:
+            case .none:
                 print("successfully get profile \(profile!)")
                 if let pro = profile {
                     SwiftSpinner.hide()
@@ -51,7 +51,7 @@ class UpdateProfileViewController: UITableViewController {
                     SwiftSpinner.show("error", animated: false)
                     delay(seconds: 0.7) {
                         SwiftSpinner.hide()
-                        self.navigationController?.popToRootViewControllerAnimated(true)
+                        self.navigationController?.popToRootViewController(animated: true)
                     }
                 }
             default:
@@ -59,21 +59,21 @@ class UpdateProfileViewController: UITableViewController {
                 SwiftSpinner.show("error", animated: false)
                 delay(seconds: 0.7) {
                     SwiftSpinner.hide()
-                    self.navigationController?.popToRootViewControllerAnimated(true)
+                    self.navigationController?.popToRootViewController(animated: true)
                 }
             }
         }
     }
     
-    func showError(message : String) {
+    func showError(_ message : String) {
         let alert = UIAlertController(title: "Invalid Input", message: message,
-            preferredStyle: UIAlertControllerStyle.Alert)
+            preferredStyle: UIAlertControllerStyle.alert)
         
-        alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
-        self.presentViewController(alert, animated: true, completion: nil)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
     }
     
-    @IBAction func changeEmailTouched(sender: UIButton) {
+    @IBAction func changeEmailTouched(_ sender: UIButton) {
         if emailText.text != initialProfile?.email {
             if let t = emailText.text {if t.characters.count == 0 {
                     showError("enter a valid email")
@@ -85,9 +85,9 @@ class UpdateProfileViewController: UITableViewController {
             return
         }
         SwiftSpinner.show("updating...", animated: true)
-        otsimo.changeEmail(emailText.text!) {err in
+        otsimo.changeEmail(newEmail: emailText.text!) {err in
             switch (err) {
-            case .None:
+            case .none:
                 self.initialProfile?.email = self.emailText.text
                 SwiftSpinner.show("success", animated: false)
                 delay(seconds: 0.8) {SwiftSpinner.hide()}
@@ -98,7 +98,7 @@ class UpdateProfileViewController: UITableViewController {
         }
     }
     
-    func checkChanges(tField: UITextField, initial: String?, min: Int) -> Bool {
+    func checkChanges(_ tField: UITextField, initial: String?, min: Int) -> Bool {
         if tField.text != initial {
             if let t = tField.text {
                 if t.characters.count > min {
@@ -109,7 +109,7 @@ class UpdateProfileViewController: UITableViewController {
         return false
     }
     
-    @IBAction func updateTouched(sender: UIButton) {
+    @IBAction func updateTouched(_ sender: UIButton) {
         if initialProfile == nil {
             return
         }
@@ -137,7 +137,7 @@ class UpdateProfileViewController: UITableViewController {
             SwiftSpinner.show("updating...", animated: true)
             otsimo.updateProfile(p) {err in
                 switch (err) {
-                case .None:
+                case .none:
                     self.syncProfiles(p)
                     SwiftSpinner.show("success", animated: false)
                     delay(seconds: 0.8) {SwiftSpinner.hide()}
@@ -151,7 +151,7 @@ class UpdateProfileViewController: UITableViewController {
         }
     }
     
-    func syncProfiles(newPro: OTSProfile) {
+    func syncProfiles(_ newPro: OTSProfile) {
         if let fn = newPro.firstName {
             initialProfile?.firstName = fn
         }

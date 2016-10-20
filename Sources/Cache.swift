@@ -14,7 +14,7 @@ let store = try! Realm()
 
 class CatalogCache: Object {
     dynamic var id: String = "catalog"
-    dynamic var data = NSData()
+    dynamic var data = Data()
     override class func primaryKey() -> String? {
         return "id"
     }
@@ -30,23 +30,27 @@ class CatalogCache: Object {
     }
 }
 
-public class SettingsCache: Object {
-    public dynamic var id: String = ""
-    public dynamic var data: NSData = NSData()
+open class SettingsCache: Object {
+    open dynamic var id: String = ""
+    open dynamic var data: Data = Data()
 
-    override public class func primaryKey() -> String? {
+    override open class func primaryKey() -> String? {
         return "id"
     }
 
     static var storage: Results<SettingsCache> {
-        return store.objects(SettingsCache)
+        return store.objects(SettingsCache.self)
     }
 
-    public func gameSettings() -> GameSettings? {
+    open func gameSettings() -> GameSettings? {
         return GameSettings.fromData(data)
     }
 
-    public func save() {
+    static func settings(id:String) -> SettingsCache? {
+        return store.object(ofType: SettingsCache.self, forPrimaryKey: id)
+    }
+    
+    open func save() {
         do {
             try store.write {
                 store.add(self, update: true)
@@ -56,28 +60,32 @@ public class SettingsCache: Object {
         }
     }
 
-    static func createID(gameid: String, version: String) -> String {
+    static func createID(_ gameid: String, version: String) -> String {
         return "\(gameid)_\(version)"
     }
 }
 
-public class KeyValueStoreCache: Object {
-    public dynamic var id: String = ""
-    public dynamic var data: NSData = NSData()
+open class KeyValueStoreCache: Object {
+    open dynamic var id: String = ""
+    open dynamic var data: Data = Data()
 
-    override public class func primaryKey() -> String? {
+    override open class func primaryKey() -> String? {
         return "id"
     }
 
     static var storage: Results<KeyValueStoreCache> {
-        return store.objects(KeyValueStoreCache)
+        return store.objects(KeyValueStoreCache.self)
     }
 
-    public func keyvalueStore() -> GameKeyValueStore? {
+    static func object(id:String) -> KeyValueStoreCache? {
+        return store.object(ofType: KeyValueStoreCache.self, forPrimaryKey: id)
+    }
+    
+    open func keyvalueStore() -> GameKeyValueStore? {
         return GameKeyValueStore.fromData(data)
     }
 
-    public func save() {
+    open func save() {
         do {
             try store.write {
                 store.add(self, update: true)
@@ -87,22 +95,22 @@ public class KeyValueStoreCache: Object {
         }
     }
 
-    static func createID(gameid: String, version: String, language: String) -> String {
+    static func createID(_ gameid: String, version: String, language: String) -> String {
         return "\(gameid)_\(version)_\(language)"
     }
 }
 
-@available( *, deprecated = 1.1)
-public class SessionCache: Object {
+@available( *, deprecated : 1.1)
+open class SessionCache: Object {
     dynamic var id: String = "session"
     dynamic var profileId: String = ""
     dynamic var email: String = ""
-    public override class func primaryKey() -> String? {
+    open override class func primaryKey() -> String? {
         return "id"
     }
 }
 
-public class GameCache: Object {
+open class GameCache: Object {
     dynamic var gameId: String = ""
 
     dynamic var productionVersion: String = ""
@@ -111,11 +119,11 @@ public class GameCache: Object {
 
     dynamic var latestState: Int32 = 0
 
-    dynamic var fetchedAt: NSDate = NSDate(timeIntervalSince1970: 1)
+    dynamic var fetchedAt: Date = Date(timeIntervalSince1970: 1)
 
     dynamic var manifestVersion: String = ""
 
-    dynamic var manifest: NSData = NSData()
+    dynamic var manifest: Data = Data()
 
     dynamic var storage: String = ""
 
@@ -125,11 +133,11 @@ public class GameCache: Object {
 
     dynamic var languages: String = ""
 
-    public override class func primaryKey() -> String? {
+    open override class func primaryKey() -> String? {
         return "gameId"
     }
 
-    public static func fromGame(game: Game) -> GameCache? {
+    open static func fromGame(_ game: Game) -> GameCache? {
         if let gm = game.gameManifest {
             let cache = GameCache()
             cache.gameId = game.id
@@ -141,11 +149,11 @@ public class GameCache: Object {
             cache.storage = gm.storage
             cache.archiveFormat = gm.archiveFormat
             cache.releasedAt = game.releasedAt
-            cache.languages = game.languages.joinWithSeparator(",")
+            cache.languages = game.languages.joined(separator: ",")
             if let fa = game.fetchedAt {
-                cache.fetchedAt = fa
+                cache.fetchedAt = fa as Date
             } else {
-                cache.fetchedAt = NSDate()
+                cache.fetchedAt = Date()
             }
             return cache
         } else {
@@ -153,7 +161,7 @@ public class GameCache: Object {
         }
     }
 
-    public func getGame() -> Game! {
+    open func getGame() -> Game! {
         do {
             let manifest: OTSGameManifest = try OTSGameManifest(data: self.manifest)
             return Game(cache: self, manifest: manifest)
@@ -170,26 +178,27 @@ final class OtsimoCache: CacheProtocol {
     static let gameTTL: Double = 3600 * 24 * 14
 
     // Game
-    func fetchGame(id: String, handler: (game: Game?, isExpired: Bool) -> Void) {
-        let cached = store.objects(GameCache).filter(NSPredicate(format: "gameId = %@", id)).first
-        if let gc = cached {
-            let now: Double = NSDate().timeIntervalSince1970
+    func fetchGame(_ id: String, handler: (_ game: Game?, _ isExpired: Bool) -> Void) {
+        let s = try! Realm()
+        if let gc = s.object(ofType: GameCache.self, forPrimaryKey: id) {
+            let now: Double = Date().timeIntervalSince1970
             let fetched = gc.fetchedAt.timeIntervalSince1970
             if (now - fetched) > OtsimoCache.gameTTL {
-                handler(game: gc.getGame(), isExpired: true)
+                handler(gc.getGame(), true)
             } else {
-                handler(game: gc.getGame(), isExpired: false)
+                handler(gc.getGame(), false)
             }
         } else {
-            handler(game: nil, isExpired: true)
+            handler(nil, true)
         }
     }
 
-    func cacheGame(game: Game) {
+    func cacheGame(_ game: Game) {
         do {
+            let s = try Realm()
             if let gc = GameCache.fromGame(game) {
-                try store.write {
-                    store.add(gc, update: true)
+                try s.write {
+                    s.add(gc, update: true)
                 }
             } else {
                 Log.error("failed to create GameCache object")
@@ -200,8 +209,8 @@ final class OtsimoCache: CacheProtocol {
     }
 
 // Catalog
-    func fetchCatalog(handler: (OTSCatalog?) -> Void) {
-        let c = store.objects(CatalogCache).first
+    func fetchCatalog(_ handler: (OTSCatalog?) -> Void) {
+        let c = store.objects(CatalogCache.self).first
 
         if let cat = c?.getCatalog() {
             handler(cat)
@@ -221,7 +230,7 @@ final class OtsimoCache: CacheProtocol {
          }
          })*/
     }
-    func cacheCatalog(catalog: OTSCatalog) {
+    func cacheCatalog(_ catalog: OTSCatalog) {
         let cc = CatalogCache()
         cc.id = OtsimoCache.catalogKey
         if let d = catalog.data() {
@@ -243,10 +252,10 @@ final class OtsimoCache: CacheProtocol {
 // Session
     func fetchSession() -> SessionCache? {
         let s = try! Realm()
-        return s.objects(SessionCache).first
+        return s.objects(SessionCache.self).first
     }
 
-    func cacheSession(session: SessionCache) {
+    func cacheSession(_ session: SessionCache) {
         do {
             let s = try! Realm()
             try s.write {
@@ -259,7 +268,7 @@ final class OtsimoCache: CacheProtocol {
 
     func clearSession() {
         do {
-            let objs = store.objects(SessionCache)
+            let objs = store.objects(SessionCache.self)
             try store.write {
                 store.delete(objs)
             }

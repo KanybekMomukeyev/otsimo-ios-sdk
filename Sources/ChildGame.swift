@@ -14,11 +14,11 @@ class ChildGameInitializer {
     var childGame: ChildGame
 
     var prepareList: [() -> Void] = []
-    var lastError: OtsimoError = OtsimoError.None
+    var lastError: OtsimoError = OtsimoError.none
 
-    private var isCanceled = false
+    fileprivate var isCanceled = false
 
-    init(game: ChildGame, initSettings: Bool, initKeyValueStorage: Bool, handler: (ChildGame, OtsimoError) -> Void) {
+    init(game: ChildGame, initSettings: Bool, initKeyValueStorage: Bool, handler: @escaping (ChildGame, OtsimoError) -> Void) {
         self.childGame = game
         self.callback = handler
 
@@ -44,16 +44,16 @@ class ChildGameInitializer {
         next()
     }
 
-    private func next() {
+    fileprivate func next() {
         if isCanceled { return }
 
         var call: (() -> Void)?
 
         switch (lastError) {
-        case OtsimoError.None:
+        case OtsimoError.none:
             if prepareList.count == 0 {
                 childGame.initializer = nil
-                callback(childGame, OtsimoError.None)
+                callback(childGame, OtsimoError.none)
             } else {
                 call = prepareList.removeFirst()
             }
@@ -67,29 +67,29 @@ class ChildGameInitializer {
         }
     }
 
-    private func handleGetGame(game: Game?, error: OtsimoError) {
+    fileprivate func handleGetGame(_ game: Game?, error: OtsimoError) {
         if isCanceled { return }
         self.childGame.game = game
         lastError = error
         next()
     }
 
-    private func prepareGame() {
-        Otsimo.sharedInstance.getGame(childGame.entry.id_p, handler: handleGetGame)
+    fileprivate func prepareGame() {
+        Otsimo.sharedInstance.getGame(id: childGame.entry.id_p, handler: handleGetGame)
     }
 
-    private func prepareManifest() {
+    fileprivate func prepareManifest() {
         childGame.game!.getManifest(handleGetManifest)
     }
 
-    private func handleGetManifest(man: GameManifest?, error: OtsimoError) {
+    fileprivate func handleGetManifest(_ man: GameManifest?, error: OtsimoError) {
         if isCanceled { return }
         childGame.manifest = man
         lastError = error
         next()
     }
 
-    private func prepareSettings() {
+    fileprivate func prepareSettings() {
         if self.isCanceled { return }
         childGame.manifest!.getSettings {
             if self.isCanceled { return }
@@ -98,7 +98,7 @@ class ChildGameInitializer {
         }
     }
 
-    private func prepareKeyValueStore() {
+    fileprivate func prepareKeyValueStore() {
         if self.isCanceled { return }
         childGame.manifest!.getKeyValueStore {
             if self.isCanceled { return }
@@ -112,33 +112,33 @@ class ChildGameInitializer {
     }
 }
 
-public class ChildGame {
-    public let entry: OTSChildGameEntry
-    public let childID: String
-    public private(set) var settingsValues: SettingsValues
+open class ChildGame {
+    open let entry: OTSChildGameEntry
+    open let childID: String
+    open fileprivate(set) var settingsValues: SettingsValues
 
-    public internal(set) var game: Game?
-    public internal(set) var manifest: GameManifest?
-    public internal(set) var settings: GameSettings?
-    public internal(set) var keyvalue: GameKeyValueStore?
+    open internal(set) var game: Game?
+    open internal(set) var manifest: GameManifest?
+    open internal(set) var settings: GameSettings?
+    open internal(set) var keyvalue: GameKeyValueStore?
 
     var initializer: ChildGameInitializer?
 
-    public var gameID: String {
+    open var gameID: String {
         get {
             return entry.id_p
         }
     }
 
-    public var index: Int {
+    open var index: Int {
         get {
             return Int(entry.dashboardIndex)
         }
         set(value) {
             entry.dashboardIndex = Int32(value)
-            Otsimo.sharedInstance.updateDashboardIndex(gameID, childID: childID, index: entry.dashboardIndex) { e in
+            Otsimo.sharedInstance.updateDashboardIndex(gameID: gameID, childID: childID, index: entry.dashboardIndex) { e in
                 switch (e) {
-                case .None:
+                case .none:
                     Log.debug("updated dashboard index of \(self.gameID)")
                 default:
                     if let d = Otsimo.sharedInstance.silentErrorDelegate {
@@ -150,13 +150,13 @@ public class ChildGame {
         }
     }
 
-    public var isActive: Bool {
+    open var isActive: Bool {
         get { return entry.active }
         set(value) {
             entry.active = value
-            Otsimo.sharedInstance.updateActivationGame(gameID, childID: childID, activate: value) { e in
+            Otsimo.sharedInstance.updateActivationGame(gameID: gameID, childID: childID, activate: value) { e in
                 switch (e) {
-                case .None:
+                case .none:
                     Log.debug("updated activation of \(self.gameID)")
                 default:
                     if let d = Otsimo.sharedInstance.silentErrorDelegate {
@@ -178,14 +178,14 @@ public class ChildGame {
         }
     }
 
-    public func cancelInitialize() {
+    open func cancelInitialize() {
         if let i = initializer {
             i.cancel()
             initializer = nil
         }
     }
 
-    public func initialize(initSettings: Bool, initKeyValueStorage: Bool, handler: (ChildGame, OtsimoError) -> Void) {
+    open func initialize(_ initSettings: Bool, initKeyValueStorage: Bool, handler: @escaping (ChildGame, OtsimoError) -> Void) {
         if let i = initializer {
             i.cancel()
             initializer = nil
@@ -196,24 +196,25 @@ public class ChildGame {
         _init.start()
     }
 
-    public func valueFor(key: String) -> SettingsPropertyValue? {
+    open func valueFor(_ key: String) -> SettingsPropertyValue? {
         return settingsValues[key]
     }
 
-    public func updateValue(value: SettingsPropertyValue) {
+    open func updateValue(_ value: SettingsPropertyValue) {
         settingsValues[value.key] = value
     }
 
-    public func saveSettings(handler: (OtsimoError) -> Void) {
-        let data = ChildGame.DataOfSettingsValues(self.settingsValues)
-        Otsimo.sharedInstance.updateSettings(gameID, childID: childID, settings: data, handler: handler)
+    open func saveSettings(_ handler:@escaping (OtsimoError) -> Void) {
+        if let data = ChildGame.DataOfSettingsValues(self.settingsValues){
+            Otsimo.sharedInstance.updateSettings(gameID: gameID, childID: childID, settings: data, handler: handler)
+        }
     }
 
-    public static func InitSettingsValues(data: NSData) -> SettingsValues {
+    open static func InitSettingsValues(_ data: Data) -> SettingsValues {
         do {
             var sv = SettingsValues()
-            if data.length > 0 {
-                let object: AnyObject = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers)
+            if data.count > 0 {
+                let object = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableContainers)
                 if let o = object as? [String: AnyObject] {
                     for (k, v) in o {
                         switch (v) {
@@ -222,7 +223,7 @@ public class ChildGame {
                         case let f as Float64:
                             sv[k] = SettingsPropertyValue.Float(key: k, value: f)
                         case let str as String:
-                            sv[k] = SettingsPropertyValue.Text(key: k, value: str)
+                            sv[k] = SettingsPropertyValue.text(key: k, value: str)
                         default:
                             Log.debug("non supporting value type \(k)")
                         }
@@ -238,14 +239,14 @@ public class ChildGame {
         }
     }
 
-    public static func DataOfSettingsValues(settings: SettingsValues) -> NSData! {
+    open static func DataOfSettingsValues(_ settings: SettingsValues) -> Data! {
         var dictionary = [String: AnyObject]()
 
         for v in settings.values {
             dictionary[v.key] = v.value
         }
 
-        return try? NSJSONSerialization.dataWithJSONObject(dictionary, options: NSJSONWritingOptions())
+        return try? JSONSerialization.data(withJSONObject: dictionary, options: JSONSerialization.WritingOptions())
     }
 }
 
@@ -256,6 +257,6 @@ extension OTSChild {
         for e in gameEntries {
             chs.append(ChildGame(entry: e, childID: id_p))
         }
-        return chs.sort { $0.index < $1.index }
+        return chs.sorted { $0.index < $1.index }
     }
 }

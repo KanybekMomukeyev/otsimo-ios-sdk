@@ -18,17 +18,17 @@ class ChildGameController: UITableViewController, SettingsPropertyDelegate {
         initInfo(childGame.manifest!)
     }
 
-    func initInfo(gm: GameManifest) {
+    func initInfo(_ gm: GameManifest) {
         navigationItem.title = childGame.manifest!.localVisibleName
     }
 
     // MARK: - Table view data source
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
             return 3
         } else if let gs = self.childGame.settings {
@@ -37,25 +37,25 @@ class ChildGameController: UITableViewController, SettingsPropertyDelegate {
         return 0
     }
 
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        if indexPath.section == 0 {
-            switch (indexPath.row) {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if (indexPath as NSIndexPath).section == 0 {
+            switch ((indexPath as NSIndexPath).row) {
             case 0:
-                let cell = tableView.dequeueReusableCellWithIdentifier("child_game_info_cell", forIndexPath: indexPath)
+                let cell = tableView.dequeueReusableCell(withIdentifier: "child_game_info_cell", for: indexPath)
                 cell.textLabel?.text = "\(childGame.manifest!.manifest.uniqueName)"
                 return cell
             case 1:
-                let cell = tableView.dequeueReusableCellWithIdentifier("child_game_info_cell", forIndexPath: indexPath)
+                let cell = tableView.dequeueReusableCell(withIdentifier: "child_game_info_cell", for: indexPath)
                 cell.textLabel?.text = "Index: \(childGame.index)"
                 return cell
             case 2:
-                let cell = tableView.dequeueReusableCellWithIdentifier("child_game_info_boolean_cell", forIndexPath: indexPath) as! BooleanCellViewCell
+                let cell = tableView.dequeueReusableCell(withIdentifier: "child_game_info_boolean_cell", for: indexPath) as! BooleanCellViewCell
                 cell.titleLabel!.text = "Active"
-                cell.booleanSwitch.on = childGame.isActive
+                cell.booleanSwitch.isOn = childGame.isActive
                 cell.delegate = self
                 return cell
             default:
-                let cell = tableView.dequeueReusableCellWithIdentifier("child_game_info_cell", forIndexPath: indexPath)
+                let cell = tableView.dequeueReusableCell(withIdentifier: "child_game_info_cell", for: indexPath)
                 cell.textLabel?.text = "unknown"
                 return cell
             }
@@ -65,16 +65,16 @@ class ChildGameController: UITableViewController, SettingsPropertyDelegate {
         }
     }
 
-    func createSettingsCell(tableView: UITableView, index: NSIndexPath) -> UITableViewCell {
+    func createSettingsCell(_ tableView: UITableView, index: IndexPath) -> UITableViewCell {
         let prop = childGame.settings!.properties[index.row]
-        let cell = tableView.dequeueReusableCellWithIdentifier("settings_property_cell", forIndexPath: index) as!SettingsPropertyViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "settings_property_cell", for: index) as!SettingsPropertyViewCell
 
         cell.initFromProperty(prop.key, childGame: self.childGame, delegate: self)
 
         return cell
     }
 
-    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if section == 0 {
             return "info"
         } else {
@@ -82,18 +82,18 @@ class ChildGameController: UITableViewController, SettingsPropertyDelegate {
         }
     }
 
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if indexPath.section == 0 {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if (indexPath as NSIndexPath).section == 0 {
             return
         }
 //        print(games[indexPath.row].uniqueName, "pressed")
     }
 
-    func propertyValueChanged(value: SettingsPropertyValue) {
+    func propertyValueChanged(_ value: SettingsPropertyValue) {
         childGame.updateValue(value)
         childGame.saveSettings { e in
             switch (e) {
-            case .None:
+            case .none:
                 print("saved")
             default:
                 print("failed to save error:\(e)")
@@ -101,7 +101,7 @@ class ChildGameController: UITableViewController, SettingsPropertyDelegate {
         }
     }
 
-    func activationValueChanged(value: Bool) {
+    func activationValueChanged(_ value: Bool) {
         childGame.isActive = value
     }
 }

@@ -8,7 +8,7 @@
 
 import UIKit
 import OtsimoSDK
-import Haneke
+import Kingfisher
 import OtsimoApiGrpc
 
 class AddGameToChildViewController: UIViewController {
@@ -26,7 +26,7 @@ class AddGameToChildViewController: UIViewController {
         self.tableView.dataSource = self
         self.tableView.delegate = self
         otsimo.getChildren() {cl, err in
-            self.childList.appendContentsOf(cl)
+            self.childList.append(contentsOf: cl)
             self.tableView.reloadData()
         }
         if let g = game {
@@ -34,26 +34,26 @@ class AddGameToChildViewController: UIViewController {
         }
     }
     
-    func initGame(gm: GameManifest?, err: OtsimoError) -> Void {
+    func initGame(_ gm: GameManifest?, err: OtsimoError) -> Void {
         if let g = gm {
-            iconImageView.hnk_setImageFromURL(NSURL(string: g.localIcon)!)
+            iconImageView.kf_setImage(with: URL(string: g.localIcon))
             infoLabel.text = "\(g.localVisibleName)\nselect childs to add game"
         }
     }
     
-    @IBAction func addPressed(sender: AnyObject) {
+    @IBAction func addPressed(_ sender: AnyObject) {
         for i in tableView.indexPathsForSelectedRows! {
-            addGameToChild(childList[i.row])
+            addGameToChild(childList[(i as NSIndexPath).row])
         }
-        dismissViewControllerAnimated(true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func cancelTouched(sender: UIButton) {
-        dismissViewControllerAnimated(true, completion: nil)
+    @IBAction func cancelTouched(_ sender: UIButton) {
+        dismiss(animated: true, completion: nil)
     }
     
-    func addGameToChild(child: OTSChild) {
-        otsimo.addGameToChild(game!.id, childID: child.id_p,
+    func addGameToChild(_ child: OTSChild) {
+        otsimo.addGameToChild(gameID: game!.id, childID: child.id_p,
             index: Int32(child.gamesArray.count),
             settings: game!.defaultSettings()) {res in
             print("add game finished with \(res)")
@@ -62,31 +62,31 @@ class AddGameToChildViewController: UIViewController {
 }
 
 extension AddGameToChildViewController: UITableViewDataSource {
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return childList.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("add_game_to_child_cell", forIndexPath: indexPath)
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "add_game_to_child_cell", for: indexPath)
         
         // Configure the cell...
-        let c = childList[indexPath.row]
+        let c = childList[(indexPath as NSIndexPath).row]
         cell.textLabel!.text = "\(c.firstName) \(c.lastName)"
-        cell.accessoryType = UITableViewCellAccessoryType.None;
+        cell.accessoryType = UITableViewCellAccessoryType.none;
         return cell
     }
 }
 
 extension AddGameToChildViewController: UITableViewDelegate {
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let cell = tableView.cellForRowAtIndexPath(indexPath)!
-        cell.accessoryType = UITableViewCellAccessoryType.Checkmark
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath)!
+        cell.accessoryType = UITableViewCellAccessoryType.checkmark
     }
     
-    func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
-        let cell = tableView.cellForRowAtIndexPath(indexPath)!
-        cell.accessoryType = UITableViewCellAccessoryType.None
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath)!
+        cell.accessoryType = UITableViewCellAccessoryType.none
     }
 }
 

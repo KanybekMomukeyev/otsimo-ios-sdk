@@ -23,12 +23,12 @@ internal final class Connection {
     internal init(config: ClientConfig) {
         self.config = config
         if (!config.useTls) {
-            GRPCCall.useInsecureConnectionsForHost(config.apiGrpcUrl)
-            GRPCCall.useInsecureConnectionsForHost(config.registryGrpcUrl)
-            GRPCCall.useInsecureConnectionsForHost(config.catalogGrpcUrl)
-            GRPCCall.useInsecureConnectionsForHost(config.listenerGrpcUrl)
-            GRPCCall.useInsecureConnectionsForHost(config.watchGrpcUrl)
-            GRPCCall.useInsecureConnectionsForHost(config.contentGrpcUrl)
+            GRPCCall.useInsecureConnections(forHost: config.apiGrpcUrl)
+            GRPCCall.useInsecureConnections(forHost: config.registryGrpcUrl)
+            GRPCCall.useInsecureConnections(forHost: config.catalogGrpcUrl)
+            GRPCCall.useInsecureConnections(forHost: config.listenerGrpcUrl)
+            GRPCCall.useInsecureConnections(forHost: config.watchGrpcUrl)
+            GRPCCall.useInsecureConnections(forHost: config.contentGrpcUrl)
         }
         apiService = OTSApiService(host: config.apiGrpcUrl)
         catalogService = OTSCatalogService(host: config.catalogGrpcUrl)
@@ -39,21 +39,21 @@ internal final class Connection {
         dashboardService = DashboardService(host: config.dashboardGrpcUrl)
     }
 
-    func getProfile(session: Session, handler: (OTSProfile?, OtsimoError) -> Void) {
+    func getProfile(_ session: Session, handler: @escaping (OTSProfile?, OtsimoError) -> Void) {
         let request = OTSGetProfileRequest()
         request.id_p = session.profileID
-        let RPC = apiService.RPCToGetProfileWithRequest(request) { response, error in
+        let RPC = apiService.rpcToGetProfile(with: request) { response, error in
             if let response = response {
-                onMainThread { handler(response, OtsimoError.None) }
+                onMainThread { handler(response, OtsimoError.none) }
             } else {
                 Log.error("getProfile: Finished with error: \(error!)")
-                onMainThread { handler(nil, OtsimoError.ServiceError(message: "\(error)")) }
+                onMainThread { handler(nil, OtsimoError.serviceError(message: "\(error)")) }
             }
         }
 
         session.getAuthorizationHeader { header, err in
             switch (err) {
-            case .None:
+            case .none:
                 RPC.oauth2AccessToken = header
                 RPC.start()
             default:
@@ -62,24 +62,24 @@ internal final class Connection {
         }
     }
 
-    func addChild(session: Session, child: OTSChild, handler: (OtsimoError) -> Void) {
+    func addChild(_ session: Session, child: OTSChild, handler: @escaping (OtsimoError) -> Void) {
         child.parentId = session.profileID
 
-        let RPC = apiService.RPCToAddChildWithRequest(child) { response, error in
+        let RPC = apiService.rpcToAddChild(withRequest: child) { response, error in
             if let response = response {
                 if response.type == 0 {
-                    onMainThread { handler(OtsimoError.None) }
+                    onMainThread { handler(OtsimoError.none) }
                 } else {
-                    onMainThread { handler(OtsimoError.ServiceError(message: "code:\(response.type),message:\(response.message!)")) }
+                    onMainThread { handler(OtsimoError.serviceError(message: "code:\(response.type),message:\(response.message!)")) }
                 }
             } else {
                 Log.error("addChild, Finished with error: \(error!)")
-                onMainThread { handler(OtsimoError.ServiceError(message: "\(error)")) }
+                onMainThread { handler(OtsimoError.serviceError(message: "\(error)")) }
             }
         }
         session.getAuthorizationHeader { header, err in
             switch (err) {
-            case .None:
+            case .none:
                 RPC.oauth2AccessToken = header
                 RPC.start()
             default:
@@ -88,35 +88,35 @@ internal final class Connection {
         }
     }
 
-    func getChild(session: Session, childId: String, handler: (res: OTSChild?, err: OtsimoError) -> Void) {
+    func getChild(_ session: Session, childId: String, handler: @escaping (_ res: OTSChild?, _ err: OtsimoError) -> Void) {
         let req = OTSGetChildRequest()
         req.childId = childId
 
-        let RPC = apiService.RPCToGetChildWithRequest(req) { response, error in
+        let RPC = apiService.rpcToGetChild(with: req) { response, error in
             if let response = response {
-                onMainThread { handler(res: response, err: .None) }
+                onMainThread { handler(response, .none) }
             } else {
                 Log.error("getChild, Finished with error: \(error!)")
-                onMainThread { handler(res: nil, err: OtsimoError.ServiceError(message: "\(error)")) }
+                onMainThread { handler(nil, OtsimoError.serviceError(message: "\(error)")) }
             }
         }
 
         session.getAuthorizationHeader { header, err in
             switch (err) {
-            case .None:
+            case .none:
                 RPC.oauth2AccessToken = header
                 RPC.start()
             default:
-                handler(res: nil, err: err)
+                handler(nil, err)
             }
         }
     }
 
-    func getChildren(session: Session, handler: (res: [OTSChild], err: OtsimoError) -> Void) {
+    func getChildren(_ session: Session, handler: @escaping (_ res: [OTSChild], _ err: OtsimoError) -> Void) {
         let req = OTSGetChildrenFromProfileRequest()
         req.profileId = session.profileID
 
-        let RPC = apiService.RPCToGetChildrenWithRequest(req) { response, error in
+        let RPC = apiService.rpcToGetChildren(with: req) { response, error in
             if let response = response {
                 var r: [OTSChild] = []
                 for i in 0 ..< Int(response.childrenArray_Count) {
@@ -125,41 +125,41 @@ internal final class Connection {
                         r.append(child)
                     }
                 }
-                onMainThread { handler(res: r, err: .None) }
+                onMainThread { handler(r, .none) }
             } else {
-                onMainThread { handler(res: [], err: OtsimoError.ServiceError(message: "\(error)")) }
+                onMainThread { handler([], OtsimoError.serviceError(message: "\(error)")) }
                 Log.error("getChildren, Finished with error: \(error!)")
             }
         }
 
         session.getAuthorizationHeader { header, err in
             switch (err) {
-            case .None:
+            case .none:
                 RPC.oauth2AccessToken = header
                 RPC.start()
             default:
-                handler(res: [], err: err)
+                handler([], err)
             }
         }
     }
 
-    func updateGameEntry(session: Session, req: OTSGameEntryRequest, handler: (OtsimoError) -> Void) {
-        let RPC = apiService.RPCToUpdateGameEntryWithRequest(req) { response, error in
+    func updateGameEntry(_ session: Session, req: OTSGameEntryRequest, handler: @escaping (OtsimoError) -> Void) {
+        let RPC = apiService.rpcToUpdateGameEntry(with: req) { response, error in
             if let response = response {
                 if response.type == 0 {
-                    onMainThread { handler(OtsimoError.None) }
+                    onMainThread { handler(OtsimoError.none) }
                 } else {
-                    onMainThread { handler(OtsimoError.ServiceError(message: "code:\(response.type),message:\(response.message!)")) }
+                    onMainThread { handler(OtsimoError.serviceError(message: "code:\(response.type),message:\(response.message!)")) }
                 }
             } else {
                 Log.error("updateGameEntry, Finished with error: \(error!)")
-                onMainThread { handler(OtsimoError.ServiceError(message: "\(error)")) }
+                onMainThread { handler(OtsimoError.serviceError(message: "\(error)")) }
             }
         }
 
         session.getAuthorizationHeader { header, err in
             switch (err) {
-            case .None:
+            case .none:
                 RPC.oauth2AccessToken = header
                 RPC.start()
             default:
@@ -168,23 +168,23 @@ internal final class Connection {
         }
     }
 
-    func updateChildAppSound(session: Session, req: OTSSoundEnableRequest, handler: (OtsimoError) -> Void) {
-        let RPC = apiService.RPCToSoundEnableWithRequest(req) { response, error in
+    func updateChildAppSound(_ session: Session, req: OTSSoundEnableRequest, handler: @escaping (OtsimoError) -> Void) {
+        let RPC = apiService.rpcToSoundEnable(with: req) { response, error in
             if let response = response {
                 if response.type == 0 {
-                    onMainThread { handler(OtsimoError.None) }
+                    onMainThread { handler(OtsimoError.none) }
                 } else {
-                    onMainThread { handler(OtsimoError.ServiceError(message: "code:\(response.type),message:\(response.message!)")) }
+                    onMainThread { handler(OtsimoError.serviceError(message: "code:\(response.type),message:\(response.message!)")) }
                 }
             } else {
                 Log.error("updateChildAppSound, Finished with error: \(error!)")
-                onMainThread { handler(OtsimoError.ServiceError(message: "\(error)")) }
+                onMainThread { handler(OtsimoError.serviceError(message: "\(error)")) }
             }
         }
 
         session.getAuthorizationHeader { header, err in
             switch (err) {
-            case .None:
+            case .none:
                 RPC.oauth2AccessToken = header
                 RPC.start()
             default:
@@ -193,25 +193,25 @@ internal final class Connection {
         }
     }
 
-    func updateProfile(session: Session, profile: OTSProfile, handler: (OtsimoError) -> Void) {
+    func updateProfile(_ session: Session, profile: OTSProfile, handler: @escaping (OtsimoError) -> Void) {
         profile.id_p = session.profileID
 
-        let RPC = apiService.RPCToUpdateProfileWithRequest(profile) { response, error in
+        let RPC = apiService.rpcToUpdateProfile(withRequest: profile) { response, error in
             if let response = response {
                 if response.type == 0 {
-                    onMainThread { handler(OtsimoError.None) }
+                    onMainThread { handler(OtsimoError.none) }
                 } else {
-                    onMainThread { handler(OtsimoError.ServiceError(message: "code:\(response.type),message:\(response.message!)")) }
+                    onMainThread { handler(OtsimoError.serviceError(message: "code:\(response.type),message:\(response.message!)")) }
                 }
             } else {
                 Log.error("updateProfile, Finished with error: \(error!)")
-                onMainThread { handler(OtsimoError.ServiceError(message: "\(error)")) }
+                onMainThread { handler(OtsimoError.serviceError(message: "\(error)")) }
             }
         }
 
         session.getAuthorizationHeader { header, err in
             switch (err) {
-            case .None:
+            case .none:
                 RPC.oauth2AccessToken = header
                 RPC.start()
             default:
@@ -220,26 +220,26 @@ internal final class Connection {
         }
     }
 
-    func updateChild(session: Session, id: String, parentID: String, child: OTSChild, handler: (OtsimoError) -> Void) {
+    func updateChild(_ session: Session, id: String, parentID: String, child: OTSChild, handler: @escaping (OtsimoError) -> Void) {
         child.id_p = id
         child.parentId = parentID
 
-        let RPC = apiService.RPCToUpdateChildWithRequest(child) { response, error in
+        let RPC = apiService.rpcToUpdateChild(withRequest: child) { response, error in
             if let response = response {
                 if response.type == 0 {
-                    onMainThread { handler(OtsimoError.None) }
+                    onMainThread { handler(OtsimoError.none) }
                 } else {
-                    onMainThread { handler(OtsimoError.ServiceError(message: "code:\(response.type),message:\(response.message!)")) }
+                    onMainThread { handler(OtsimoError.serviceError(message: "code:\(response.type),message:\(response.message!)")) }
                 }
             } else {
                 Log.error("updateChild, Finished with error: \(error!)")
-                onMainThread { handler(OtsimoError.ServiceError(message: "\(error)")) }
+                onMainThread { handler(OtsimoError.serviceError(message: "\(error)")) }
             }
         }
 
         session.getAuthorizationHeader { header, err in
             switch (err) {
-            case .None:
+            case .none:
                 RPC.oauth2AccessToken = header
                 RPC.start()
             default:
@@ -248,98 +248,82 @@ internal final class Connection {
         }
     }
 
-    func getCurrentCatalog(session: Session, req: OTSCatalogPullRequest, handler: (res: OTSCatalog?, err: OtsimoError) -> Void) {
-        let RPC = catalogService.RPCToPullWithRequest(req) { response, error in
+    func getCurrentCatalog(_ session: Session, req: OTSCatalogPullRequest, handler: @escaping (_ res: OTSCatalog?, _ err: OtsimoError) -> Void) {
+        let RPC = catalogService.rpcToPull(with: req) { response, error in
             if let response = response {
-                onMainThread { handler(res: response, err: OtsimoError.None) }
+                onMainThread { handler(response, OtsimoError.none) }
             } else {
                 Log.error("getCurrentCatalog, Finished with error: \(error!)")
-                onMainThread { handler(res: nil, err: OtsimoError.ServiceError(message: "\(error)")) }
+                onMainThread { handler(nil, OtsimoError.serviceError(message: "\(error)")) }
             }
         }
         session.getAuthorizationHeader { header, err in
             switch (err) {
-            case .None:
+            case .none:
                 RPC.oauth2AccessToken = header
                 RPC.start()
             default:
-                handler(res: nil, err: err)
+                handler(nil, err)
             }
         }
     }
 
-    func getGameRelease(session: Session, gameID: String, version: String?, onlyProduction: Bool?, handler: (res: OTSGameRelease?, err: OtsimoError) -> Void) {
+    func getGameRelease(gameID: String, version: String?, onlyProduction: Bool?, handler: @escaping (_ res: OTSGameRelease?, _ err: OtsimoError) -> Void) {
         let req = OTSGetGameReleaseRequest()
         req.gameId = gameID
         req.version = version
         if let prod = onlyProduction {
             if prod {
-                req.state = OTSRequestReleaseState.ProductionState
+                req.state = OTSRequestReleaseState.productionState
             } else {
-                req.state = OTSRequestReleaseState.AllStates
+                req.state = OTSRequestReleaseState.allStates
             }
         } else {
-            req.state = OTSRequestReleaseState.ProductionState
+            req.state = OTSRequestReleaseState.productionState
         }
 
-        let RPC = registryService.RPCToGetReleaseWithRequest(req) { response, error in
+        let RPC = registryService.rpcToGetRelease(with: req) { response, error in
             if let response = response {
-                onMainThread { handler(res: response, err: OtsimoError.None) }
+                onMainThread { handler(response, OtsimoError.none) }
             } else {
                 Log.error("getGameRelease, Finished with error: \(error!)")
-                onMainThread { handler(res: nil, err: OtsimoError.ServiceError(message: "\(error)")) }
+                onMainThread { handler(nil, OtsimoError.serviceError(message: "\(error)")) }
             }
         }
-        session.getAuthorizationHeader { header, err in
-            switch (err) {
-            case .None:
-                RPC.oauth2AccessToken = header
-                RPC.start()
-            default:
-                handler(res: nil, err: err)
-            }
-        }
+        RPC.start()
     }
 
-    func getAllGamesStream(language:String?,session: Session, handler: (OTSListItem?, done: Bool, err: OtsimoError) -> Void) {
+    func getAllGamesStream(_ language:String?, handler: @escaping (OTSListItem?, _ done: Bool, _ err: OtsimoError) -> Void) {
         let req = OTSListGamesRequest()
-        req.releaseState = OTSListGamesRequest_InnerState.Production
+        req.releaseState = OTSListGamesRequest_InnerState.production
         req.limit = 32
         req.language = language
         
-        let RPC = registryService.RPCToListGamesWithRequest(req) { done, response, error in
+        let RPC = registryService.rpcToListGames(with: req) { done, response, error in
             if let response = response {
-                onMainThread { handler(response, done: false, err: OtsimoError.None) }
+                onMainThread { handler(response, false, OtsimoError.none) }
             } else if (!done) {
                 Log.error("getAllGames, Finished with error: \(error!)")
-                onMainThread { handler(nil, done: true, err: OtsimoError.ServiceError(message: "\(error)")) }
+                onMainThread { handler(nil, true, OtsimoError.serviceError(message: "\(error)")) }
                 return
             }
             if (done) {
-                onMainThread { handler(nil, done: true, err: OtsimoError.None) }
+                onMainThread { handler(nil, true, OtsimoError.none) }
             }
         }
-        session.getAuthorizationHeader { header, err in
-            switch (err) {
-            case .None:
-                RPC.oauth2AccessToken = header
-                RPC.start()
-            default:
-                handler(nil, done: true, err: err)
-            }
-        }
+        RPC.start()
     }
 
-    func gamesLatestVersions(session: Session, gameIDs: [String], handler: ([OTSGameAndVersion], err: OtsimoError) -> Void) {
+    func gamesLatestVersions(gameIDs: [String], handler: @escaping ([OTSGameAndVersion], _ err: OtsimoError) -> Void) {
         let req: OTSGetLatestVersionsRequest = OTSGetLatestVersionsRequest()
         if config.onlyProduction {
-            req.state = OTSRequestReleaseState.ProductionState
+            req.state = OTSRequestReleaseState.productionState
         } else {
-            req.state = OTSRequestReleaseState.AllStates
+            req.state = OTSRequestReleaseState.allStates
         }
         req.gameIdsArray = NSMutableArray(array: gameIDs)
 
-        let RPC = registryService.RPCToGetLatestVersionsWithRequest(req) { resp, err in
+        let RPC = registryService.rpcToGetLatestVersions(with: req) { resp, err in
             if let resp = resp {
                 var r: [OTSGameAndVersion] = []
                 for i in 0 ..< Int(resp.resultsArray_Count) {
@@ -348,59 +332,51 @@ internal final class Connection {
                         r.append(g)
                     }
                 }
-                onMainThread { handler(r, err: .None) }
+                onMainThread { handler(r, .none) }
             } else {
-                onMainThread { handler([], err: OtsimoError.ServiceError(message: "\(err)")) }
+                onMainThread { handler([], OtsimoError.serviceError(message: "\(err)")) }
             }
         }
-        session.getAuthorizationHeader { header, err in
-            switch (err) {
-            case .None:
-                RPC.oauth2AccessToken = header
-                RPC.start()
-            default:
-                handler([], err: err)
-            }
-        }
+        RPC.start()
     }
 
-    func getDashboard(session: Session, childID: String, lang: String, time: Int64?, handler: (dashboard: DashboardItems?, err: OtsimoError) -> Void) {
+    func getDashboard(_ session: Session, childID: String, lang: String, time: Int64?, handler: @escaping (_ dashboard: DashboardItems?, _ err: OtsimoError) -> Void) {
         let req = DashboardGetRequest()
         req.profileId = session.profileID
         req.childId = childID
         req.language = lang
-        req.appVersion = NSBundle.mainBundle().infoDictionary!["CFBundleVersion"] as! String
-        req.countryCode = NSLocale.currentLocale().objectForKey(NSLocaleCountryCode) as! String
+        req.appVersion = Bundle.main.infoDictionary!["CFBundleVersion"] as! String
+        req.countryCode = (Locale.current as NSLocale).object(forKey: NSLocale.Key.countryCode) as! String
         if let t = time {
             req.lastTimeDataFetched = t
         } else {
             req.lastTimeDataFetched = 0
         }
 
-        let RPC = dashboardService.RPCToGetWithRequest(req) { response, error in
+        let RPC = dashboardService.rpcToGet(with: req) { response, error in
             if let response = response {
-                onMainThread { handler(dashboard: response, err: OtsimoError.None) }
+                onMainThread { handler(response, OtsimoError.none) }
             } else {
-                onMainThread { handler(dashboard: nil, err: OtsimoError.ServiceError(message: "\(error)")) }
+                onMainThread { handler(nil, OtsimoError.serviceError(message: "\(error)")) }
             }
         }
 
         session.getAuthorizationHeader { header, err in
             switch (err) {
-            case .None:
+            case .none:
                 RPC.oauth2AccessToken = header
                 RPC.start()
             default:
-                handler(dashboard: nil, err: err)
+                handler(nil, err)
             }
         }
     }
 
-    func getContents(session: Session, req: OTSContentListRequest, handler: (ver: Int, res: [OTSContent], err: OtsimoError) -> Void) {
+    func getContents(_ session: Session, req: OTSContentListRequest, handler: @escaping (_ ver: Int, _ res: [OTSContent], _ err: OtsimoError) -> Void) {
         req.profileId = session.profileID
         req.clientVersion = Otsimo.sdkVersion
 
-        let RPC: GRPCProtoCall = contentService.RPCToListWithRequest(req) { response, error in
+        let RPC: GRPCProtoCall = contentService.rpcToList(with: req) { response, error in
             if let response = response {
                 var r: [OTSContent] = []
                 for i in 0 ..< Int(response.contentsArray_Count) {
@@ -410,63 +386,63 @@ internal final class Connection {
                     }
                 }
                 onMainThread {
-                    handler(ver: Int(response.assetVersion), res: r, err: .None)
+                    handler(Int(response.assetVersion), r, .none)
                 }
             } else {
-                onMainThread { handler(ver: 0, res: [], err: OtsimoError.ServiceError(message: "\(error)")) }
+                onMainThread { handler(0, [], OtsimoError.serviceError(message: "\(error)")) }
                 Log.error("getContents, Finished with error: \(error!)")
             }
         }
         RPC.start()
     }
 
-    func getContent(session: Session, slug: String, handler: (res: OTSContent?, err: OtsimoError) -> Void) {
+    func getContent(_ session: Session, slug: String, handler: @escaping (_ res: OTSContent?, _ err: OtsimoError) -> Void) {
         let req = OTSContentGetRequest()
         req.slug = slug
-        let RPC = contentService.RPCToGetWithRequest(req) { response, error in
+        let RPC = contentService.rpcToGet(with: req) { response, error in
             if let response = response {
-                onMainThread { handler(res: response, err: .None) }
+                onMainThread { handler(response, .none) }
             } else {
-                onMainThread { handler(res: nil, err: OtsimoError.ServiceError(message: "\(error)")) }
+                onMainThread { handler(nil, OtsimoError.serviceError(message: "\(error)")) }
                 Log.error("getContent, Finished with error: \(error!)")
             }
         }
         RPC.start()
     }
 
-    func login(email: String, plainPassword: String, handler: (res: TokenResult, session: Session?) -> Void) {
+    func login(_ email: String, plainPassword: String, handler: @escaping (_ res: TokenResult, _ session: Session?) -> Void) {
         let grant_type = "password"
         let urlPath: String = "\(config.accountsServiceUrl)/login"
-        let emailTrimmed = email.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+        let emailTrimmed = email.trimmingCharacters(in: CharacterSet.whitespaces)
         let postString = "username=\(emailTrimmed)&password=\(plainPassword)&grant_type=\(grant_type)&client_id=\(config.clientID)"
         httpRequestWithTokenResult(urlPath, postString: postString, handler: handler)
     }
 
-    func login(connector: String, accessToken: String, handler: (res: TokenResult, session: Session?) -> Void) {
+    func login(_ connector: String, accessToken: String, handler: @escaping (_ res: TokenResult, _ session: Session?) -> Void) {
         let grant_type = "password"
         let urlPath: String = "\(config.accountsServiceUrl)/remote"
-        let locale = NSLocale.currentLocale()
-        let localeIdent = NSLocale.currentLocale().objectForKey(NSLocaleIdentifier) as! String
-        let tz = NSTimeZone.localTimeZone().secondsFromGMT / 3600
-        let countryCode = locale.objectForKey(NSLocaleCountryCode) as! String
+        let locale = Locale.current
+        let localeIdent = (Locale.current as NSLocale).object(forKey: NSLocale.Key.identifier) as! String
+        let tz = NSTimeZone.local.secondsFromGMT() / 3600
+        let countryCode = (locale as NSLocale).object(forKey: NSLocale.Key.countryCode) as! String
         let postString = "connector=\(connector)&access_token=\(accessToken)&grant_type=\(grant_type)&client_id=\(config.clientID)&locale=\(localeIdent)&timezone=\(tz)&country=\(countryCode)"
         httpRequestWithTokenResult(urlPath, postString: postString, handler: handler)
     }
 
-    func register(data: RegistrationData, handler: (res: TokenResult, session: Session?) -> Void) {
+    func register(_ data: RegistrationData, handler: @escaping (_ res: TokenResult, _ session: Session?) -> Void) {
         let urlPath: String = "\(config.accountsServiceUrl)/register"
-        let tz = NSTimeZone.localTimeZone().secondsFromGMT / 3600
+        let tz = NSTimeZone.local.secondsFromGMT() / 3600
         let postString = "username=\(data.email)&password=\(data.password)&first_name=\(data.firstName)&last_name=\(data.lastName)&country=\(data.country)&locale=\(data.locale)&client_id=\(config.clientID)&connector=local&timezone=\(tz)"
         httpRequestWithTokenResult(urlPath, postString: postString, handler: handler)
     }
 
-    func changePassword(session: Session, old: String, new: String, handler: (OtsimoError) -> Void) {
+    func changePassword(_ session: Session, old: String, new: String, handler: @escaping (OtsimoError) -> Void) {
         let urlPath: String = "\(config.accountsServiceUrl)/update/password"
         let postString = "user_id=\(session.profileID)&old_password=\(old)&new_password=\(new)"
 
         session.getAuthorizationHeader { header, err in
             switch (err) {
-            case .None:
+            case .none:
                 self.httpPostRequestWithToken(urlPath, postString: postString, authorization: header) { d, err in
                     handler(err)
                 }
@@ -476,13 +452,13 @@ internal final class Connection {
         }
     }
 
-    func changeEmail(session: Session, old: String, new: String, handler: (OtsimoError) -> Void) {
+    func changeEmail(_ session: Session, old: String, new: String, handler: @escaping (OtsimoError) -> Void) {
         let urlPath: String = "\(config.accountsServiceUrl)/update/email"
         let postString = "old_email=\(old)&new_email=\(new)"
 
         session.getAuthorizationHeader { header, err in
             switch (err) {
-            case .None:
+            case .none:
                 self.httpPostRequestWithToken(urlPath, postString: postString, authorization: header) { d, err in
                     handler(err)
                 }
@@ -492,18 +468,18 @@ internal final class Connection {
         }
     }
 
-    func getIdentities(session: Session, handler: ([String: String], OtsimoError) -> Void) {
+    func getIdentities(_ session: Session, handler: @escaping ([String: String], OtsimoError) -> Void) {
         let urlPath: String = "\(config.accountsServiceUrl)/user/identities"
         session.getAuthorizationHeader { header, err in
             switch (err) {
-            case .None:
+            case .none:
                 self.httpPostRequestWithToken(urlPath, postString: "", authorization: header) { d, err in
                     switch (err) {
-                    case .None:
+                    case .none:
                         if let res = d as? [String: String] {
-                            handler(res, .None)
+                            handler(res, .none)
                         } else {
-                            handler([String: String](), OtsimoError.General(message: "invalid response"))
+                            handler([String: String](), OtsimoError.general(message: "invalid response"))
                         }
                     default:
                         handler([String: String](), err)
@@ -515,7 +491,7 @@ internal final class Connection {
         }
     }
 
-    func resetPassword(email: String, handler: (OtsimoError) -> Void) {
+    func resetPassword(_ email: String, handler: @escaping (OtsimoError) -> Void) {
         let urlPath: String = "\(config.accountsServiceUrl)/reset"
         let postString = "email=\(email)"
         httpPostRequest(urlPath, postString: postString, handler: handler)
@@ -523,28 +499,28 @@ internal final class Connection {
 
     // http requests
 
-    func httpRequestWithTokenResult(urlPath: String, postString: String, handler: (res: TokenResult, session: Session?) -> Void) {
-        let request = NSMutableURLRequest(URL: NSURL(string: urlPath)!)
-        request.HTTPMethod = "POST"
+    func httpRequestWithTokenResult(_ urlPath: String, postString: String, handler: @escaping (_ res: TokenResult, _ session: Session?) -> Void) {
+        var request = URLRequest(url: URL(string: urlPath)!)
+        request.httpMethod = "POST"
         request.setValue("application/x-www-form-urlencoded; charset=utf-8", forHTTPHeaderField: "Content-Type")
-        request.HTTPBody = postString.dataUsingEncoding(NSUTF8StringEncoding)
+        request.httpBody = postString.data(using: String.Encoding.utf8)
         request.timeoutInterval = 20
-        request.cachePolicy = .ReloadIgnoringLocalAndRemoteCacheData
+        request.cachePolicy = .reloadIgnoringLocalAndRemoteCacheData
 
-        let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { data, response, error in
+        let task = URLSession.shared.dataTask(with: request, completionHandler: { data, response, error in
             guard error == nil && data != nil else { // check for fundamental networking error
-                onMainThread { handler(res: .Error(error: .NetworkError(message: "\(error)")), session: nil) }
+                onMainThread { handler(.error(error: .networkError(message: "\(error)")), nil) }
                 return
             }
             var isOK = true
-            if let httpStatus = response as? NSHTTPURLResponse where httpStatus.statusCode != 200 { // check for http errors
+            if let httpStatus = response as? HTTPURLResponse , httpStatus.statusCode != 200 { // check for http errors
                 isOK = false
             }
 
             do {
-                let JSON = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions(rawValue: 0))
+                let JSON = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions(rawValue: 0))
                 guard let JSONDictionary: NSDictionary = JSON as? NSDictionary else {
-                    onMainThread { handler(res: .Error(error: .InvalidResponse(message: "invalid response:not a dictionary")), session: nil) }
+                    onMainThread { handler(.error(error: .invalidResponse(message: "invalid response:not a dictionary")), nil) }
                     return
                 }
                 if isOK && JSONDictionary["error"] == nil {
@@ -556,14 +532,14 @@ internal final class Connection {
                     if let at = accessToken {
                         s.accessToken = at
                     } else {
-                        onMainThread { handler(res: .Error(error: .InvalidResponse(message: "invalid response: access_token is missing")), session: nil) }
+                        onMainThread { handler(.error(error: .invalidResponse(message: "invalid response: access_token is missing")), nil) }
                         return
                     }
 
                     if let rt = refreshToken {
                         s.refreshToken = rt
                     } else {
-                        onMainThread { handler(res: .Error(error: .InvalidResponse(message: "invalid response: refresh_token is missing")), session: nil) }
+                        onMainThread { handler(.error(error: .invalidResponse(message: "invalid response: refresh_token is missing")), nil) }
                         return
                     }
 
@@ -574,110 +550,110 @@ internal final class Connection {
                     }
                     let lr = s.loadToken()
                     switch (lr) {
-                    case .Success(_, _, _, _):
-                        onMainThread { handler(res: .Success, session: s) }
-                    case .Failure(let it):
-                        onMainThread { handler(res: .Error(error: OtsimoError.InvalidTokenError(error: it)), session: nil) }
+                    case .success(_, _, _, _):
+                        onMainThread { handler(.success, s) }
+                    case .failure(let it):
+                        onMainThread { handler(.error(error: OtsimoError.invalidTokenError(error: it)), nil) }
                     }
                 } else {
                     let e = JSONDictionary["error"]
                     if e != nil {
-                        onMainThread { handler(res: .Error(error: .InvalidResponse(message: "request failed: error= \(e)")), session: nil) }
+                        onMainThread { handler(.error(error: .invalidResponse(message: "request failed: error= \(e)")), nil) }
                     } else {
-                        onMainThread { handler(res: .Error(error: .InvalidResponse(message: "request failed: \(data)")), session: nil) }
+                        onMainThread { handler(.error(error: .invalidResponse(message: "request failed: \(data)")), nil) }
                     }
                 }
             }
             catch let JSONError as NSError {
-                onMainThread { handler(res: .Error(error: .InvalidResponse(message: "invalid response: \(JSONError)")), session: nil) }
+                onMainThread { handler(.error(error: .invalidResponse(message: "invalid response: \(JSONError)")), nil) }
             }
-        }
+        }) 
         task.resume()
     }
 
-    func httpPostRequest(urlPath: String, postString: String, handler: (error: OtsimoError) -> Void) {
-        let request = NSMutableURLRequest(URL: NSURL(string: urlPath)!)
-        request.HTTPMethod = "POST"
+    func httpPostRequest(_ urlPath: String, postString: String, handler: @escaping (_ error: OtsimoError) -> Void) {
+        var request = URLRequest(url: URL(string: urlPath)!)
+        request.httpMethod = "POST"
         request.setValue("application/x-www-form-urlencoded; charset=utf-8", forHTTPHeaderField: "Content-Type")
-        request.HTTPBody = postString.dataUsingEncoding(NSUTF8StringEncoding)
+        request.httpBody = postString.data(using: String.Encoding.utf8)
         request.timeoutInterval = 20
-        request.cachePolicy = .ReloadIgnoringLocalAndRemoteCacheData
+        request.cachePolicy = .reloadIgnoringLocalAndRemoteCacheData
 
-        let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { data, response, error in
+        let task = URLSession.shared.dataTask(with: request, completionHandler: { data, response, error in
             guard error == nil && data != nil else { // check for fundamental networking error
-                onMainThread { handler(error: .NetworkError(message: "\(error)")) }
+                onMainThread { handler(.networkError(message: "\(error)")) }
                 return
             }
             var isOK = true
-            if let httpStatus = response as? NSHTTPURLResponse where httpStatus.statusCode != 200 { // check for http errors
+            if let httpStatus = response as? HTTPURLResponse , httpStatus.statusCode != 200 { // check for http errors
                 isOK = false
             }
 
             do {
-                let JSON = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions(rawValue: 0))
+                let JSON = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions(rawValue: 0))
                 guard let JSONDictionary: NSDictionary = JSON as? NSDictionary else {
-                    onMainThread { handler(error: .InvalidResponse(message: "invalid response:not a dictionary")) }
+                    onMainThread { handler(.invalidResponse(message: "invalid response:not a dictionary")) }
                     return
                 }
                 if isOK && JSONDictionary["error"] == nil {
                     // todo
-                    onMainThread { handler(error: OtsimoError.None) }
+                    onMainThread { handler(OtsimoError.none) }
                 } else {
                     let e = JSONDictionary["error"]
                     if e != nil {
-                        onMainThread { handler(error: .InvalidResponse(message: "request failed: error= \(e)")) }
+                        onMainThread { handler(.invalidResponse(message: "request failed: error= \(e)")) }
                     } else {
-                        onMainThread { handler(error: .InvalidResponse(message: "request failed: \(data)")) }
+                        onMainThread { handler(.invalidResponse(message: "request failed: \(data)")) }
                     }
                 }
             }
             catch let JSONError as NSError {
-                onMainThread { handler(error: .InvalidResponse(message: "invalid response: \(JSONError)")) }
+                onMainThread { handler(.invalidResponse(message: "invalid response: \(JSONError)")) }
             }
-        }
+        }) 
         task.resume()
     }
 
-    func httpPostRequestWithToken(urlPath: String, postString: String, authorization: String,
-        handler: (NSDictionary?, error: OtsimoError) -> Void) {
-            let request = NSMutableURLRequest(URL: NSURL(string: urlPath)!)
-            request.HTTPMethod = "POST"
+    func httpPostRequestWithToken(_ urlPath: String, postString: String, authorization: String,
+        handler: @escaping (NSDictionary?, _ error: OtsimoError) -> Void) {
+            var request = URLRequest(url: URL(string: urlPath)!)
+            request.httpMethod = "POST"
             request.setValue("Bearer \(authorization)", forHTTPHeaderField: "authorization")
             request.setValue("application/x-www-form-urlencoded; charset=utf-8", forHTTPHeaderField: "Content-Type")
-            request.HTTPBody = postString.dataUsingEncoding(NSUTF8StringEncoding)
+            request.httpBody = postString.data(using: String.Encoding.utf8)
             request.timeoutInterval = 20
-            request.cachePolicy = .ReloadIgnoringLocalAndRemoteCacheData
+            request.cachePolicy = .reloadIgnoringLocalAndRemoteCacheData
 
-            let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { data, response, error in
+            let task = URLSession.shared.dataTask(with: request, completionHandler: { data, response, error in
                 guard error == nil && data != nil else { // check for fundamental networking error
-                    onMainThread { handler(nil, error: .NetworkError(message: "\(error)")) }
+                    onMainThread { handler(nil, .networkError(message: "\(error)")) }
                     return
                 }
                 var isOK = true
-                if let httpStatus = response as? NSHTTPURLResponse where httpStatus.statusCode != 200 { // check for http errors
+                if let httpStatus = response as? HTTPURLResponse , httpStatus.statusCode != 200 { // check for http errors
                     isOK = false
                 }
                 do {
-                    let JSON = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions(rawValue: 0))
+                    let JSON = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions(rawValue: 0))
                     guard let JSONDictionary: NSDictionary = JSON as? NSDictionary else {
-                        onMainThread { handler(nil, error: .InvalidResponse(message: "invalid response:not a dictionary")) }
+                        onMainThread { handler(nil, .invalidResponse(message: "invalid response:not a dictionary")) }
                         return
                     }
                     if isOK && JSONDictionary["error"] == nil {
-                        onMainThread { handler(JSONDictionary, error: OtsimoError.None) }
+                        onMainThread { handler(JSONDictionary, OtsimoError.none) }
                     } else {
                         let e = JSONDictionary["error"]
                         if e != nil {
-                            onMainThread { handler(nil, error: .InvalidResponse(message: "request failed: error= \(e)")) }
+                            onMainThread { handler(nil, .invalidResponse(message: "request failed: error= \(e)")) }
                         } else {
-                            onMainThread { handler(nil, error: .InvalidResponse(message: "request failed: \(data)")) }
+                            onMainThread { handler(nil, .invalidResponse(message: "request failed: \(data)")) }
                         }
                     }
                 }
                 catch let JSONError as NSError {
-                    onMainThread { handler(nil, error: .InvalidResponse(message: "invalid response: \(JSONError)")) }
+                    onMainThread { handler(nil, .invalidResponse(message: "invalid response: \(JSONError)")) }
                 }
-            }
+            }) 
             task.resume()
     }
 }

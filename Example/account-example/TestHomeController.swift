@@ -10,7 +10,7 @@ import UIKit
 import OtsimoSDK
 import OtsimoApiGrpc
 
-func watchCallback(event: OTSWatchEvent) {
+func watchCallback(_ event: OTSWatchEvent) {
     print("Watch: \(event)")
 }
 
@@ -27,9 +27,9 @@ class TestHomeController: UITableViewController {
         otsimo.sessionStatusChanged = onSessionStatusChanged
     }
 
-    func onSessionStatusChanged(ses: Session?) {
+    func onSessionStatusChanged(_ ses: Session?) {
         self.tableView.reloadData()
-        let (_, e) = otsimo.startWatch(watchCallback)
+        let (_, e) = otsimo.startWatch(callback: watchCallback)
         print("Watch: \(e)")
     }
 
@@ -40,40 +40,40 @@ class TestHomeController: UITableViewController {
 
     // MARK: - Table view data source
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return testEntries.count
     }
 
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("test_reuse_identifier", forIndexPath: indexPath)
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "test_reuse_identifier", for: indexPath as IndexPath)
 
         // Configure the cell...
-        let test = testEntries[indexPath.row]
+        let test = testEntries[(indexPath as NSIndexPath).row]
         cell.textLabel?.text = test.title
         if test.requiresAuth {
             if let auth = otsimo.session?.isAuthenticated {
                 if auth {
-                    cell.accessoryType = .DisclosureIndicator
-                    cell.textLabel?.textColor = UIColor.blackColor()
+                    cell.accessoryType = .disclosureIndicator
+                    cell.textLabel?.textColor = UIColor.black
                 } else {
-                    cell.accessoryType = .None
-                    cell.textLabel?.textColor = UIColor.grayColor()
+                    cell.accessoryType = .none
+                    cell.textLabel?.textColor = UIColor.gray
                 }
             } else {
-                cell.accessoryType = .None
-                cell.textLabel?.textColor = UIColor.grayColor()
+                cell.accessoryType = .none
+                cell.textLabel?.textColor = UIColor.gray
             }
         }
         return cell
     }
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let test = testEntries[indexPath.row]
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let test = testEntries[(indexPath as NSIndexPath).row]
         if test.requiresAuth {
             if let auth = otsimo.session?.isAuthenticated {
                 if !auth {
@@ -87,28 +87,28 @@ class TestHomeController: UITableViewController {
             h()
             tableView.reloadData()
         } else {
-            performSegueWithIdentifier(test.segmentName, sender: tableView)
+            performSegue(withIdentifier: test.segmentName, sender: tableView)
         }
     }
 
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tableView.reloadData()
     }
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         if let id = segue.identifier {
 
-            otsimo.analytics.customEvent("test:scene", payload: ["identifier": id])
+            otsimo.analytics.customEvent(event: "test:scene", payload: ["identifier": id as AnyObject])
 
             if id == "editchildgamestest" {
-                let cic = segue.destinationViewController as! ChildListViewController
+                let cic = segue.destination as! ChildListViewController
                 cic.nextSegue = "getchildtest"
             } else if id == "getchildlisttest" {
-                let cic = segue.destinationViewController as! ChildListViewController
+                let cic = segue.destination as! ChildListViewController
                 cic.nextSegue = "getchildtest"
             }
         }

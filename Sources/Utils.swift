@@ -8,14 +8,14 @@
 
 import Foundation
 
-let analyticsQueue = dispatch_queue_create(
-    "com.otsimo.iossdk.analytics", DISPATCH_QUEUE_CONCURRENT)
+let analyticsQueue = DispatchQueue(
+    label: "com.otsimo.iossdk.analytics", attributes: DispatchQueue.Attributes.concurrent)
 
-let sessionQueue = dispatch_queue_create(
-    "com.otsimo.iossdk.session", DISPATCH_QUEUE_CONCURRENT)
+let sessionQueue = DispatchQueue(
+    label: "com.otsimo.iossdk.session", attributes: DispatchQueue.Attributes.concurrent)
 
-func onMainThread(closure: () -> ()) {
-    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+func onMainThread(_ closure: @escaping () -> ()) {
+    DispatchQueue.main.async(execute: { () -> Void in
         closure()
     })
 }
@@ -38,16 +38,19 @@ public struct RegistrationData {
 }
 
 func versionToUrl(version: String) -> String {
-    return version.stringByReplacingOccurrencesOfString(".", withString: "_")
+    return version.replacingOccurrences(of: ".", with: "_")
 }
 
-func createDispatchTimer(interval: UInt64, queue: dispatch_queue_t, handler: () -> Void) -> dispatch_source_t {
-    let t = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue)
-
-    if let timer = t {
-        dispatch_source_set_timer(timer, DISPATCH_TIME_NOW, interval * NSEC_PER_SEC, 1 * NSEC_PER_SEC) // every 60 seconds, with leeway of 1 second
-        dispatch_source_set_event_handler(timer, handler)
-        dispatch_resume(timer)
+func createDispatchTimer(interval: Int, queue: DispatchQueue, handler: @escaping () -> Void) -> DispatchSourceTimer {
+    let timer = DispatchSource.makeTimerSource(flags: .strict, queue: queue)
+    timer.scheduleRepeating(deadline: .now(), interval: .seconds(interval), leeway: .seconds(1))
+    timer.setEventHandler { 
+        handler()
     }
-    return t;
+    if #available(iOS 10.0, *) {
+        timer.activate()
+    } else {
+        timer.resume()
+    }
+    return timer;
 }
