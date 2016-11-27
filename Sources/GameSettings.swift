@@ -15,7 +15,7 @@ public enum SettingsProperty {
     case float(key: String, defaultValue: Float64)
     case text(key: String, defaultValue: String)
     case boolean(key: String, defaultValue: Bool)
-    case `enum`(key: String, defaultValue: String, values: [String])
+    case enumaration(key: String, defaultValue: String, values: [String])
 
     public var defaultValue: SettingsPropertyValue {
         get {
@@ -24,7 +24,7 @@ public enum SettingsProperty {
                 return SettingsPropertyValue.Boolean(key: key, value: defaultValue)
             case .integer(let key, let defaultValue):
                 return SettingsPropertyValue.Integer(key: key, value: defaultValue)
-            case .enum(let key, let defaultValue, _):
+            case .enumaration(let key, let defaultValue, _):
                 return SettingsPropertyValue.text(key: key, value: defaultValue)
             case .text(let key, let defaultValue):
                 return SettingsPropertyValue.text(key: key, value: defaultValue)
@@ -41,7 +41,7 @@ public enum SettingsProperty {
                 return key
             case .integer(let key, _):
                 return key
-            case .enum(let key, _, _):
+            case .enumaration(let key, _, _):
                 return key
             case .text(let key, _):
                 return key
@@ -292,7 +292,7 @@ open class GameSettings {
 
     fileprivate func addEnumProperty(_ key: String, prop: [String: AnyObject], values: [String]) {
         if let d = prop["default"] as? String {
-            properties.append(SettingsProperty.enum(key: key, defaultValue: d, values: values))
+            properties.append(SettingsProperty.enumaration(key: key, defaultValue: d, values: values))
         } else {
             Log.error("failed to get default value of \(key)")
         }

@@ -218,6 +218,8 @@ open class ChildGame {
                 if let o = object as? [String: AnyObject] {
                     for (k, v) in o {
                         switch (v) {
+                        case let b as Bool:
+                            sv[k] = SettingsPropertyValue.Boolean(key: k, value: b)
                         case let integer as Int:
                             sv[k] = SettingsPropertyValue.Integer(key: k, value: integer)
                         case let f as Float64:
@@ -225,7 +227,7 @@ open class ChildGame {
                         case let str as String:
                             sv[k] = SettingsPropertyValue.text(key: k, value: str)
                         default:
-                            Log.debug("non supporting value type \(k)")
+                            Log.error("non supporting value type \(k)")
                         }
                     }
                 }
