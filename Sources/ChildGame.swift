@@ -218,12 +218,17 @@ open class ChildGame {
                 if let o = object as? [String: AnyObject] {
                     for (k, v) in o {
                         switch (v) {
-                        case let b as Bool:
-                            sv[k] = SettingsPropertyValue.Boolean(key: k, value: b)
+                        case let f as Float64:
+                            if floor(f) == f{
+                                sv[k] = SettingsPropertyValue.Integer(key: k, value: Int(f))
+                            }else{
+                                sv[k] = SettingsPropertyValue.Float(key: k, value: f)
+                            }
                         case let integer as Int:
                             sv[k] = SettingsPropertyValue.Integer(key: k, value: integer)
-                        case let f as Float64:
-                            sv[k] = SettingsPropertyValue.Float(key: k, value: f)
+                        case let b as Bool:
+                            sv[k] = SettingsPropertyValue.Boolean(key: k, value: b)
+                            
                         case let str as String:
                             sv[k] = SettingsPropertyValue.text(key: k, value: str)
                         default:
