@@ -97,14 +97,7 @@ open class GameManifest {
 
     open var localDescription: String {
         get {
-            for l in Otsimo.sharedInstance.languages {
-                for md in metadatas {
-                    if md.language == l {
-                        return md.description_p
-                    }
-                }
-            }
-            return ""
+            return localMetadata.description_p
         }
     }
 
