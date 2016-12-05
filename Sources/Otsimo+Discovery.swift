@@ -222,18 +222,17 @@ extension Otsimo {
         }
     }
     
-    internal func isReadyWithoutSession(_ notReady: @escaping (OtsimoError) -> Void, onReady: @escaping (Connection) -> Void) {
+    internal func isReadyWithMaybeSession(_ notReady: @escaping (OtsimoError) -> Void, onReady: @escaping (Connection, Session?) -> Void) {
         if let c = connection {
-            onReady(c)
+            onReady(c, session)
         } else {
             if cluster.hasValue {
                 Log.info("Otsimo sdk is not not initialized but trying again")
-                
                 Otsimo.configFromDiscoveryService(cluster.discoveryUrl, env: cluster.env, timeout: 5) { cc in
                     if let config = cc {
                         Otsimo.config(config)
                         if let c = self.connection {
-                            onReady(c)
+                            onReady(c, self.session)
                         } else {
                             notReady(.notInitialized)
                         }
@@ -247,5 +246,4 @@ extension Otsimo {
             }
         }
     }
-    
 }
