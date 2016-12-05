@@ -11,7 +11,7 @@ import OtsimoApiGrpc
 
 open class Otsimo {
     fileprivate static let storageVersion = 28
-    open static let sdkVersion: String = "1.4.2"
+    open static let sdkVersion: String = "1.4.3"
     open static let oauthSchema: String = "otsimoauth"
     open static let sharedInstance = Otsimo()
     open var session: Session? {
