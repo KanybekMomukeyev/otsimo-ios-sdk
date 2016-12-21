@@ -233,7 +233,7 @@ internal class Analytics: OtsimoAnalyticsProtocol {
                 return
             }
 
-            let objs = eventRealm.objects(EventCache.self).filter(NSPredicate(format:"time <= %@", end))
+            let objs = eventRealm.objects(EventCache.self).filter(NSPredicate(format: "time <= %@", end))
 
             for o in objs {
                 Log.debug("sendStoredEvents->>\(o.id) is sending again")
@@ -245,7 +245,7 @@ internal class Analytics: OtsimoAnalyticsProtocol {
                     EventCache.removeEvent(o, realm: eventRealm)
                 }
             }
-            let aobjs = eventRealm.objects(AppEventCache.self).filter(NSPredicate(format:"time <= %@", end))
+            let aobjs = eventRealm.objects(AppEventCache.self).filter(NSPredicate(format: "time <= %@", end))
             for o in aobjs {
                 let ev = o.event()
                 AppEventCache.removeEvent(o, realm: eventRealm)
@@ -275,7 +275,7 @@ internal class Analytics: OtsimoAnalyticsProtocol {
                 EventCache.add(e)
                 self.internalWriter.writeValue(e)
             }
-        }) 
+        })
     }
 
     func appEvent(event: String, payload: [String: AnyObject]) {

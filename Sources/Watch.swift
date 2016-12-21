@@ -29,7 +29,7 @@ internal class Watch: WatchProtocol {
         req.profileId = session.profileID
 
         self.session = session
-        RPC = connection.watchService.rpcToWatch(with: req, eventHandler: rpcHandler )
+        RPC = connection.watchService.rpcToWatch(with: req, eventHandler: rpcHandler)
         session.getAuthorizationHeader() { h, e in
             switch (e) {
             case .none:

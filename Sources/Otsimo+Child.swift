@@ -17,7 +17,7 @@ extension Otsimo: ChildApi {
         }
     }
 
-    public func addChild(child:OTSChild, handler: @escaping (_ res: OtsimoError) -> Void) {
+    public func addChild(child: OTSChild, handler: @escaping (_ res: OtsimoError) -> Void) {
         self.isReady(handler) { c, s in
             c.addChild(s, child: child, handler: handler)
         }

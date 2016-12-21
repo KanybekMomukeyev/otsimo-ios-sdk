@@ -11,11 +11,11 @@ import grpc
 import OtsimoApiGrpc
 
 
-func newStaticConfig() -> OtsimoServices{
+func newStaticConfig() -> OtsimoServices {
     let base64Data = "CgdzdGFnaW5nEhpodHRwczovL2Nvbm5lY3Qub3RzaW1vLmNvbSABKhlzZXJ2aWNlcy5vdHNpbW8uY29tOjMwODUyMhlzZXJ2aWNlcy5vdHNpbW8uY29tOjMwODQ3OhlzZXJ2aWNlcy5vdHNpbW8uY29tOjMwODU4QhlzZXJ2aWNlcy5vdHNpbW8uY29tOjMwODU3ShlzZXJ2aWNlcy5vdHNpbW8uY29tOjMwODU5UhlzZXJ2aWNlcy5vdHNpbW8uY29tOjMwODYwWhlzZXJ2aWNlcy5vdHNpbW8uY29tOjMwODU0YiFodHRwczovL3NlcnZpY2VzLm90c2ltby5jb206MzA4NTFqG2h0dHBzOi8vYWNjb3VudHMub3RzaW1vLmNvbaIBJAoGaXNzdWVyEhpodHRwczovL2Nvbm5lY3Qub3RzaW1vLmNvbaIBJAoHY29udGVudBIZc2VydmljZXMub3RzaW1vLmNvbTozMDg1OaIBJQoIcmVnaXN0cnkSGXNlcnZpY2VzLm90c2ltby5jb206MzA4NTKiAScKCGFjY291bnRzEhtodHRwczovL2FjY291bnRzLm90c2ltby5jb22iASUKCGxpc3RlbmVyEhlzZXJ2aWNlcy5vdHNpbW8uY29tOjMwODQ3ogEmCglkYXNoYm9hcmQSGXNlcnZpY2VzLm90c2ltby5jb206MzA4NjCiASAKA2FwaRIZc2VydmljZXMub3RzaW1vLmNvbTozMDg1NKIBIgoFd2F0Y2gSGXNlcnZpY2VzLm90c2ltby5jb206MzA4NTiiASQKB2NhdGFsb2cSGXNlcnZpY2VzLm90c2ltby5jb206MzA4NTeqAUUKBGRpc2sSPWh0dHBzOi8vc2VydmljZXMub3RzaW1vLmNvbTozMDg1MS9wdWJsaWMve3suaWR9fS97ey52ZXJzaW9ufX2yAUwKAnRyEkYKAnRyEg4KBlTDvG3DvBIEKgJ0chIUCgVPdGl6bRILGgVPdGl6bSoCdHISGgoHT3l1bmxhchIPGgdPeXVubGFyKgJ0cjgBsgFHCgJlbhJBCgJlbhILCgNBbGwSBCoCZW4SFgoGQXV0aXNtEgwaBkF1dGlzbSoCZW4SFgoFR2FtZXMSDRoFR2FtZXMqAmVuOAG6ASAKG2NoaWxkLXdhcm5pbmctbWVzc2FnZS0xLjAuMhIBMboBSAoTY2hpbGQtZGVmYXVsdC1nYW1lcxIxNTcxNTJjMWY3OGVmNWMwMDAxODkyMjM5LDU3MTc0MDljYTlkYjM4MDAwMWY4MTQzZboBIAobY2hpbGQtd2FybmluZy1tZXNzYWdlLTEuMi4wEgExugEgChtjaGlsZC13YXJuaW5nLW1lc3NhZ2UtMS4xLjISATG6AU4KGWNoaWxkLWRlZmF1bHQtZ2FtZXMtMS4xLjASMTU3MTUyYzFmNzhlZjVjMDAwMTg5MjIzOSw1NzE3NDA5Y2E5ZGIzODAwMDFmODE0M2W6ARoKFWNoaWxkLXdhcm5pbmctbWVzc2FnZRIBMLoBTgoZY2hpbGQtZGVmYXVsdC1nYW1lcy0xLjIuMBIxNTcxNTJjMWY3OGVmNWMwMDAxODkyMjM5LDU3MTc0MDljYTlkYjM4MDAwMWY4MTQzZboBTgoZY2hpbGQtZGVmYXVsdC1nYW1lcy0xLjAuMhIxNTcxNTJjMWY3OGVmNWMwMDAxODkyMjM5LDU3MTc0MDljYTlkYjM4MDAwMWY4MTQzZboBTgoZY2hpbGQtZGVmYXVsdC1nYW1lcy0xLjEuMhIxNTcxNTJjMWY3OGVmNWMwMDAxODkyMjM5LDU3MTc0MDljYTlkYjM4MDAwMWY4MTQzZboBIAobY2hpbGQtd2FybmluZy1tZXNzYWdlLTEuMS4wEgEx"
-   
+
     let data = Data(base64Encoded: base64Data)!
-    let sc = try! OtsimoServices(data:  data)
+    let sc = try! OtsimoServices(data: data)
     return sc
 }
 
@@ -109,11 +109,11 @@ open class ClusterConfig {
 
 extension Otsimo {
 
-    public static func config(options: Configuration, useStaticConfig : Bool = false) {
+    public static func config(options: Configuration, useStaticConfig: Bool = false) {
         Otsimo.sharedInstance.cluster.discoveryUrl = options.discovery
         Otsimo.sharedInstance.cluster.env = options.environment
-        
-        if useStaticConfig{
+
+        if useStaticConfig {
             let rc = newStaticConfig()
             let cnf = rc.clientConfig
             cnf.clientID = options.clientID
@@ -125,7 +125,7 @@ extension Otsimo {
             Otsimo.config(cnf)
             return
         }
-        
+
         self.configFromDiscoveryService(options.discovery, env: options.environment, timeout: options.discoveryTimout) { cc in
             if let config = cc {
                 config.clientID = options.clientID
@@ -137,7 +137,7 @@ extension Otsimo {
                 Otsimo.config(config)
             } else {
                 Log.error("failed to get cluster info")
-                if let si = Otsimo.sharedInstance.sdkInitializing{
+                if let si = Otsimo.sharedInstance.sdkInitializing {
                     si(OtsimoError.notInitialized)
                 }
             }
@@ -158,7 +158,7 @@ extension Otsimo {
         req.countryCode = Locale.current.regionCode
         req.appBundleId = Bundle.main.bundleIdentifier
         req.appBundleVersion = Bundle.main.infoDictionary!["CFBundleVersion"] as! String
-        
+
         var isCompleted = false
 
         let RPC = discovery.rpcToGet(with: req) { os, err in
@@ -221,7 +221,7 @@ extension Otsimo {
             }
         }
     }
-    
+
     internal func isReadyWithMaybeSession(_ notReady: @escaping (OtsimoError) -> Void, onReady: @escaping (Connection, Session?) -> Void) {
         if let c = connection {
             onReady(c, session)

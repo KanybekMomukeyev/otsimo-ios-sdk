@@ -31,11 +31,11 @@ extension Otsimo: WikiApi {
     }
 
     public func contentsByCategory(_ category: String,
-        sort: ContentSort,
-        limit: Int32?,
-        offset: Int32?,
-        language: String,
-        callback: @escaping (Int, [OTSContent], OtsimoError) -> Void)
+                                   sort: ContentSort,
+                                   limit: Int32?,
+                                   offset: Int32?,
+                                   language: String,
+                                   callback: @escaping (Int, [OTSContent], OtsimoError) -> Void)
     {
         self.isReady({ callback(0, [], $0) }) { c, s in
             let req = OTSContentListRequest()

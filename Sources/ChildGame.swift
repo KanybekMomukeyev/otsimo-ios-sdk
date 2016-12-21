@@ -204,8 +204,8 @@ open class ChildGame {
         settingsValues[value.key] = value
     }
 
-    open func saveSettings(_ handler:@escaping (OtsimoError) -> Void) {
-        if let data = ChildGame.DataOfSettingsValues(self.settingsValues){
+    open func saveSettings(_ handler: @escaping (OtsimoError) -> Void) {
+        if let data = ChildGame.DataOfSettingsValues(self.settingsValues) {
             Otsimo.sharedInstance.updateSettings(gameID: gameID, childID: childID, settings: data, handler: handler)
         }
     }
@@ -219,16 +219,16 @@ open class ChildGame {
                     for (k, v) in o {
                         switch (v) {
                         case let f as Float64:
-                            if floor(f) == f{
+                            if floor(f) == f {
                                 sv[k] = SettingsPropertyValue.Integer(key: k, value: Int(f))
-                            }else{
+                            } else {
                                 sv[k] = SettingsPropertyValue.Float(key: k, value: f)
                             }
                         case let integer as Int:
                             sv[k] = SettingsPropertyValue.Integer(key: k, value: integer)
                         case let b as Bool:
                             sv[k] = SettingsPropertyValue.Boolean(key: k, value: b)
-                            
+
                         case let str as String:
                             sv[k] = SettingsPropertyValue.text(key: k, value: str)
                         default:

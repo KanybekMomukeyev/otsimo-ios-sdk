@@ -14,24 +14,20 @@ let userIDKey = "OtsimoSDK-Session-UserID"
 let emailKey = "OtsimoSDK-Session-Email"
 
 struct OtsimoAccount: ReadableSecureStorable, CreateableSecureStorable,
-DeleteableSecureStorable, GenericPasswordSecureStorable {
+    DeleteableSecureStorable, GenericPasswordSecureStorable {
+        let email: String
+        let jwt: String
 
-    
-    
-    
-    let email: String
-    let jwt: String
+        let refresh: String
+        let tokentype: String
+        let service = "Otsimo"
+        let sharedKeyChain: String?
+        var account: String { return email }
+        var accessGroup: String? { return sharedKeyChain }
 
-    let refresh: String
-    let tokentype: String
-    let service = "Otsimo"
-    let sharedKeyChain: String?
-    var account: String { return email }
-    var accessGroup: String? { return sharedKeyChain }
-
-    var data: [String: Any] {
-        return ["jwt": jwt as AnyObject, "refresh": refresh as AnyObject, "tokentype": tokentype as AnyObject]
-    }
+        var data: [String: Any] {
+            return ["jwt": jwt as AnyObject, "refresh": refresh as AnyObject, "tokentype": tokentype as AnyObject]
+        }
 }
 
 open class Session {
@@ -73,10 +69,10 @@ open class Session {
         profileID = ""
         Otsimo.sharedInstance.cache.clearSession()
         let account = OtsimoAccount(email: email,
-            jwt: accessToken,
-            refresh: refreshToken,
-            tokentype: tokenType,
-            sharedKeyChain: config.sharedKeyChain)
+                                    jwt: accessToken,
+                                    refresh: refreshToken,
+                                    tokentype: tokenType,
+                                    sharedKeyChain: config.sharedKeyChain)
         do {
             try account.deleteFromSecureStore()
         } catch {
@@ -96,10 +92,10 @@ open class Session {
             defaults.setValue(profileID, forKey: userIDKey)
             defaults.synchronize()
             let account = OtsimoAccount(email: email,
-                jwt: accessToken,
-                refresh: refreshToken,
-                tokentype: tokenType,
-                sharedKeyChain: config.sharedKeyChain)
+                                        jwt: accessToken,
+                                        refresh: refreshToken,
+                                        tokentype: tokenType,
+                                        sharedKeyChain: config.sharedKeyChain)
             do {
                 try account.updateInSecureStore()
                 Log.info("session is saved")
@@ -117,10 +113,10 @@ open class Session {
         case LoadResult.success(_, let payload, _, _):
             let presult = loadPayload(payload)
             switch (presult) {
-            case PayloadLoadResult.success:
-                return res
-            case PayloadLoadResult.failure(let it):
-                return LoadResult.failure(it)
+                case PayloadLoadResult.success:
+                    return res
+                case PayloadLoadResult.failure(let it):
+                    return LoadResult.failure(it)
             }
         default:
             return res
@@ -206,7 +202,7 @@ open class Session {
                         Log.debug("new token is before got, sending it")
                         onMainThread { handler(self.accessToken, OtsimoError.none) }
                     }
-                }) 
+                })
             } else {
                 handler(accessToken, OtsimoError.none)
             }
@@ -274,15 +270,15 @@ open class Session {
         request.timeoutInterval = 20
         request.cachePolicy = .reloadIgnoringLocalAndRemoteCacheData
 
-        let s=URLSession.shared
-        
+        let s = URLSession.shared
+
         s.dataTask(with: request, completionHandler: { data, response, error in
             guard error == nil && data != nil else { // check for fundamental networking error
                 handler(.networkError(message: "\(error)"))
                 return
             }
             var isOK = true
-            if let httpStatus = response as? HTTPURLResponse , httpStatus.statusCode != 200 { // check for http errors
+            if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 { // check for http errors
                 isOK = false
             }
 
@@ -365,10 +361,10 @@ open class Session {
                 let refreshToken = result.data?["refresh"] as! String
                 let tokenType = result.data?["tokentype"] as! String
                 let sharedAccount = OtsimoAccount(email: s.email,
-                    jwt: accessToken,
-                    refresh: refreshToken,
-                    tokentype: tokenType,
-                    sharedKeyChain: config.sharedKeyChain)
+                                                  jwt: accessToken,
+                                                  refresh: refreshToken,
+                                                  tokentype: tokenType,
+                                                  sharedKeyChain: config.sharedKeyChain)
 
                 do {
                     if sharedAccount.readFromSecureStore() != nil {

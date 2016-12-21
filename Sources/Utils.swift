@@ -9,10 +9,10 @@
 import Foundation
 
 let analyticsQueue = DispatchQueue(
-    label: "com.otsimo.iossdk.analytics", attributes: DispatchQueue.Attributes.concurrent)
+                                   label: "com.otsimo.iossdk.analytics", attributes: DispatchQueue.Attributes.concurrent)
 
 let sessionQueue = DispatchQueue(
-    label: "com.otsimo.iossdk.session", attributes: DispatchQueue.Attributes.concurrent)
+                                 label: "com.otsimo.iossdk.session", attributes: DispatchQueue.Attributes.concurrent)
 
 func onMainThread(_ closure: @escaping () -> ()) {
     DispatchQueue.main.async(execute: { () -> Void in
@@ -26,8 +26,8 @@ public struct RegistrationData {
     let firstName: String
     let lastName: String
     let locale: String
-    let country:String
-    public init(email: String, password: String, firstName: String, lastName: String, locale: String,country:String) {
+    let country: String
+    public init(email: String, password: String, firstName: String, lastName: String, locale: String, country: String) {
         self.email = email
         self.password = password
         self.firstName = firstName
@@ -44,7 +44,7 @@ func versionToUrl(version: String) -> String {
 func createDispatchTimer(interval: Int, queue: DispatchQueue, handler: @escaping () -> Void) -> DispatchSourceTimer {
     let timer = DispatchSource.makeTimerSource(flags: .strict, queue: queue)
     timer.scheduleRepeating(deadline: .now(), interval: .seconds(interval), leeway: .seconds(1))
-    timer.setEventHandler { 
+    timer.setEventHandler {
         handler()
     }
     if #available(iOS 10.0, *) {

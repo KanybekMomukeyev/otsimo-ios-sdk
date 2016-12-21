@@ -15,19 +15,19 @@ public struct Configuration {
     public var clientSecret: String
     public var appGroupName: String
     public var keychainName: String
-    public var discoveryTimout:Double = 10
+    public var discoveryTimout: Double = 10
     public init(discovery: String,
-        environment: String,
-        clientID: String,
-        clientSecret: String,
-        appGroupName: String,
-        keychainName: String) {
-            self.discovery = discovery
-            self.environment = environment
-            self.clientSecret = clientSecret
-            self.clientID = clientID
-            self.appGroupName = appGroupName
-            self.keychainName = keychainName
+                environment: String,
+                clientID: String,
+                clientSecret: String,
+                appGroupName: String,
+                keychainName: String) {
+        self.discovery = discovery
+        self.environment = environment
+        self.clientSecret = clientSecret
+        self.clientID = clientID
+        self.appGroupName = appGroupName
+        self.keychainName = keychainName
     }
 }
 

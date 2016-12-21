@@ -31,10 +31,10 @@ open class Otsimo {
     internal var preferredLanguage: String?
     fileprivate(set) open var languages: [String] = []
     internal let cache: CacheProtocol
-    
+
     open var sessionStatusChanged: ((Session?) -> Void)?
     open var sdkInitializing: ((OtsimoError) -> Void)?
-    
+
     fileprivate(set) open var analytics: OtsimoAnalyticsProtocol!
     fileprivate(set) open var cluster: ClusterConfig = ClusterConfig()
     open var silentErrorDelegate: OtsimoErrorProtocol?
@@ -58,8 +58,8 @@ open class Otsimo {
             sharedInstance.migrate(config)
         }
         sharedInstance.recoverOldSessionIfExist(config)
-        if let it = sharedInstance.sdkInitializing{
-           it(.none)
+        if let it = sharedInstance.sdkInitializing {
+            it(.none)
         }
     }
 

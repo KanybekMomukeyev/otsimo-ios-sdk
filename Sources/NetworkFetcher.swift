@@ -20,12 +20,12 @@ class NetworkFetcher {
                 onMainThread { handler(Data(), .networkError(message: "\(error)")) }
                 return
             }
-            if let httpStatus = response as? HTTPURLResponse , httpStatus.statusCode != 200 { // check for http errors
+            if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 { // check for http errors
                 onMainThread { handler(Data(), .networkError(message: "\(error)")) }
                 return
             }
             onMainThread { handler(data!, .none) }
-        }) 
+        })
         task.resume()
     }
 }

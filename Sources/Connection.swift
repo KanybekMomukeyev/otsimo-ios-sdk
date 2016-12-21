@@ -290,7 +290,7 @@ internal final class Connection {
                 onMainThread { handler(nil, OtsimoError.serviceError(message: "\(error)")) }
             }
         }
-        if let s = session{
+        if let s = session {
             s.getAuthorizationHeader { header, err in
                 switch (err) {
                 case .none:
@@ -300,17 +300,17 @@ internal final class Connection {
                 }
                 RPC.start()
             }
-        }else{
+        } else {
             RPC.start()
         }
     }
 
-    func getAllGamesStream(_ session: Session?,language:String?, handler: @escaping (OTSListItem?, _ done: Bool, _ err: OtsimoError) -> Void) {
+    func getAllGamesStream(_ session: Session?, language: String?, handler: @escaping (OTSListItem?, _ done: Bool, _ err: OtsimoError) -> Void) {
         let req = OTSListGamesRequest()
         req.releaseState = OTSListGamesRequest_InnerState.production
         req.limit = 32
         req.language = language
-        
+
         let RPC = registryService.rpcToListGames(with: req) { done, response, error in
             if let response = response {
                 onMainThread { handler(response, false, OtsimoError.none) }
@@ -323,8 +323,8 @@ internal final class Connection {
                 onMainThread { handler(nil, true, OtsimoError.none) }
             }
         }
-        
-        if let s = session{
+
+        if let s = session {
             s.getAuthorizationHeader { header, err in
                 switch (err) {
                 case .none:
@@ -334,7 +334,7 @@ internal final class Connection {
                 }
                 RPC.start()
             }
-        }else{
+        } else {
             RPC.start()
         }
     }
@@ -362,7 +362,7 @@ internal final class Connection {
                 onMainThread { handler([], OtsimoError.serviceError(message: "\(err)")) }
             }
         }
-        if let s = session{
+        if let s = session {
             s.getAuthorizationHeader { header, err in
                 switch (err) {
                 case .none:
@@ -372,11 +372,11 @@ internal final class Connection {
                 }
                 RPC.start()
             }
-        }else{
+        } else {
             RPC.start()
         }
     }
-    
+
     func getDashboard(_ session: Session, childID: String, lang: String, time: Int64?, handler: @escaping (_ dashboard: DashboardItems?, _ err: OtsimoError) -> Void) {
         let req = DashboardGetRequest()
         req.profileId = session.profileID
@@ -550,7 +550,7 @@ internal final class Connection {
                 return
             }
             var isOK = true
-            if let httpStatus = response as? HTTPURLResponse , httpStatus.statusCode != 200 { // check for http errors
+            if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 { // check for http errors
                 isOK = false
             }
 
@@ -604,7 +604,7 @@ internal final class Connection {
             catch let JSONError as NSError {
                 onMainThread { handler(.error(error: .invalidResponse(message: "invalid response: \(JSONError)")), nil) }
             }
-        }) 
+        })
         task.resume()
     }
 
@@ -622,7 +622,7 @@ internal final class Connection {
                 return
             }
             var isOK = true
-            if let httpStatus = response as? HTTPURLResponse , httpStatus.statusCode != 200 { // check for http errors
+            if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 { // check for http errors
                 isOK = false
             }
 
@@ -647,50 +647,50 @@ internal final class Connection {
             catch let JSONError as NSError {
                 onMainThread { handler(.invalidResponse(message: "invalid response: \(JSONError)")) }
             }
-        }) 
+        })
         task.resume()
     }
 
     func httpPostRequestWithToken(_ urlPath: String, postString: String, authorization: String,
-        handler: @escaping (NSDictionary?, _ error: OtsimoError) -> Void) {
-            var request = URLRequest(url: URL(string: urlPath)!)
-            request.httpMethod = "POST"
-            request.setValue("Bearer \(authorization)", forHTTPHeaderField: "authorization")
-            request.setValue("application/x-www-form-urlencoded; charset=utf-8", forHTTPHeaderField: "Content-Type")
-            request.httpBody = postString.data(using: String.Encoding.utf8)
-            request.timeoutInterval = 20
-            request.cachePolicy = .reloadIgnoringLocalAndRemoteCacheData
+                                  handler: @escaping (NSDictionary?, _ error: OtsimoError) -> Void) {
+        var request = URLRequest(url: URL(string: urlPath)!)
+        request.httpMethod = "POST"
+        request.setValue("Bearer \(authorization)", forHTTPHeaderField: "authorization")
+        request.setValue("application/x-www-form-urlencoded; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        request.httpBody = postString.data(using: String.Encoding.utf8)
+        request.timeoutInterval = 20
+        request.cachePolicy = .reloadIgnoringLocalAndRemoteCacheData
 
-            let task = URLSession.shared.dataTask(with: request, completionHandler: { data, response, error in
-                guard error == nil && data != nil else { // check for fundamental networking error
-                    onMainThread { handler(nil, .networkError(message: "\(error)")) }
+        let task = URLSession.shared.dataTask(with: request, completionHandler: { data, response, error in
+            guard error == nil && data != nil else { // check for fundamental networking error
+                onMainThread { handler(nil, .networkError(message: "\(error)")) }
+                return
+            }
+            var isOK = true
+            if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 { // check for http errors
+                isOK = false
+            }
+            do {
+                let JSON = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions(rawValue: 0))
+                guard let JSONDictionary: NSDictionary = JSON as? NSDictionary else {
+                    onMainThread { handler(nil, .invalidResponse(message: "invalid response:not a dictionary")) }
                     return
                 }
-                var isOK = true
-                if let httpStatus = response as? HTTPURLResponse , httpStatus.statusCode != 200 { // check for http errors
-                    isOK = false
-                }
-                do {
-                    let JSON = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions(rawValue: 0))
-                    guard let JSONDictionary: NSDictionary = JSON as? NSDictionary else {
-                        onMainThread { handler(nil, .invalidResponse(message: "invalid response:not a dictionary")) }
-                        return
-                    }
-                    if isOK && JSONDictionary["error"] == nil {
-                        onMainThread { handler(JSONDictionary, OtsimoError.none) }
+                if isOK && JSONDictionary["error"] == nil {
+                    onMainThread { handler(JSONDictionary, OtsimoError.none) }
+                } else {
+                    let e = JSONDictionary["error"]
+                    if e != nil {
+                        onMainThread { handler(nil, .invalidResponse(message: "request failed: error= \(e)")) }
                     } else {
-                        let e = JSONDictionary["error"]
-                        if e != nil {
-                            onMainThread { handler(nil, .invalidResponse(message: "request failed: error= \(e)")) }
-                        } else {
-                            onMainThread { handler(nil, .invalidResponse(message: "request failed: \(data)")) }
-                        }
+                        onMainThread { handler(nil, .invalidResponse(message: "request failed: \(data)")) }
                     }
                 }
-                catch let JSONError as NSError {
-                    onMainThread { handler(nil, .invalidResponse(message: "invalid response: \(JSONError)")) }
-                }
-            }) 
-            task.resume()
+            }
+            catch let JSONError as NSError {
+                onMainThread { handler(nil, .invalidResponse(message: "invalid response: \(JSONError)")) }
+            }
+        })
+        task.resume()
     }
 }
