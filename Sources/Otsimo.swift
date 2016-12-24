@@ -30,7 +30,7 @@ open class Otsimo {
     internal var onlyProduction: Bool = true
     internal var preferredLanguage: String?
     fileprivate(set) open var languages: [String] = []
-    internal let cache: CacheProtocol
+    open let cache: CacheProtocol
 
     open var sessionStatusChanged: ((Session?) -> Void)?
     open var sdkInitializing: ((OtsimoError) -> Void)?
