@@ -1,3 +1,3 @@
 github "otsimo/otsimo-ios-grpc"
-github "matthewpalmer/Locksmith" "swift-3.0"
+github "matthewpalmer/Locksmith"
 github "realm/realm-cocoa"

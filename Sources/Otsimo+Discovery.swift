@@ -36,7 +36,11 @@ extension OtsimoServices {
         cc.catalogGrpcUrl = self.catalogGrpc
         cc.dashboardGrpcUrl = self.dashboardGrpc
         cc.accountsServiceUrl = self.accounts
-
+        if let k = self.services.object(forKey: "simplified-analytics"){
+            if let u = k as? String{
+                cc.simplifiedAnalyticsUrl = u
+            }
+        }
         return cc
     }
 }

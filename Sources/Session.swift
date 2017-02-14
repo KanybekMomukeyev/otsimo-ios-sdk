@@ -43,7 +43,8 @@ open class Session {
     open var displayName: String = ""
     open var profileID: String = ""
     open var email: String = ""
-
+    private var refreshTokenRetyCount: Int = 0;
+    
     open var isAuthenticated: Bool {
         get {
             return accessToken != ""

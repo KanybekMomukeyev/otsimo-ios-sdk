@@ -19,7 +19,8 @@ internal final class Connection {
     internal let registryService: OTSRegistryService
     internal let contentService: OTSContentService
     internal let dashboardService: DashboardService
-
+    internal let simplifiedAnalytics: OTSSimplifiedAnalytics
+    
     internal init(config: ClientConfig) {
         self.config = config
         if (!config.useTls) {
@@ -37,6 +38,8 @@ internal final class Connection {
         registryService = OTSRegistryService(host: config.registryGrpcUrl)
         contentService = OTSContentService(host: config.contentGrpcUrl)
         dashboardService = DashboardService(host: config.dashboardGrpcUrl)
+        simplifiedAnalytics = OTSSimplifiedAnalytics(host:config.simplifiedAnalyticsUrl)
+        
     }
 
     func getProfile(_ session: Session, handler: @escaping (OTSProfile?, OtsimoError) -> Void) {

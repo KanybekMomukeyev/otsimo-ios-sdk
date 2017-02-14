@@ -47,6 +47,7 @@ internal class ClientConfig {
     var listenerGrpcUrl = ""
     var publicContentUrl = ""
     var dashboardGrpcUrl = ""
+    var simplifiedAnalyticsUrl = ""
     var useTls = false
     var caCert = ""
     var sharedKeyChain: String?
