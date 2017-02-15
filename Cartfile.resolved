@@ -1,4 +1,4 @@
 github "onevcat/Kingfisher" "3.4.0"
 github "matthewpalmer/Locksmith" "3.0.0"
-github "otsimo/otsimo-ios-grpc" "v1.3.0"
+github "otsimo/otsimo-ios-grpc" "v1.3.1"
 github "realm/realm-cocoa" "v2.4.2"
