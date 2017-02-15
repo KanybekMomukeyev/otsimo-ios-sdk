@@ -5,12 +5,16 @@
   },
   "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
     "78E0929D8BDBFE11720E0D63F8E968F2EB2BD6E7" : 0,
-    "05E9A17A5DF517851D56B74E50C6846340C89A43" : 0
+    "05E9A17A5DF517851D56B74E50C6846340C89A43" : 0,
+    "30A3ED8D88F4550E3C954D2FB3FC975FB5E2C8AE" : 9223372036854775807,
+    "0D15C473EBF8C81E9A1F779234B9057A15BFBBFF" : 9223372036854775807
   },
   "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "11B76A87-2993-46E5-AECC-420C9933024F",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
-    "78E0929D8BDBFE11720E0D63F8E968F2EB2BD6E7" : "OtsimoSDK\/",
-    "05E9A17A5DF517851D56B74E50C6846340C89A43" : "OtsimoGrpc\/"
+    "78E0929D8BDBFE11720E0D63F8E968F2EB2BD6E7" : "otsimo-ios-sdk\/",
+    "05E9A17A5DF517851D56B74E50C6846340C89A43" : "OtsimoGrpc\/",
+    "30A3ED8D88F4550E3C954D2FB3FC975FB5E2C8AE" : "Child\/",
+    "0D15C473EBF8C81E9A1F779234B9057A15BFBBFF" : "Child\/flurry\/"
   },
   "DVTSourceControlWorkspaceBlueprintNameKey" : "OtsimoSDK",
   "DVTSourceControlWorkspaceBlueprintVersion" : 204,
@@ -20,6 +24,16 @@
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:otsimo\/otsimo-ios-grpc.git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "05E9A17A5DF517851D56B74E50C6846340C89A43"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "bitbucket.org:otsimo\/flurry-ios-sub.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "0D15C473EBF8C81E9A1F779234B9057A15BFBBFF"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "bitbucket.org:otsimo\/child.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "30A3ED8D88F4550E3C954D2FB3FC975FB5E2C8AE"
     },
     {
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:otsimo\/otsimo-account-ios-sdk.git",
