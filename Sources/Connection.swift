@@ -425,11 +425,9 @@ internal final class Connection {
                         r.append(content)
                     }
                 }
-                onMainThread {
-                    handler(Int(response.assetVersion), r, .none)
-                }
+                handler(Int(response.assetVersion), r, .none)
             } else {
-                onMainThread { handler(0, [], OtsimoError.serviceError(message: "\(error)")) }
+                handler(0, [], OtsimoError.serviceError(message: "\(error)"))
                 Log.error("getContents, Finished with error: \(error!)")
             }
         }
@@ -441,9 +439,9 @@ internal final class Connection {
         req.slug = slug
         let RPC = contentService.rpcToGet(with: req) { response, error in
             if let response = response {
-                onMainThread { handler(response, .none) }
+                 handler(response, .none)
             } else {
-                onMainThread { handler(nil, OtsimoError.serviceError(message: "\(error)")) }
+                handler(nil, OtsimoError.serviceError(message: "\(error)"))
                 Log.error("getContent, Finished with error: \(error!)")
             }
         }
