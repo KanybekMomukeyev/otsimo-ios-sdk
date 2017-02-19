@@ -44,7 +44,7 @@ open class Session {
     open var profileID: String = ""
     open var email: String = ""
     private var refreshTokenRetyCount: Int = 0;
-    
+
     open var isAuthenticated: Bool {
         get {
             return accessToken != ""
@@ -53,11 +53,7 @@ open class Session {
     open var isTokenExpired: Bool {
         get {
             let exp = Date(timeIntervalSince1970: Double(expiresAt))
-            if exp.compare(Date()) == ComparisonResult.orderedDescending
-            {
-                return false
-            }
-            return true
+            return exp.compare(Date()) != ComparisonResult.orderedDescending
         }
     }
 
@@ -178,6 +174,31 @@ open class Session {
         return .success
     }
 
+    open func setAuth(_ call: GRPCProtoCall) {
+        call.oauth2AccessToken = self.accessToken
+    }
+
+    open func refreshTokenNow(_ handler: @escaping (OtsimoError) -> Void) {
+        sessionQueue.async(flags: .barrier, execute: {
+            Log.debug("access token is going to refresh")
+            let refreshGroup = DispatchGroup() // Create Group
+            refreshGroup.enter() // Enter Group
+            self.refreshCurrentToken { err in
+                onMainThread {
+                    Log.debug("access token got \(err)")
+                    switch (err) {
+                    case .none:
+                        handler(OtsimoError.none)
+                    default:
+                        handler(err)
+                    }
+                }
+                refreshGroup.leave() // Leave Group
+            }
+            let _ = refreshGroup.wait(timeout: DispatchTime.distantFuture) // Wait completing the group
+        })
+    }
+
     func getAuthorizationHeader(_ handler: @escaping (String, OtsimoError) -> Void) {
         if isAuthenticated {
             if isTokenExpired {
@@ -198,7 +219,7 @@ open class Session {
                             }
                             refreshGroup.leave() // Leave Group
                         }
-                        refreshGroup.wait(timeout: DispatchTime.distantFuture) // Wait completing the group
+                        let _ = refreshGroup.wait(timeout: DispatchTime.distantFuture) // Wait completing the group
                     } else {
                         Log.debug("new token is before got, sending it")
                         onMainThread { handler(self.accessToken, OtsimoError.none) }
