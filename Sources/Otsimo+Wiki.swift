@@ -14,7 +14,6 @@ extension Otsimo: WikiApi {
 
     public func contentsByQuery(_ query: OTSContentListRequest, callback: @escaping (Int, [OTSContent], OtsimoError) -> Void) {
         self.isReady({ callback(0, [], $0) }) { c, s in
-            query.onlyHtmlURL = true
             if self.onlyProduction {
                 query.status = OTSContentListRequest_ListStatus.onlyApproved
             } else {
@@ -27,47 +26,6 @@ extension Otsimo: WikiApi {
     public func content(_ slug: String, handler: @escaping (OTSContent?, OtsimoError) -> Void) {
         self.isReady({ handler(nil, $0) }) { c, s in
             c.getContent(s, slug: slug, handler: handler)
-        }
-    }
-
-    public func contentsByCategory(_ category: String,
-                                   sort: ContentSort,
-                                   limit: Int32?,
-                                   offset: Int32?,
-                                   language: String,
-                                   callback: @escaping (Int, [OTSContent], OtsimoError) -> Void)
-    {
-        self.isReady({ callback(0, [], $0) }) { c, s in
-            let req = OTSContentListRequest()
-            req.language = language
-            req.category = category
-            req.onlyHtmlURL = true
-            if self.onlyProduction {
-                req.status = OTSContentListRequest_ListStatus.onlyApproved
-            } else {
-                req.status = OTSContentListRequest_ListStatus.both
-            }
-            switch (sort) {
-            case .dateAsc:
-                req.sort = OTSContentListRequest_SortBy.time
-                req.order = OTSContentListRequest_SortOrder.asc
-            case .dateDsc:
-                req.sort = OTSContentListRequest_SortBy.time
-                req.order = OTSContentListRequest_SortOrder.dsc
-            case .weightAsc:
-                req.sort = OTSContentListRequest_SortBy.weight
-                req.order = OTSContentListRequest_SortOrder.asc
-            case .weightDsc:
-                req.sort = OTSContentListRequest_SortBy.weight
-                req.order = OTSContentListRequest_SortOrder.dsc
-            }
-            if let l = limit {
-                req.limit = l
-            }
-            if let o = offset {
-                req.offset = o
-            }
-            c.getContents(s, req: req, handler: callback)
         }
     }
 

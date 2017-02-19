@@ -76,15 +76,7 @@ public protocol DashboardApi {
     func dashboard(childID: String, lang: String, cacheTime: Int64?, handler: @escaping (DashboardItems?, OtsimoError) -> Void)
 }
 
-public enum ContentSort {
-    case weightAsc
-    case weightDsc
-    case dateAsc
-    case dateDsc
-}
-
 public protocol WikiApi {
-    func contentsByCategory(_ category: String, sort: ContentSort, limit: Int32?, offset: Int32?, language: String, callback: @escaping (Int, [OTSContent], OtsimoError) -> Void)
     func contentsByQuery(_ query: OTSContentListRequest, callback: @escaping (Int, [OTSContent], OtsimoError) -> Void)
     func wikiSegments() -> [SelfLearningSegment]
     func content(_ slug: String, handler: @escaping (OTSContent?, OtsimoError) -> Void)
