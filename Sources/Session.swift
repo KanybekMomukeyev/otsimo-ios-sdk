@@ -174,7 +174,7 @@ open class Session {
         return .success
     }
 
-    open func setAuth(_ call: GRPCProtoCall) {
+    open func setAuth(_ call: GRPCCall) {
         call.oauth2AccessToken = self.accessToken
     }
 
