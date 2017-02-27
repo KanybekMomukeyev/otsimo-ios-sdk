@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import GRPCClient
 
 open class Otsimo {
     fileprivate static let storageVersion = 28
@@ -48,7 +49,7 @@ open class Otsimo {
         sharedInstance.onlyProduction = config.onlyProduction
         sharedInstance.readLanguages()
 
-        sharedInstance.connection = Connection(config: config)
+        sharedInstance.connection = Connection(config: config, interceptor: sharedInstance)
         sharedInstance.analytics = Analytics(connection: sharedInstance.connection!)
 
         if isFirstLaunch() {
@@ -108,4 +109,49 @@ open class Otsimo {
         UserDefaults.standard.set(Otsimo.storageVersion, forKey: "OtsimoSDKStorageVersion")
         UserDefaults.standard.synchronize()
     }
+
+    open var apiService: ApiService? {
+        return self.connection?.apiService
+    }
+    
+    open var catalogService: CatalogService? {
+        return self.connection?.catalogService
+    }
+
+    open var watchService: WatchService? {
+        return self.connection?.watchService
+    }
+
+    open var listenerService: ListenerService? {
+        return self.connection?.listenerService
+    }
+
+    open var registryService: RegistryService? {
+        return self.connection?.registryService
+    }
+
+    open var contentService: ContentService? {
+        return self.connection?.contentService
+    }
+
+    open var dashboardService: DashboardService? {
+        return self.connection?.dashboardService
+    }
+
+    open var simplifiedAnalytics: SimplifiedAnalytics? {
+        return self.connection?.simplifiedAnalytics
+    }
 }
+
+extension Otsimo: GrpcInterceptor{
+    public var id: String {
+        return "otsimo-auth"
+    }
+    
+    public func intercept(_ call: GRPCCall){
+        if let s = self.session{
+            call.oauth2AccessToken = s.accessToken
+        }
+    }
+}
+

@@ -170,7 +170,7 @@ open class ChildGame {
     public init(entry: Apipb_ChildGameEntry, childID: String) {
         self.entry = entry
         self.childID = childID
-        if entry.settings != Data(){
+        if entry.settings != Data() {
             self.settingsValues = ChildGame.InitSettingsValues(entry.settings)
         } else {
             self.settingsValues = SettingsValues()
@@ -253,6 +253,16 @@ open class ChildGame {
         }
 
         return try? JSONSerialization.data(withJSONObject: dictionary, options: JSONSerialization.WritingOptions())
+    }
+}
+
+extension Apipb_Child {
+    public func getGames() -> [ChildGame] {
+        var chs: [ChildGame] = []
+        for e in games {
+            chs.append(ChildGame(entry: e, childID: id))
+        }
+        return chs.sorted { $0.index < $1.index }
     }
 }
 

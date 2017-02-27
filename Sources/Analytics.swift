@@ -125,22 +125,15 @@ internal class Analytics: OtsimoAnalyticsProtocol {
         internalWriter = GRXBufferedPipe()
         self.session = session
         Log.debug("start Analytics \(self.isStartedBefore)")
-        session.getAuthorizationHeader() { h, e in
-            switch (e) {
-            case .none:
-                let l = self.connection.listenerService.customEvent(self.internalWriter, handler: self.rpcHandler)
-                if l.state != .started {
-                    l.oauth2AccessToken = h
-                    l.requestHeaders.setValue(self.deviceB64, forKey: "device")
-                }
-                l.start()
-                self.RPC = l
-                self.isStartedBefore = true
-            default:
-                Log.error("failed to get authorization header, \(e)")
-            }
+        
+        let l = self.connection.listenerService.customEvent(self.internalWriter, handler: self.rpcHandler)
+        if l.state != .started {
+            l.requestHeaders.setValue(self.deviceB64, forKey: "device")
         }
+        self.RPC = l
+        self.isStartedBefore = true
         timer = createDispatchTimer(interval: 60, queue: analyticsQueue, handler: checkState)
+        l.start()
     }
 
     func restart() {
@@ -149,18 +142,9 @@ internal class Analytics: OtsimoAnalyticsProtocol {
         }
         Log.debug("restart Analytics \(self.isStartedBefore)")
         internalWriter = GRXBufferedPipe()
-        self.session!.getAuthorizationHeader() { h, e in
-            switch (e) {
-            case .none:
-                let l = self.connection.listenerService.customEvent(self.internalWriter, handler: self.rpcHandler)
-                l.oauth2AccessToken = h
-                l.requestHeaders.setValue(self.deviceB64, forKey: "device")
-                l.start()
-                self.RPC = l
-            default:
-                Log.error("failed to get authorization header, \(e)")
-            }
-        }
+        let l = self.connection.listenerService.customEvent(self.internalWriter, handler: self.rpcHandler)
+        l.requestHeaders.setValue(self.deviceB64, forKey: "device")
+        l.start()
     }
 
     func stopTimer() {

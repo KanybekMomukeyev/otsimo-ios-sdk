@@ -20,7 +20,7 @@ internal final class Connection {
     internal let dashboardService: DashboardService
     internal let simplifiedAnalytics: SimplifiedAnalytics
 
-    internal init(config: ClientConfig) {
+    internal init(config: ClientConfig, interceptor: GrpcInterceptor?) {
         self.config = config
         if (!config.useTls) {
             GRPCCall.useInsecureConnections(forHost: config.apiGrpcUrl)
@@ -38,6 +38,16 @@ internal final class Connection {
         contentService = ContentService(host: config.contentGrpcUrl)
         dashboardService = DashboardService(host: config.dashboardGrpcUrl)
         simplifiedAnalytics = SimplifiedAnalytics(host:config.simplifiedAnalyticsUrl)
+        if let i = interceptor{
+            apiService.Register(interceptor: i)
+            catalogService.Register(interceptor: i)
+            watchService.Register(interceptor: i)
+            listenerService.Register(interceptor: i)
+            registryService.Register(interceptor: i)
+            contentService.Register(interceptor: i)
+            dashboardService.Register(interceptor: i)
+            simplifiedAnalytics.Register(interceptor: i)
+        }
     }
 
     func getProfile(_ session: Session, handler: @escaping (Apipb_Profile?, OtsimoError) -> Void) {
@@ -45,22 +55,13 @@ internal final class Connection {
         request.id = session.profileID
         let RPC = apiService.getProfile(request) { response, error in
             if let response = response {
-                onMainThread { handler(response, OtsimoError.none) }
+                handler(response, OtsimoError.none)
             } else {
                 Log.error("getProfile: Finished with error: \(error!)")
-                onMainThread { handler(nil, OtsimoError.serviceError(message: "\(error)")) }
+                 handler(nil, OtsimoError.serviceError(message: "\(error)"))
             }
         }
-
-        session.getAuthorizationHeader { header, err in
-            switch (err) {
-            case .none:
-                RPC.oauth2AccessToken = header
-                RPC.start()
-            default:
-                handler(nil, err)
-            }
-        }
+        RPC.start()
     }
 
     func addChild(_ session: Session, child: Apipb_Child, handler: @escaping (OtsimoError) -> Void) {
@@ -70,24 +71,16 @@ internal final class Connection {
         let RPC = apiService.addChild( child) { response, error in
             if let response = response {
                 if response.type == 0 {
-                    onMainThread { handler(OtsimoError.none) }
+                    handler(OtsimoError.none)
                 } else {
-                    onMainThread { handler(OtsimoError.serviceError(message: "code:\(response.type),message:\(response.message)")) }
+                    handler(OtsimoError.serviceError(message: "code:\(response.type),message:\(response.message)"))
                 }
             } else {
                 Log.error("addChild, Finished with error: \(error!)")
-                onMainThread { handler(OtsimoError.serviceError(message: "\(error)")) }
+                handler(OtsimoError.serviceError(message: "\(error)"))
             }
         }
-        session.getAuthorizationHeader { header, err in
-            switch (err) {
-            case .none:
-                RPC.oauth2AccessToken = header
-                RPC.start()
-            default:
-                handler(err)
-            }
-        }
+        RPC.start()
     }
 
     func getChild(_ session: Session, childId: String, handler: @escaping (_ res: Apipb_Child?, _ err: OtsimoError) -> Void) {
@@ -96,22 +89,13 @@ internal final class Connection {
 
         let RPC = apiService.getChild(req) { response, error in
             if let response = response {
-                onMainThread { handler(response, .none) }
+                handler(response, .none)
             } else {
                 Log.error("getChild, Finished with error: \(error!)")
-                onMainThread { handler(nil, OtsimoError.serviceError(message: "\(error)")) }
+               handler(nil, OtsimoError.serviceError(message: "\(error)"))
             }
         }
-
-        session.getAuthorizationHeader { header, err in
-            switch (err) {
-            case .none:
-                RPC.oauth2AccessToken = header
-                RPC.start()
-            default:
-                handler(nil, err)
-            }
-        }
+        RPC.start()
     }
 
     func getChildren(_ session: Session, handler: @escaping (_ res: [Apipb_Child], _ err: OtsimoError) -> Void) {
@@ -120,72 +104,46 @@ internal final class Connection {
 
         let RPC = apiService.getChildren( req) { response, error in
             if let response = response {
-                onMainThread { handler(response.children, .none) }
+                handler(response.children, .none)
             } else {
-                onMainThread { handler([], OtsimoError.serviceError(message: "\(error)")) }
+                handler([], OtsimoError.serviceError(message: "\(error)"))
                 Log.error("getChildren, Finished with error: \(error!)")
             }
         }
+        RPC.start()
 
-        session.getAuthorizationHeader { header, err in
-            switch (err) {
-            case .none:
-                RPC.oauth2AccessToken = header
-                RPC.start()
-            default:
-                handler([], err)
-            }
-        }
     }
 
     func updateGameEntry(_ session: Session, req: Apipb_GameEntryRequest, handler: @escaping (OtsimoError) -> Void) {
         let RPC = apiService.updateGameEntry(req) { response, error in
             if let response = response {
                 if response.type == 0 {
-                    onMainThread { handler(OtsimoError.none) }
+                    handler(OtsimoError.none)
                 } else {
-                    onMainThread { handler(OtsimoError.serviceError(message: "code:\(response.type),message:\(response.message)")) }
+                   handler(OtsimoError.serviceError(message: "code:\(response.type),message:\(response.message)"))
                 }
             } else {
                 Log.error("updateGameEntry, Finished with error: \(error!)")
                 onMainThread { handler(OtsimoError.serviceError(message: "\(error)")) }
             }
         }
-
-        session.getAuthorizationHeader { header, err in
-            switch (err) {
-            case .none:
-                RPC.oauth2AccessToken = header
-                RPC.start()
-            default:
-                handler(err)
-            }
-        }
+        RPC.start()
     }
 
     func updateChildAppSound(_ session: Session, req: Apipb_SoundEnableRequest, handler: @escaping (OtsimoError) -> Void) {
         let RPC = apiService.soundEnable(req) { response, error in
             if let response = response {
                 if response.type == 0 {
-                    onMainThread { handler(OtsimoError.none) }
+                    handler(OtsimoError.none)
                 } else {
-                    onMainThread { handler(OtsimoError.serviceError(message: "code:\(response.type),message:\(response.message)")) }
+                    handler(OtsimoError.serviceError(message: "code:\(response.type),message:\(response.message)"))
                 }
             } else {
                 Log.error("updateChildAppSound, Finished with error: \(error!)")
-                onMainThread { handler(OtsimoError.serviceError(message: "\(error)")) }
+                handler(OtsimoError.serviceError(message: "\(error)"))
             }
         }
-
-        session.getAuthorizationHeader { header, err in
-            switch (err) {
-            case .none:
-                RPC.oauth2AccessToken = header
-                RPC.start()
-            default:
-                handler(err)
-            }
-        }
+        RPC.start()
     }
 
     func updateProfile(_ session: Session, profile: Apipb_Profile, handler: @escaping (OtsimoError) -> Void) {
@@ -194,25 +152,16 @@ internal final class Connection {
         let RPC = apiService.updateProfile(profile) { response, error in
             if let response = response {
                 if response.type == 0 {
-                    onMainThread { handler(OtsimoError.none) }
+                    handler(OtsimoError.none)
                 } else {
-                    onMainThread { handler(OtsimoError.serviceError(message: "code:\(response.type),message:\(response.message)")) }
+                     handler(OtsimoError.serviceError(message: "code:\(response.type),message:\(response.message)"))
                 }
             } else {
                 Log.error("updateProfile, Finished with error: \(error!)")
-                onMainThread { handler(OtsimoError.serviceError(message: "\(error)")) }
+                handler(OtsimoError.serviceError(message: "\(error)"))
             }
         }
-
-        session.getAuthorizationHeader { header, err in
-            switch (err) {
-            case .none:
-                RPC.oauth2AccessToken = header
-                RPC.start()
-            default:
-                handler(err)
-            }
-        }
+        RPC.start()
     }
 
     func updateChild(_ session: Session, id: String, parentID: String, child: Apipb_Child, handler: @escaping (OtsimoError) -> Void) {
@@ -223,45 +172,28 @@ internal final class Connection {
         let RPC = apiService.updateChild(child) { response, error in
             if let response = response {
                 if response.type == 0 {
-                    onMainThread { handler(OtsimoError.none) }
+                    handler(OtsimoError.none)
                 } else {
-                    onMainThread { handler(OtsimoError.serviceError(message: "code:\(response.type),message:\(response.message)")) }
+                    handler(OtsimoError.serviceError(message: "code:\(response.type),message:\(response.message)"))
                 }
             } else {
                 Log.error("updateChild, Finished with error: \(error!)")
-                onMainThread { handler(OtsimoError.serviceError(message: "\(error)")) }
+                handler(OtsimoError.serviceError(message: "\(error)"))
             }
         }
-
-        session.getAuthorizationHeader { header, err in
-            switch (err) {
-            case .none:
-                RPC.oauth2AccessToken = header
-                RPC.start()
-            default:
-                handler(err)
-            }
-        }
+        RPC.start()
     }
 
     func getCurrentCatalog(_ session: Session, req: Apipb_CatalogPullRequest, handler: @escaping (_ res: Apipb_Catalog?, _ err: OtsimoError) -> Void) {
         let RPC = catalogService.pull(req) { response, error in
             if let response = response {
-                onMainThread { handler(response, OtsimoError.none) }
+                handler(response, OtsimoError.none)
             } else {
                 Log.error("getCurrentCatalog, Finished with error: \(error!)")
-                onMainThread { handler(nil, OtsimoError.serviceError(message: "\(error)")) }
+                handler(nil, OtsimoError.serviceError(message: "\(error)"))
             }
         }
-        session.getAuthorizationHeader { header, err in
-            switch (err) {
-            case .none:
-                RPC.oauth2AccessToken = header
-                RPC.start()
-            default:
-                handler(nil, err)
-            }
-        }
+        RPC.start()
     }
 
     func getGameRelease(_ session: Session?, gameID: String, version: String?, onlyProduction: Bool?, handler: @escaping (_ res: Apipb_GameRelease?, _ err: OtsimoError) -> Void) {
@@ -282,25 +214,13 @@ internal final class Connection {
 
         let RPC = registryService.getRelease(req) { response, error in
             if let response = response {
-                onMainThread { handler(response, OtsimoError.none) }
+                handler(response, OtsimoError.none)
             } else {
                 Log.error("getGameRelease, Finished with error: \(error!)")
-                onMainThread { handler(nil, OtsimoError.serviceError(message: "\(error)")) }
+                handler(nil, OtsimoError.serviceError(message: "\(error)"))
             }
         }
-        if let s = session {
-            s.getAuthorizationHeader { header, err in
-                switch (err) {
-                case .none:
-                    RPC.oauth2AccessToken = header
-                default:
-                    break
-                }
-                RPC.start()
-            }
-        } else {
-            RPC.start()
-        }
+        RPC.start()
     }
 
     func getAllGamesStream(_ session: Session?, language: String?, handler: @escaping (Apipb_ListItem?, _ done: Bool, _ err: OtsimoError) -> Void) {
@@ -312,30 +232,17 @@ internal final class Connection {
         }
         let RPC = registryService.listGames(req) { done, response, error in
             if let response = response {
-                onMainThread { handler(response, false, OtsimoError.none) }
+                handler(response, false, OtsimoError.none)
             } else if (!done) {
                 Log.error("getAllGames, Finished with error: \(error!)")
-                onMainThread { handler(nil, true, OtsimoError.serviceError(message: "\(error)")) }
+                handler(nil, true, OtsimoError.serviceError(message: "\(error)"))
                 return
             }
             if (done) {
-                onMainThread { handler(nil, true, OtsimoError.none) }
+               handler(nil, true, OtsimoError.none)
             }
         }
-
-        if let s = session {
-            s.getAuthorizationHeader { header, err in
-                switch (err) {
-                case .none:
-                    RPC.oauth2AccessToken = header
-                default:
-                    break
-                }
-                RPC.start()
-            }
-        } else {
-            RPC.start()
-        }
+        RPC.start()
     }
 
     func gamesLatestVersions(_ session: Session?, gameIDs: [String], handler: @escaping ([Apipb_GameAndVersion], _ err: OtsimoError) -> Void) {
@@ -345,28 +252,16 @@ internal final class Connection {
         } else {
             req.state = Apipb_RequestReleaseState.allStates
         }
-        req.gameIds=gameIDs
+        req.gameIds = gameIDs
         
         let RPC = registryService.getLatestVersions(req) { resp, err in
             if let resp = resp {
-                onMainThread { handler(resp.results, .none) }
+                handler(resp.results, .none)
             } else {
-                onMainThread { handler([], OtsimoError.serviceError(message: "\(err)")) }
+                handler([], OtsimoError.serviceError(message: "\(err)"))
             }
         }
-        if let s = session {
-            s.getAuthorizationHeader { header, err in
-                switch (err) {
-                case .none:
-                    RPC.oauth2AccessToken = header
-                default:
-                    break
-                }
-                RPC.start()
-            }
-        } else {
-            RPC.start()
-        }
+        RPC.start()
     }
 
     func getDashboard(_ session: Session, childID: String, lang: String, time: Int64?, handler: @escaping (_ dashboard: Otsimo_DashboardItems?, _ err: OtsimoError) -> Void) {
@@ -384,21 +279,12 @@ internal final class Connection {
 
         let RPC = dashboardService.get(req) { response, error in
             if let response = response {
-                onMainThread { handler(response, OtsimoError.none) }
+                 handler(response, OtsimoError.none)
             } else {
-                onMainThread { handler(nil, OtsimoError.serviceError(message: "\(error)")) }
+               handler(nil, OtsimoError.serviceError(message: "\(error)"))
             }
         }
-
-        session.getAuthorizationHeader { header, err in
-            switch (err) {
-            case .none:
-                RPC.oauth2AccessToken = header
-                RPC.start()
-            default:
-                handler(nil, err)
-            }
-        }
+        RPC.start()
     }
 
     func getContents(_ session: Session, req: Apipb_ContentListRequest, handler: @escaping (_ ver: Int, _ res: [Apipb_Content], _ err: OtsimoError) -> Void) {
