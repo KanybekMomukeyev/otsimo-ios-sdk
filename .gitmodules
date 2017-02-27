@@ -1,0 +1,3 @@
+[submodule "otsimopb"]
+	path = otsimopb
+	url = https://github.com/otsimo/otsimopb.git

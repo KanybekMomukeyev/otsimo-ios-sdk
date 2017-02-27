@@ -8,40 +8,36 @@
 
 import Foundation
 
-import OtsimoApiGrpc
-
 extension Otsimo: WikiApi {
 
-    public func contentsByQuery(_ query: OTSContentListRequest, callback: @escaping (Int, [OTSContent], OtsimoError) -> Void) {
+    public func contentsByQuery(_ query: Apipb_ContentListRequest, callback: @escaping (Int, [Apipb_Content], OtsimoError) -> Void) {
         self.isReady({ callback(0, [], $0) }) { c, s in
-            if self.onlyProduction {
-                query.status = OTSContentListRequest_ListStatus.onlyApproved
+            /*if self.onlyProduction {
+                query.status = Apipb_ContentListRequest.ListStatus.onlyApproved
             } else {
-                query.status = OTSContentListRequest_ListStatus.both
-            }
+                query.status = Apipb_ContentListRequest.ListStatus.both
+            }*/
             c.getContents(s, req: query, handler: callback)
         }
     }
 
-    public func content(_ slug: String, handler: @escaping (OTSContent?, OtsimoError) -> Void) {
+    public func content(_ slug: String, handler: @escaping (Apipb_Content?, OtsimoError) -> Void) {
         self.isReady({ handler(nil, $0) }) { c, s in
             c.getContent(s, slug: slug, handler: handler)
         }
     }
 
-    public func wikiSegments() -> [SelfLearningSegment] {
+    public func wikiSegments() -> [Apipb_SelfLearningSegment] {
         let data = self.cluster.config != nil ? self.cluster.config : self.cluster.storedData()
         if let d = data {
             if let lang = Otsimo.sharedInstance.preferredLanguage {
-                if let a = d.selfLearningConfigs[lang] as? SelfLearningConfig {
-                    let aa = a.segmentsArray as [AnyObject] as! [SelfLearningSegment]
-                    return aa
+                if let a = d.selfLearningConfigs[lang] {
+                    return a.segments
                 }
             } else {
                 for l in Otsimo.sharedInstance.languages {
-                    if let a = d.selfLearningConfigs[l] as? SelfLearningConfig {
-                        let aa = a.segmentsArray as [AnyObject] as! [SelfLearningSegment]
-                        return aa
+                    if let a = d.selfLearningConfigs[l] {
+                        return a.segments
                     }
                 }
             }

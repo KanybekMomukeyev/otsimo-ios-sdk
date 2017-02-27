@@ -7,20 +7,19 @@
 //
 
 import Foundation
-import OtsimoApiGrpc
-import grpc
+import GRPCClient
 
 internal final class Connection {
     internal let config: ClientConfig
-    internal let apiService: OTSApiService
-    internal let catalogService: OTSCatalogService
-    internal let watchService: OTSWatchService
-    internal let listenerService: OTSListenerService
-    internal let registryService: OTSRegistryService
-    internal let contentService: OTSContentService
+    internal let apiService: ApiService
+    internal let catalogService: CatalogService
+    internal let watchService: WatchService
+    internal let listenerService: ListenerService
+    internal let registryService: RegistryService
+    internal let contentService: ContentService
     internal let dashboardService: DashboardService
-    internal let simplifiedAnalytics: OTSSimplifiedAnalytics
-    
+    internal let simplifiedAnalytics: SimplifiedAnalytics
+
     internal init(config: ClientConfig) {
         self.config = config
         if (!config.useTls) {
@@ -31,21 +30,20 @@ internal final class Connection {
             GRPCCall.useInsecureConnections(forHost: config.watchGrpcUrl)
             GRPCCall.useInsecureConnections(forHost: config.contentGrpcUrl)
         }
-        apiService = OTSApiService(host: config.apiGrpcUrl)
-        catalogService = OTSCatalogService(host: config.catalogGrpcUrl)
-        watchService = OTSWatchService(host: config.watchGrpcUrl)
-        listenerService = OTSListenerService(host: config.listenerGrpcUrl)
-        registryService = OTSRegistryService(host: config.registryGrpcUrl)
-        contentService = OTSContentService(host: config.contentGrpcUrl)
+        apiService = ApiService(host: config.apiGrpcUrl)
+        catalogService = CatalogService(host: config.catalogGrpcUrl)
+        watchService = WatchService(host: config.watchGrpcUrl)
+        listenerService = ListenerService(host: config.listenerGrpcUrl)
+        registryService = RegistryService(host: config.registryGrpcUrl)
+        contentService = ContentService(host: config.contentGrpcUrl)
         dashboardService = DashboardService(host: config.dashboardGrpcUrl)
-        simplifiedAnalytics = OTSSimplifiedAnalytics(host:config.simplifiedAnalyticsUrl)
-        
+        simplifiedAnalytics = SimplifiedAnalytics(host:config.simplifiedAnalyticsUrl)
     }
 
-    func getProfile(_ session: Session, handler: @escaping (OTSProfile?, OtsimoError) -> Void) {
-        let request = OTSGetProfileRequest()
-        request.id_p = session.profileID
-        let RPC = apiService.rpcToGetProfile(with: request) { response, error in
+    func getProfile(_ session: Session, handler: @escaping (Apipb_Profile?, OtsimoError) -> Void) {
+        var request = Apipb_GetProfileRequest()
+        request.id = session.profileID
+        let RPC = apiService.getProfile(request) { response, error in
             if let response = response {
                 onMainThread { handler(response, OtsimoError.none) }
             } else {
@@ -65,15 +63,16 @@ internal final class Connection {
         }
     }
 
-    func addChild(_ session: Session, child: OTSChild, handler: @escaping (OtsimoError) -> Void) {
+    func addChild(_ session: Session, child: Apipb_Child, handler: @escaping (OtsimoError) -> Void) {
+        var child = child
         child.parentId = session.profileID
 
-        let RPC = apiService.rpcToAddChild(withRequest: child) { response, error in
+        let RPC = apiService.addChild( child) { response, error in
             if let response = response {
                 if response.type == 0 {
                     onMainThread { handler(OtsimoError.none) }
                 } else {
-                    onMainThread { handler(OtsimoError.serviceError(message: "code:\(response.type),message:\(response.message!)")) }
+                    onMainThread { handler(OtsimoError.serviceError(message: "code:\(response.type),message:\(response.message)")) }
                 }
             } else {
                 Log.error("addChild, Finished with error: \(error!)")
@@ -91,11 +90,11 @@ internal final class Connection {
         }
     }
 
-    func getChild(_ session: Session, childId: String, handler: @escaping (_ res: OTSChild?, _ err: OtsimoError) -> Void) {
-        let req = OTSGetChildRequest()
+    func getChild(_ session: Session, childId: String, handler: @escaping (_ res: Apipb_Child?, _ err: OtsimoError) -> Void) {
+        var req = Apipb_GetChildRequest()
         req.childId = childId
 
-        let RPC = apiService.rpcToGetChild(with: req) { response, error in
+        let RPC = apiService.getChild(req) { response, error in
             if let response = response {
                 onMainThread { handler(response, .none) }
             } else {
@@ -115,20 +114,13 @@ internal final class Connection {
         }
     }
 
-    func getChildren(_ session: Session, handler: @escaping (_ res: [OTSChild], _ err: OtsimoError) -> Void) {
-        let req = OTSGetChildrenFromProfileRequest()
+    func getChildren(_ session: Session, handler: @escaping (_ res: [Apipb_Child], _ err: OtsimoError) -> Void) {
+        var req = Apipb_GetChildrenFromProfileRequest()
         req.profileId = session.profileID
 
-        let RPC = apiService.rpcToGetChildren(with: req) { response, error in
+        let RPC = apiService.getChildren( req) { response, error in
             if let response = response {
-                var r: [OTSChild] = []
-                for i in 0 ..< Int(response.childrenArray_Count) {
-                    let child = response.childrenArray[i] as? OTSChild
-                    if let child = child {
-                        r.append(child)
-                    }
-                }
-                onMainThread { handler(r, .none) }
+                onMainThread { handler(response.children, .none) }
             } else {
                 onMainThread { handler([], OtsimoError.serviceError(message: "\(error)")) }
                 Log.error("getChildren, Finished with error: \(error!)")
@@ -146,13 +138,13 @@ internal final class Connection {
         }
     }
 
-    func updateGameEntry(_ session: Session, req: OTSGameEntryRequest, handler: @escaping (OtsimoError) -> Void) {
-        let RPC = apiService.rpcToUpdateGameEntry(with: req) { response, error in
+    func updateGameEntry(_ session: Session, req: Apipb_GameEntryRequest, handler: @escaping (OtsimoError) -> Void) {
+        let RPC = apiService.updateGameEntry(req) { response, error in
             if let response = response {
                 if response.type == 0 {
                     onMainThread { handler(OtsimoError.none) }
                 } else {
-                    onMainThread { handler(OtsimoError.serviceError(message: "code:\(response.type),message:\(response.message!)")) }
+                    onMainThread { handler(OtsimoError.serviceError(message: "code:\(response.type),message:\(response.message)")) }
                 }
             } else {
                 Log.error("updateGameEntry, Finished with error: \(error!)")
@@ -171,13 +163,13 @@ internal final class Connection {
         }
     }
 
-    func updateChildAppSound(_ session: Session, req: OTSSoundEnableRequest, handler: @escaping (OtsimoError) -> Void) {
-        let RPC = apiService.rpcToSoundEnable(with: req) { response, error in
+    func updateChildAppSound(_ session: Session, req: Apipb_SoundEnableRequest, handler: @escaping (OtsimoError) -> Void) {
+        let RPC = apiService.soundEnable(req) { response, error in
             if let response = response {
                 if response.type == 0 {
                     onMainThread { handler(OtsimoError.none) }
                 } else {
-                    onMainThread { handler(OtsimoError.serviceError(message: "code:\(response.type),message:\(response.message!)")) }
+                    onMainThread { handler(OtsimoError.serviceError(message: "code:\(response.type),message:\(response.message)")) }
                 }
             } else {
                 Log.error("updateChildAppSound, Finished with error: \(error!)")
@@ -196,15 +188,15 @@ internal final class Connection {
         }
     }
 
-    func updateProfile(_ session: Session, profile: OTSProfile, handler: @escaping (OtsimoError) -> Void) {
-        profile.id_p = session.profileID
-
-        let RPC = apiService.rpcToUpdateProfile(withRequest: profile) { response, error in
+    func updateProfile(_ session: Session, profile: Apipb_Profile, handler: @escaping (OtsimoError) -> Void) {
+        var profile = profile
+        profile.id = session.profileID
+        let RPC = apiService.updateProfile(profile) { response, error in
             if let response = response {
                 if response.type == 0 {
                     onMainThread { handler(OtsimoError.none) }
                 } else {
-                    onMainThread { handler(OtsimoError.serviceError(message: "code:\(response.type),message:\(response.message!)")) }
+                    onMainThread { handler(OtsimoError.serviceError(message: "code:\(response.type),message:\(response.message)")) }
                 }
             } else {
                 Log.error("updateProfile, Finished with error: \(error!)")
@@ -223,16 +215,17 @@ internal final class Connection {
         }
     }
 
-    func updateChild(_ session: Session, id: String, parentID: String, child: OTSChild, handler: @escaping (OtsimoError) -> Void) {
-        child.id_p = id
+    func updateChild(_ session: Session, id: String, parentID: String, child: Apipb_Child, handler: @escaping (OtsimoError) -> Void) {
+        var child = child
+        child.id = id
         child.parentId = parentID
 
-        let RPC = apiService.rpcToUpdateChild(withRequest: child) { response, error in
+        let RPC = apiService.updateChild(child) { response, error in
             if let response = response {
                 if response.type == 0 {
                     onMainThread { handler(OtsimoError.none) }
                 } else {
-                    onMainThread { handler(OtsimoError.serviceError(message: "code:\(response.type),message:\(response.message!)")) }
+                    onMainThread { handler(OtsimoError.serviceError(message: "code:\(response.type),message:\(response.message)")) }
                 }
             } else {
                 Log.error("updateChild, Finished with error: \(error!)")
@@ -251,8 +244,8 @@ internal final class Connection {
         }
     }
 
-    func getCurrentCatalog(_ session: Session, req: OTSCatalogPullRequest, handler: @escaping (_ res: OTSCatalog?, _ err: OtsimoError) -> Void) {
-        let RPC = catalogService.rpcToPull(with: req) { response, error in
+    func getCurrentCatalog(_ session: Session, req: Apipb_CatalogPullRequest, handler: @escaping (_ res: Apipb_Catalog?, _ err: OtsimoError) -> Void) {
+        let RPC = catalogService.pull(req) { response, error in
             if let response = response {
                 onMainThread { handler(response, OtsimoError.none) }
             } else {
@@ -271,21 +264,23 @@ internal final class Connection {
         }
     }
 
-    func getGameRelease(_ session: Session?, gameID: String, version: String?, onlyProduction: Bool?, handler: @escaping (_ res: OTSGameRelease?, _ err: OtsimoError) -> Void) {
-        let req = OTSGetGameReleaseRequest()
+    func getGameRelease(_ session: Session?, gameID: String, version: String?, onlyProduction: Bool?, handler: @escaping (_ res: Apipb_GameRelease?, _ err: OtsimoError) -> Void) {
+        var req = Apipb_GetGameReleaseRequest()
         req.gameId = gameID
-        req.version = version
+        if let v = version {
+            req.version = v
+        }
         if let prod = onlyProduction {
             if prod {
-                req.state = OTSRequestReleaseState.productionState
+                req.state = Apipb_RequestReleaseState.productionState
             } else {
-                req.state = OTSRequestReleaseState.allStates
+                req.state = Apipb_RequestReleaseState.allStates
             }
         } else {
-            req.state = OTSRequestReleaseState.productionState
+            req.state = Apipb_RequestReleaseState.productionState
         }
 
-        let RPC = registryService.rpcToGetRelease(with: req) { response, error in
+        let RPC = registryService.getRelease(req) { response, error in
             if let response = response {
                 onMainThread { handler(response, OtsimoError.none) }
             } else {
@@ -308,13 +303,14 @@ internal final class Connection {
         }
     }
 
-    func getAllGamesStream(_ session: Session?, language: String?, handler: @escaping (OTSListItem?, _ done: Bool, _ err: OtsimoError) -> Void) {
-        let req = OTSListGamesRequest()
-        req.releaseState = OTSListGamesRequest_InnerState.production
+    func getAllGamesStream(_ session: Session?, language: String?, handler: @escaping (Apipb_ListItem?, _ done: Bool, _ err: OtsimoError) -> Void) {
+        var req = Apipb_ListGamesRequest()
+        req.releaseState = Apipb_ListGamesRequest.InnerState.production
         req.limit = 32
-        req.language = language
-
-        let RPC = registryService.rpcToListGames(with: req) { done, response, error in
+        if let l = language{
+            req.language = l
+        }
+        let RPC = registryService.listGames(req) { done, response, error in
             if let response = response {
                 onMainThread { handler(response, false, OtsimoError.none) }
             } else if (!done) {
@@ -342,25 +338,18 @@ internal final class Connection {
         }
     }
 
-    func gamesLatestVersions(_ session: Session?, gameIDs: [String], handler: @escaping ([OTSGameAndVersion], _ err: OtsimoError) -> Void) {
-        let req: OTSGetLatestVersionsRequest = OTSGetLatestVersionsRequest()
+    func gamesLatestVersions(_ session: Session?, gameIDs: [String], handler: @escaping ([Apipb_GameAndVersion], _ err: OtsimoError) -> Void) {
+        var req = Apipb_GetLatestVersionsRequest()
         if config.onlyProduction {
-            req.state = OTSRequestReleaseState.productionState
+            req.state = Apipb_RequestReleaseState.productionState
         } else {
-            req.state = OTSRequestReleaseState.allStates
+            req.state = Apipb_RequestReleaseState.allStates
         }
-        req.gameIdsArray = NSMutableArray(array: gameIDs)
-
-        let RPC = registryService.rpcToGetLatestVersions(with: req) { resp, err in
+        req.gameIds=gameIDs
+        
+        let RPC = registryService.getLatestVersions(req) { resp, err in
             if let resp = resp {
-                var r: [OTSGameAndVersion] = []
-                for i in 0 ..< Int(resp.resultsArray_Count) {
-                    let gav = resp.resultsArray[i] as? OTSGameAndVersion
-                    if let g = gav {
-                        r.append(g)
-                    }
-                }
-                onMainThread { handler(r, .none) }
+                onMainThread { handler(resp.results, .none) }
             } else {
                 onMainThread { handler([], OtsimoError.serviceError(message: "\(err)")) }
             }
@@ -380,8 +369,8 @@ internal final class Connection {
         }
     }
 
-    func getDashboard(_ session: Session, childID: String, lang: String, time: Int64?, handler: @escaping (_ dashboard: DashboardItems?, _ err: OtsimoError) -> Void) {
-        let req = DashboardGetRequest()
+    func getDashboard(_ session: Session, childID: String, lang: String, time: Int64?, handler: @escaping (_ dashboard: Otsimo_DashboardItems?, _ err: OtsimoError) -> Void) {
+        var req = Otsimo_DashboardGetRequest()
         req.profileId = session.profileID
         req.childId = childID
         req.language = lang
@@ -393,7 +382,7 @@ internal final class Connection {
             req.lastTimeDataFetched = 0
         }
 
-        let RPC = dashboardService.rpcToGet(with: req) { response, error in
+        let RPC = dashboardService.get(req) { response, error in
             if let response = response {
                 onMainThread { handler(response, OtsimoError.none) }
             } else {
@@ -412,20 +401,14 @@ internal final class Connection {
         }
     }
 
-    func getContents(_ session: Session, req: OTSContentListRequest, handler: @escaping (_ ver: Int, _ res: [OTSContent], _ err: OtsimoError) -> Void) {
+    func getContents(_ session: Session, req: Apipb_ContentListRequest, handler: @escaping (_ ver: Int, _ res: [Apipb_Content], _ err: OtsimoError) -> Void) {
+        var req = req
         req.profileId = session.profileID
         req.clientVersion = Otsimo.sdkVersion
 
-        let RPC: GRPCProtoCall = contentService.rpcToList(with: req) { response, error in
+        let RPC = contentService.list(req) { response, error in
             if let response = response {
-                var r: [OTSContent] = []
-                for i in 0 ..< Int(response.contentsArray_Count) {
-                    let content = response.contentsArray[i] as? OTSContent
-                    if let content = content {
-                        r.append(content)
-                    }
-                }
-                handler(Int(response.assetVersion), r, .none)
+                handler(Int(response.assetVersion), response.contents, .none)
             } else {
                 handler(0, [], OtsimoError.serviceError(message: "\(error)"))
                 Log.error("getContents, Finished with error: \(error!)")
@@ -434,10 +417,10 @@ internal final class Connection {
         RPC.start()
     }
 
-    func getContent(_ session: Session, slug: String, handler: @escaping (_ res: OTSContent?, _ err: OtsimoError) -> Void) {
-        let req = OTSContentGetRequest()
+    func getContent(_ session: Session, slug: String, handler: @escaping (_ res: Apipb_Content?, _ err: OtsimoError) -> Void) {
+        var req = Apipb_ContentGetRequest()
         req.slug = slug
-        let RPC = contentService.rpcToGet(with: req) { response, error in
+        let RPC = contentService.get(req) { response, error in
             if let response = response {
                  handler(response, .none)
             } else {

@@ -7,39 +7,38 @@
 //
 
 import Foundation
-import OtsimoApiGrpc
 
 open class GameManifest {
     open let gameId: String
     open let version: String
-    open let manifest: OTSGameManifest
-    open let metadatas: [OTSGameMetadata]
+    open let manifest: Apipb_GameManifest
+    open let metadatas: [Apipb_GameMetadata]
     open let storage: String
     open let archiveFormat: String
     fileprivate var settings: GameSettings?
     fileprivate var keyvalue: GameKeyValueStore?
 
-    init(id: String, gameRelease: OTSGameRelease) {
+    init(id: String, gameRelease: Apipb_GameRelease) {
         gameId = id
         manifest = gameRelease.gameManifest
-        metadatas = manifest.metadataArray as AnyObject as! [OTSGameMetadata]
+        metadatas = manifest.metadata
         version = gameRelease.version
         settings = nil
         storage = gameRelease.storage
         archiveFormat = gameRelease.archiveFormat
     }
 
-    init(id: String, version: String, storage: String, archive: String, gameManifest: OTSGameManifest) {
+    init(id: String, version: String, storage: String, archive: String, gameManifest: Apipb_GameManifest) {
         gameId = id
         manifest = gameManifest
-        metadatas = manifest.metadataArray as AnyObject as! [OTSGameMetadata]
+        metadatas = manifest.metadata
         self.version = version
         settings = nil
         self.storage = storage
         archiveFormat = archive
     }
 
-    open var localMetadata: OTSGameMetadata {
+    open var localMetadata: Apipb_GameMetadata {
         get {
             if let lang = Otsimo.sharedInstance.preferredLanguage {
                 for md in metadatas {
@@ -60,7 +59,7 @@ open class GameManifest {
         }
     }
 
-    open var defaultMetadata: OTSGameMetadata {
+    open var defaultMetadata: Apipb_GameMetadata {
         get {
             for md in metadatas {
                 if md.language == manifest.defaultLanguage {
@@ -136,11 +135,9 @@ open class GameManifest {
         get {
             var images: [String] = []
             let md = localMetadata
-            for i in md.imagesArray {
-                if let im = i as? String {
-                    let u = Otsimo.sharedInstance.fixGameAssetUrl(gameId, version: version, rawUrl: im)
-                    images.append(u)
-                }
+            for im in md.images{
+                let u = Otsimo.sharedInstance.fixGameAssetUrl(gameId, version: version, rawUrl: im)
+                images.append(u)
             }
             return images
         }
@@ -162,15 +159,15 @@ open class GameManifest {
             handler(k)
         } else {
             var lang: String = ""
-            let suplangs = manifest.languagesArray as AnyObject as! [NSString]
+            let suplangs = manifest.languages
 
             if let plang = Otsimo.sharedInstance.preferredLanguage {
-                if suplangs.contains(plang as NSString) {
+                if suplangs.contains(plang) {
                     lang = plang
                 }
             } else {
                 for syslang in Otsimo.sharedInstance.languages {
-                    if suplangs.contains(syslang as NSString) {
+                    if suplangs.contains(syslang) {
                         lang = syslang
                         break
                     }
@@ -181,7 +178,7 @@ open class GameManifest {
                 lang = manifest.defaultLanguage
             }
 
-            let rawUrl = "\(manifest.kvPath!)/\(lang).json"
+            let rawUrl = "\(manifest.kvPath)/\(lang).json"
 
             GameKeyValueStore.fromIdAndVersion(gameId, version: version, language: lang, path: rawUrl) { k in
                 self.keyvalue = k

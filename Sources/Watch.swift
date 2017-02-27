@@ -7,15 +7,14 @@
 //
 
 import Foundation
-import grpc
-import OtsimoApiGrpc
+import GRPCClient
 
 internal class Watch: WatchProtocol {
 
     fileprivate var connection: Connection
     fileprivate var session: Session?
-    fileprivate var handler: ((_ watch: OTSWatchEvent) -> Void)?
-    fileprivate var RPC: GRPCProtoCall!
+    fileprivate var handler: ((_ watch: Apipb_WatchEvent) -> Void)?
+    fileprivate var RPC: GrpcProtoCall<Apipb_WatchResponse>!
 
     fileprivate var timer: DispatchSourceTimer?
 
@@ -23,13 +22,13 @@ internal class Watch: WatchProtocol {
         self.connection = connection
     }
 
-    func start(session: Session, handler: @escaping (_ watch: OTSWatchEvent) -> Void) {
+    func start(session: Session, handler: @escaping (_ watch: Apipb_WatchEvent) -> Void) {
         self.handler = handler
-        let req = OTSWatchRequest()
+        var req = Apipb_WatchRequest()
         req.profileId = session.profileID
 
         self.session = session
-        RPC = connection.watchService.rpcToWatch(with: req, eventHandler: rpcHandler)
+        RPC = connection.watchService.watch(req, handler: rpcHandler)
         session.getAuthorizationHeader() { h, e in
             switch (e) {
             case .none:
@@ -54,9 +53,9 @@ internal class Watch: WatchProtocol {
         if RPC != nil {
             RPC.cancel()
         }
-        let req = OTSWatchRequest()
+        var req = Apipb_WatchRequest()
         req.profileId = session!.profileID
-        RPC = connection.watchService.rpcToWatch(with: req, eventHandler: rpcHandler)
+        RPC = connection.watchService.watch(req, handler: rpcHandler)
         session?.getAuthorizationHeader() { h, e in
             switch (e) {
             case .none:
@@ -76,7 +75,7 @@ internal class Watch: WatchProtocol {
         }
     }
 
-    func rpcHandler(done: Bool, response: OTSWatchResponse?, error: Error?) {
+    func rpcHandler(done: Bool, response: Apipb_WatchResponse?, error: Error?) {
         Log.debug("Watch RpcHandler: done=\(done), error=\(error), event=\(response)")
         if let r = response {
             if r.hasEvent {

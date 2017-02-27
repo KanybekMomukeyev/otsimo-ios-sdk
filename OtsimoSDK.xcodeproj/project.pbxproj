@@ -11,6 +11,40 @@
 		0D170ADF1DB92AD9008CEE1B /* BoringSSL.framework in Bundle Frameworks */ = {isa = PBXBuildFile; fileRef = 0D170AB41DB92A17008CEE1B /* BoringSSL.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0D1C47D11CBD3F0200D4834B /* Otsimo+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1C47D01CBD3F0200D4834B /* Otsimo+Utils.swift */; };
 		0D1E09601C7B8A010084A990 /* Otsimo+Wiki.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1E095F1C7B8A010084A990 /* Otsimo+Wiki.swift */; };
+		0D253D6D1E641CB00095F5A8 /* ab.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D253D5C1E641CB00095F5A8 /* ab.pb.swift */; };
+		0D253D6E1E641CB00095F5A8 /* analysis.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D253D5D1E641CB00095F5A8 /* analysis.pb.swift */; };
+		0D253D6F1E641CB00095F5A8 /* api.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D253D5E1E641CB00095F5A8 /* api.pb.swift */; };
+		0D253D701E641CB00095F5A8 /* catalog.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D253D5F1E641CB00095F5A8 /* catalog.pb.swift */; };
+		0D253D711E641CB00095F5A8 /* content.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D253D601E641CB00095F5A8 /* content.pb.swift */; };
+		0D253D721E641CB00095F5A8 /* dashboard.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D253D611E641CB00095F5A8 /* dashboard.pb.swift */; };
+		0D253D731E641CB00095F5A8 /* dashprovider.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D253D621E641CB00095F5A8 /* dashprovider.pb.swift */; };
+		0D253D741E641CB00095F5A8 /* datasetmodels.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D253D631E641CB00095F5A8 /* datasetmodels.pb.swift */; };
+		0D253D751E641CB00095F5A8 /* discovery.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D253D641E641CB00095F5A8 /* discovery.pb.swift */; };
+		0D253D761E641CB00095F5A8 /* file.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D253D651E641CB00095F5A8 /* file.pb.swift */; };
+		0D253D771E641CB00095F5A8 /* listener.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D253D661E641CB00095F5A8 /* listener.pb.swift */; };
+		0D253D781E641CB00095F5A8 /* messages.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D253D671E641CB00095F5A8 /* messages.pb.swift */; };
+		0D253D791E641CB00095F5A8 /* models.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D253D681E641CB00095F5A8 /* models.pb.swift */; };
+		0D253D7A1E641CB00095F5A8 /* registry.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D253D691E641CB00095F5A8 /* registry.pb.swift */; };
+		0D253D7B1E641CB00095F5A8 /* search.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D253D6A1E641CB00095F5A8 /* search.pb.swift */; };
+		0D253D7C1E641CB00095F5A8 /* simplyanalysis.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D253D6B1E641CB00095F5A8 /* simplyanalysis.pb.swift */; };
+		0D253D7D1E641CB00095F5A8 /* watch.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D253D6C1E641CB00095F5A8 /* watch.pb.swift */; };
+		0D253D821E641D720095F5A8 /* GrpcProtoCall.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D253D811E641D720095F5A8 /* GrpcProtoCall.swift */; };
+		0D253D841E641D860095F5A8 /* GrpcProtoMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D253D831E641D860095F5A8 /* GrpcProtoMethod.swift */; };
+		0D253D861E641E660095F5A8 /* GrpcProtoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D253D851E641E660095F5A8 /* GrpcProtoService.swift */; };
+		0D253D991E6443860095F5A8 /* ab.grpc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D253D8B1E6443850095F5A8 /* ab.grpc.swift */; };
+		0D253D9A1E6443860095F5A8 /* analysis.grpc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D253D8C1E6443860095F5A8 /* analysis.grpc.swift */; };
+		0D253D9B1E6443860095F5A8 /* api.grpc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D253D8D1E6443860095F5A8 /* api.grpc.swift */; };
+		0D253D9C1E6443860095F5A8 /* catalog.grpc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D253D8E1E6443860095F5A8 /* catalog.grpc.swift */; };
+		0D253D9D1E6443860095F5A8 /* content.grpc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D253D8F1E6443860095F5A8 /* content.grpc.swift */; };
+		0D253D9E1E6443860095F5A8 /* dashboard.grpc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D253D901E6443860095F5A8 /* dashboard.grpc.swift */; };
+		0D253D9F1E6443860095F5A8 /* dashprovider.grpc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D253D911E6443860095F5A8 /* dashprovider.grpc.swift */; };
+		0D253DA01E6443860095F5A8 /* discovery.grpc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D253D921E6443860095F5A8 /* discovery.grpc.swift */; };
+		0D253DA11E6443860095F5A8 /* file.grpc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D253D931E6443860095F5A8 /* file.grpc.swift */; };
+		0D253DA21E6443860095F5A8 /* listener.grpc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D253D941E6443860095F5A8 /* listener.grpc.swift */; };
+		0D253DA31E6443860095F5A8 /* registry.grpc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D253D951E6443860095F5A8 /* registry.grpc.swift */; };
+		0D253DA41E6443860095F5A8 /* search.grpc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D253D961E6443860095F5A8 /* search.grpc.swift */; };
+		0D253DA51E6443860095F5A8 /* simplyanalysis.grpc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D253D971E6443860095F5A8 /* simplyanalysis.grpc.swift */; };
+		0D253DA61E6443860095F5A8 /* watch.grpc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D253D981E6443860095F5A8 /* watch.grpc.swift */; };
 		0D2C465C1C76FA9900B9DEC8 /* Watch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D2C465B1C76FA9900B9DEC8 /* Watch.swift */; };
 		0D2C465F1C7700F800B9DEC8 /* Otsimo+Watch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D2C465E1C7700F800B9DEC8 /* Otsimo+Watch.swift */; };
 		0D3053741C3AAAB0000FE8B1 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3053731C3AAAB0000FE8B1 /* Errors.swift */; };
@@ -79,6 +113,40 @@
 		0D170AB41DB92A17008CEE1B /* BoringSSL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BoringSSL.framework; path = /Users/sercand/Developer/Otsimo/Child/Carthage/Build/iOS/BoringSSL.framework; sourceTree = "<absolute>"; };
 		0D1C47D01CBD3F0200D4834B /* Otsimo+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Otsimo+Utils.swift"; path = "Sources/Otsimo+Utils.swift"; sourceTree = "<group>"; };
 		0D1E095F1C7B8A010084A990 /* Otsimo+Wiki.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Otsimo+Wiki.swift"; path = "Sources/Otsimo+Wiki.swift"; sourceTree = "<group>"; };
+		0D253D5C1E641CB00095F5A8 /* ab.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ab.pb.swift; sourceTree = "<group>"; };
+		0D253D5D1E641CB00095F5A8 /* analysis.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = analysis.pb.swift; sourceTree = "<group>"; };
+		0D253D5E1E641CB00095F5A8 /* api.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = api.pb.swift; sourceTree = "<group>"; };
+		0D253D5F1E641CB00095F5A8 /* catalog.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = catalog.pb.swift; sourceTree = "<group>"; };
+		0D253D601E641CB00095F5A8 /* content.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = content.pb.swift; sourceTree = "<group>"; };
+		0D253D611E641CB00095F5A8 /* dashboard.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = dashboard.pb.swift; sourceTree = "<group>"; };
+		0D253D621E641CB00095F5A8 /* dashprovider.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = dashprovider.pb.swift; sourceTree = "<group>"; };
+		0D253D631E641CB00095F5A8 /* datasetmodels.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = datasetmodels.pb.swift; sourceTree = "<group>"; };
+		0D253D641E641CB00095F5A8 /* discovery.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = discovery.pb.swift; sourceTree = "<group>"; };
+		0D253D651E641CB00095F5A8 /* file.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = file.pb.swift; sourceTree = "<group>"; };
+		0D253D661E641CB00095F5A8 /* listener.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = listener.pb.swift; sourceTree = "<group>"; };
+		0D253D671E641CB00095F5A8 /* messages.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = messages.pb.swift; sourceTree = "<group>"; };
+		0D253D681E641CB00095F5A8 /* models.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = models.pb.swift; sourceTree = "<group>"; };
+		0D253D691E641CB00095F5A8 /* registry.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = registry.pb.swift; sourceTree = "<group>"; };
+		0D253D6A1E641CB00095F5A8 /* search.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = search.pb.swift; sourceTree = "<group>"; };
+		0D253D6B1E641CB00095F5A8 /* simplyanalysis.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = simplyanalysis.pb.swift; sourceTree = "<group>"; };
+		0D253D6C1E641CB00095F5A8 /* watch.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = watch.pb.swift; sourceTree = "<group>"; };
+		0D253D811E641D720095F5A8 /* GrpcProtoCall.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GrpcProtoCall.swift; path = Grpc/GrpcProtoCall.swift; sourceTree = "<group>"; };
+		0D253D831E641D860095F5A8 /* GrpcProtoMethod.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GrpcProtoMethod.swift; path = Grpc/GrpcProtoMethod.swift; sourceTree = "<group>"; };
+		0D253D851E641E660095F5A8 /* GrpcProtoService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GrpcProtoService.swift; path = Grpc/GrpcProtoService.swift; sourceTree = "<group>"; };
+		0D253D8B1E6443850095F5A8 /* ab.grpc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ab.grpc.swift; path = Grpc/Services/ab.grpc.swift; sourceTree = "<group>"; };
+		0D253D8C1E6443860095F5A8 /* analysis.grpc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = analysis.grpc.swift; path = Grpc/Services/analysis.grpc.swift; sourceTree = "<group>"; };
+		0D253D8D1E6443860095F5A8 /* api.grpc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = api.grpc.swift; path = Grpc/Services/api.grpc.swift; sourceTree = "<group>"; };
+		0D253D8E1E6443860095F5A8 /* catalog.grpc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = catalog.grpc.swift; path = Grpc/Services/catalog.grpc.swift; sourceTree = "<group>"; };
+		0D253D8F1E6443860095F5A8 /* content.grpc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = content.grpc.swift; path = Grpc/Services/content.grpc.swift; sourceTree = "<group>"; };
+		0D253D901E6443860095F5A8 /* dashboard.grpc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = dashboard.grpc.swift; path = Grpc/Services/dashboard.grpc.swift; sourceTree = "<group>"; };
+		0D253D911E6443860095F5A8 /* dashprovider.grpc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = dashprovider.grpc.swift; path = Grpc/Services/dashprovider.grpc.swift; sourceTree = "<group>"; };
+		0D253D921E6443860095F5A8 /* discovery.grpc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = discovery.grpc.swift; path = Grpc/Services/discovery.grpc.swift; sourceTree = "<group>"; };
+		0D253D931E6443860095F5A8 /* file.grpc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = file.grpc.swift; path = Grpc/Services/file.grpc.swift; sourceTree = "<group>"; };
+		0D253D941E6443860095F5A8 /* listener.grpc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = listener.grpc.swift; path = Grpc/Services/listener.grpc.swift; sourceTree = "<group>"; };
+		0D253D951E6443860095F5A8 /* registry.grpc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = registry.grpc.swift; path = Grpc/Services/registry.grpc.swift; sourceTree = "<group>"; };
+		0D253D961E6443860095F5A8 /* search.grpc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = search.grpc.swift; path = Grpc/Services/search.grpc.swift; sourceTree = "<group>"; };
+		0D253D971E6443860095F5A8 /* simplyanalysis.grpc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = simplyanalysis.grpc.swift; path = Grpc/Services/simplyanalysis.grpc.swift; sourceTree = "<group>"; };
+		0D253D981E6443860095F5A8 /* watch.grpc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = watch.grpc.swift; path = Grpc/Services/watch.grpc.swift; sourceTree = "<group>"; };
 		0D2C465B1C76FA9900B9DEC8 /* Watch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Watch.swift; path = Sources/Watch.swift; sourceTree = "<group>"; };
 		0D2C465E1C7700F800B9DEC8 /* Otsimo+Watch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Otsimo+Watch.swift"; path = "Sources/Otsimo+Watch.swift"; sourceTree = "<group>"; };
 		0D3053731C3AAAB0000FE8B1 /* Errors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Errors.swift; path = Sources/Errors.swift; sourceTree = "<group>"; };
@@ -134,6 +202,62 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0D253D5B1E641CB00095F5A8 /* Protos */ = {
+			isa = PBXGroup;
+			children = (
+				0D253D5C1E641CB00095F5A8 /* ab.pb.swift */,
+				0D253D5D1E641CB00095F5A8 /* analysis.pb.swift */,
+				0D253D5E1E641CB00095F5A8 /* api.pb.swift */,
+				0D253D5F1E641CB00095F5A8 /* catalog.pb.swift */,
+				0D253D601E641CB00095F5A8 /* content.pb.swift */,
+				0D253D611E641CB00095F5A8 /* dashboard.pb.swift */,
+				0D253D621E641CB00095F5A8 /* dashprovider.pb.swift */,
+				0D253D631E641CB00095F5A8 /* datasetmodels.pb.swift */,
+				0D253D641E641CB00095F5A8 /* discovery.pb.swift */,
+				0D253D651E641CB00095F5A8 /* file.pb.swift */,
+				0D253D661E641CB00095F5A8 /* listener.pb.swift */,
+				0D253D671E641CB00095F5A8 /* messages.pb.swift */,
+				0D253D681E641CB00095F5A8 /* models.pb.swift */,
+				0D253D691E641CB00095F5A8 /* registry.pb.swift */,
+				0D253D6A1E641CB00095F5A8 /* search.pb.swift */,
+				0D253D6B1E641CB00095F5A8 /* simplyanalysis.pb.swift */,
+				0D253D6C1E641CB00095F5A8 /* watch.pb.swift */,
+			);
+			name = Protos;
+			path = Grpc/Protos;
+			sourceTree = "<group>";
+		};
+		0D253D7F1E641D300095F5A8 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				0D253D8B1E6443850095F5A8 /* ab.grpc.swift */,
+				0D253D8C1E6443860095F5A8 /* analysis.grpc.swift */,
+				0D253D8D1E6443860095F5A8 /* api.grpc.swift */,
+				0D253D8E1E6443860095F5A8 /* catalog.grpc.swift */,
+				0D253D8F1E6443860095F5A8 /* content.grpc.swift */,
+				0D253D901E6443860095F5A8 /* dashboard.grpc.swift */,
+				0D253D911E6443860095F5A8 /* dashprovider.grpc.swift */,
+				0D253D921E6443860095F5A8 /* discovery.grpc.swift */,
+				0D253D931E6443860095F5A8 /* file.grpc.swift */,
+				0D253D941E6443860095F5A8 /* listener.grpc.swift */,
+				0D253D951E6443860095F5A8 /* registry.grpc.swift */,
+				0D253D961E6443860095F5A8 /* search.grpc.swift */,
+				0D253D971E6443860095F5A8 /* simplyanalysis.grpc.swift */,
+				0D253D981E6443860095F5A8 /* watch.grpc.swift */,
+			);
+			name = Services;
+			sourceTree = "<group>";
+		};
+		0D253D801E641D470095F5A8 /* Grpc */ = {
+			isa = PBXGroup;
+			children = (
+				0D253D811E641D720095F5A8 /* GrpcProtoCall.swift */,
+				0D253D831E641D860095F5A8 /* GrpcProtoMethod.swift */,
+				0D253D851E641E660095F5A8 /* GrpcProtoService.swift */,
+			);
+			name = Grpc;
+			sourceTree = "<group>";
+		};
 		0D333A5A1C158D3200968DDA = {
 			isa = PBXGroup;
 			children = (
@@ -256,6 +380,9 @@
 		0DE680D11C1728CF00FA8CF6 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				0D253D801E641D470095F5A8 /* Grpc */,
+				0D253D7F1E641D300095F5A8 /* Services */,
+				0D253D5B1E641CB00095F5A8 /* Protos */,
 				0DA301871C73387A000F28CE /* Api */,
 				0DA301841C73384A000F28CE /* Game */,
 				0DA301831C733840000F28CE /* Otsimo */,
@@ -392,36 +519,70 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0D253D6D1E641CB00095F5A8 /* ab.pb.swift in Sources */,
+				0D253D721E641CB00095F5A8 /* dashboard.pb.swift in Sources */,
+				0D253D861E641E660095F5A8 /* GrpcProtoService.swift in Sources */,
+				0D253D781E641CB00095F5A8 /* messages.pb.swift in Sources */,
+				0D253D9A1E6443860095F5A8 /* analysis.grpc.swift in Sources */,
 				0D8214A11C38755100DC246F /* Session.swift in Sources */,
+				0D253DA51E6443860095F5A8 /* simplyanalysis.grpc.swift in Sources */,
+				0D253D7C1E641CB00095F5A8 /* simplyanalysis.pb.swift in Sources */,
 				0D5395AD1C62AD4600DBB19C /* GameSettings.swift in Sources */,
+				0D253D9D1E6443860095F5A8 /* content.grpc.swift in Sources */,
+				0D253D841E641D860095F5A8 /* GrpcProtoMethod.swift in Sources */,
 				0D1C47D11CBD3F0200D4834B /* Otsimo+Utils.swift in Sources */,
 				0DCD07AB1C8F8BDF00138D4D /* Otsimo+Discovery.swift in Sources */,
 				0D5624AA1C898738006FA311 /* NetworkFetcher.swift in Sources */,
 				0D2C465F1C7700F800B9DEC8 /* Otsimo+Watch.swift in Sources */,
+				0D253D7A1E641CB00095F5A8 /* registry.pb.swift in Sources */,
+				0D253D761E641CB00095F5A8 /* file.pb.swift in Sources */,
 				0D3D0FF91C3AA3F00049A72F /* Connection.swift in Sources */,
 				0D60A91B1C5693DB00115500 /* Otsimo+Game.swift in Sources */,
+				0D253D791E641CB00095F5A8 /* models.pb.swift in Sources */,
 				0DA301891C7338E6000F28CE /* Analytics.swift in Sources */,
+				0D253D9F1E6443860095F5A8 /* dashprovider.grpc.swift in Sources */,
+				0D253D751E641CB00095F5A8 /* discovery.pb.swift in Sources */,
+				0D253DA31E6443860095F5A8 /* registry.grpc.swift in Sources */,
+				0D253D701E641CB00095F5A8 /* catalog.pb.swift in Sources */,
 				0D60A9191C56938C00115500 /* Otsimo+Profile.swift in Sources */,
+				0D253D9B1E6443860095F5A8 /* api.grpc.swift in Sources */,
 				0DE9425C1C66902E008DEB7E /* GameKeyValueStore.swift in Sources */,
+				0D253DA61E6443860095F5A8 /* watch.grpc.swift in Sources */,
+				0D253DA21E6443860095F5A8 /* listener.grpc.swift in Sources */,
 				0DE9425E1C67D8BD008DEB7E /* ChildGame.swift in Sources */,
+				0D253D6F1E641CB00095F5A8 /* api.pb.swift in Sources */,
 				0D60A9101C566E6B00115500 /* Log.swift in Sources */,
 				0D60A9151C5692E200115500 /* Protocols.swift in Sources */,
+				0D253D9C1E6443860095F5A8 /* catalog.grpc.swift in Sources */,
 				0D60A91F1C56940700115500 /* Otsimo+Catalog.swift in Sources */,
+				0D253D6E1E641CB00095F5A8 /* analysis.pb.swift in Sources */,
+				0D253D731E641CB00095F5A8 /* dashprovider.pb.swift in Sources */,
+				0D253D9E1E6443860095F5A8 /* dashboard.grpc.swift in Sources */,
 				0D137FA91C3A7C280006BB8E /* ClientConfig.swift in Sources */,
 				0DC2841E1C4EE8B30075FE63 /* Utils.swift in Sources */,
 				0D9044021C3AD68B00F51C8D /* JWT.swift in Sources */,
 				0D2C465C1C76FA9900B9DEC8 /* Watch.swift in Sources */,
+				0D253D7D1E641CB00095F5A8 /* watch.pb.swift in Sources */,
 				0D4D7CDD1C5A415C000BFEC5 /* Cache.swift in Sources */,
 				0DE75FA31E53C4250094530E /* Otsimo+UserAnalytics.swift in Sources */,
 				0D5395A51C60D8DF00DBB19C /* GameManifest.swift in Sources */,
 				0D1E09601C7B8A010084A990 /* Otsimo+Wiki.swift in Sources */,
+				0D253D771E641CB00095F5A8 /* listener.pb.swift in Sources */,
+				0D253D711E641CB00095F5A8 /* content.pb.swift in Sources */,
+				0D253DA41E6443860095F5A8 /* search.grpc.swift in Sources */,
 				0DA3018B1C73B912000F28CE /* DeviceInfo.swift in Sources */,
+				0D253D741E641CB00095F5A8 /* datasetmodels.pb.swift in Sources */,
 				0D60A91D1C5693F200115500 /* Otsimo+Child.swift in Sources */,
+				0D253DA01E6443860095F5A8 /* discovery.grpc.swift in Sources */,
 				0DCD07AE1C8F928100138D4D /* Otsimo+Dashboard.swift in Sources */,
+				0D253D991E6443860095F5A8 /* ab.grpc.swift in Sources */,
 				0D3053741C3AAAB0000FE8B1 /* Errors.swift in Sources */,
 				0D54BB901C158FAA006A9382 /* Otsimo.swift in Sources */,
+				0D253D821E641D720095F5A8 /* GrpcProtoCall.swift in Sources */,
+				0D253DA11E6443860095F5A8 /* file.grpc.swift in Sources */,
 				0D60A9171C5692FC00115500 /* Otsimo+Account.swift in Sources */,
 				0D60A90D1C5652DF00115500 /* Game.swift in Sources */,
+				0D253D7B1E641CB00095F5A8 /* search.pb.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

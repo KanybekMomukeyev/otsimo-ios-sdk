@@ -7,8 +7,8 @@
 //
 
 import Foundation
-import OtsimoApiGrpc
 import Locksmith
+import GRPCClient
 
 let userIDKey = "OtsimoSDK-Session-UserID"
 let emailKey = "OtsimoSDK-Session-Email"

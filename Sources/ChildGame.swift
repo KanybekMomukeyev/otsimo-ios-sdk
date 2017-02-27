@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import OtsimoApiGrpc
 
 class ChildGameInitializer {
     var callback: (ChildGame, OtsimoError) -> Void
@@ -75,7 +74,7 @@ class ChildGameInitializer {
     }
 
     fileprivate func prepareGame() {
-        Otsimo.sharedInstance.getGame(id: childGame.entry.id_p, handler: handleGetGame)
+        Otsimo.sharedInstance.getGame(id: childGame.entry.id, handler: handleGetGame)
     }
 
     fileprivate func prepareManifest() {
@@ -113,7 +112,7 @@ class ChildGameInitializer {
 }
 
 open class ChildGame {
-    open let entry: OTSChildGameEntry
+    open var entry: Apipb_ChildGameEntry
     open let childID: String
     open fileprivate(set) var settingsValues: SettingsValues
 
@@ -126,7 +125,7 @@ open class ChildGame {
 
     open var gameID: String {
         get {
-            return entry.id_p
+            return entry.id
         }
     }
 
@@ -168,11 +167,11 @@ open class ChildGame {
         }
     }
 
-    public init(entry: OTSChildGameEntry, childID: String) {
+    public init(entry: Apipb_ChildGameEntry, childID: String) {
         self.entry = entry
         self.childID = childID
-        if let s = entry.settings {
-            self.settingsValues = ChildGame.InitSettingsValues(s)
+        if entry.settings != Data(){
+            self.settingsValues = ChildGame.InitSettingsValues(entry.settings)
         } else {
             self.settingsValues = SettingsValues()
         }
@@ -257,13 +256,3 @@ open class ChildGame {
     }
 }
 
-extension OTSChild {
-    public func getGames() -> [ChildGame] {
-        var chs: [ChildGame] = []
-        let gameEntries = gamesArray as AnyObject as! [OTSChildGameEntry]
-        for e in gameEntries {
-            chs.append(ChildGame(entry: e, childID: id_p))
-        }
-        return chs.sorted { $0.index < $1.index }
-    }
-}

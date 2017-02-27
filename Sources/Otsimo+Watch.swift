@@ -7,10 +7,9 @@
 //
 
 import Foundation
-import OtsimoApiGrpc
 
 extension Otsimo: WatchApi {
-    public func startWatch(callback: @escaping (OTSWatchEvent) -> Void) -> (watch: WatchProtocol?, error: OtsimoError) {
+    public func startWatch(callback: @escaping (Apipb_WatchEvent) -> Void) -> (watch: WatchProtocol?, error: OtsimoError) {
             if let session = session {
                 let watch = Watch(connection: connection!)
                 watch.start(session: session, handler: callback)

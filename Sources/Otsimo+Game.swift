@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import OtsimoApiGrpc
 
 extension Otsimo: GameApi {
     // Game
@@ -39,7 +38,7 @@ extension Otsimo: GameApi {
         }
     }
 
-    public func getGameRelease(id: String, version: String?, onlyProduction: Bool?, handler: @escaping (OTSGameRelease?, _ error: OtsimoError) -> Void) {
+    public func getGameRelease(id: String, version: String?, onlyProduction: Bool?, handler: @escaping (Apipb_GameRelease?, _ error: OtsimoError) -> Void) {
         self.isReadyWithMaybeSession({ handler(nil, $0) }) { c, session in
             c.getGameRelease(session, gameID: id, version: version, onlyProduction: onlyProduction, handler: handler)
         }
@@ -67,7 +66,7 @@ extension Otsimo: GameApi {
         }
     }
 
-    public func gamesLatestVersions(gameIDs: [String], handler: @escaping (_ result: [OTSGameAndVersion], _ error: OtsimoError) -> Void) {
+    public func gamesLatestVersions(gameIDs: [String], handler: @escaping (_ result: [Apipb_GameAndVersion], _ error: OtsimoError) -> Void) {
         self.isReadyWithMaybeSession({ handler( [], $0) }) { (c, session) in
             c.gamesLatestVersions(session, gameIDs: gameIDs, handler: handler)
         }

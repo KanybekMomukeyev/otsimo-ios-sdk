@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import OtsimoApiGrpc
 import RealmSwift
 
 let store = try! Realm()
@@ -19,11 +18,10 @@ class CatalogCache: Object {
         return "id"
     }
 
-    func getCatalog() -> OTSCatalog? {
+    func getCatalog() -> Apipb_Catalog? {
         do {
-            let cat = try OTSCatalog(data: data)
-            return cat
-        } catch {
+            return try Apipb_Catalog(protobuf: data)
+        } catch (let error){
             Log.error("failed to parse catalog:\(error)")
             return nil
         }
@@ -143,8 +141,8 @@ open class GameCache: Object {
             cache.gameId = game.id
             cache.productionVersion = game.productionVersion
             cache.latestVersion = game.latestVersion
-            cache.latestState = game.latestState.rawValue
-            cache.manifest = gm.manifest.data()!
+            cache.latestState = Int32(game.latestState.rawValue)
+            cache.manifest = try! gm.manifest.serializeProtobuf()
             cache.manifestVersion = gm.version
             cache.storage = gm.storage
             cache.archiveFormat = gm.archiveFormat
@@ -163,7 +161,7 @@ open class GameCache: Object {
 
     open func getGame() -> Game! {
         do {
-            let manifest: OTSGameManifest = try OTSGameManifest(data: self.manifest)
+            let manifest: Apipb_GameManifest = try Apipb_GameManifest(protobuf: self.manifest)
             return Game(cache: self, manifest: manifest)
         } catch {
             Log.error("failed to parse cache manifest data:\(error)")
@@ -209,7 +207,7 @@ final class OtsimoCache: CacheProtocol {
     }
 
 // Catalog
-    func fetchCatalog(_ handler: (OTSCatalog?) -> Void) {
+    func fetchCatalog(_ handler: (Apipb_Catalog?) -> Void) {
         let c = store.objects(CatalogCache.self).first
 
         if let cat = c?.getCatalog() {
@@ -230,12 +228,12 @@ final class OtsimoCache: CacheProtocol {
          }
          })*/
     }
-    func cacheCatalog(_ catalog: OTSCatalog) {
+    func cacheCatalog(_ catalog: Apipb_Catalog) {
         let cc = CatalogCache()
         cc.id = OtsimoCache.catalogKey
-        if let d = catalog.data() {
-            cc.data = d
-        } else {
+        do{
+            cc.data = try catalog.serializeProtobuf()
+        }catch{
             return
         }
 

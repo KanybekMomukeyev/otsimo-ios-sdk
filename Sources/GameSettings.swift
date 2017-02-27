@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import OtsimoApiGrpc
 import RealmSwift
 
 public enum SettingsProperty {

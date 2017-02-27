@@ -7,9 +7,8 @@
 //
 
 import Foundation
-import OtsimoApiGrpc
 
-extension OTSDeviceInfo {
+extension Apipb_DeviceInfo {
     static func platform() -> String {
         var size: Int = 0
         sysctlbyname("hw.machine", nil, &size, nil, 0)
@@ -18,7 +17,7 @@ extension OTSDeviceInfo {
         return String(cString: machine)
     }
 
-    convenience init(os: String) {
+    init(os: String) {
         self.init()
         let device = UIDevice.current
         let locale = Locale.current
@@ -39,7 +38,7 @@ extension OTSDeviceInfo {
         countryCode = (locale as NSLocale).object(forKey: NSLocale.Key.countryCode) as! String
         systemVersion = device.systemVersion
         deviceType = device.model.replacingOccurrences(of: " ", with: "")
-        deviceName = OTSDeviceInfo.platform()
+        deviceName = Apipb_DeviceInfo.platform()
     }
 }
 

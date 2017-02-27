@@ -7,14 +7,13 @@
 //
 
 import Foundation
-import OtsimoApiGrpc
 
 open class Game {
     open let id: String
     open var uniqueName: String = ""
     open var productionVersion: String = ""
     internal var latestVersion: String = ""
-    internal var latestState: OTSReleaseState = OTSReleaseState.created
+    internal var latestState = Apipb_ReleaseState.created
     internal var fetchedAt: Date?
     internal var storage: String = ""
     internal var archiveFormat: String = ""
@@ -31,7 +30,7 @@ open class Game {
         self.id = gameId
     }
 
-    public convenience init(listItem: OTSListItem) {
+    public convenience init(listItem: Apipb_ListItem) {
         self.init(gameId: listItem.gameId)
         uniqueName = listItem.uniqueName
         productionVersion = listItem.productionVersion
@@ -40,14 +39,12 @@ open class Game {
         storage = listItem.storage
         archiveFormat = listItem.archiveFormat
         releasedAt = listItem.releasedAt
-        for i in listItem.languagesArray as AnyObject as! [NSString] {
-            languages.append(i as String)
-        }
+        languages.append(contentsOf: listItem.languages)
     }
 
-    public convenience init(gameRelease: OTSGameRelease) {
+    public convenience init(gameRelease: Apipb_GameRelease) {
         self.init(gameId: gameRelease.gameId)
-        if (gameRelease.releaseState == OTSReleaseState.production) {
+        if (gameRelease.releaseState == Apipb_ReleaseState.production) {
             productionVersion = gameRelease.version
         }
         latestVersion = gameRelease.version
@@ -58,13 +55,12 @@ open class Game {
         if gameRelease.hasGameManifest {
             uniqueName = gameRelease.gameManifest.uniqueName
             gameManifest = GameManifest(id: id, gameRelease: gameRelease)
-            for i in gameRelease.gameManifest.languagesArray as AnyObject as! [NSString] {
-                languages.append(i as String)
-            }
+            languages.removeAll()
+            languages.append(contentsOf: gameRelease.gameManifest.languages)
         }
     }
 
-    internal convenience init(cache: GameCache, manifest: OTSGameManifest) {
+    internal convenience init(cache: GameCache, manifest: Apipb_GameManifest) {
         self.init(gameId: cache.gameId)
         fetchedAt = cache.fetchedAt as Date
         uniqueName = manifest.uniqueName
@@ -73,10 +69,8 @@ open class Game {
         storage = cache.storage
         archiveFormat = cache.archiveFormat
         releasedAt = cache.releasedAt
-        for i in manifest.languagesArray as AnyObject as! [NSString] {
-            languages.append(i as String)
-        }
-        latestState = OTSReleaseState(rawValue: cache.latestState)!
+        languages=manifest.languages
+        latestState = Apipb_ReleaseState(rawValue: Int(cache.latestState))!
         gameManifest = GameManifest(id: id, version: cache.manifestVersion, storage: cache.storage, archive: cache.archiveFormat, gameManifest: manifest)
     }
 

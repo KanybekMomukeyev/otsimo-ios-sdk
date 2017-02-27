@@ -7,12 +7,11 @@
 //
 
 import Foundation
-import OtsimoApiGrpc
 
 extension Otsimo: CatalogApi {
 
     // Catalog
-    public func getCatalog(handler: @escaping (OTSCatalog?, OtsimoError) -> Void) {
+    public func getCatalog(handler: @escaping (Apipb_Catalog?, OtsimoError) -> Void) {
         self.getCatalogFromRemote { c, e in
             switch (e) {
             case .none:
@@ -34,9 +33,9 @@ extension Otsimo: CatalogApi {
         }
     }
 
-    fileprivate func getCatalogFromRemote(_ handler: @escaping (OTSCatalog?, OtsimoError) -> Void) {
+    fileprivate func getCatalogFromRemote(_ handler: @escaping (Apipb_Catalog?, OtsimoError) -> Void) {
         self.isReady({ handler(nil, $0) }) { c, s in
-            let req = OTSCatalogPullRequest()
+            var req = Apipb_CatalogPullRequest()
             req.profileId = s.profileID
             c.getCurrentCatalog(s, req: req) { res, err in
                 if let catalog = res {
