@@ -161,9 +161,15 @@ extension Otsimo {
         req.osName = "ios"
         req.sdkVersion = Otsimo.sdkVersion
         req.environment = env
-        req.countryCode = Locale.current.regionCode!
-        req.appBundleId = Bundle.main.bundleIdentifier!
-        req.appBundleVersion = Bundle.main.infoDictionary!["CFBundleVersion"] as! String
+        if let cc = Locale.current.regionCode{
+            req.countryCode = cc
+        }
+        if let bi = Bundle.main.bundleIdentifier{
+            req.appBundleId = bi
+        }
+        if let bv = Bundle.main.infoDictionary!["CFBundleVersion"] as? String{
+            req.appBundleVersion = bv
+        }
 
         var isCompleted = false
 

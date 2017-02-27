@@ -19,8 +19,9 @@ open class GrpcProtoCall<T>: GRPCCall where T: SwiftProtobuf.Message {
                      responsesWriteable: GRXWriteable) {
 
         let binaryWriter = requestsWriter.map { (value) -> Any? in
-            // crash if user did not sent valid protobuf message
-            return try!( value as! SwiftProtobuf.Message).serializeProtobuf()
+            // crash if user did not sent valid protobuf message       
+            // swift bug: https://bugs.swift.org/browse/SR-3871
+            return try!( value as AnyObject as! SwiftProtobuf.Message).serializeProtobuf()
         }
 
         self.init(host: host, path: method.httpPath, requestsWriter: binaryWriter)

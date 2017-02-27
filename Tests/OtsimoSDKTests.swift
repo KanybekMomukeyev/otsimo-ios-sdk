@@ -5,7 +5,6 @@
 //
 
 import XCTest
-import OtsimoApiGrpc
 @testable import OtsimoSDK
 import Locksmith
 
@@ -22,34 +21,33 @@ class OtsimoSDKTests: XCTestCase {
     }
 
     func testDiscovery() {
-        let readyExpectation = expectationWithDescription("ready")
+        let readyExpectation = expectation(description: "ready")
 
-        Otsimo.configFromDiscoveryService("https://services.otsimo.com:30862", env: "production") { cc in
+        Otsimo.configFromDiscoveryService("https://services.otsimo.xyz:30862", env: "staging",timeout:5) { cc in
             XCTAssertNotNil(cc, "Error")
             print("Otsimo.sharedInstance.cluster=\(Otsimo.sharedInstance.cluster.config)")
-            Otsimo.sharedInstance.wikiSegments()
             // Perform our tests...
             // And fulfill the expectation...
             readyExpectation.fulfill()
             // Loop until the expectation is fulfilled
         }
-        waitForExpectationsWithTimeout(5, handler: { error in
+        waitForExpectations(timeout: 5, handler: { error in
             XCTAssertNil(error, "Error")
         })
     }
     func testDiskStorageUrl() {
-        let readyExpectation = expectationWithDescription("ready")
+        let readyExpectation = expectation(description: "ready")
 
-        Otsimo.configFromDiscoveryService("https://services.otsimo.com:30862", env: "production") { cc in
+        Otsimo.configFromDiscoveryService("https://services.otsimo.com:30862", env: "production",timeout:5) { cc in
             XCTAssertNotNil(cc, "Error")
-            XCTAssertNotEqual(Otsimo.sharedInstance.cluster.getDiskStorageUrl(), "")
+            XCTAssertNotEqual(Otsimo.sharedInstance.cluster.diskStorageUrl(), "")
             let correct = "https://services.otsimo.com:30851/public/1234/0_1_2/otsimo.json"
             XCTAssertEqual(Otsimo.sharedInstance.fixGameAssetUrl("1234", version: "0.1.2", rawUrl: "/otsimo.json"), correct)
             XCTAssertEqual(Otsimo.sharedInstance.fixGameAssetUrl("1234", version: "0.1.2", rawUrl: "otsimo.json"), correct)
 
             readyExpectation.fulfill()
         }
-        waitForExpectationsWithTimeout(5, handler: { error in
+        waitForExpectations(timeout: 5, handler: { error in
             XCTAssertNil(error, "Error")
         })
     }

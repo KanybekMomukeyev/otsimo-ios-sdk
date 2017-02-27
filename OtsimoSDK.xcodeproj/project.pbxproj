@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		0D137FA91C3A7C280006BB8E /* ClientConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D137FA81C3A7C280006BB8E /* ClientConfig.swift */; };
-		0D170ADF1DB92AD9008CEE1B /* BoringSSL.framework in Bundle Frameworks */ = {isa = PBXBuildFile; fileRef = 0D170AB41DB92A17008CEE1B /* BoringSSL.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0D1C47D11CBD3F0200D4834B /* Otsimo+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1C47D01CBD3F0200D4834B /* Otsimo+Utils.swift */; };
 		0D1E09601C7B8A010084A990 /* Otsimo+Wiki.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1E095F1C7B8A010084A990 /* Otsimo+Wiki.swift */; };
 		0D253D6D1E641CB00095F5A8 /* ab.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D253D5C1E641CB00095F5A8 /* ab.pb.swift */; };
@@ -101,7 +100,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				0D170ADF1DB92AD9008CEE1B /* BoringSSL.framework in Bundle Frameworks */,
 			);
 			name = "Bundle Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -110,7 +108,6 @@
 
 /* Begin PBXFileReference section */
 		0D137FA81C3A7C280006BB8E /* ClientConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ClientConfig.swift; path = Sources/ClientConfig.swift; sourceTree = "<group>"; };
-		0D170AB41DB92A17008CEE1B /* BoringSSL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BoringSSL.framework; path = /Users/sercand/Developer/Otsimo/Child/Carthage/Build/iOS/BoringSSL.framework; sourceTree = "<absolute>"; };
 		0D1C47D01CBD3F0200D4834B /* Otsimo+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Otsimo+Utils.swift"; path = "Sources/Otsimo+Utils.swift"; sourceTree = "<group>"; };
 		0D1E095F1C7B8A010084A990 /* Otsimo+Wiki.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Otsimo+Wiki.swift"; path = "Sources/Otsimo+Wiki.swift"; sourceTree = "<group>"; };
 		0D253D5C1E641CB00095F5A8 /* ab.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ab.pb.swift; sourceTree = "<group>"; };
@@ -803,7 +800,6 @@
 					"DEBUG=1",
 					"$(inherited)",
 					"GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS=1",
-					"GRPC_COMPILE_WITH_CRONET=1",
 				);
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/Carthage/Build/iOS/Protobuf.framework/Headers\"",
@@ -827,10 +823,7 @@
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 					"$(PROJECT_DIR)/third_party",
 				);
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS=1",
-					"GRPC_COMPILE_WITH_CRONET=1",
-				);
+				GCC_PREPROCESSOR_DEFINITIONS = "GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS=1";
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/Carthage/Build/iOS/Protobuf.framework/Headers\"",
 					"\"$(SRCROOT)/Carthage/Build/iOS/BoringSSL.framework/Headers\"",
