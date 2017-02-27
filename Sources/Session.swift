@@ -57,6 +57,11 @@ open class Session {
         }
     }
 
+    open func willTokenExpireIn(seconds:Double)->Bool{
+        let exp = Date(timeIntervalSince1970: Double(expiresAt))
+        return exp.compare(Date().addingTimeInterval(seconds)) != ComparisonResult.orderedDescending
+    }
+
     internal init(config: ClientConfig) {
         self.config = config
     }
@@ -179,19 +184,22 @@ open class Session {
     }
 
     open func refreshTokenNow(_ handler: @escaping (OtsimoError) -> Void) {
+        let at = self.accessToken
         sessionQueue.async(flags: .barrier, execute: {
+            if self.accessToken != at{
+                Log.debug("access token is different from previous")
+                return
+            }
             Log.debug("access token is going to refresh")
             let refreshGroup = DispatchGroup() // Create Group
             refreshGroup.enter() // Enter Group
             self.refreshCurrentToken { err in
-                onMainThread {
-                    Log.debug("access token got \(err)")
-                    switch (err) {
-                    case .none:
-                        handler(OtsimoError.none)
-                    default:
-                        handler(err)
-                    }
+                Log.debug("access token got \(err)")
+                switch (err) {
+                case .none:
+                    handler(OtsimoError.none)
+                default:
+                    handler(err)
                 }
                 refreshGroup.leave() // Leave Group
             }

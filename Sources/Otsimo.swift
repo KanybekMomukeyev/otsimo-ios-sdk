@@ -73,7 +73,15 @@ open class Otsimo {
 
     fileprivate func recoverOldSessionIfExist(_ config: ClientConfig) {
         Session.loadLastSession(config) { ses in
-            self.session = ses
+            if let exp = ses?.willTokenExpireIn(seconds: 3600), exp == true{
+                ses?.refreshTokenNow { (_) in
+                    onMainThread {
+                        self.session = ses
+                    }
+                }
+            }else{
+                self.session = ses
+            }
         }
     }
 
@@ -151,6 +159,11 @@ extension Otsimo: GrpcInterceptor{
     public func intercept(_ call: GRPCCall){
         if let s = self.session{
             call.oauth2AccessToken = s.accessToken
+            if s.willTokenExpireIn(seconds: 300){
+                s.refreshTokenNow({ (_) in
+                    Log.info("access token refreshed")
+                })
+            }
         }
     }
 }
