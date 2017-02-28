@@ -205,6 +205,16 @@ final class OtsimoCache: CacheProtocol {
             Log.error("failed to cache game \(error)")
         }
     }
+    
+    func allCachedGames() -> [Game]{
+        let s = try! Realm()
+        var games : [Game] = []
+        for gc in s.objects(GameCache.self){
+            games.append(gc.getGame())
+        }
+        return games
+    }
+
 
 // Catalog
     func fetchCatalog(_ handler: (Apipb_Catalog?) -> Void) {

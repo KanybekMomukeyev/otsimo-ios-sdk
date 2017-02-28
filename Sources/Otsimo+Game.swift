@@ -44,31 +44,57 @@ extension Otsimo: GameApi {
         }
     }
 
-    public func getAllGames(language: String?, handler: @escaping (Game?, _ done: Bool, _ error: OtsimoError) -> Void) {
-        self.isReadyWithMaybeSession({ handler(nil, true, $0) }) { c, session in
-            c.getAllGamesStream(session, language: language) { li, done, error in
-                if let item = li {
-                    Otsimo.sharedInstance.cache.fetchGame(item.gameId) { game, isExpired in
-                        if let game = game {
-                            if game.productionVersion == item.productionVersion {
-                                handler(game, done, error)
-                            } else {
-                                handler(Game(listItem: item), done, error)
-                            }
-                        } else {
-                            handler(Game(listItem: item), done, error)
-                        }
-                    }
-                } else {
-                    handler(nil, done, error)
-                }
-            }
+    public func getAllGames(language: String?, handler: @escaping ([Game], OtsimoError) -> Void) {
+        var req = Apipb_GetAllGamesReq()
+        if let lang = language {
+            req.language = lang
         }
+        let RPC = Otsimo.sharedInstance.registryService!.getAllGames(req) { (res, err) in
+            if let err = err {
+                handler([], OtsimoError.general(message: err.localizedDescription))
+                return
+            }
+            var games = [Game]()
+            for g in res!.games {
+                let game = Game(gameRelease: g)
+                games.append(game)
+                game.cache()
+            }
+            handler(games, OtsimoError.none)
+        }
+        RPC.start()
     }
 
     public func gamesLatestVersions(gameIDs: [String], handler: @escaping (_ result: [Apipb_GameAndVersion], _ error: OtsimoError) -> Void) {
         self.isReadyWithMaybeSession({ handler( [], $0) }) { (c, session) in
             c.gamesLatestVersions(session, gameIDs: gameIDs, handler: handler)
         }
+    }
+
+    public func gamesWithVersions(language: String?, gameAndVersions: [String: String], handler: @escaping([Game], OtsimoError) -> Void) {
+        var req = Apipb_GetAllGamesReq()
+        if let lang = language {
+            req.language = lang
+        }
+        for a in gameAndVersions {
+            var gv = Apipb_GameAndVersion()
+            gv.gameId = a.key
+            gv.version = a.value
+            req.games.append(gv)
+        }
+        let RPC = Otsimo.sharedInstance.registryService!.getAllGames(req) { (res, err) in
+            if let err = err {
+                handler([], OtsimoError.general(message: err.localizedDescription))
+                return
+            }
+            var games = [Game]()
+            for g in res!.games {
+                let game = Game(gameRelease: g)
+                games.append(game)
+                game.cache()
+            }
+            handler(games, OtsimoError.none)
+        }
+        RPC.start()
     }
 }

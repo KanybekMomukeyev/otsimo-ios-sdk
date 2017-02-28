@@ -60,7 +60,7 @@ class EventCache: Object {
     }
 
     static func add(_ d: Apipb_Event) {
-        do{
+        do {
             let data = try d.serializeProtobuf()
             let c = EventCache()
             c.data = data
@@ -74,7 +74,7 @@ class EventCache: Object {
             } catch(let error) {
                 Log.error("failed to add Event to db: \(error)")
             }
-        }catch{
+        } catch {
             Log.error("failed to get data from EventData")
         }
     }
@@ -112,20 +112,25 @@ internal class Analytics: OtsimoAnalyticsProtocol {
     fileprivate var session: Session?
     fileprivate var timer: DispatchSourceTimer?
     fileprivate var RPC: GRPCCall!
-
+    fileprivate let bundleIdentifier: String
     init(connection: Connection) {
         internalWriter = GRXBufferedPipe()
         self.connection = connection
         isStartedBefore = false
         device = Apipb_DeviceInfo(os: "ios")
         deviceB64 = (try! device.serializeProtobuf()).base64EncodedString(options: .endLineWithCarriageReturn)
+        if let bi = Bundle.main.bundleIdentifier {
+            self.bundleIdentifier = bi
+        } else {
+            self.bundleIdentifier = ""
+        }
     }
 
     func start(session: Session) {
         internalWriter = GRXBufferedPipe()
         self.session = session
         Log.debug("start Analytics \(self.isStartedBefore)")
-        
+
         let l = self.connection.listenerService.customEvent(self.internalWriter, handler: self.rpcHandler)
         if l.state != .started {
             l.requestHeaders.setValue(self.deviceB64, forKey: "device")
@@ -236,7 +241,7 @@ internal class Analytics: OtsimoAnalyticsProtocol {
             let aobjs = eventRealm.objects(AppEventCache.self).filter(NSPredicate(format: "time <= %@", end))
             for o in aobjs {
                 let ev = o.event()
-                
+
                 AppEventCache.removeEvent(o, realm: eventRealm)
                 self.resendAppEvent(ev)
             }
@@ -247,16 +252,16 @@ internal class Analytics: OtsimoAnalyticsProtocol {
         customEvent(event: event, childID: nil, game: nil, payload: payload)
     }
 
-    func customEvent(event: String, childID: String?, game:  Apipb_GameInfo?, payload: [String: AnyObject]) {
+    func customEvent(event: String, childID: String?, game: Apipb_GameInfo?, payload: [String: AnyObject]) {
         analyticsQueue.async(flags: .barrier, execute: {
             if let session = self.session {
-                var e =  Apipb_Event()
+                var e = Apipb_Event()
                 e.event = event
-                e.appId = Bundle.main.bundleIdentifier!
-                if let cid = childID{
+                e.appId = self.bundleIdentifier
+                if let cid = childID {
                     e.childId = cid
                 }
-                if let g = game{
+                if let g = game {
                     e.game = g
                 }
                 e.timestamp = Int64(Date().timeIntervalSince1970)
@@ -264,9 +269,9 @@ internal class Analytics: OtsimoAnalyticsProtocol {
                 e.userId = session.profileID
                 e.eventId = UUID().uuidString
                 e.isResend = false
-                do{
+                do {
                     e.payload = try JSONSerialization.data(withJSONObject: payload, options: JSONSerialization.WritingOptions())
-                }catch{
+                } catch {
                 }
                 EventCache.add(e)
                 self.internalWriter.writeValue(e)
@@ -276,14 +281,14 @@ internal class Analytics: OtsimoAnalyticsProtocol {
 
     func appEvent(event: String, payload: [String: AnyObject]) {
         analyticsQueue.async {
-            var aed =  Apipb_AppEventData()
+            var aed = Apipb_AppEventData()
             aed.event = event
             aed.device = self.device
-            aed.appId = Bundle.main.bundleIdentifier!
+            aed.appId = self.bundleIdentifier
             aed.timestamp = Int64(Date().timeIntervalSince1970)
-            do{
+            do {
                 aed.payload = try JSONSerialization.data(withJSONObject: payload, options: JSONSerialization.WritingOptions())
-            }catch{
+            } catch {
             }
             aed.eventId = UUID().uuidString
             aed.isResend = false

@@ -55,11 +55,13 @@ public protocol ChildApi {
 public protocol GameApi {
     func getGame(id: String, handler: @escaping(Game?, _ error: OtsimoError) -> Void)
 
-    func getAllGames(language: String?, handler: @escaping(Game?, _ done: Bool, _ error: OtsimoError) -> Void)
+    func getAllGames(language: String?, handler: @escaping([Game], OtsimoError) -> Void)
 
     func getGameRelease(id: String, version: String?, onlyProduction: Bool?, handler: @escaping(Apipb_GameRelease?, _ error: OtsimoError) -> Void)
 
     func gamesLatestVersions(gameIDs: [String], handler: @escaping(_ result: [Apipb_GameAndVersion], _ error: OtsimoError) -> Void)
+    
+    func gamesWithVersions(language: String?, gameAndVersions:[String:String], handler: @escaping([Game], OtsimoError) -> Void)
 }
 
 public protocol CatalogApi {
@@ -84,6 +86,7 @@ public protocol CacheProtocol {
     // Game
     func fetchGame(_ id: String, handler: (_ game: Game?, _ isExpired: Bool) -> Void)
     func cacheGame(_ game: Game)
+    func allCachedGames() -> [Game]
     // Catalog
     func fetchCatalog(_ handler: (Apipb_Catalog?) -> Void)
     func cacheCatalog(_ catalog: Apipb_Catalog)

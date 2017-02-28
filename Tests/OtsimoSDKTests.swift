@@ -26,11 +26,23 @@ class OtsimoSDKTests: XCTestCase {
         Otsimo.configFromDiscoveryService("https://services.otsimo.xyz:30862", env: "staging",timeout:5) { cc in
             XCTAssertNotNil(cc, "Error")
             print("Otsimo.sharedInstance.cluster=\(Otsimo.sharedInstance.cluster.config)")
+            Otsimo.config(cc!)
+            let session = Session(config: cc!)
+            session.accessToken = "abc"
+            session.email = "asd@otsimo.com"
+            session.profileID = "test"
+            Otsimo.sharedInstance.analytics.start(session: session)
+            Otsimo.sharedInstance.analytics.customEvent(event: "test", payload: [String : AnyObject]())
+            Otsimo.sharedInstance.analytics.customEvent(event: "test", payload: [String : AnyObject]())
+            Otsimo.sharedInstance.analytics.customEvent(event: "test", payload: [String : AnyObject]())
+
             // Perform our tests...
             // And fulfill the expectation...
             readyExpectation.fulfill()
             // Loop until the expectation is fulfilled
         }
+        
+        
         waitForExpectations(timeout: 5, handler: { error in
             XCTAssertNil(error, "Error")
         })

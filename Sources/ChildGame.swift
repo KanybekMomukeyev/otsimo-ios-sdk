@@ -21,13 +21,8 @@ class ChildGameInitializer {
         self.childGame = game
         self.callback = handler
 
-        if let g = childGame.game {
-            if g.gameManifest == nil {
-                prepareList.append(prepareManifest)
-            }
-        } else {
+        if childGame.game == nil{
             prepareList.append(prepareGame)
-            prepareList.append(prepareManifest)
         }
 
         if initKeyValueStorage && game.keyvalue == nil {
@@ -75,17 +70,6 @@ class ChildGameInitializer {
 
     fileprivate func prepareGame() {
         Otsimo.sharedInstance.getGame(id: childGame.entry.id, handler: handleGetGame)
-    }
-
-    fileprivate func prepareManifest() {
-        childGame.game!.getManifest(handleGetManifest)
-    }
-
-    fileprivate func handleGetManifest(_ man: GameManifest?, error: OtsimoError) {
-        if isCanceled { return }
-        childGame.manifest = man
-        lastError = error
-        next()
     }
 
     fileprivate func prepareSettings() {
