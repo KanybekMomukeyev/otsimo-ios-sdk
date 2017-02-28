@@ -19,7 +19,7 @@ open class Game {
     internal var archiveFormat: String = ""
     internal var releasedAt: Int64 = 0
     internal var languages: [String] = []
-    internal var gameManifest: GameManifest? {
+    public var gameManifest: GameManifest? {
         didSet {
             fetchedAt = Date()
         }
@@ -57,6 +57,18 @@ open class Game {
         languages = manifest.languages
         latestState = Apipb_ReleaseState(rawValue: Int(cache.latestState))!
         gameManifest = GameManifest(id: id, version: cache.manifestVersion, storage: cache.storage, archive: cache.archiveFormat, gameManifest: manifest)
+    }
+
+    open var gameRelease: Apipb_GameRelease {
+        var release = Apipb_GameRelease()
+        release.gameId = id
+        release.version = latestVersion
+        release.releaseState = latestState
+        release.storage = storage
+        release.archiveFormat = archiveFormat
+        release.gameManifest = gameManifest!.manifest
+        release.releasedAt = releasedAt
+        return release
     }
 
     open func cache() {
