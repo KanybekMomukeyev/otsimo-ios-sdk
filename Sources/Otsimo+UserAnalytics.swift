@@ -10,7 +10,7 @@ import Foundation
 import OtsimoApiGrpc
 
 extension Otsimo {
-    func gamePlayingDuration(req: OTSGamePlayingRequest, handler: @escaping (OTSGamePlayingReply?, OtsimoError) -> Void) {
+   open func gamePlayingDuration(req: OTSGamePlayingRequest, handler: @escaping (OTSGamePlayingReply?, OtsimoError) -> Void) {
         self.isReady({ handler(nil, $0) }) { c, s in
             let RPC = c.simplifiedAnalytics.rpcToGamePlayingDuration(with: req) { response, error in
                 if let response = response {
@@ -31,7 +31,7 @@ extension Otsimo {
         }
     }
 
-    func gameSuccessFailure(req: OTSGamePlayingRequest, handler: @escaping (OTSGamePlayingReply?, OtsimoError) -> Void) {
+   open func gameSuccessFailure(req: OTSGamePlayingRequest, handler: @escaping (OTSGamePlayingReply?, OtsimoError) -> Void) {
         self.isReady({ handler(nil, $0) }) { c, s in
             let RPC = c.simplifiedAnalytics.rpcToGameSuccessFailure(with: req) { response, error in
                 if let response = response {
