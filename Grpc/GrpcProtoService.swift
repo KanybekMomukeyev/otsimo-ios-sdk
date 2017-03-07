@@ -16,7 +16,7 @@ public protocol GrpcInterceptor {
     func intercept(_ call: GRPCCall)
 }
 
-public class GrpcProtoService {
+open class GrpcProtoService {
     private let _packageName: String
     private let _serviceName: String
     private let _host: String
