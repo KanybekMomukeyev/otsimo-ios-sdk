@@ -21,14 +21,15 @@ open class GrpcProtoService {
     private let _serviceName: String
     private let _host: String
     private var _interceptors: [GrpcInterceptor]
-    init(host: String, packageName: String, serviceName: String) {
+    
+    open init(host: String, packageName: String, serviceName: String) {
         self._host = host
         self._packageName = packageName
         self._serviceName = serviceName
         self._interceptors = []
     }
 
-    func RPC <T>(method: String,
+    open func RPC <T>(method: String,
                  requestsWriter: GRXWriter,
                  response: T.Type,
                  responsesWriteable: GRXWriteable) -> GrpcProtoCall<T>
