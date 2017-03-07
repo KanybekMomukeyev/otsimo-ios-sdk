@@ -22,7 +22,7 @@ open class GrpcProtoService {
     private let _host: String
     private var _interceptors: [GrpcInterceptor]
     
-    open init(host: String, packageName: String, serviceName: String) {
+    public init(host: String, packageName: String, serviceName: String) {
         self._host = host
         self._packageName = packageName
         self._serviceName = serviceName
