@@ -12,6 +12,7 @@ import GRPCClient
 
 let userIDKey = "OtsimoSDK-Session-UserID"
 let emailKey = "OtsimoSDK-Session-Email"
+let premiumUserGroup = "otsimo.com/premium"
 
 struct OtsimoAccount: ReadableSecureStorable, CreateableSecureStorable,
     DeleteableSecureStorable, GenericPasswordSecureStorable {
@@ -44,7 +45,8 @@ open class Session {
     open var profileID: String = ""
     open var email: String = ""
     private var refreshTokenRetyCount: Int = 0;
-
+    open private(set) var userGroups: [String] = []
+    
     open var isAuthenticated: Bool {
         get {
             return accessToken != ""
@@ -55,6 +57,15 @@ open class Session {
             let exp = Date(timeIntervalSince1970: Double(expiresAt))
             return exp.compare(Date()) != ComparisonResult.orderedDescending
         }
+    }
+    
+    open var isUserPremium:Bool{
+        for g in self.userGroups{
+            if g == premiumUserGroup{
+                return true
+            }
+        }
+        return false
     }
 
     open func willTokenExpireIn(seconds:Double)->Bool{
@@ -174,6 +185,12 @@ open class Session {
             expiresAt = e
         } else {
             return PayloadLoadResult.failure(InvalidToken.missingExp)
+        }
+        
+        if let groups = payload["groups"] as? [String]{
+            self.userGroups = groups
+        }else{
+            self.userGroups = []
         }
 
         return .success
