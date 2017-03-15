@@ -37,7 +37,8 @@ open class SettingsCache: Object {
     }
 
     static var storage: Results<SettingsCache> {
-        return store.objects(SettingsCache.self)
+        let s = try! Realm()
+        return s.objects(SettingsCache.self)
     }
 
     open func gameSettings() -> GameSettings? {
@@ -45,13 +46,15 @@ open class SettingsCache: Object {
     }
 
     static func settings(id:String) -> SettingsCache? {
-        return store.object(ofType: SettingsCache.self, forPrimaryKey: id)
+        let s = try! Realm()
+        return s.object(ofType: SettingsCache.self, forPrimaryKey: id)
     }
     
     open func save() {
         do {
-            try store.write {
-                store.add(self, update: true)
+            let s = try Realm()
+            try s.write {
+                s.add(self, update: true)
             }
         } catch(let error) {
             Log.error("failed to store,err=\(error)")
@@ -72,11 +75,13 @@ open class KeyValueStoreCache: Object {
     }
 
     static var storage: Results<KeyValueStoreCache> {
-        return store.objects(KeyValueStoreCache.self)
+        let s = try! Realm();
+        return s.objects(KeyValueStoreCache.self)
     }
 
     static func object(id:String) -> KeyValueStoreCache? {
-        return store.object(ofType: KeyValueStoreCache.self, forPrimaryKey: id)
+        let s = try! Realm();
+        return s.object(ofType: KeyValueStoreCache.self, forPrimaryKey: id)
     }
     
     open func keyvalueStore() -> GameKeyValueStore? {
@@ -85,8 +90,9 @@ open class KeyValueStoreCache: Object {
 
     open func save() {
         do {
-            try store.write {
-                store.add(self, update: true)
+            let s = try Realm();
+            try s.write {
+                s.add(self, update: true)
             }
         } catch(let error) {
             Log.error("failed to store,err=\(error)")
