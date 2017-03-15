@@ -56,7 +56,11 @@ open class Game {
         releasedAt = cache.releasedAt
         languages = manifest.languages
         latestState = Apipb_ReleaseState(rawValue: Int(cache.latestState))!
-        gameManifest = GameManifest(id: id, version: cache.manifestVersion, storage: cache.storage, archive: cache.archiveFormat, gameManifest: manifest)
+        gameManifest = GameManifest(id: id,
+                                    version: cache.manifestVersion,
+                                    storage: cache.storage,
+                                    archive: cache.archiveFormat,
+                                    gameManifest: manifest)
     }
 
     open var gameRelease: Apipb_GameRelease {
