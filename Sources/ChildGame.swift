@@ -17,11 +17,13 @@ class ChildGameInitializer {
 
     fileprivate var isCanceled = false
 
-    init(game: ChildGame, initSettings: Bool, initKeyValueStorage: Bool, handler: @escaping (ChildGame, OtsimoError) -> Void) {
+    init(game: ChildGame, initSettings: Bool,
+         initKeyValueStorage: Bool,
+         handler: @escaping (ChildGame, OtsimoError) -> Void) {
         self.childGame = game
         self.callback = handler
 
-        if childGame.game == nil{
+        if childGame.game == nil {
             prepareList.append(prepareGame)
         }
 
@@ -64,6 +66,7 @@ class ChildGameInitializer {
     fileprivate func handleGetGame(_ game: Game?, error: OtsimoError) {
         if isCanceled { return }
         self.childGame.game = game
+        self.childGame.manifest = game?.gameManifest
         lastError = error
         next()
     }
@@ -168,15 +171,19 @@ open class ChildGame {
         }
     }
 
-    open func initialize(_ initSettings: Bool, initKeyValueStorage: Bool, handler: @escaping (ChildGame, OtsimoError) -> Void) {
+    open func initialize(_ initSettings: Bool,
+                         initKeyValueStorage: Bool,
+                         handler: @escaping (ChildGame, OtsimoError) -> Void) {
         if let i = initializer {
             i.cancel()
             initializer = nil
         }
 
-        let _init = ChildGameInitializer(game: self, initSettings: initSettings, initKeyValueStorage: initKeyValueStorage, handler: handler)
-        self.initializer = _init
-        _init.start()
+        self.initializer = ChildGameInitializer(game: self,
+                                                initSettings: initSettings,
+                                                initKeyValueStorage: initKeyValueStorage,
+                                                handler: handler)
+        self.initializer?.start()
     }
 
     open func valueFor(_ key: String) -> SettingsPropertyValue? {
