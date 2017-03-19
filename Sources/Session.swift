@@ -196,12 +196,12 @@ open class Session {
         return .success
     }
 
-    open func setAuth(_ call: GRPCCall) {
+    open func setAuth(call: GRPCCall) {
         call.oauth2AccessToken = self.accessToken
     }
     
-    open func setAuth(_  req: inout URLRequest){
-        req.addValue("Bearer \(self.accessToken)", forHTTPHeaderField: "authorization")
+    open func setAuth(req: inout URLRequest){
+        req.addValue("bearer \(self.accessToken)", forHTTPHeaderField: "authorization")
     }
 
     open func refreshTokenNow(_ handler: @escaping (OtsimoError) -> Void) {
