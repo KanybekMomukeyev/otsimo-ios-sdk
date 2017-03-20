@@ -695,6 +695,7 @@ public struct Otsimo_Card: SwiftProtobuf.Message, SwiftProtobuf.Proto3Message, S
     13: .same(proto: "analysis", swift: "analysis"),
     14: .same(proto: "title", swift: "title"),
     15: .same(proto: "subtitle", swift: "subtitle"),
+    16: .same(proto: "labels", swift: "labels"),
   ]
 
   private class _StorageClass {
@@ -711,6 +712,7 @@ public struct Otsimo_Card: SwiftProtobuf.Message, SwiftProtobuf.Proto3Message, S
     var _data = Otsimo_Card.OneOf_Data()
     var _title: String = ""
     var _subtitle: String = ""
+    var _labels: Dictionary<String,String> = [:]
 
     init() {}
 
@@ -728,6 +730,7 @@ public struct Otsimo_Card: SwiftProtobuf.Message, SwiftProtobuf.Proto3Message, S
       case 10, 11, 12, 13: try _data.decodeField(setter: &setter, protoFieldNumber: protoFieldNumber)
       case 14: try setter.decodeSingularField(fieldType: SwiftProtobuf.ProtobufString.self, value: &_title)
       case 15: try setter.decodeSingularField(fieldType: SwiftProtobuf.ProtobufString.self, value: &_subtitle)
+      case 16: try setter.decodeMapField(fieldType: SwiftProtobuf.ProtobufMap<SwiftProtobuf.ProtobufString,SwiftProtobuf.ProtobufString>.self, value: &_labels)
       default: break
       }
     }
@@ -767,6 +770,9 @@ public struct Otsimo_Card: SwiftProtobuf.Message, SwiftProtobuf.Proto3Message, S
       if _subtitle != "" {
         try visitor.visitSingularField(fieldType: SwiftProtobuf.ProtobufString.self, value: _subtitle, fieldNumber: 15)
       }
+      if !_labels.isEmpty {
+        try visitor.visitMapField(fieldType: SwiftProtobuf.ProtobufMap<SwiftProtobuf.ProtobufString,SwiftProtobuf.ProtobufString>.self, value: _labels, fieldNumber: 16)
+      }
     }
 
     func isEqualTo(other: _StorageClass) -> Bool {
@@ -782,6 +788,7 @@ public struct Otsimo_Card: SwiftProtobuf.Message, SwiftProtobuf.Proto3Message, S
       if _data != other._data {return false}
       if _title != other._title {return false}
       if _subtitle != other._subtitle {return false}
+      if _labels != other._labels {return false}
       return true
     }
 
@@ -799,6 +806,7 @@ public struct Otsimo_Card: SwiftProtobuf.Message, SwiftProtobuf.Proto3Message, S
       clone._data = _data
       clone._title = _title
       clone._subtitle = _subtitle
+      clone._labels = _labels
       return clone
     }
   }
@@ -921,13 +929,13 @@ public struct Otsimo_Card: SwiftProtobuf.Message, SwiftProtobuf.Proto3Message, S
     return _storage._decoration = nil
   }
 
-  ///  Score is between 0-500
+  ///   Score is between 0-500
   public var providerScore: Int32 {
     get {return _storage._providerScore}
     set {_uniqueStorage()._providerScore = newValue}
   }
 
-  ///  ProviderWeight is between 0-2
+  ///   ProviderWeight is between 0-2
   public var providerWeight: Float {
     get {return _storage._providerWeight}
     set {_uniqueStorage()._providerWeight = newValue}
@@ -991,14 +999,22 @@ public struct Otsimo_Card: SwiftProtobuf.Message, SwiftProtobuf.Proto3Message, S
     }
   }
 
+  ///   Title for newer systems
   public var title: String {
     get {return _storage._title}
     set {_uniqueStorage()._title = newValue}
   }
 
+  ///   Subtitle for newer systems 
   public var subtitle: String {
     get {return _storage._subtitle}
     set {_uniqueStorage()._subtitle = newValue}
+  }
+
+  ///   Labels of the card
+  public var labels: Dictionary<String,String> {
+    get {return _storage._labels}
+    set {_uniqueStorage()._labels = newValue}
   }
 
   public var data: OneOf_Data {

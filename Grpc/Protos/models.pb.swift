@@ -285,6 +285,7 @@ public struct Apipb_Profile: SwiftProtobuf.Message, SwiftProtobuf.Proto3Message,
     10: .same(proto: "locale", swift: "locale"),
     11: .same(proto: "timezone", swift: "timezone"),
     12: .same(proto: "country", swift: "country"),
+    13: .same(proto: "labels", swift: "labels"),
   ]
 
   private class _StorageClass {
@@ -301,6 +302,7 @@ public struct Apipb_Profile: SwiftProtobuf.Message, SwiftProtobuf.Proto3Message,
     var _locale: String = ""
     var _timezone: Int32 = 0
     var _country: String = ""
+    var _labels: Dictionary<String,String> = [:]
 
     init() {}
 
@@ -318,6 +320,7 @@ public struct Apipb_Profile: SwiftProtobuf.Message, SwiftProtobuf.Proto3Message,
       case 10: try setter.decodeSingularField(fieldType: SwiftProtobuf.ProtobufString.self, value: &_locale)
       case 11: try setter.decodeSingularField(fieldType: SwiftProtobuf.ProtobufInt32.self, value: &_timezone)
       case 12: try setter.decodeSingularField(fieldType: SwiftProtobuf.ProtobufString.self, value: &_country)
+      case 13: try setter.decodeMapField(fieldType: SwiftProtobuf.ProtobufMap<SwiftProtobuf.ProtobufString,SwiftProtobuf.ProtobufString>.self, value: &_labels)
       default: break
       }
     }
@@ -359,6 +362,9 @@ public struct Apipb_Profile: SwiftProtobuf.Message, SwiftProtobuf.Proto3Message,
       if _country != "" {
         try visitor.visitSingularField(fieldType: SwiftProtobuf.ProtobufString.self, value: _country, fieldNumber: 12)
       }
+      if !_labels.isEmpty {
+        try visitor.visitMapField(fieldType: SwiftProtobuf.ProtobufMap<SwiftProtobuf.ProtobufString,SwiftProtobuf.ProtobufString>.self, value: _labels, fieldNumber: 13)
+      }
     }
 
     func isEqualTo(other: _StorageClass) -> Bool {
@@ -374,6 +380,7 @@ public struct Apipb_Profile: SwiftProtobuf.Message, SwiftProtobuf.Proto3Message,
       if _locale != other._locale {return false}
       if _timezone != other._timezone {return false}
       if _country != other._country {return false}
+      if _labels != other._labels {return false}
       return true
     }
 
@@ -391,6 +398,7 @@ public struct Apipb_Profile: SwiftProtobuf.Message, SwiftProtobuf.Proto3Message,
       clone._locale = _locale
       clone._timezone = _timezone
       clone._country = _country
+      clone._labels = _labels
       return clone
     }
   }
@@ -462,6 +470,11 @@ public struct Apipb_Profile: SwiftProtobuf.Message, SwiftProtobuf.Proto3Message,
   public var country: String {
     get {return _storage._country}
     set {_uniqueStorage()._country = newValue}
+  }
+
+  public var labels: Dictionary<String,String> {
+    get {return _storage._labels}
+    set {_uniqueStorage()._labels = newValue}
   }
 
   public init() {}
