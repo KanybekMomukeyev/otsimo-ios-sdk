@@ -21,13 +21,13 @@ open class GrpcProtoCall<T>: GRPCCall where T: SwiftProtobuf.Message {
         let binaryWriter = requestsWriter.map { (value) -> Any? in
             // crash if user did not sent valid protobuf message       
             // swift bug: https://bugs.swift.org/browse/SR-3871
-            return try!( value as AnyObject as! SwiftProtobuf.Message).serializeProtobuf()
+            return try!( value as AnyObject as! SwiftProtobuf.Message).serializedData()
         }
 
         self.init(host: host, path: method.httpPath, requestsWriter: binaryWriter)
         self._responseWriteable = GRXWriteable(valueHandler: { (value) in
             do {
-                let parsed = try response.init(protobuf: value as! Data)
+                let parsed = try response.init(serializedData: value as! Data)
                 responsesWriteable.writeValue(parsed)
             } catch (let error) {
                 self.finishWithError(error)

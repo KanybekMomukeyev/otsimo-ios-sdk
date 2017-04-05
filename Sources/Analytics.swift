@@ -14,12 +14,12 @@ class AppEventCache: Object {
     dynamic var data: Data = Data()
 
     func event() -> Apipb_AppEventData {
-        return try! Apipb_AppEventData(protobuf: self.data)
+        return try! Apipb_AppEventData(serializedData: self.data)
     }
 
     static func add(_ d: Apipb_AppEventData) {
         do {
-            let data = try d.serializeProtobuf()
+            let data = try d.serializedData()
             let c = AppEventCache()
             c.data = data
             do {
@@ -56,12 +56,12 @@ class EventCache: Object {
     }
 
     func event() -> Apipb_Event {
-        return try! Apipb_Event(protobuf: self.data)
+        return try! Apipb_Event(serializedData: self.data)
     }
 
     static func add(_ d: Apipb_Event) {
         do {
-            let data = try d.serializeProtobuf()
+            let data = try d.serializedData()
             let c = EventCache()
             c.data = data
             c.time = Date()
@@ -118,7 +118,7 @@ internal class Analytics: OtsimoAnalyticsProtocol {
         self.connection = connection
         isStartedBefore = false
         device = Apipb_DeviceInfo(os: "ios")
-        deviceB64 = (try! device.serializeProtobuf()).base64EncodedString(options: .endLineWithCarriageReturn)
+        deviceB64 = (try! device.serializedData()).base64EncodedString(options: .endLineWithCarriageReturn)
         if let bi = Bundle.main.bundleIdentifier {
             self.bundleIdentifier = bi
         } else {

@@ -1,4 +1,4 @@
 github "otsimo/otsimo-ios-grpc"
 github "matthewpalmer/Locksmith"
 github "realm/realm-cocoa"
-github "apple/swift-protobuf" "0.9.27"
+github "apple/swift-protobuf" "0.9.29"

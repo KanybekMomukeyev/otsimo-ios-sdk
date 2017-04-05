@@ -20,7 +20,7 @@ class CatalogCache: Object {
 
     func getCatalog() -> Apipb_Catalog? {
         do {
-            return try Apipb_Catalog(protobuf: data)
+            return try Apipb_Catalog(serializedData: data)
         } catch (let error){
             Log.error("failed to parse catalog:\(error)")
             return nil
@@ -148,7 +148,7 @@ open class GameCache: Object {
             cache.productionVersion = game.productionVersion
             cache.latestVersion = game.latestVersion
             cache.latestState = Int32(game.latestState.rawValue)
-            cache.manifest = try! gm.manifest.serializeProtobuf()
+            cache.manifest = try! gm.manifest.serializedData()
             cache.manifestVersion = gm.version
             cache.storage = gm.storage
             cache.archiveFormat = gm.archiveFormat
@@ -167,7 +167,7 @@ open class GameCache: Object {
 
     open func getGame() -> Game! {
         do {
-            let manifest: Apipb_GameManifest = try Apipb_GameManifest(protobuf: self.manifest)
+            let manifest: Apipb_GameManifest = try Apipb_GameManifest(serializedData: self.manifest)
             return Game(cache: self, manifest: manifest)
         } catch {
             Log.error("failed to parse cache manifest data:\(error)")
@@ -248,7 +248,7 @@ final class OtsimoCache: CacheProtocol {
         let cc = CatalogCache()
         cc.id = OtsimoCache.catalogKey
         do{
-            cc.data = try catalog.serializeProtobuf()
+            cc.data = try catalog.serializedData()
         }catch{
             return
         }
